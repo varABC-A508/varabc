@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebRTC</title>
+</head>
+<body>
+  <div id="room-selection-container" class="centered">
+    <h1>WebRTC video conference</h1>
+    <label for="room-input">Enter the number of the room you want to connect</label>
+    <input type="text" id="room-input" />
+    <button id="connect-button">CONNECT</button>
+
+  </div>
+
+  <div id="video-chat-container" class="video-position" style="display: none">
+    <video id="local-video" autoplay="autoplay"></video>
+    <video id="remote-video" autoplay="autoplay"></video>
+  </div>
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="client.js"></script>
+</body>
+</html>
