@@ -1,0 +1,71 @@
+WebRTC 시그널링 서버 통신
+
+1. SDP 교환 - Offer, Answer
+	1) 사용자 A - SDP 형태의 Offer 메시지 생성
+	2) 	   - Offer 메시지 등록
+	3)  	   - Offer 메시지 시그널링 서버에 전달
+	4) 시그널링 서버 - 상대를 찾아 SDP 정보 전달
+	5) 사용자 B - 전달받은 Offer 메시지 등록
+	6) 	    - Answer 메시지 생성
+	7) 	    - Answer 메시지 등록
+	8)	    - Answer 메시지 시그널링 서버 전달
+	9) 시그널링 서버 - 사용자 A에 메시지 전달
+	10) 사용자 A - 전달받은 Answer 메시지 등록  
+
+2. ICE 협상(ICE Negotiation)
+	: SDP 교환 후, 사용자 A, B 서로의 주소 값을 알기 위해 ICE 교환
+
+
+
+//////////////////////////////////////////////////// server.js
+const express = requir('express')
+const app = express()
+const server = require('http').createServer(app)
+
+app.use('/', express.static('public'))
+
+io.on('connection', (socket) => {
+		socket.on('join', (roomId) => {
+				const roomClients = io.socket.adapter.rooms[roomId] || { length: 0 }
+				const numberOfClients = roomClients.length
+
+				//참가 신청자에게 응답
+
+				if(numberOfClients == 0 ) {
+						console.log(`Creating room ${roomId} and emitting room_created socekt event`)
+						socket.join(roomId)
+						socket.emit('room_created', roomId)
+
+				} else if (numberOfClients == 1) {
+						console.log(`Joining room ${roomId} and emitting room_joined socket event`)
+						socket.join(roomId)
+						socket.emit('room_joined', roomId)
+				} else {
+						console.log(`Can't join room ${rooomId} emitting full_room socket event`)
+						socket.emit('full_room', roomId)
+				}
+		
+				// 기존 방 인원에게 보내는 응답
+				socket.on('start_call', (roomId) => {
+					console.log(`Broadcasting start_call envent to peers in room ${roomId}`)
+					socket.broadcast.to(rooomId).emit('start_call')
+				})
+				socket.on('webrtc_offer', (event) => {
+					console.log(`Broadcasting webrtc_offer event to peers in room ${event.roomId}`)
+					socket.broadcast.to(event.roomId).emit('webrtc_offer', event.sdp)
+				})
+				socket.on('webrtc_answer', (event) => {
+					conseole.log(`Broadcasting webrtc_answer event to peers in toom ${event.roomId}`)
+					socekt.broadcast.to(event.roomId).emit('webrtc_answer', event.sdp)
+				})
+				socket.on('webrtc_ice_candidate', (event) => {
+					console.log(`Broadcasting webrtc_ice_candidate event to peers in room ${event.roomId}`)
+					socket.broadcast.to(event.roomId).emit('webrtc_ice_candidate', event)
+				})
+		})
+})
+
+const port = process.env.PORT || 5500
+server.listen(port, () => {
+		console.log(`Express server listening on port ${port}`)
+})
