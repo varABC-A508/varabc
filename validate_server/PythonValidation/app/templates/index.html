@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Evaluation</title>
+</head>
+<body>
+    <h1>Code Evaluation</h1>
+    <form id="codeForm">
+        <label for="code">Your Program Code:</label><br>
+        <textarea id="code" name="code" rows="10" cols="50"></textarea><br>
+        <label for="inputFile">Input File:</label>
+        <input type="file" id="inputFile" name="inputFile"><br>
+        <label for="outputFile">Output File:</label>
+        <input type="file" id="outputFile" name="outputFile"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Result</h2>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('codeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const code = document.getElementById('code').value;
+            const inputFile = document.getElementById('inputFile').files[0];
+            const outputFile = document.getElementById('outputFile').files[0];
+
+            const formData = new FormData();
+            formData.append('code', code);
+            formData.append('inputFile', inputFile);
+            formData.append('outputFile', outputFile);
+
+            fetch('/evaluate', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `<p>Input File Name: ${data.inputFileName}</p>`;
+                resultDiv.innerHTML += `<p>Input File Content:</p><pre>${data.inputFileContent}</pre>`;
+                resultDiv.innerHTML += `<p>Output File Name: ${data.outputFileName}</p>`;
+                resultDiv.innerHTML += `<p>Output File Content:</p><pre>${data.outputFileContent}</pre>`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
