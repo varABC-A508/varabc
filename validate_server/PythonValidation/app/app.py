@@ -19,6 +19,8 @@ def evaluate_code():
 
     input_files = request.files.getlist('inputFiles')
     output_files = request.files.getlist('outputFiles')
+    time_limit=int(request.form['timeLimit'])
+    memory_limit=int(request.form['memoryLimit'])
     response_data = {
         'message': 'Code evaluation completed.',
         'code': code,
@@ -33,10 +35,10 @@ def evaluate_code():
     for input_file, output_file in zip(input_files, output_files):
         input_file_content = input_file.read().decode('utf-8').replace('\r', '')
         output_file_content = output_file.read().decode('utf-8').replace('\r', '')
-        # Run the validation logic for each test case
-        result = run_code_with_test_case(input_file_content, output_file_content)
+        # 채점 프로그램 돌려부러
+        result = run_code_with_test_case(input_file_content, output_file_content, time_limit, memory_limit)
         print(result)
-        # Add the result for this test case to the response data
+        # response data에 결과 삽입
         test_case_data = {
             'inputFileName': input_file.filename,
             'inputFileContent': input_file_content,

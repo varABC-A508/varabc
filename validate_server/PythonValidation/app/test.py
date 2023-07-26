@@ -1,6 +1,7 @@
 import sys
 sys.setrecursionlimit(10**8)
 input=sys.stdin.readline
+temp=[[0 for _ in range(10000)]for _ in range(100)]
 '''
 완탐 로직: 1,500,000개의 날을 하나씩 골라가면서 가능한 애들을 챙긴다
 상담한다,안한다로 2^1500000 -> 최댓값을 구하기

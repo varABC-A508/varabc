@@ -8,6 +8,10 @@
     <form id="codeForm">
         <label for="code">Your Program Code:</label><br>
         <textarea id="code" name="code" rows="10" cols="50"></textarea><br>
+        <label for="timeLimit">Time Limit (seconds):</label>
+        <input type="number" id="timeLimit" name="timeLimit"><br>
+        <label for="memoryLimit">Memory Limit (MB):</label>
+        <input type="number" id="memoryLimit" name="memoryLimit"><br>
         <label for="inputFile">Input Files:</label>
         <input type="file" id="inputFile" name="inputFile" multiple><br>
         <label for="outputFile">Output Files:</label>
@@ -22,11 +26,15 @@
         document.getElementById('codeForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const code = document.getElementById('code').value;
+            const timeLimit = document.getElementById('timeLimit').value;
+            const memoryLimit = document.getElementById('memoryLimit').value;
             const inputFiles = document.getElementById('inputFile').files;
             const outputFiles = document.getElementById('outputFile').files;
 
             const formData = new FormData();
             formData.append('code', code);
+            formData.append('timeLimit', timeLimit);
+            formData.append('memoryLimit', memoryLimit);
 
             // Append each selected input file
             for (let i = 0; i < inputFiles.length; i++) {
