@@ -10,11 +10,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @Table(name= "problem")
 @Entity
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
+@DynamicUpdate
 public class ProblemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

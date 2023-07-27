@@ -1,14 +1,12 @@
 package com.varabc.problem.domain.dto;
 import com.varabc.problem.domain.entity.ProblemEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Data
 @Getter
 public class ProblemDto {
-    private Long problemNo;
+//    private Long problemNo;
     private String problemTitle;
     private String problemContent;
     private double problemTimeLimit;
