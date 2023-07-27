@@ -12,15 +12,17 @@ def index():
 
 @app.route('/evaluate', methods=['POST'])
 def evaluate_code():
-    code = request.form['code'].replace('\r', '')
+    data = request.get_json()
+    code = data['code'].replace('\r', '')
     #파이썬 코드 파일은 여기서 초기에 한번만 생성해놓는다.
     with open("test.py", "w", encoding="utf-8") as file:
         file.write(code)
 
-    input_files = request.files.getlist('inputFiles')
-    output_files = request.files.getlist('outputFiles')
-    time_limit=int(request.form['timeLimit'])
-    memory_limit=int(request.form['memoryLimit'])
+    input_files = data['inputFiles']
+    output_files = data['outputFiles']
+    time_limit = int(data['timeLimit'])
+    memory_limit = int(data['memoryLimit'])
+
     response_data = {
         'message': 'Code evaluation completed.',
         'code': code,
@@ -33,25 +35,23 @@ def evaluate_code():
         return jsonify(response_data)
 
     for input_file, output_file in zip(input_files, output_files):
-        input_file_content = input_file.read().decode('utf-8').replace('\r', '')
-        output_file_content = output_file.read().decode('utf-8').replace('\r', '')
+        input_file_content = input_file['content'].replace('\r', '')
+        output_file_content = output_file['content'].replace('\r', '')
         # 채점 프로그램 돌려부러
         result = run_code_with_test_case(input_file_content, output_file_content, time_limit, memory_limit)
-        print(result)
         # response data에 결과 삽입
         test_case_data = {
-            'inputFileName': input_file.filename,
+            'inputFileName': input_file['name'],
             'inputFileContent': input_file_content,
-            'outputFileName': output_file.filename,
+            'outputFileName': output_file['name'],
             'outputFileContent': output_file_content,
             'result': result
         }
+        print(result)
         response_data['testCases'].append(test_case_data)
-    print("read end")
-    return jsonify(response_data)
+
+    return jsonify(result)
 
 if __name__=="__main__":
   # host 등을 직접 지정하고 싶다면
   app.run(host="127.0.0.1", port="5000", debug=False)
-
-
