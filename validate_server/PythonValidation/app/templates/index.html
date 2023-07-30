@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Evaluation</title>
+</head>
+<body>
+    <h1>Code Evaluation</h1>
+    <form id="codeForm">
+        <label for="code">Your Program Code:</label><br>
+        <textarea id="code" name="code" rows="10" cols="50"></textarea><br>
+        <label for="timeLimit">Time Limit (seconds):</label>
+        <input type="number" id="timeLimit" name="timeLimit"><br>
+        <label for="memoryLimit">Memory Limit (MB):</label>
+        <input type="number" id="memoryLimit" name="memoryLimit"><br>
+        <label for="inputFile">Input Files:</label>
+        <input type="file" id="inputFile" name="inputFile" multiple><br>
+        <label for="outputFile">Output Files:</label>
+        <input type="file" id="outputFile" name="outputFile" multiple><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Result</h2>
+    <div id="result"></div>
+
+    <script>
+        function readFileAsText(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = event => resolve(event.target.result);
+                reader.onerror = error => reject(error);
+                reader.readAsText(file);
+            });
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const code = document.getElementById('code').value;
+            const timeLimit = document.getElementById('timeLimit').value;
+            const memoryLimit = document.getElementById('memoryLimit').value;
+            const inputFiles = document.getElementById('inputFile').files;
+            const outputFiles = document.getElementById('outputFile').files;
+
+            const data = {
+                'code': code,
+                'timeLimit': timeLimit,
+                'memoryLimit': memoryLimit,
+                'inputFiles': [],
+                'outputFiles': []
+            };
+
+            // Append each selected input file
+            for (let i = 0; i < inputFiles.length; i++) {
+                const fileContent = await readFileAsText(inputFiles[i]);
+                data.inputFiles.push({ name: inputFiles[i].name, content: fileContent });
+            }
+
+            // Append each selected output file
+            for (let i = 0; i < outputFiles.length; i++) {
+                const fileContent = await readFileAsText(outputFiles[i]);
+                data.outputFiles.push({ name: outputFiles[i].name, content: fileContent });
+            }
+
+            fetch('/evaluate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // ...
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        document.getElementById('codeForm').addEventListener('submit', handleFormSubmit);
+    </script>
+</body>
+</html>

@@ -23,7 +23,7 @@ def run_code_with_test_cases(code, test_cases):
         output_data = read_file_contents(output_file_path)
         expected_output = output_data
         try:
-            # 코드를 실행하여 결과를 얻음, 아오 왜 안되는거여
+            # 코드를 실행하여 결과를 얻음
             # print(input_data)
             process = subprocess.Popen(["python", "temp_code.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
             # start_time = resource.getrusage(resource.RUSAGE_CHILDREN).ru_utime  # 시작 시간 기록
