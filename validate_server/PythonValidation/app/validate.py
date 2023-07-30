@@ -18,7 +18,7 @@ def memory_monitor(process_pid, max_memory_usage):
             break
 
 def run_subprocess(queue, input_content, memory_usage):
-    process = subprocess.Popen(["python", "test.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    process = subprocess.Popen(["python", "test.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, env={"PYTHONIOENCODING": "utf-8"})
     #서브프로세스의 가동중에 스레드를 생성해 해당 스레드에서 현재 실행중인 서브프로세스의 메모리 사용량을 추적한다
     monitor_thread = threading.Thread(target=memory_monitor, args=(process.pid, memory_usage))
     monitor_thread.start()
@@ -29,7 +29,7 @@ def run_subprocess(queue, input_content, memory_usage):
 
 def run_code_with_test_case(input_content, output_content, time_limit, memory_limit):
     expected_output = output_content.strip()
-    result = {'result': '', 'execution_time': 0, 'memory_usage': '', 'exception_message': ''}
+    result = {'result': '', 'execution_time': 0, 'memory_usage': 0, 'exception_message': ''}
     memory_usage = multiprocessing.Value('i', 0)
     try:
         queue = multiprocessing.Queue()
@@ -51,7 +51,8 @@ def run_code_with_test_case(input_content, output_content, time_limit, memory_li
             print(expected_output)
             execution_time = end_time - start_time
             result['execution_time'] = execution_time
-            result['memory_usage'] = f"{memory_usage.value:} bytes"
+            result['memory_usage'] = memory_usage.value
+            # result['memory_usage'] = f"{memory_usage.value:} bytes"
             if memory_usage.value > memory_limit:
                 result['result'] = "Error: 메모리초과"
             else:
