@@ -1,6 +1,7 @@
 package com.varabc.validation.controller;
 
 import com.varabc.validation.Service.ValidationService;
+import com.varabc.validation.domain.dto.ValidateDataDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,9 @@ public class ValidationController {
 
     //파이썬 서버로 요청 보내기
     @PostMapping("sendvalidatepy")
-    public ResponseEntity<ValidationResultDto> validatePy(@RequestBody ValidateDto validateDto) throws Exception{
+    public ResponseEntity<ValidationResultDto> validatePy(@RequestBody ValidateDataDto ValidateDataDto) throws Exception{
+        //DB에서 엔티티를 꺼내와서  ValidationResult ValidateDto의 값을 온전하게 세팅하여 전달함,
+        ValidateDto validateDto= new ValidateDto();
         // 파이썬 서버로 요청 보내기
         ValidationResultDto validationResultDto= new ValidationResultDto();
         HttpStatus status=HttpStatus.OK;
@@ -34,7 +37,7 @@ public class ValidationController {
         String pythonServerUrl = "http://localhost:5000/";
         validationResultDto=validationService.sendRequestValidation(pythonServerUrl,validateDto);
 
-        // 파이썬 서버에서 받은 응답 출력
+
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
 
