@@ -1,7 +1,7 @@
 package com.problemsolvingjava.validate.controller;
 
-import com.problemsolvingjava.validate.domain.dto.SubmitDto;
-import com.problemsolvingjava.validate.domain.dto.TestCaseDto;
+import com.problemsolvingjava.validate.domain.dto.ValidateDto;
+import com.problemsolvingjava.validate.domain.dto.ValidationResultDto;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.*;
 
@@ -16,15 +18,21 @@ import java.io.*;
 public class CodeExecutionController {
 
     @PostMapping("/validate")
-    public String executeCode(@RequestBody SubmitDto submitDto)
+    public ResponseEntity<ValidationResultDto> executeCode(@RequestBody ValidateDto validateDto)
             throws IOException, InterruptedException {
+
+        ValidationResultDto validationResultDto = new ValidationResultDto();
+
+//        System.out.println(validateDto);
+
         // 파일이름 정하고 파일에 읽기, 덮어쓰는 방식으로 하자
         String filename = "Main.java";
-        //컴파일러 인코더 설정, 근데 한글 주석은 여전히 깨짐
+        //컴파일러 인코더 설정, 근데 저장되는 한글 주석은 여전히 깨짐
         System.setProperty("file.encoding", "UTF-8");
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"));
-        writer.write(submitDto.getCode());
+        writer.write(validateDto.getCode());
         writer.close();
+
         // 2. 코드 컴파일, 프로세스 빌더
         ProcessBuilder compileProcessBuilder = new ProcessBuilder("javac", "-encoding", "UTF-8", filename);
         Process compileProcess = compileProcessBuilder.start();
@@ -32,7 +40,8 @@ public class CodeExecutionController {
         int compileResult = compileProcess.waitFor();
         if (compileResult != 0) {
             System.out.println("error");
-            return "Compile error!";
+            validationResultDto.setResult("Compile error!");
+            return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
         }
 
         System.out.println("Compilation successful");
@@ -40,7 +49,13 @@ public class CodeExecutionController {
         // 3. 각각의 테케로 실행하기
         long maxElapsedTime = 0;
 
-        for (TestCaseDto testCaseDto : submitDto.getTestCases()) {
+        for (int i = 0; i < validateDto.getInputFiles().size(); i++) {
+            String inputData = validateDto.getInputFiles().get(i).getContent();
+            String expectedOutputData = validateDto.getOutputFiles().get(i).getContent();
+
+            System.out.println(inputData);
+            System.out.println(expectedOutputData);
+
             //output설정하기
             File outputFile = new File("output.txt");
             //메모리제한
@@ -55,9 +70,6 @@ public class CodeExecutionController {
 
             // PID를 얻습니다.
             long pid = runProcess.pid();
-
-
-
 
             // 메모리 사용량을 주기적으로 확인하는 스레드를 시작합니다.
             String os = System.getProperty("os.name").toLowerCase();
@@ -121,13 +133,9 @@ public class CodeExecutionController {
                 memoryMonitor.start();
             }
 
-
-
-
-
             //input 입력해주기
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(runProcess.getOutputStream()));
-            bufferedWriter.write(testCaseDto.getInputData());
+            bufferedWriter.write(inputData);
             bufferedWriter.close();
 
             Future<Boolean> future = Executors.newSingleThreadExecutor().submit(() -> {
@@ -150,17 +158,22 @@ public class CodeExecutionController {
                     runProcess.destroyForcibly(); // Terminate the process forcibly.
                 }
                 System.out.println("timeout");
-                return "Timeout error!";
+                validationResultDto.setResult("Timeout error!");
+                return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             } catch (InterruptedException | ExecutionException e) {
                 System.out.println("other error");
-                return "Execution error!";
+                validationResultDto.setResult("Execution error!");
+                return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             }
 
             // 예상 결과랑 결과 비교하기->toString으로 비교하면 오버헤드가 너무 커짐
             String output = new String(Files.readAllBytes(outputFile.toPath()), "UTF-8");
-            if (!output.trim().equals(testCaseDto.getExpectedData())) {
+            output = output.replaceAll("\r", "");
+            System.out.println("output : " + output);
+            if (!output.trim().equals(expectedOutputData)) {
                 System.out.println("Test failed");
-                return "Test failed!";
+                validationResultDto.setResult("Test failed!");
+                return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             }
 
             long endTime = System.nanoTime();
@@ -174,6 +187,10 @@ public class CodeExecutionController {
         Files.deleteIfExists(Paths.get(filename));
         Files.deleteIfExists(Paths.get(filename.substring(0, filename.lastIndexOf('.')) + ".class"));
         System.out.println(maxElapsedTime);
-        return "All tests passed! Time: " + maxElapsedTime / 1_000_000;
+
+        validationResultDto.setResult("All tests passed!");
+        validationResultDto.setExecutionTime(maxElapsedTime / 1_000_000);
+
+        return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
     }
 }
