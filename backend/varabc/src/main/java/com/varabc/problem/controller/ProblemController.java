@@ -23,11 +23,17 @@ public class ProblemController {
     //crud
     private final ProblemService problemService;
 
+//    @PostMapping("/")
+//    public ResponseEntity<ProblemEntity> addProblem(@RequestBody ProblemDto problemDto) {
+//        ProblemEntity savedProblemEntity = problemService.save(problemDto);
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body(savedProblemEntity);
+//    }
+
     @PostMapping("/")
-    public ResponseEntity<ProblemEntity> addProblem(@RequestBody ProblemDto problemDto) {
-        ProblemEntity savedProblemEntity = problemService.save(problemDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedProblemEntity);
+    public ResponseEntity<Void> createProblem(@RequestBody ProblemDto problemDto) {
+        problemService.createProblem(problemDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/{problemNo}")

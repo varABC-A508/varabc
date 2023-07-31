@@ -2,6 +2,7 @@ package com.varabc.problem.domain.dto;
 import com.varabc.problem.domain.entity.ProblemEntity;
 import lombok.Data;
 import lombok.Getter;
+import org.modelmapper.ModelMapper;
 
 @Data
 @Getter
@@ -9,8 +10,6 @@ public class ProblemDto {
 //    private Long problemNo;
     private String problemTitle;
     private String problemContent;
-    private double problemTimeLimit;
-    private int problemMemoryLimit;
     private String problemLevel;
     private int problemSubmitCount;
     private int problemCorrectCount;
@@ -19,20 +18,16 @@ public class ProblemDto {
     private String problemLink;
     private String problemSource;
     private Boolean problemResign;
+    private String problemAlgorithmType;
 
-    public ProblemEntity toEntity(){
-        return ProblemEntity.builder()
-                .problemTitle(problemTitle)
-                .problemContent(problemContent)
-                .problemTimeLimit(problemTimeLimit)
-                .problemMemoryLimit(problemMemoryLimit)
-                .problemLevel(problemLevel)
-                .problemInputContent(problemInputContent)
-                .problemOutputContent(problemOutputContent)
-                .problemLink(problemLink)
-                .problemSource(problemSource)
-                .build();
+    //문제 제한
+    private Double problemRestrictionPython;
+    private Double problemRestrictionJava;
+    private int problemRestrictionMemory;
+    private Boolean problemRestrictionResign;
+
+
+    public ProblemEntity toEntity(ModelMapper modelMapper) {
+        return modelMapper.map(this, ProblemEntity.class);
     }
-
-    
 }
