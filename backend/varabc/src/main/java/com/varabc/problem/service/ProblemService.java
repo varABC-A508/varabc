@@ -2,7 +2,6 @@ package com.varabc.problem.service;
 
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.entity.ProblemEntity;
-import jakarta.transaction.Transactional;
 
 public interface ProblemService {
     ProblemEntity save(ProblemDto problemDto);

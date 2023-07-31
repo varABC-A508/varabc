@@ -1,7 +1,6 @@
 package com.varabc.problem.controller;
 
 import com.varabc.problem.domain.dto.ProblemDto;
-import com.varabc.problem.domain.entity.ProblemEntity;
 import com.varabc.problem.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
