@@ -7,13 +7,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.*;
 
 @Entity
-@Table(name="testcase")
-public class testCase {
+@Table(name="submit")
+@Getter
+@ToString
+@NoArgsConstructor
+public class Submit {
     @Id
-    @Column(name = "testcase_no", nullable = true, insertable = false)
+    @Column(name = "submit_no", nullable = false, insertable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int testcaseNo;
+    private long submitNo;
 
+
+    @Builder
+    public Submit(long submitNo) {
+        this.submitNo = submitNo;
+    }
 }
