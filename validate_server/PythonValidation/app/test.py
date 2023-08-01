@@ -1,3 +1,7 @@
+# test.py
+# -*- coding: utf-8 -*-
+# test.py
+# -*- coding: utf-8 -*-
 import sys
 sys.setrecursionlimit(10**8)
 input=sys.stdin.readline
@@ -21,13 +25,11 @@ for i in range(N):
     timelist.append(a)
     costlist.append(b)
 #구현
-def inputTest():
-    print(N)
-    for i in range(1,N+1):
-        print(timelist[i],costlist[i])
+
 answer=0
 #백트 구현하기
 #N일이 지나면 함수를 종료해야함, 날짜와 현재까지 담은 날을 가지고 가자
+
 def backTrack(day,cost):
     global answer
     #기저조건
@@ -43,6 +45,7 @@ def backTrack(day,cost):
     backTrack(day + timelist[day], cost + costlist[day])
     # 뽑지 않고 다음날을 보기
     backTrack(day + 1, cost)
+
 
 #dp로 구현하면 dp는 인자의 개수만큼의 차원을 가지고
 #현재 날짜의 최대 cost를 저장할 배열
@@ -64,6 +67,6 @@ def dpTrack(day):
     return dp[day]
 
 # inputTest()
-backTrack(1,0)
-print(answer)
-#print(dpTrack(1))
+#backTrack(1,0)
+#print(answer)
+print(dpTrack(1))
