@@ -24,24 +24,19 @@ public class AwsS3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public AwsS3Dto upload(MultipartFile multipartFile, String dirName) throws IOException {
-        System.out.println(bucket);
+    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
         File file = convertMultipartFileToFile(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
 
         return upload(file, dirName);
     }
 
-    private AwsS3Dto upload(File file, String dirName) {
+    private String upload(File file, String dirName) {
         String key = randomFileName(file, dirName);
         String path = putS3(file, key);
         removeFile(file);
 
-        return AwsS3Dto
-                .builder()
-                .key(key)
-                .path(path)
-                .build();
+        return path;
     }
 
     private String randomFileName(File file, String dirName) {

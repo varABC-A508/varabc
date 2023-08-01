@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Problem Form</h2>
-<form action="#" th:action="@{/problem/}" method="post">
+<form action="#" th:action="@{/problem/}" method="post" enctype="multipart/form-data">
   <label for="problemTitle">Problem Title:</label><br>
   <input type="text" id="problemTitle" name="problemTitle"><br>
 
@@ -51,15 +51,18 @@
   <label for="problemRestrictionResign">Problem Restriction Resign:</label><br>
   <input type="checkbox" id="problemRestrictionResign" name="problemRestrictionResign"><br>
 
+<!-- 텍스트필드에 저장 -->
+<!--  <label for="testcaseInput">Testcase Input:</label><br>-->
+<!--  <textarea id="testcaseInput" name="testcaseInput"></textarea><br>-->
 
-  <label for="testcaseInput">Testcase Input:</label><br>
-  <textarea id="testcaseInput" name="testcaseInput"></textarea><br>
+<!--  <label for="testcaseOutput">Testcase Output:</label><br>-->
+<!--  <textarea id="testcaseOutput" name="testcaseOutput"></textarea><br>-->
 
-  <label for="testcaseOutput">Testcase Output:</label><br>
-  <textarea id="testcaseOutput" name="testcaseOutput"></textarea><br>
+  <input type="file" id="testcaseInputList" name="testcaseInputList" multiple>
+  <input type="file" id="testcaseOutputList" name="testcaseOutputList" multiple>
 
-  <label for="testcasePublic">Testcase Public:</label><br>
-  <input type="checkbox" id="testcasePublic" name="testcasePublic"><br>
+<!--  <label for="testcasePublic">Testcase Public:</label><br>-->
+<!--  <input type="checkbox" id="testcasePublic" name="testcasePublic"><br>-->
 
   <label for="testcaseResign">Testcase Resign:</label><br>
   <input type="checkbox" id="testcaseResign" name="testcaseResign"><br>

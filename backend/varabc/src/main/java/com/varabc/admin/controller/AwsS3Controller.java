@@ -20,8 +20,9 @@ public class AwsS3Controller {
     private final AwsS3Service awsS3Service;
 
     @PostMapping("/resource")
-    public void upload(@RequestPart("file") MultipartFile multipartFile) throws IOException {
-        awsS3Service.upload(multipartFile,"upload");
+    public String upload(@RequestPart("file") MultipartFile multipartFile) throws IOException {
+        return awsS3Service.upload(multipartFile,"upload");
+
       //  return awsS3Service.upload(multipartFile,"upload");
     }
 

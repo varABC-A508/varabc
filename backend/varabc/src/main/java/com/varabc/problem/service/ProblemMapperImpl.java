@@ -1,17 +1,18 @@
 package com.varabc.problem.service;
 
 import com.varabc.problem.domain.dto.ProblemDto;
+import com.varabc.problem.domain.dto.TestcaseDto;
 import com.varabc.problem.domain.entity.ProblemEntity;
 import com.varabc.problem.domain.entity.ProblemRestrictionEntity;
 import com.varabc.problem.domain.entity.TestcaseEntity;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class MapperServiceImpl implements MapperService{
+@Component
+public class ProblemMapperImpl implements ProblemMapper {
     private final ModelMapper modelMapper;
 
-    public MapperServiceImpl(ModelMapper modelMapper) {
+    public ProblemMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
@@ -26,8 +27,8 @@ public class MapperServiceImpl implements MapperService{
     }
 
     @Override
-    public TestcaseEntity toTestcaseEntity(ProblemDto problemDto, Long problemNo) {
-        TestcaseEntity testcaseEntity = modelMapper.map(problemDto, TestcaseEntity.class);
+    public TestcaseEntity toTestcaseEntity(TestcaseDto testcaseDto, Long problemNo) {
+        TestcaseEntity testcaseEntity = modelMapper.map(testcaseDto, TestcaseEntity.class);
         testcaseEntity.setProblemNo(problemNo);
         return testcaseEntity;
     }

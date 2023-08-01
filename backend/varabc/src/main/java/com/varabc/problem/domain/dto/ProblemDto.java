@@ -1,11 +1,16 @@
 package com.varabc.problem.domain.dto;
 import com.varabc.problem.domain.entity.ProblemEntity;
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.multipart.MultipartFile;
 
-@Data
 @Getter
+@ToString
+@NoArgsConstructor
 public class ProblemDto {
 //    private Long problemNo;
     private String problemTitle;
@@ -28,10 +33,9 @@ public class ProblemDto {
 
 
     //테케
-    private String testcaseInput;
-    private String testcaseOutput;
-    private Boolean testcasePublic;
-    private Boolean testcaseResign;
+    private List<MultipartFile> testcaseInputList= new ArrayList<MultipartFile>();
+    private List<MultipartFile> testcaseOutputList= new ArrayList<MultipartFile>();
+    private List<Boolean> testcasePublicList = new ArrayList<Boolean>();
 
     public ProblemEntity toEntity(ModelMapper modelMapper) {
         return modelMapper.map(this, ProblemEntity.class);
