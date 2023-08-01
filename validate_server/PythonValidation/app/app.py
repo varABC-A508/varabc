@@ -17,7 +17,7 @@ def validate_py():
     return
 
 
-@app.route('/evaluatepy', methods=['POST'])
+@app.route('/evaluate', methods=['POST'])
 def evaluate_code():
     data = request.get_json()
     code = data['code'].replace('\r', '')

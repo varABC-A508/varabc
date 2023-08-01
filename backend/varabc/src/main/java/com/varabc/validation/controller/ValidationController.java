@@ -26,9 +26,8 @@ public class ValidationController {
 
     //파이썬 서버로 요청 보내기
     @PostMapping("sendvalidatepy")
-    public ResponseEntity<ValidationResultDto> validatePy(@RequestBody ValidateDataDto ValidateDataDto) throws Exception{
-        //DB에서 엔티티를 꺼내와서  ValidationResult ValidateDto의 값을 온전하게 세팅하여 전달함,
-        ValidateDto validateDto= new ValidateDto();
+    public ResponseEntity<ValidationResultDto> validatePy(@RequestBody ValidateDto validateDto) throws Exception{
+
         // 파이썬 서버로 요청 보내기
         ValidationResultDto validationResultDto= new ValidationResultDto();
         HttpStatus status=HttpStatus.OK;
@@ -36,6 +35,22 @@ public class ValidationController {
         //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
         String pythonServerUrl = "http://localhost:5000/";
         validationResultDto=validationService.sendRequestValidation(pythonServerUrl,validateDto);
+
+
+        return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
+    }
+
+    //자바 서버로 요청 보내기
+    @PostMapping("sendvalidatejava")
+    public ResponseEntity<ValidationResultDto> validateJava(@RequestBody ValidateDto validateDto) throws Exception{
+
+        // 자바 채점 서버로 요청 보내기
+        ValidationResultDto validationResultDto= new ValidationResultDto();
+        HttpStatus status=HttpStatus.OK;
+
+        //service단에서 자바 채점 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
+        String javaServerUrl = "http://localhost:8081/";
+        validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
 
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);

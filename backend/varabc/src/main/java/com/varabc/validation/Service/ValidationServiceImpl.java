@@ -19,21 +19,21 @@ public class ValidationServiceImpl implements ValidationService{
 
     @Override
     public ValidationResultDto sendRequestValidation(String serverUrl, ValidateDto validateDto) {
-        //파이썬 서버로 해당 dto를 넘겨줌
+        //채점 서버로 해당 dto를 넘겨줌
 //        System.out.println(validateDto.toString());
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<ValidateDto> requestEntity = new HttpEntity<>(validateDto, headers);
 
-        // 파이썬 서버로 HTTP POST 요청을 보내고 응답을 받음
+        // 채점 서버로 HTTP POST 요청을 보내고 응답을 받음
         ResponseEntity<ValidationResultDto> responseEntity = restTemplate.exchange(
-                serverUrl + "/evaluatepy",  // 파이썬 서버의 URL
+                serverUrl + "/evaluate",  // 채점 서버의 URL
                 HttpMethod.POST,            // POST 요청
                 requestEntity,              // 요청 데이터
                 ValidationResultDto.class   // 응답 데이터 타입
         );
 
-        // 파이썬 서버로부터 받은 응답 결과 반환
+        // 채점 서버로부터 받은 응답 결과 반환
         System.out.println(responseEntity.getBody());
         return responseEntity.getBody();
     }

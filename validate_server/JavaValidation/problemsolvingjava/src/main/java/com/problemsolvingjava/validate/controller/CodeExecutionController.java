@@ -17,7 +17,7 @@ import java.io.*;
 @RestController
 public class CodeExecutionController {
 
-    @PostMapping("/validate")
+    @PostMapping("/evaluate")
     public ResponseEntity<ValidationResultDto> executeCode(@RequestBody ValidateDto validateDto)
             throws IOException, InterruptedException {
 
