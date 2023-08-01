@@ -35,4 +35,7 @@ public class TestcaseEntity {
     @Column(name="testcase_resign")
     private Boolean testcaseResign;
 
+    public void setProblemNo(Long problemNo) {
+        this.problemNo = problemNo;
+    }
 }

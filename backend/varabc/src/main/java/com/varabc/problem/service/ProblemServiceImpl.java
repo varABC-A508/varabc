@@ -3,8 +3,10 @@ package com.varabc.problem.service;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.entity.ProblemEntity;
 import com.varabc.problem.domain.entity.ProblemRestrictionEntity;
+import com.varabc.problem.domain.entity.TestcaseEntity;
 import com.varabc.problem.repository.ProblemRepository;
 import com.varabc.problem.repository.ProblemRestrictionRepository;
+import com.varabc.problem.repository.TestcaseRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,6 +18,7 @@ public class ProblemServiceImpl implements ProblemService {
 
     private final ProblemRepository problemRepository;
     private final ProblemRestrictionRepository problemRestrictionRepository;
+    private final TestcaseRepository testcaseRepository;
     private final ModelMapper modelMapper;
     private final MapperService mapperService;
     public ProblemEntity save(ProblemDto problemDto) {
@@ -76,6 +79,8 @@ public class ProblemServiceImpl implements ProblemService {
         System.out.println(problemNo);
         ProblemRestrictionEntity problemRestrictionEntity = mapperService.toProblemRestrictionEntity(problemDto, problemNo);
         problemRestrictionRepository.save(problemRestrictionEntity);
+        TestcaseEntity testcaseEntity = mapperService.toTestcaseEntity(problemDto, problemNo);
+        testcaseRepository.save(testcaseEntity);
     }
 
 }

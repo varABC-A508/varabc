@@ -5,8 +5,10 @@ import com.varabc.problem.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+//@RestController
+//@RequestMapping("/problem")
+//@RequiredArgsConstructor
+@Controller
 @RequestMapping("/problem")
 @RequiredArgsConstructor
 public class ProblemController {
@@ -29,11 +34,20 @@ public class ProblemController {
 //                .body(savedProblemEntity);
 //    }
 
-    @PostMapping("/")
-    public ResponseEntity<Void> createProblem(@RequestBody ProblemDto problemDto) {
-        problemService.createProblem(problemDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @GetMapping("/")
+    public String problemForm() {
+        return "index";
     }
+    @PostMapping("/")
+    public String createProblem(@ModelAttribute ProblemDto problemDto) {
+        problemService.createProblem(problemDto);
+        return "index";
+    }
+//    @PostMapping("/")
+//    public ResponseEntity<Void> createProblem(@RequestBody ProblemDto problemDto) {
+//        problemService.createProblem(problemDto);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
 
     @GetMapping("/{problemNo}")
     public ProblemDto getProblem(@PathVariable Long problemNo) {

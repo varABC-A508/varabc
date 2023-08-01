@@ -27,6 +27,12 @@ public class ProblemDto {
     private Boolean problemRestrictionResign;
 
 
+    //테케
+    private String testcaseInput;
+    private String testcaseOutput;
+    private Boolean testcasePublic;
+    private Boolean testcaseResign;
+
     public ProblemEntity toEntity(ModelMapper modelMapper) {
         return modelMapper.map(this, ProblemEntity.class);
     }
