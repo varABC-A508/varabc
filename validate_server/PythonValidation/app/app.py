@@ -10,11 +10,6 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
-@app.route('/validationpy', methods=['POST'])
-def validate_py():
-    response_data = evaluate_code()
-    #위의 결과를 스프링서버로 재전송해야함
-    return
 
 
 @app.route('/evaluate', methods=['POST'])
