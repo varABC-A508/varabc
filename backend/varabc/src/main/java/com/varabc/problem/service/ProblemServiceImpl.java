@@ -113,6 +113,9 @@ public class ProblemServiceImpl implements ProblemService {
         System.out.println("deleted, " + testcaseRepository.findByProblemNo(problemNo).toString()); //여기서 에러나야 정상.
         //그리고 들어온 값들을 s3에 다 싹 저장해야한다.
         //리스트 길이만큼 for 돌리기
+        System.out.println("/n/n");
+        System.out.println(testcaseListDto.toString());
+        System.out.println("/n/n");
         for (int i = 0; i < testcaseListDto.getTestcaseInputList().size(); i++) {
             //input 하나 빼서 s3에 저장, 그리고 그 주소 반환필요. string으로.
             String inputUrl = awsS3Controller.upload(testcaseListDto.getTestcaseInputList().get(i));

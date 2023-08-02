@@ -5,7 +5,6 @@ import com.varabc.problem.domain.dto.TestcaseListDto;
 import com.varabc.problem.service.ProblemService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-//@RestController
+@RestController
 @RequestMapping("/problem")
 @RequiredArgsConstructor
 public class ProblemController {
@@ -26,10 +24,7 @@ public class ProblemController {
     //crud
     private final ProblemService problemService;
 
-    @GetMapping("/")
-    public String problemForm() {
-        return "index";
-    }
+
     @PostMapping("/")
     public String createProblem(@ModelAttribute ProblemDto problemDto) throws IOException {
         problemService.createProblem(problemDto);
