@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Mapper
 public class ValidationMapper {
         //testCaseEntity를 testCaseDto로 변환해기
+
         public static TestCaseDto testCaseListToDto(List<String> inputFiles, List<String> outputFiles) {
             return TestCaseDto.builder()
                     .inputFiles(inputFiles)
