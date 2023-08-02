@@ -7,20 +7,23 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@NoArgsConstructor
 @ToString
+@NoArgsConstructor
 public class TestcaseDto {
-   private String testcaseInput;
 
+    private Long problemNo;
+    private String testcaseInput;
     private String testcaseOutput;
-    private Boolean testcaseResign;
-    private Boolean testcasePublic;
+    private Boolean testcaseResign = false;
+    private Boolean testcasePublic = false;
 
-    public TestcaseDto(String inputUrl, String outputUrl, boolean isPublic) {
-        this.testcaseInput = inputUrl;
-        this.testcaseOutput= outputUrl;
-        this.testcasePublic=isPublic;
+    @Builder
+    public TestcaseDto(Long problemNo, String testcaseInput, String testcaseOutput,
+            Boolean testcasePublic) {
+        this.problemNo = problemNo;
+        this.testcaseInput = testcaseInput;
+        this.testcaseOutput = testcaseOutput;
+        this.testcasePublic = testcasePublic;
     }
-    //이걸 생성자 말고 빌더로 만들어보기.
 
 }

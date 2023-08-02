@@ -36,7 +36,7 @@ public class AwsS3Controller {
     //problem은 디비에 접근해서 특정 문제들에 대한 정보들을 가져올 수 있도록.
         //이미지는 s3경로들을 가져올 수 있도록.
     @DeleteMapping("/resource")
-    public void remove(AwsS3Dto awsS3) {
-        awsS3Service.remove(awsS3);
+    public void remove(String key) {
+        awsS3Service.remove(key);
     }
 }

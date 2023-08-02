@@ -9,47 +9,61 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
-@Table(name= "problem")
+@Table(name = "problem")
 @Entity
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
+@ToString
 public class ProblemEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long problemNo;
 
-    @Column(name="problem_title",length=60,nullable=false)
+    @Column(name = "problem_title", length = 60, nullable = false)
     private String problemTitle;
 
-    @Column(name= "problem_content",columnDefinition = "TEXT", nullable = false)
+    @Column(name = "problem_content", columnDefinition = "TEXT", nullable = false)
     private String problemContent;
 
-    @Column(name="problem_level",length=60,nullable=false)
+    @Column(name = "problem_level", length = 60, nullable = false)
     private String problemLevel;
 
-    @Column(name="problem_submit_count")
+    @Column(name = "problem_submit_count")
     private int problemSubmitCount;
 
-    @Column(name="problem_correct_count")
+    @Column(name = "problem_correct_count")
     private int problemCorrectCount;
 
-    @Column(name="problem_input_content",columnDefinition = "TEXT", nullable = false)
+    @Column(name = "problem_input_content", columnDefinition = "TEXT", nullable = false)
     private String problemInputContent;
 
-    @Column(name="problem_output_content",columnDefinition = "TEXT", nullable = false)
+    @Column(name = "problem_output_content", columnDefinition = "TEXT", nullable = false)
     private String problemOutputContent;
 
-    @Column(name="problem_link",columnDefinition = "TEXT")
+    @Column(name = "problem_link", columnDefinition = "TEXT")
     private String problemLink;
 
-    @Column(name="problem_source",columnDefinition = "TEXT", nullable = false)
+    @Column(name = "problem_source", columnDefinition = "TEXT", nullable = false)
     private String problemSource;
 
-    @Column(name="problem_resign")
+    @Column(name = "problem_algorithm_type", nullable = false)
+    private String problemAlgorithmType;
+
+    @Column(name = "problem_resign", nullable = false, columnDefinition = "TINYINT(1) default 0")
     private Boolean problemResign;
+
+    public void setProblemResign(boolean problemResign) {
+        this.problemResign = problemResign;
+    }
+
+    public boolean isProblemResign() {
+        return problemResign;
+    }
 
 //    @OneToOne(fetch = FetchType.EAGER) // ProblemEntity와 ProblemRestrictionEntity는 하나의 연결 관계를 가짐
 //    @JoinColumn(name = "problem_no", referencedColumnName = "problemNo") // 조인할 외래키 이름과 참조하는 엔티티의 컬럼명 지정
@@ -59,7 +73,6 @@ public class ProblemEntity {
 //    @JoinColumn(name = "problem_no") // 외래키 이름 지정 (Order 테이블에 product_id 컬럼으로 매핑)
 //    private List<TestcaseEntity> testcaseEntities = new ArrayList<TestcaseEntity>();
 //
-
 
 
 }

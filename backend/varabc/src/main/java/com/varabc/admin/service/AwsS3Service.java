@@ -69,10 +69,13 @@ public class AwsS3Service {
         return Optional.empty();
     }
 
-    public void remove(AwsS3Dto awsS3) {
-        if (!amazonS3.doesObjectExist(bucket, awsS3.getKey())) {
-            throw new AmazonS3Exception("Object " +awsS3.getKey()+ " does not exist!");
+    public void remove(String key) {
+        int startIndex = key.indexOf("upload/");
+        key = key.substring(startIndex, key.length());
+        System.out.println(key);
+        if (!amazonS3.doesObjectExist(bucket, key)) {
+            throw new AmazonS3Exception("Object " +key+ " does not exist!");
         }
-        amazonS3.deleteObject(bucket, awsS3.getKey());
+        amazonS3.deleteObject(bucket, key);
     }
 }

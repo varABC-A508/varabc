@@ -9,33 +9,33 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
-@Table(name= "testcase")
+@Table(name = "testcase")
 @Entity
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
+@ToString
 public class TestcaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long testcaseNo;
 
-    @Column(name="problem_no",nullable=false)
+    @Column(name = "problem_no", nullable = false)
     private Long problemNo;
 
-    @Column(name= "testcase_input", columnDefinition = "TEXT", nullable=false)
+    @Column(name = "testcase_input", columnDefinition = "TEXT", nullable = false)
     private String testcaseInput;
-    @Column(name="testcase_output", columnDefinition = "TEXT", nullable=false)
+    @Column(name = "testcase_output", columnDefinition = "TEXT", nullable = false)
     private String testcaseOutput;
 
-    @Column(name="testcase_public")
-   private Boolean testcasePublic;
+    @Column(name = "testcase_public", nullable = false,columnDefinition = "TINYINT(1) default 0")
+    private Boolean testcasePublic;
 
-    @Column(name="testcase_resign")
+    @Column(name = "testcase_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
     private Boolean testcaseResign;
 
-    public void setProblemNo(Long problemNo) {
-        this.problemNo = problemNo;
-    }
 }
