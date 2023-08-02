@@ -13,5 +13,5 @@ public interface ValidationService {
 
     ValidationResultDto sendRequestValidation(String serverUrl, ValidateDto validateDto);
     public TestCaseDto getTestCaseDtoByProblemNo(long problemNo);
-    public List<FileData> getFiles(List<String> files) throws MalformedURLException, IOException;
+    public List<FileData> getUrlIntoText(List<String> files) throws MalformedURLException, IOException;
 }

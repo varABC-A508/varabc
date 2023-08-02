@@ -73,7 +73,7 @@ public class ValidationServiceImpl implements ValidationService{
 
     //s3파일 경로를 받아서 리스트로 반환하기.
     @Override
-    public List<FileData> getFiles(List<String> fileUrls)
+    public List<FileData> getUrlIntoText(List<String> fileUrls)
             throws IOException {
 
         List<FileData> files= new ArrayList<FileData>();

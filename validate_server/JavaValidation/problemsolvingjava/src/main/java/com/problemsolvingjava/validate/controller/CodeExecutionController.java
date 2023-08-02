@@ -53,7 +53,7 @@ public class CodeExecutionController {
             String inputData = validateDto.getInputFiles().get(i).getContent();
             String expectedOutputData = validateDto.getOutputFiles().get(i).getContent();
 
-            System.out.println(inputData);
+//            System.out.println(inputData);
             System.out.println(expectedOutputData);
 
             //output설정하기
@@ -170,7 +170,7 @@ public class CodeExecutionController {
             String output = new String(Files.readAllBytes(outputFile.toPath()), "UTF-8");
             output = output.replaceAll("\r", "");
             System.out.println("output : " + output);
-            if (!output.trim().equals(expectedOutputData)) {
+            if (!output.trim().equals(expectedOutputData.trim())) {
                 System.out.println("Test failed");
                 validationResultDto.setResult("Test failed!");
                 return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
