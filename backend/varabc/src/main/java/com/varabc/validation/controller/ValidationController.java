@@ -1,9 +1,21 @@
 package com.varabc.validation.controller;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.varabc.validation.Service.ValidationService;
+import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDataDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
+import com.varabc.validation.domain.util.FileData;
+import com.varabc.validation.mapper.ValidationMapper;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -86,14 +98,8 @@ public class ValidationController {
                 outputFiles.add(tempFileData);
             }
         }
-        //dto를 완성함
-        for(int i=0;i<inputFiles.size();i++){
-            System.out.println(inputFiles.get(i).getContent());
-            System.out.println(outputFiles.get(i).getContent());
-        }
         ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,inputFiles,outputFiles);
         //파이썬 서버로 요청 보내기
-        System.out.println(validateDto);
         ValidationResultDto validationResultDto = new ValidationResultDto();
         HttpStatus status=HttpStatus.OK;
 

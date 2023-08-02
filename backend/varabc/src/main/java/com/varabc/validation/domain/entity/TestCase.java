@@ -16,7 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 public class TestCase {
     @Id
-    @Column(name = "testcase_no", nullable = false, insertable = false)
+    @Column(name = "testcaseNo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long testCaseNo;
     @Column(name = "problem_no", nullable = false, insertable = false)
