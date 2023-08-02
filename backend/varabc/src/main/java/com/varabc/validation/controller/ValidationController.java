@@ -1,23 +1,9 @@
 package com.varabc.validation.controller;
 
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.varabc.validation.Service.ValidationService;
-import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDataDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
-import com.varabc.validation.domain.util.FileData;
-import com.varabc.validation.mapper.ValidationMapper;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -112,7 +98,23 @@ public class ValidationController {
 
         //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
         String pythonServerUrl = "http://localhost:5000/";
-        validationResultDto =validationService.sendRequestValidation(pythonServerUrl,validateDto);
+        validationResultDto=validationService.sendRequestValidation(pythonServerUrl,validateDto);
+
+
+        return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
+    }
+
+    //자바 서버로 요청 보내기
+    @PostMapping("sendvalidatejava")
+    public ResponseEntity<ValidationResultDto> validateJava(@RequestBody ValidateDto validateDto) throws Exception{
+
+        // 자바 채점 서버로 요청 보내기
+        ValidationResultDto validationResultDto= new ValidationResultDto();
+        HttpStatus status=HttpStatus.OK;
+
+        //service단에서 자바 채점 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
+        String javaServerUrl = "http://localhost:8081/";
+        validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
 
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);

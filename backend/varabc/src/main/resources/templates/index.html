@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>API Test Page</title>
+</head>
+<body>
+<h2>Problem Form</h2>
+<form action="#" th:action="@{/problem/}" method="post" enctype="multipart/form-data">
+  <label for="problemTitle">Problem Title:</label><br>
+  <input type="text" id="problemTitle" name="problemTitle"><br>
+
+  <label for="problemContent">Problem Content:</label><br>
+  <textarea id="problemContent" name="problemContent"></textarea><br>
+
+  <label for="problemLevel">Problem Level:</label><br>
+  <input type="text" id="problemLevel" name="problemLevel"><br>
+
+  <label for="problemSubmitCount">Problem Submit Count:</label><br>
+  <input type="number" id="problemSubmitCount" name="problemSubmitCount"><br>
+
+  <label for="problemCorrectCount">Problem Correct Count:</label><br>
+  <input type="number" id="problemCorrectCount" name="problemCorrectCount"><br>
+
+  <label for="problemInputContent">Problem Input Content:</label><br>
+  <textarea id="problemInputContent" name="problemInputContent"></textarea><br>
+
+  <label for="problemOutputContent">Problem Output Content:</label><br>
+  <textarea id="problemOutputContent" name="problemOutputContent"></textarea><br>
+
+  <label for="problemLink">Problem Link:</label><br>
+  <input type="text" id="problemLink" name="problemLink"><br>
+
+  <label for="problemSource">Problem Source:</label><br>
+  <input type="text" id="problemSource" name="problemSource"><br>
+
+  <label for="problemResign">Problem Resign:</label><br>
+  <input type="checkbox" id="problemResign" name="problemResign"><br>
+
+  <label for="problemAlgorithmType">Problem Algorithm Type:</label><br>
+  <input type="text" id="problemAlgorithmType" name="problemAlgorithmType"><br>
+
+  <label for="problemRestrictionPython">Problem Restriction Python:</label><br>
+  <input type="number" step="0.01" id="problemRestrictionPython" name="problemRestrictionPython"><br>
+
+  <label for="problemRestrictionJava">Problem Restriction Java:</label><br>
+  <input type="number" step="0.01" id="problemRestrictionJava" name="problemRestrictionJava"><br>
+
+  <label for="problemRestrictionMemory">Problem Restriction Memory:</label><br>
+  <input type="number" id="problemRestrictionMemory" name="problemRestrictionMemory"><br>
+
+  <label for="problemRestrictionResign">Problem Restriction Resign:</label><br>
+  <input type="checkbox" id="problemRestrictionResign" name="problemRestrictionResign"><br>
+
+<!-- 텍스트필드에 저장 -->
+<!--  <label for="testcaseInput">Testcase Input:</label><br>-->
+<!--  <textarea id="testcaseInput" name="testcaseInput"></textarea><br>-->
+
+<!--  <label for="testcaseOutput">Testcase Output:</label><br>-->
+<!--  <textarea id="testcaseOutput" name="testcaseOutput"></textarea><br>-->
+
+  <input type="file" id="testcaseInputList" name="testcaseInputList" multiple>
+  <input type="file" id="testcaseOutputList" name="testcaseOutputList" multiple>
+
+<!--  <label for="testcasePublic">Testcase Public:</label><br>-->
+<!--  <input type="checkbox" id="testcasePublic" name="testcasePublic"><br>-->
+
+  <label for="testcaseResign">Testcase Resign:</label><br>
+  <input type="checkbox" id="testcaseResign" name="testcaseResign"><br>
+
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
+
+
