@@ -30,6 +30,7 @@ public class ValidationController {
     //클라이언트에서 코드와 기타등등을 전달받았다고 가정하고,
     //해당 요청을 현재 로컬서버의 파이썬 채점서버에 전달해서 채점 결과를 받아오는
     //api를 먼저 작성해보자.
+    //마무리
     private final ValidationService validationService;
     private final ValidationMapper validationMapper;
     private final AmazonS3 amazonS3;
