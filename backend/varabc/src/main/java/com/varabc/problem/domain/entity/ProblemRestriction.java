@@ -41,30 +41,14 @@ public class ProblemRestriction {
     private Boolean problemRestrictionResign;
 
 
-
     @Builder
-    public ProblemRestriction(Long problemRestrictionNo, Long problemNo,
-            Double problemRestrictionPython, Double problemRestrictionJava,
-            int problemRestrictionMemory, Boolean problemRestrictionResign) {
-        this.problemRestrictionNo = problemRestrictionNo;
+    public ProblemRestriction(Long problemNo,
+            Double problemRestrictionTimePython, Double problemRestrictionTimeJava,
+            int problemRestrictionMemory) {
         this.problemNo = problemNo;
-        this.problemRestrictionPython = problemRestrictionPython;
-        this.problemRestrictionJava = problemRestrictionJava;
+        this.problemRestrictionPython = problemRestrictionTimePython;
+        this.problemRestrictionJava = problemRestrictionTimeJava;
         this.problemRestrictionMemory = problemRestrictionMemory;
-        this.problemRestrictionResign = problemRestrictionResign;
-    }
-
-
-
-    public void setProblemNo(Long problemNo) {
-        this.problemNo = problemNo;
-    }
-
-    public void setProblemRestrictionResign(boolean problemRestrictionResign) {
-        this.problemRestrictionResign = problemRestrictionResign;
-    }
-
-    public boolean isProblemRestrictionResign() {
-        return problemRestrictionResign;
+        this.problemRestrictionResign = false;
     }
 }

@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Problem Form</h2>
-<form action="#" th:action="@{/problem/}" method="post" enctype="multipart/form-data">
+<form id="problemForm">
   <label for="problemTitle">Problem Title:</label><br>
   <input type="text" id="problemTitle" name="problemTitle"><br>
 
@@ -51,25 +51,55 @@
   <label for="problemRestrictionResign">Problem Restriction Resign:</label><br>
   <input type="checkbox" id="problemRestrictionResign" name="problemRestrictionResign"><br>
 
-<!-- 텍스트필드에 저장 -->
-<!--  <label for="testcaseInput">Testcase Input:</label><br>-->
-<!--  <textarea id="testcaseInput" name="testcaseInput"></textarea><br>-->
+  <!-- 텍스트필드에 저장 -->
+  <!--  <label for="testcaseInput">Testcase Input:</label><br>-->
+  <!--  <textarea id="testcaseInput" name="testcaseInput"></textarea><br>-->
 
-<!--  <label for="testcaseOutput">Testcase Output:</label><br>-->
-<!--  <textarea id="testcaseOutput" name="testcaseOutput"></textarea><br>-->
+  <!--  <label for="testcaseOutput">Testcase Output:</label><br>-->
+  <!--  <textarea id="testcaseOutput" name="testcaseOutput"></textarea><br>-->
 
   <input type="file" id="testcaseInputList" name="testcaseInputList" multiple>
   <input type="file" id="testcaseOutputList" name="testcaseOutputList" multiple>
 
-<!--  <label for="testcasePublic">Testcase Public:</label><br>-->
-<!--  <input type="checkbox" id="testcasePublic" name="testcasePublic"><br>-->
+  <!--  <label for="testcasePublic">Testcase Public:</label><br>-->
+  <!--  <input type="checkbox" id="testcasePublic" name="testcasePublic"><br>-->
 
   <label for="testcaseResign">Testcase Resign:</label><br>
   <input type="checkbox" id="testcaseResign" name="testcaseResign"><br>
 
   <input type="submit" value="Submit">
 </form>
+<script>
+  // Submit 버튼 클릭 시 AJAX 요청 처리
+  document.getElementById("problemForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    submitProblemForm();
+  });
+
+  // 폼 데이터를 JSON으로 변환하여 서버에 전송하는 함수
+  function submitProblemForm() {
+    var formData = new FormData(document.getElementById("problemForm"));
+    var jsonData = {};
+    formData.forEach(function (value, key) {
+      jsonData[key] = value;
+    });
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/problem/", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          // 성공적으로 처리된 경우에 대한 동작
+          console.log(xhr.responseText);
+        } else {
+          // 오류가 발생한 경우에 대한 동작
+          console.error(xhr.responseText);
+        }
+      }
+    };
+    xhr.send(JSON.stringify(jsonData));
+  }
+</script>
 </body>
 </html>
-
-

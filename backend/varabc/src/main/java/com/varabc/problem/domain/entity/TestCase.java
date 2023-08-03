@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -38,4 +39,14 @@ public class TestCase {
     @Column(name = "testcase_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
     private Boolean testcaseResign;
 
+    @Builder
+    public TestCase(Long testcaseNo, Long problemNo, String testcaseInput, String testcaseOutput,
+            Boolean testcasePublic, Boolean testcaseResign) {
+        this.testcaseNo = testcaseNo;
+        this.problemNo = problemNo;
+        this.testcaseInput = testcaseInput;
+        this.testcaseOutput = testcaseOutput;
+        this.testcasePublic = testcasePublic;
+        this.testcaseResign = testcaseResign;
+    }
 }
