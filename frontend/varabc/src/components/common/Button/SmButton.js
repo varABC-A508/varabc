@@ -22,9 +22,7 @@ const SmButton = ({text, onClick, bgColor}) => {
 			break;
 		default:
 	}
-	if(bgColor !== "basic"){
 
-	}
   return (
 		<button onClick={onClick} className={`${backgroundColor} ${textColor} ${hoverColor} ml-1 mr-1 border text-xs p-1 font-bold rounded`}>{text}</button>
 	);

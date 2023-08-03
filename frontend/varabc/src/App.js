@@ -16,6 +16,9 @@ import { Profile } from './pages/myPage/Profile';
 import { Reviews } from './pages/myPage/Reviews';
 import { MyPage } from './pages/myPage/myPage';
 
+
+import ButtonMoveTest from './ButtonMoveTest';
+
 const App = () => {
   return (
     <div className="App">
@@ -35,6 +38,9 @@ const App = () => {
           <Route path="friends" element={<Friends />} />
         </Route>
       </Routes>
+
+      
+      <ButtonMoveTest />
     </div>
   );
 }
