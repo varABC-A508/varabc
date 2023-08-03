@@ -31,9 +31,8 @@ public class TestCaseVal {
     private int testCaseResign;
 
     @Builder
-    public TestCaseVal(long testCaseNo, long problemNo, String testCaseInput, String testCaseOutput,
+    public TestCaseVal(long problemNo, String testCaseInput, String testCaseOutput,
             int testCasePublic, int testCaseResign) {
-        this.testCaseNo = testCaseNo;
         this.problemNo = problemNo;
         this.testCaseInput = testCaseInput;
         this.testCaseOutput = testCaseOutput;

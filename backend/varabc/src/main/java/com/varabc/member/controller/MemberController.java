@@ -11,8 +11,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/member")
 public class MemberController {
+
+    //구글 redirect uri->
+    //get
 
     MemberController() { }
 

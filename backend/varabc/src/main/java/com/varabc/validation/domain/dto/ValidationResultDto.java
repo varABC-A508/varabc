@@ -8,15 +8,17 @@ import lombok.*;
 @ToString
 public class ValidationResultDto {
     //채점 결과를 db에 저장할 dto
-    private String result;
+    private long problemNo;
+    private int result;
     private double executionTime;
-    private String memoryUsage;
+    private int memoryUsage;
     private String exceptionMessage;
 
 
     @Builder
-    public ValidationResultDto(String result, double executionTime, String memoryUsage,
-            String exceptionMessage) {
+    public ValidationResultDto(long problemNo, int result, double executionTime,
+            int memoryUsage, String exceptionMessage) {
+        this.problemNo = problemNo;
         this.result = result;
         this.executionTime = executionTime;
         this.memoryUsage = memoryUsage;

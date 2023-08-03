@@ -25,10 +25,6 @@ public class ProblemController {
     //crud
     private final ProblemService problemService;
 
-//    @GetMapping("/") //테스트용으로 작성한것.
-//    public String problemForm() {
-//        return "index";
-//    }
 
     @PostMapping("/")
     public String createProblem(@ModelAttribute GetProblemDto getProblemDto) throws IOException {
