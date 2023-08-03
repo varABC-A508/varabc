@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import {Routes, Route} from 'react-router-dom';
 
-function App() {
+import { Nav } from './components/common/nav';
+
+import { Home } from './pages/Home';
+import { Problems } from './pages/Problems';
+import { Tier } from './pages/Tier';
+
+import { Battle } from './pages/battle/Battle';
+import { BattleMode } from './pages/battle/BattleMode';
+import { BattleRoom } from './pages/battle/BattleRoom';
+
+import { Friends } from './pages/myPage/Friends';
+import { History } from './pages/myPage/History';
+import { Profile } from './pages/myPage/Profile';
+import { Reviews } from './pages/myPage/Reviews';
+import { MyPage } from './pages/myPage/myPage';
+
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/battle" element={<Battle />}>
+          <Route index element={<BattleMode />} />
+          <Route path="room" element={<BattleRoom />} />
+        </Route>
+        <Route path="/problems" element={<Problems />} />
+        <Route path="/tier" element={<Tier />} />
+        <Route path="/myPage" element={<MyPage />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="history" element={<History />} />
+          <Route path="Reviews" element={<Reviews />} />
+          <Route path="Friends" element={<Friends />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
