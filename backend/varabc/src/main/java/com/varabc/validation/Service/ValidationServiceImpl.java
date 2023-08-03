@@ -7,14 +7,13 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
-import com.varabc.validation.domain.entity.TestCase;
+import com.varabc.validation.domain.entity.TestCaseVal;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
 import com.varabc.validation.repository.ValidationRepository;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -59,13 +58,13 @@ public class ValidationServiceImpl implements ValidationService{
 
     @Override
     public TestCaseDto getTestCaseDtoByProblemNo(long problemNo) {
-        List<TestCase> testCases = validationRepository.findByProblemNo(problemNo);
+        List<TestCaseVal> testCases = validationRepository.findByProblemNo(problemNo);
         List<String> inputFiles = testCases.stream()
-                .map(TestCase::getTestCaseInput)
+                .map(TestCaseVal::getTestCaseInput)
                 .collect(Collectors.toList());
 
         List<String> outputFiles = testCases.stream()
-                .map(TestCase::getTestCaseOutput)
+                .map(TestCaseVal::getTestCaseOutput)
                 .collect(Collectors.toList());
 
         return ValidationMapper.testCaseListToDto(inputFiles, outputFiles);

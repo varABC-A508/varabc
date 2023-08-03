@@ -9,8 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @ToString
 @NoArgsConstructor
-public class TestcaseListDto {
-    private Long problemNo;
+public class TestCaseListDto {
     private List<MultipartFile> testcaseInputList= new ArrayList<MultipartFile>();
     private List<MultipartFile> testcaseOutputList= new ArrayList<MultipartFile>();
 }

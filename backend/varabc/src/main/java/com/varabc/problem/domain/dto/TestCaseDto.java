@@ -9,16 +9,17 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class TestcaseDto {
+public class TestCaseDto {
 
+    private Long testcaseNo;
     private Long problemNo;
     private String testcaseInput;
     private String testcaseOutput;
-    private Boolean testcaseResign = false;
-    private Boolean testcasePublic = false;
+    private Boolean testcaseResign;
+    private Boolean testcasePublic;
 
     @Builder
-    public TestcaseDto(Long problemNo, String testcaseInput, String testcaseOutput,
+    public TestCaseDto(Long problemNo, String testcaseInput, String testcaseOutput,
             Boolean testcasePublic) {
         this.problemNo = problemNo;
         this.testcaseInput = testcaseInput;

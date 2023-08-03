@@ -1,10 +1,8 @@
 package com.varabc.problem.domain.dto;
 
-import com.varabc.problem.domain.entity.ProblemEntity;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -16,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ProblemDto {
 
-    //    private Long problemNo;
+    private Long problemNo;
     private String problemTitle;
     private String problemContent;
     private String problemLevel;
@@ -26,14 +24,15 @@ public class ProblemDto {
     private String problemOutputContent;
     private String problemLink;
     private String problemSource;
-    private Boolean problemResign ;
+    private Boolean problemResign;
     private String problemAlgorithmType;
+    private List<MultipartFile> problemImageS3Url = new ArrayList<>();
 
     //문제 제한
     private Double problemRestrictionPython;
     private Double problemRestrictionJava;
     private int problemRestrictionMemory;
-    private Boolean problemRestrictionResign ;
+    private Boolean problemRestrictionResign;
 
 
     //테케
@@ -41,8 +40,7 @@ public class ProblemDto {
     private List<MultipartFile> testcaseOutputList = new ArrayList<MultipartFile>();
 
     //테케 디티오.
-    private List<TestcaseDto> testcaseDtoList = new ArrayList<>();
-
+    private List<TestCaseDto> testcaseDtoList = new ArrayList<>();
 
 
     @Builder
@@ -52,7 +50,7 @@ public class ProblemDto {
             Boolean problemResign, String problemAlgorithmType, Double problemRestrictionPython,
             Double problemRestrictionJava, int problemRestrictionMemory,
             Boolean problemRestrictionResign, List<MultipartFile> testcaseInputList,
-            List<MultipartFile> testcaseOutputList, List<TestcaseDto> testcaseDtoList) {
+            List<MultipartFile> testcaseOutputList, List<TestCaseDto> testcaseDtoList) {
         this.problemTitle = problemTitle;
         this.problemContent = problemContent;
         this.problemLevel = problemLevel;
