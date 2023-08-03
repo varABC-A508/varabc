@@ -74,16 +74,20 @@ public class ValidationController {
         TestCaseDto testCaseDto= validationService.getTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
         List<FileData> inputFiles= validationService.getUrlIntoText(testCaseDto.getInputFiles());
         List<FileData> outputFiles= validationService.getUrlIntoText(testCaseDto.getOutputFiles());
+
         ProblemRestrictionDto problemRestrictionDto =validationService.getProblemRestriction(validateDataDto.getProblemNo());
-        //validate할때 필요한 데이터 주입
-        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto, inputFiles,outputFiles,2);
+        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,1);
+        //파이썬 서버로 요청 보내기
+        System.out.println(problemRestrictionDto);
 
         HttpStatus status=HttpStatus.OK;
 
         //service단에서 자바 채점 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
         String javaServerUrl = "http://localhost:8081/";
         ValidationResultDto validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
-
+        //응답을 받은 다음 해당 dto를 entity로 변환해 DB에 저장한다.
+        System.out.println(validationResultDto);
+        validationService.saveValidationResult(validationResultDto, validateDto);
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
