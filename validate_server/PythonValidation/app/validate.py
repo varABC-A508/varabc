@@ -13,7 +13,7 @@ def memory_monitor(process_pid, max_memory_usage):
             current_memory_usage = mem_info.rss
             if current_memory_usage > max_memory_usage.value:
                 max_memory_usage.value = current_memory_usage
-            time.sleep(0.0001)
+            time.sleep(0.001)
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             break
 
@@ -29,7 +29,7 @@ def run_subprocess(queue, input_content, memory_usage):
 
 def run_code_with_test_case(input_content, output_content, time_limit, memory_limit):
     expected_output = output_content.strip()
-    result = {'result': '', 'execution_time': 0, 'memory_usage': 0, 'exception_message': ''}
+    result = {'result': 0, 'execution_time': 0, 'memory_usage': 0, 'exception_message': ''}
     memory_usage = multiprocessing.Value('i', 0)
     try:
         queue = multiprocessing.Queue()
@@ -44,7 +44,8 @@ def run_code_with_test_case(input_content, output_content, time_limit, memory_li
             print("Test case takes too long to complete. Killing...")
             process.terminate()
             process.join()
-            result['result'] = "Error: 시간초과"
+            result['result'] = 2
+            result['exception_message'] = "Error: 시간초과"
         else:
             output = queue.get()
             print(output)
@@ -54,9 +55,10 @@ def run_code_with_test_case(input_content, output_content, time_limit, memory_li
             result['memory_usage'] = memory_usage.value
             # result['memory_usage'] = f"{memory_usage.value:} bytes"
             if memory_usage.value > memory_limit:
-                result['result'] = "Error: 메모리초과"
+                result['result'] = 3
+                result['exception_message'] = "Error: 메모리초과"
             else:
-                result['result'] = "Passed" if output == expected_output else "Failed"
+                result['result'] = 1 if output == expected_output else 4
     except Exception as e:
         result['exception_message'] = str(e)
     return result

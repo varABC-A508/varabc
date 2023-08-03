@@ -41,12 +41,6 @@ public class ProblemController {
         problemService.updateProblem(problemNo,problemDto);
     }
 
-//    @PutMapping("/{problemNo}/testcase")
-//    public void updateTestcase(@PathVariable Long problemNo,@ModelAttribute TestcaseListDto testcaseListDto ) throws IOException {
-//        System.out.println(testcaseListDto.toString());
-//        problemService.updateTestcase(problemNo,testcaseListDto);
-//    }
-
     @GetMapping("/{problemNo}/testcase")
     public String showUploadForm(@PathVariable Long problemNo, Model model) {
         model.addAttribute("problemNo", problemNo);

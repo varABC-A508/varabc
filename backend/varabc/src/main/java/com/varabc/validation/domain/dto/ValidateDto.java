@@ -9,8 +9,10 @@ import lombok.*;
 @Getter
 @ToString
 public class ValidateDto {
+    private long memberNo;
+    private long problemNo;
     private String code;
-    private int timeLimit;
+    private double timeLimit;
     private int memoryLimit;
     private List<FileData> inputFiles;
     private List<FileData> outputFiles;
@@ -18,8 +20,11 @@ public class ValidateDto {
 
 
     @Builder
-    public ValidateDto(String code, int timeLimit, int memoryLimit, List<FileData> inputFiles,
-            List<FileData> outputFiles) {
+    public ValidateDto(long memberNo, long problemNo, String code, double timeLimit,
+            int memoryLimit,
+            List<FileData> inputFiles, List<FileData> outputFiles) {
+        this.memberNo = memberNo;
+        this.problemNo = problemNo;
         this.code = code;
         this.timeLimit = timeLimit;
         this.memoryLimit = memoryLimit;

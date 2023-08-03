@@ -2,7 +2,6 @@ package com.varabc.problem.service;
 
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.TestcaseListDto;
-import com.varabc.problem.domain.entity.ProblemEntity;
 import java.io.IOException;
 
 public interface ProblemService {

@@ -4,17 +4,21 @@ package com.varabc.validation.Service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.varabc.problem.domain.entity.ProblemRestriction;
+import com.varabc.problem.repository.ProblemRestrictionRepository;
+import com.varabc.validation.domain.dto.ProblemRestrictionDto;
 import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
-import com.varabc.validation.domain.entity.TestCase;
+import com.varabc.validation.domain.entity.Submit;
+import com.varabc.validation.domain.entity.TestCaseVal;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
+import com.varabc.validation.repository.SubmitRepository;
 import com.varabc.validation.repository.ValidationRepository;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,6 +38,9 @@ public class ValidationServiceImpl implements ValidationService{
 
     private final RestTemplate restTemplate;
     private final ValidationRepository validationRepository;
+    private final SubmitRepository submitRepository;
+    private final ProblemRestrictionRepository problemRestrictionRepository;
+    private final ValidationMapper validationMapper;
     private final AmazonS3 amazonS3;
 
     @Override
@@ -53,19 +60,18 @@ public class ValidationServiceImpl implements ValidationService{
         );
 
         // 채점 서버로부터 받은 응답 결과 반환
-        System.out.println(responseEntity.getBody());
         return responseEntity.getBody();
     }
 
     @Override
     public TestCaseDto getTestCaseDtoByProblemNo(long problemNo) {
-        List<TestCase> testCases = validationRepository.findByProblemNo(problemNo);
-        List<String> inputFiles = testCases.stream()
-                .map(TestCase::getTestCaseInput)
+        List<TestCaseVal> testCaseVals = validationRepository.findByProblemNo(problemNo);
+        List<String> inputFiles = testCaseVals.stream()
+                .map(TestCaseVal::getTestCaseInput)
                 .collect(Collectors.toList());
 
-        List<String> outputFiles = testCases.stream()
-                .map(TestCase::getTestCaseOutput)
+        List<String> outputFiles = testCaseVals.stream()
+                .map(TestCaseVal::getTestCaseOutput)
                 .collect(Collectors.toList());
 
         return ValidationMapper.testCaseListToDto(inputFiles, outputFiles);
@@ -98,6 +104,18 @@ public class ValidationServiceImpl implements ValidationService{
             }
         }
         return files;
+    }
+
+    @Override
+    public void saveValidationResult(ValidationResultDto validationResultDto, ValidateDto validateDto) {
+        //validationResultDto를 Submit엔티티로 변환
+        Submit submit = validationMapper.mapDtoToSubmitEntity(validationResultDto,validateDto);
+        submitRepository.save(submit);
+    }
+    @Override
+    public ProblemRestrictionDto getProblemRestriction(long problemNo) {
+        ProblemRestriction problemRestriction=problemRestrictionRepository.findByProblemNo(problemNo);
+        return validationMapper.problemRestrictionToDto(problemRestriction);
     }
 
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @ToString
-public class ProblemRestrictionEntity {
+public class ProblemRestriction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +28,10 @@ public class ProblemRestrictionEntity {
     @Column(name = "problem_no", nullable = false)
     private Long problemNo;
 
-    @Column(name = "problem_restriction_python", nullable = false)
+    @Column(name = "problem_restriction_time_python", nullable = false)
     private Double problemRestrictionPython;
 
-    @Column(name = "problem_restriction_java", nullable = false)
+    @Column(name = "problem_restriction_time_java", nullable = false)
     private Double problemRestrictionJava;
 
     @Column(name = "problem_restriction_memory", nullable = false)
@@ -38,6 +39,22 @@ public class ProblemRestrictionEntity {
 
     @Column(name = "problem_restriction_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
     private Boolean problemRestrictionResign;
+
+
+
+    @Builder
+    public ProblemRestriction(Long problemRestrictionNo, Long problemNo,
+            Double problemRestrictionPython, Double problemRestrictionJava,
+            int problemRestrictionMemory, Boolean problemRestrictionResign) {
+        this.problemRestrictionNo = problemRestrictionNo;
+        this.problemNo = problemNo;
+        this.problemRestrictionPython = problemRestrictionPython;
+        this.problemRestrictionJava = problemRestrictionJava;
+        this.problemRestrictionMemory = problemRestrictionMemory;
+        this.problemRestrictionResign = problemRestrictionResign;
+    }
+
+
 
     public void setProblemNo(Long problemNo) {
         this.problemNo = problemNo;

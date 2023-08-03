@@ -1,10 +1,8 @@
 package com.varabc.problem.domain.dto;
 
-import com.varabc.problem.domain.entity.ProblemEntity;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
