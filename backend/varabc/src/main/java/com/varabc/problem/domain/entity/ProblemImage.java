@@ -7,35 +7,34 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
-@Table(name = "testcase")
+@Table(name = "problem_image")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicUpdate
 @ToString
-public class TestcaseEntity {
+public class ProblemImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long testcaseNo;
+    private Long problemImageNo;
 
     @Column(name = "problem_no", nullable = false)
     private Long problemNo;
 
     @Column(name = "testcase_input", columnDefinition = "TEXT", nullable = false)
-    private String testcaseInput;
-    @Column(name = "testcase_output", columnDefinition = "TEXT", nullable = false)
-    private String testcaseOutput;
+    private String problemImageS3Url;
 
-    @Column(name = "testcase_public", nullable = false,columnDefinition = "TINYINT(1) default 0")
-    private Boolean testcasePublic;
-
-    @Column(name = "testcase_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
-    private Boolean testcaseResign;
-
+    @Column(name = "problem_image_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
+    private Boolean problemImageResign;
+    @Builder
+    public ProblemImage(Long problemNo, String problemImageS3Url) {
+        this.problemNo = problemNo;
+        this.problemImageS3Url = problemImageS3Url;
+        this.problemImageResign= false;
+    }
 }

@@ -14,7 +14,7 @@ import lombok.*;
 @Getter
 @ToString
 @NoArgsConstructor
-public class TestCase {
+public class TestCaseVal {
     @Id
     @Column(name = "testcaseNo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class TestCase {
     private int testCaseResign;
 
     @Builder
-    public TestCase(long testCaseNo, long problemNo, String testCaseInput, String testCaseOutput,
+    public TestCaseVal(long testCaseNo, long problemNo, String testCaseInput, String testCaseOutput,
             int testCasePublic, int testCaseResign) {
         this.testCaseNo = testCaseNo;
         this.problemNo = problemNo;
