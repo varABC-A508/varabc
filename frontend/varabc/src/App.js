@@ -18,6 +18,7 @@ import { MyPage } from './pages/myPage/myPage';
 
 
 import ButtonMoveTest from './ButtonMoveTest';
+import SubmissionList from './components/SubmissionList/SubmissionList'
 
 const App = () => {
   return (
@@ -39,7 +40,7 @@ const App = () => {
         </Route>
       </Routes>
 
-      
+      <SubmissionList />
       <ButtonMoveTest />
     </div>
   );
