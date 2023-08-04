@@ -10,14 +10,17 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ProblemImageDto {
 
-    private Long problemImageDto;
+    private Long problemImageNo;
     private Long problemNo;
     private String problemImageS3Url;
-    private Boolean problemImageResign;
+    private boolean problemImageResign;
 
     @Builder
-    public ProblemImageDto(Long problemNo, String problemImageS3Url) {
+    public ProblemImageDto(Long problemImageNo, Long problemNo, String problemImageS3Url,
+            boolean problemImageResign) {
+        this.problemImageNo = problemImageNo;
         this.problemNo = problemNo;
         this.problemImageS3Url = problemImageS3Url;
+        this.problemImageResign = problemImageResign;
     }
 }

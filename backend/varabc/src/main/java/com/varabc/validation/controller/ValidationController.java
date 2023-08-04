@@ -7,12 +7,10 @@ import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDataDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
-import com.varabc.validation.domain.entity.Submit;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -62,7 +60,8 @@ public class ValidationController {
         String pythonServerUrl = "http://43.200.245.232:5000/";
         ValidationResultDto validationResultDto = validationService.sendRequestValidation(
                 pythonServerUrl, validateDto);
-
+        System.out.println(validationResultDto);
+        validationService.saveValidationResult(validationResultDto, validateDto);
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
@@ -86,7 +85,8 @@ public class ValidationController {
         //service단에서 자바 채점 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
         String javaServerUrl = "http://43.200.245.232:8081/";
         ValidationResultDto validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
-
+        System.out.println(validationResultDto);
+        validationService.saveValidationResult(validationResultDto, validateDto);
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }

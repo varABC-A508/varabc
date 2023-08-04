@@ -5,13 +5,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.varabc.problem.domain.entity.ProblemRestriction;
+import com.varabc.problem.domain.entity.TestCase;
 import com.varabc.problem.repository.ProblemRestrictionRepository;
 import com.varabc.validation.domain.dto.ProblemRestrictionDto;
 import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
 import com.varabc.validation.domain.entity.Submit;
-import com.varabc.validation.domain.entity.TestCaseVal;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
 import com.varabc.validation.repository.SubmitRepository;
@@ -65,13 +65,13 @@ public class ValidationServiceImpl implements ValidationService{
 
     @Override
     public TestCaseDto getTestCaseDtoByProblemNo(long problemNo) {
-        List<TestCaseVal> testCaseVals = validationRepository.findByProblemNo(problemNo);
-        List<String> inputFiles = testCaseVals.stream()
-                .map(TestCaseVal::getTestCaseInput)
+        List<TestCase> testCases = validationRepository.findByProblemNo(problemNo);
+        List<String> inputFiles = testCases.stream()
+                .map(TestCase::getTestCaseInput)
                 .collect(Collectors.toList());
 
-        List<String> outputFiles = testCaseVals.stream()
-                .map(TestCaseVal::getTestCaseOutput)
+        List<String> outputFiles = testCases.stream()
+                .map(TestCase::getTestCaseOutput)
                 .collect(Collectors.toList());
 
         return ValidationMapper.testCaseListToDto(inputFiles, outputFiles);

@@ -11,20 +11,22 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TestCaseDto {
 
-    private Long testcaseNo;
+    private Long testCaseNo;
     private Long problemNo;
-    private String testcaseInput;
-    private String testcaseOutput;
-    private Boolean testcaseResign;
-    private Boolean testcasePublic;
+    private String testCaseInput;
+    private String testCaseOutput;
+    private boolean testCaseResign;
+    private boolean testCasePublic;
 
     @Builder
-    public TestCaseDto(Long problemNo, String testcaseInput, String testcaseOutput,
-            Boolean testcasePublic) {
-        this.problemNo = problemNo;
-        this.testcaseInput = testcaseInput;
-        this.testcaseOutput = testcaseOutput;
-        this.testcasePublic = testcasePublic;
-    }
 
+    public TestCaseDto(Long testCaseNo, Long problemNo, String testCaseInput, String testCaseOutput,
+            boolean testCaseResign, boolean testCasePublic) {
+        this.testCaseNo = testCaseNo;
+        this.problemNo = problemNo;
+        this.testCaseInput = testCaseInput;
+        this.testCaseOutput = testCaseOutput;
+        this.testCaseResign = testCaseResign;
+        this.testCasePublic = testCasePublic;
+    }
 }

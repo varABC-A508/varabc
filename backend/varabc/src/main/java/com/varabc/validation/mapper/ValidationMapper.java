@@ -50,10 +50,10 @@ public class ValidationMapper {
         public static ProblemRestrictionDto problemRestrictionToDto(ProblemRestriction problemRestriction){
            return ProblemRestrictionDto.builder()
                    .problemNo(problemRestriction.getProblemNo())
-                   .problemRestrictionJava(problemRestriction.getProblemRestrictionJava())
-                   .problemRestrictionPython(problemRestriction.getProblemRestrictionPython())
+                   .problemRestrictionJava(problemRestriction.getProblemRestrictionTimeJava())
+                   .problemRestrictionPython(problemRestriction.getProblemRestrictionTimePython())
                    .problemRestrictionMemory(problemRestriction.getProblemRestrictionMemory())
-                   .problemRestrictionResign(problemRestriction.getProblemRestrictionResign())
+                   .problemRestrictionResign(problemRestriction.isProblemRestrictionResign())
                    .build();
         }
 

@@ -52,27 +52,27 @@ public class Problem {
     @Column(name = "problem_source", columnDefinition = "TEXT", nullable = false)
     private String problemSource;
 
-    @Column(name = "problem_algorithm_type", nullable = false)
+    @Column(name = "problem_algorithm_type", length=20 , nullable = false)
     private String problemAlgorithmType;
 
     @Column(name = "problem_resign", nullable = false, columnDefinition = "TINYINT(1) default 0")
-    private Boolean problemResign;
+    private boolean problemResign;
 
     @Builder
     public Problem(String problemTitle, String problemContent, String problemLevel,
-             String problemInputContent,
+            int problemSubmitCount, int problemCorrectCount, String problemInputContent,
             String problemOutputContent, String problemLink, String problemSource,
-            String problemAlgorithmType) {
+            String problemAlgorithmType, boolean problemResign) {
         this.problemTitle = problemTitle;
         this.problemContent = problemContent;
         this.problemLevel = problemLevel;
-        this.problemSubmitCount = 0;
-        this.problemCorrectCount=0;
+        this.problemSubmitCount = problemSubmitCount;
+        this.problemCorrectCount = problemCorrectCount;
         this.problemInputContent = problemInputContent;
         this.problemOutputContent = problemOutputContent;
         this.problemLink = problemLink;
         this.problemSource = problemSource;
         this.problemAlgorithmType = problemAlgorithmType;
-        this.problemResign=false;
+        this.problemResign = problemResign;
     }
 }
