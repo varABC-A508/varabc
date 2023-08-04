@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>API Test Page</title>
+</head>
+<body>
+<h2>Problem Form</h2>
+<form id="problemForm" method="post" enctype="multipart/form-data">
+  <label for="problemUpdate">Problem Update:</label><br>
+  <input type="checkbox" id="problemUpdate" name="problemUpdate" value="true"><br>
+
+  <label for="testCaseUpdate">Test Case Update:</label><br>
+  <input type="checkbox" id="testCaseUpdate" name="testCaseUpdate" value="true"><br>
+
+  <label for="problemContentUpdate">Problem Content Update:</label><br>
+  <input type="checkbox" id="problemContentUpdate" name="problemContentUpdate" value="true"><br>
+
+  <label for="problemTitle">Problem Title:</label><br>
+  <input type="text" id="problemTitle" name="problemTitle"><br>
+
+  <label for="problemContent">Problem Content:</label><br>
+  <textarea id="problemContent" name="problemContent"></textarea><br>
+
+  <label for="problemLevel">Problem Level:</label><br>
+  <input type="text" id="problemLevel" name="problemLevel"><br>
+
+  <label for="problemInputContent">Problem Input Content:</label><br>
+  <textarea id="problemInputContent" name="problemInputContent"></textarea><br>
+
+  <label for="problemOutputContent">Problem Output Content:</label><br>
+  <textarea id="problemOutputContent" name="problemOutputContent"></textarea><br>
+
+  <label for="problemLink">Problem Link:</label><br>
+  <input type="text" id="problemLink" name="problemLink"><br>
+
+  <label for="problemSource">Problem Source:</label><br>
+  <input type="text" id="problemSource" name="problemSource"><br>
+
+  <label for="problemAlgorithmType">Problem Algorithm Type:</label><br>
+  <input type="text" id="problemAlgorithmType" name="problemAlgorithmType"><br>
+
+  <label for="problemRestrictionTimePython">Problem Restriction Time Python:</label><br>
+  <input type="number" step="0.01" id="problemRestrictionTimePython" name="problemRestrictionTimePython"><br>
+
+  <label for="problemRestrictionTimeJava">Problem Restriction Time Java:</label><br>
+  <input type="number" step="0.01" id="problemRestrictionTimeJava" name="problemRestrictionTimeJava"><br>
+
+  <label for="problemRestrictionMemory">Problem Restriction Memory:</label><br>
+  <input type="number" id="problemRestrictionMemory" name="problemRestrictionMemory"><br>
+
+  <label for="problemImageList">Problem Images:</label><br>
+  <input type="file" id="problemImageList" name="problemImageList" multiple><br>
+
+  <label for="testcaseInputPublicList">Testcase Public Inputs:</label><br>
+  <input type="file" id="testcaseInputPublicList" name="testcaseInputPublicList" multiple><br>
+
+  <label for="testcaseOutputPublicList">Testcase Public Outputs:</label><br>
+  <input type="file" id="testcaseOutputPublicList" name="testcaseOutputPublicList" multiple><br>
+
+  <label for="testcaseInputPrivateList">Testcase Private Inputs:</label><br>
+  <input type="file" id="testcaseInputPrivateList" name="testcaseInputPrivateList" multiple><br>
+
+  <label for="testcaseOutputPrivateList">Testcase Private Outputs:</label><br>
+  <input type="file" id="testcaseOutputPrivateList" name="testcaseOutputPrivateList" multiple><br>
+
+  <input type="submit" value="Submit">
+</form>
+<script>
+  document.getElementById('problemForm').addEventListener('submit', function(event) {
+    var problemNo = 57;  // 이 값을 동적으로 설정하세요.
+    this.action = '/problem/' + problemNo + '/update';
+  });
+</script>
+</body>
+</html>

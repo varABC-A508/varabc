@@ -1,4 +1,11 @@
 package com.varabc.validation.repository;
 
-public interface ValidationRepository {
+import com.varabc.problem.domain.entity.TestCase;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ValidationRepository extends JpaRepository<TestCase, Long> {
+    List<TestCase> findByProblemNo(long problemNo);
 }

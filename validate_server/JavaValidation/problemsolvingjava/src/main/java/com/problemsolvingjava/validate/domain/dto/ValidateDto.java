@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @ToString
 public class ValidateDto {
+    private Long memberNo;
     private String code;
     private int timeLimit;
     private int memoryLimit;

@@ -23,7 +23,6 @@ public class CodeExecutionController {
 
         ValidationResultDto validationResultDto = new ValidationResultDto();
 
-//        System.out.println(validateDto);
 
         // 파일이름 정하고 파일에 읽기, 덮어쓰는 방식으로 하자
         String filename = "Main.java";
@@ -40,7 +39,7 @@ public class CodeExecutionController {
         int compileResult = compileProcess.waitFor();
         if (compileResult != 0) {
             System.out.println("error");
-            validationResultDto.setResult("Compile error!");
+            validationResultDto.setResult(4);
             return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
         }
 
@@ -53,7 +52,7 @@ public class CodeExecutionController {
             String inputData = validateDto.getInputFiles().get(i).getContent();
             String expectedOutputData = validateDto.getOutputFiles().get(i).getContent();
 
-            System.out.println(inputData);
+//            System.out.println(inputData);
             System.out.println(expectedOutputData);
 
             //output설정하기
@@ -158,11 +157,11 @@ public class CodeExecutionController {
                     runProcess.destroyForcibly(); // Terminate the process forcibly.
                 }
                 System.out.println("timeout");
-                validationResultDto.setResult("Timeout error!");
+                validationResultDto.setResult(2);
                 return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             } catch (InterruptedException | ExecutionException e) {
                 System.out.println("other error");
-                validationResultDto.setResult("Execution error!");
+                validationResultDto.setResult(4);
                 return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             }
 
@@ -170,9 +169,9 @@ public class CodeExecutionController {
             String output = new String(Files.readAllBytes(outputFile.toPath()), "UTF-8");
             output = output.replaceAll("\r", "");
             System.out.println("output : " + output);
-            if (!output.trim().equals(expectedOutputData)) {
+            if (!output.trim().equals(expectedOutputData.trim())) {
                 System.out.println("Test failed");
-                validationResultDto.setResult("Test failed!");
+                validationResultDto.setResult(4);
                 return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             }
 
@@ -188,7 +187,7 @@ public class CodeExecutionController {
         Files.deleteIfExists(Paths.get(filename.substring(0, filename.lastIndexOf('.')) + ".class"));
         System.out.println(maxElapsedTime);
 
-        validationResultDto.setResult("All tests passed!");
+        validationResultDto.setResult(1);
         validationResultDto.setExecutionTime(maxElapsedTime / 1_000_000);
 
         return new ResponseEntity<>(validationResultDto, HttpStatus.OK);

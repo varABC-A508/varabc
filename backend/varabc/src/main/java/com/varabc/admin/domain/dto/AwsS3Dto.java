@@ -16,4 +16,5 @@ public class AwsS3Dto {
         this.key = key;
         this.path = path;
     }
+
 }

@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class FileData {
-    private String name;
     private String content;
 }
