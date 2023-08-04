@@ -14,7 +14,7 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
-@Table(name = "testcase")
+@Table(name = "test_case")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
@@ -23,30 +23,32 @@ public class TestCase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long testcaseNo;
+    private Long testCaseNo;
 
     @Column(name = "problem_no", nullable = false)
     private Long problemNo;
 
-    @Column(name = "testcase_input", columnDefinition = "TEXT", nullable = false)
-    private String testcaseInput;
-    @Column(name = "testcase_output", columnDefinition = "TEXT", nullable = false)
-    private String testcaseOutput;
+    @Column(name = "test_case_input", columnDefinition = "TEXT", nullable = false)
+    private String testCaseInput;
+    @Column(name = "test_case_output", columnDefinition = "TEXT", nullable = false)
+    private String testCaseOutput;
 
-    @Column(name = "testcase_public", nullable = false,columnDefinition = "TINYINT(1) default 0")
-    private Boolean testcasePublic;
+    @Column(name = "test_case_public", nullable = false,columnDefinition = "TINYINT(1) default 0")
+    private boolean  testCasePublic;
 
-    @Column(name = "testcase_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
-    private Boolean testcaseResign;
+    @Column(name = "test_case_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
+    private boolean testCaseResign;
+
+
 
     @Builder
-    public TestCase(Long testcaseNo, Long problemNo, String testcaseInput, String testcaseOutput,
-            Boolean testcasePublic, Boolean testcaseResign) {
-        this.testcaseNo = testcaseNo;
+    public TestCase(Long problemNo, String testCaseInput, String testCaseOutput,
+            boolean testCasePublic,
+            boolean testCaseResign) {
         this.problemNo = problemNo;
-        this.testcaseInput = testcaseInput;
-        this.testcaseOutput = testcaseOutput;
-        this.testcasePublic = testcasePublic;
-        this.testcaseResign = testcaseResign;
+        this.testCaseInput = testCaseInput;
+        this.testCaseOutput = testCaseOutput;
+        this.testCasePublic = testCasePublic;
+        this.testCaseResign = testCaseResign;
     }
 }

@@ -10,6 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 @ToString
 @NoArgsConstructor
 public class TestCaseListDto {
-    private List<MultipartFile> testcaseInputList= new ArrayList<MultipartFile>();
-    private List<MultipartFile> testcaseOutputList= new ArrayList<MultipartFile>();
+    private List<MultipartFile> testCaseInputList= new ArrayList<MultipartFile>();
+    private List<MultipartFile> testCaseOutputList= new ArrayList<MultipartFile>();
 }

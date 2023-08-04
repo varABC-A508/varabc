@@ -26,15 +26,16 @@ public class ProblemImage {
     @Column(name = "problem_no", nullable = false)
     private Long problemNo;
 
-    @Column(name = "testcase_input", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "problem_image_s3_url",  nullable = false)
     private String problemImageS3Url;
 
     @Column(name = "problem_image_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
-    private Boolean problemImageResign;
+    private boolean problemImageResign;
+
     @Builder
-    public ProblemImage(Long problemNo, String problemImageS3Url) {
+    public ProblemImage(Long problemNo, String problemImageS3Url, boolean problemImageResign) {
         this.problemNo = problemNo;
         this.problemImageS3Url = problemImageS3Url;
-        this.problemImageResign= false;
+        this.problemImageResign = problemImageResign;
     }
 }

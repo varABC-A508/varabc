@@ -29,26 +29,26 @@ public class ProblemRestriction {
     private Long problemNo;
 
     @Column(name = "problem_restriction_time_python", nullable = false)
-    private Double problemRestrictionPython;
+    private Double problemRestrictionTimePython;
 
     @Column(name = "problem_restriction_time_java", nullable = false)
-    private Double problemRestrictionJava;
+    private Double problemRestrictionTimeJava;
 
     @Column(name = "problem_restriction_memory", nullable = false)
     private int problemRestrictionMemory;
 
     @Column(name = "problem_restriction_resign", nullable = false,columnDefinition = "TINYINT(1) default 0")
-    private Boolean problemRestrictionResign;
+    private boolean problemRestrictionResign;
 
 
     @Builder
-    public ProblemRestriction(Long problemNo,
-            Double problemRestrictionTimePython, Double problemRestrictionTimeJava,
-            int problemRestrictionMemory) {
+    public ProblemRestriction(Long problemNo, Double problemRestrictionTimePython,
+            Double problemRestrictionTimeJava, int problemRestrictionMemory,
+            boolean problemRestrictionResign) {
         this.problemNo = problemNo;
-        this.problemRestrictionPython = problemRestrictionTimePython;
-        this.problemRestrictionJava = problemRestrictionTimeJava;
+        this.problemRestrictionTimePython = problemRestrictionTimePython;
+        this.problemRestrictionTimeJava = problemRestrictionTimeJava;
         this.problemRestrictionMemory = problemRestrictionMemory;
-        this.problemRestrictionResign = false;
+        this.problemRestrictionResign = problemRestrictionResign;
     }
 }

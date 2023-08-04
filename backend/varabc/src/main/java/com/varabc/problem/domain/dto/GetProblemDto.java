@@ -3,16 +3,16 @@ package com.varabc.problem.domain.dto;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @ToString
 @NoArgsConstructor
-@Data
+@Setter
 public class GetProblemDto {
 
     //fromt에서 받아올 때 사용하는 dto. multipart 있음.
@@ -33,23 +33,22 @@ public class GetProblemDto {
 
 
     //테케
-    private List<MultipartFile> testcaseInputPublicList = new ArrayList<MultipartFile>();
-    private List<MultipartFile> testcaseOutputPublicList = new ArrayList<MultipartFile>();
+    private List<MultipartFile> testCaseInputPublicList = new ArrayList<MultipartFile>();
+    private List<MultipartFile> testCaseOutputPublicList = new ArrayList<MultipartFile>();
     //비공개 테케
-    private List<MultipartFile> testcaseInputPrivateList = new ArrayList<MultipartFile>();
-    private List<MultipartFile> testcaseOutputPrivateList = new ArrayList<MultipartFile>();
+    private List<MultipartFile> testCaseInputPrivateList = new ArrayList<MultipartFile>();
+    private List<MultipartFile> testCaseOutputPrivateList = new ArrayList<MultipartFile>();
 
 
     @Builder
     public GetProblemDto(String problemTitle, String problemContent, String problemLevel,
             String problemInputContent, String problemOutputContent, String problemLink,
-            String problemSource, String problemAlgorithmType,
-            List<MultipartFile> problemImageList, Double problemRestrictionTimePython,
-            Double problemRestrictionTimeJava, int problemRestrictionMemory,
-             List<MultipartFile> testcaseInputPublicList,
-            List<MultipartFile> testcaseOutputPublicList,
-            List<MultipartFile> testcaseInputPrivateList,
-            List<MultipartFile> testcaseOutputPrivateList) {
+            String problemSource, String problemAlgorithmType, List<MultipartFile> problemImageList,
+            Double problemRestrictionTimePython, Double problemRestrictionTimeJava,
+            int problemRestrictionMemory, List<MultipartFile> testCaseInputPublicList,
+            List<MultipartFile> testCaseOutputPublicList,
+            List<MultipartFile> testCaseInputPrivateList,
+            List<MultipartFile> testCaseOutputPrivateList) {
         this.problemTitle = problemTitle;
         this.problemContent = problemContent;
         this.problemLevel = problemLevel;
@@ -62,9 +61,9 @@ public class GetProblemDto {
         this.problemRestrictionTimePython = problemRestrictionTimePython;
         this.problemRestrictionTimeJava = problemRestrictionTimeJava;
         this.problemRestrictionMemory = problemRestrictionMemory;
-        this.testcaseInputPublicList = testcaseInputPublicList;
-        this.testcaseOutputPublicList = testcaseOutputPublicList;
-        this.testcaseInputPrivateList = testcaseInputPrivateList;
-        this.testcaseOutputPrivateList = testcaseOutputPrivateList;
+        this.testCaseInputPublicList = testCaseInputPublicList;
+        this.testCaseOutputPublicList = testCaseOutputPublicList;
+        this.testCaseInputPrivateList = testCaseInputPrivateList;
+        this.testCaseOutputPrivateList = testCaseOutputPrivateList;
     }
 }
