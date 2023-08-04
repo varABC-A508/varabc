@@ -12,6 +12,7 @@ import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,7 @@ public class ValidationController {
         //DB에서 엔티티를 꺼내와서  ValidationResult ValidateDto의 값을 온전하게 세팅하여 전달함,
         //레포지토리에서 테스트케이스들을 가져오는 로직 수행
 
+
         TestCaseDto testCaseDto= validationService.getTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
         //레포지토리에서 문제에 대한 제약사항들을 가져오는 로직 수행
         List<FileData> inputFiles= validationService.getUrlIntoText(testCaseDto.getInputFiles());
@@ -57,11 +59,10 @@ public class ValidationController {
         HttpStatus status=HttpStatus.OK;
 
         //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
-        String pythonServerUrl = "http://localhost:5000/";
-        ValidationResultDto validationResultDto=validationService.sendRequestValidation(pythonServerUrl,validateDto);
-        //응답을 받은 다음 해당 dto를 entity로 변환해 DB에 저장한다.
-        System.out.println(validationResultDto);
-        validationService.saveValidationResult(validationResultDto, validateDto);
+        String pythonServerUrl = "http://43.200.245.232:5000/";
+        ValidationResultDto validationResultDto = validationService.sendRequestValidation(
+                pythonServerUrl, validateDto);
+
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
@@ -83,11 +84,9 @@ public class ValidationController {
         HttpStatus status=HttpStatus.OK;
 
         //service단에서 자바 채점 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
-        String javaServerUrl = "http://localhost:8081/";
+        String javaServerUrl = "http://43.200.245.232:8081/";
         ValidationResultDto validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
-        //응답을 받은 다음 해당 dto를 entity로 변환해 DB에 저장한다.
-        System.out.println(validationResultDto);
-        validationService.saveValidationResult(validationResultDto, validateDto);
+
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }

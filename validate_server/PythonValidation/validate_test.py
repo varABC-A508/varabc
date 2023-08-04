@@ -25,7 +25,7 @@ def run_code_with_test_cases(code, test_cases):
         try:
             # 코드를 실행하여 결과를 얻음
             # print(input_data)
-            process = subprocess.Popen(["python", "temp_code.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+            process = subprocess.Popen(["python3", "temp_code.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
             # start_time = resource.getrusage(resource.RUSAGE_CHILDREN).ru_utime  # 시작 시간 기록
             start_time = time.time()
             output, _ = process.communicate(input=input_data)
