@@ -18,7 +18,7 @@ def memory_monitor(process_pid, max_memory_usage):
             break
 
 def run_subprocess(queue, input_content, memory_usage):
-    process = subprocess.Popen(["python", "test.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, env={"PYTHONIOENCODING": "utf-8"})
+    process = subprocess.Popen(["python3", "test.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, env={"PYTHONIOENCODING": "utf-8"})
     #서브프로세스의 가동중에 스레드를 생성해 해당 스레드에서 현재 실행중인 서브프로세스의 메모리 사용량을 추적한다
     monitor_thread = threading.Thread(target=memory_monitor, args=(process.pid, memory_usage))
     monitor_thread.start()
