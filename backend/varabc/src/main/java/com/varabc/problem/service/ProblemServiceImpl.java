@@ -44,9 +44,8 @@ public class ProblemServiceImpl implements ProblemService {
                 List<TestCase> testCaseEntityList = testCaseRepository.findByProblemNo(problemNo);
                 List<ProblemImage> problemImageList = problemImageRepository.findByProblemNo(
                         problemNo);
-                ProblemDto problemDto = problemMapper.mapIntoOneProblemDto(problem,
+                return problemMapper.mapIntoOneProblemDto(problem,
                         problemRestrictionEntity, testCaseEntityList, problemImageList);
-                return problemDto;
             } else {
                 System.out.println("삭제된 문제");
                 return null;
@@ -76,16 +75,18 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Transactional
-    public void deleteProblem(Long problemNo) {
+    public boolean deleteProblem(Long problemNo) {
         Problem problemEntity = problemRepository.findById(problemNo).orElse(null);
         if (problemEntity == null) {
             System.out.println("해당 problemNo에 대한 데이터가 없는 경우");
-        } else {
-            problemRepository.updateProblemResign(problemNo);
-            problemRestrictionRepository.updateProblemRestrictionResign(problemNo);
-            testCaseRepository.updateTestCaseResign(problemNo);
-            problemImageRepository.updateProblemImageResign(problemNo);
+            return false;
         }
+        problemRepository.updateProblemResign(problemNo);
+        problemRestrictionRepository.updateProblemRestrictionResign(problemNo);
+        testCaseRepository.updateTestCaseResign(problemNo);
+        problemImageRepository.updateProblemImageResign(problemNo);
+
+        return true;
     }
 
     @Transactional
@@ -116,9 +117,9 @@ public class ProblemServiceImpl implements ProblemService {
             System.out.println("no img");
         } else {
             //일단 지우고
-            for (int i = 0; i < problemImageList.size(); i++) {
+            for (ProblemImage problemImage : problemImageList) {
                 ProblemImageDto problemImageDto = problemMapper.convertEntityToDto(
-                        problemImageList.get(i));
+                        problemImage);
                 awsS3Controller.remove(problemImageDto.getProblemImageS3Url());
             }
             //디비도 날리고
@@ -136,8 +137,8 @@ public class ProblemServiceImpl implements ProblemService {
             System.out.println("빔.");
         } else {
             //일단 지우고
-            for (int i = 0; i < testCaseList.size(); i++) {
-                TestCaseDto testCaseDto = problemMapper.convertEntityToDto(testCaseList.get(i));
+            for (TestCase testCase : testCaseList) {
+                TestCaseDto testCaseDto = problemMapper.convertEntityToDto(testCase);
                 awsS3Controller.remove(testCaseDto.getTestCaseInput());
                 awsS3Controller.remove(testCaseDto.getTestCaseOutput());
             }
@@ -148,8 +149,8 @@ public class ProblemServiceImpl implements ProblemService {
         }
     }
 
-     public void saveTestCaseToS3(Long problemNo, GetProblemDto getProblemDto) throws IOException {
-         System.out.println(getProblemDto.getTestCaseInputPublicList());
+    public void saveTestCaseToS3(Long problemNo, GetProblemDto getProblemDto) throws IOException {
+        System.out.println(getProblemDto.getTestCaseInputPublicList());
         //공개 테케
         for (int i = 0; i < getProblemDto.getTestCaseInputPublicList().size();
                 i++) {
@@ -158,8 +159,8 @@ public class ProblemServiceImpl implements ProblemService {
             String outputUrl = awsS3Controller.upload(
                     getProblemDto.getTestCaseOutputPublicList().get(i));
 
-
-            TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl, outputUrl, false);
+            TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl,
+                    outputUrl, false);
             TestCase testCase = problemMapper.dtoToTestCaseEntity(testCaseDto);
             testCaseRepository.save(testCase);
         }
@@ -170,7 +171,8 @@ public class ProblemServiceImpl implements ProblemService {
                     getProblemDto.getTestCaseInputPrivateList().get(i));
             String outputUrl = awsS3Controller.upload(
                     getProblemDto.getTestCaseOutputPrivateList().get(i));
-            TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl, outputUrl, true);
+            TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl,
+                    outputUrl, true);
             TestCase testCase = problemMapper.dtoToTestCaseEntity(testCaseDto);
             testCaseRepository.save(testCase);
         }
@@ -180,7 +182,8 @@ public class ProblemServiceImpl implements ProblemService {
         for (int i = 0; i < getProblemDto.getProblemImageList().size(); i++) {
             //경로 받아서 (새로 들어온 dto 안 리스트의 길이만큼)
             String imgUrl = awsS3Controller.upload(getProblemDto.getProblemImageList().get(i));
-            ProblemImageDto problemImageDto = problemMapper.createProblemImageDto(problemNo, imgUrl);
+            ProblemImageDto problemImageDto = problemMapper.createProblemImageDto(problemNo,
+                    imgUrl);
             //등록하고
             ProblemImage problemImage = problemMapper.dtoToProblemImageEntity(problemImageDto,
                     problemNo);
