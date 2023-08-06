@@ -10,7 +10,7 @@ public interface ProblemService {
 
     void createProblem(GetProblemDto getProblemDto) throws IOException;
 
-    void deleteProblem(Long problemNo);
+    boolean deleteProblem(Long problemNo);
 
     void updateProblem(Long problemNo, GetProblemDto getProblemDto);
 

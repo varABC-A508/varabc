@@ -14,7 +14,7 @@ import lombok.*;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Submit {
+public class  Submit {
     @Id
     @Column(name = "submit_no", nullable = false, insertable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
