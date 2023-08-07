@@ -47,7 +47,7 @@ public class ProblemServiceImpl implements ProblemService {
                 List<ProblemImage> problemImageList = problemImageRepository.findByProblemNo(
                         problemNo);
                 return problemMapper.mapIntoOneProblemDto(problem,
-                        problemRestrictionEntity, testCaseEntityList, problemImageList);
+                        problemRestrictionEntity, testCaseEntityList, problemImageList, problemNo);
             } else {
                 System.out.println("삭제된 문제");
                 return null;
@@ -198,7 +198,7 @@ public class ProblemServiceImpl implements ProblemService {
     public List<ProblemListDto> getList() {
         List<Problem> problemList = problemRepository.findAll();
         List<ProblemListDto> problemListDtoList = new ArrayList<>();
-        for(Problem problem : problemList){
+        for (Problem problem : problemList) {
             ProblemListDto problemListDto = problemMapper.convertEntityToDto(problem);
             problemListDtoList.add(problemListDto);
         }
