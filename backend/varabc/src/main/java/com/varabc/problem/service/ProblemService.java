@@ -2,7 +2,9 @@ package com.varabc.problem.service;
 
 import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
+import com.varabc.problem.domain.dto.ProblemListDto;
 import java.io.IOException;
+import java.util.List;
 
 public interface ProblemService {
 
@@ -21,4 +23,6 @@ public interface ProblemService {
     void saveTestCaseToS3(Long problemNo, GetProblemDto getProblemDto) throws IOException;
 
     void saveImageToS3(Long problemNo, GetProblemDto getProblemDto) throws IOException;
+
+    List<ProblemListDto> getList();
 }
