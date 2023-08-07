@@ -2,8 +2,7 @@ import React from 'react';
 import MoveRoundButton from './components/common/Button/MoveRoundButton';
 import MoveSquareButton from './components/common/Button/MoveSquareButton';
 import { Friends } from './pages/myPage/Friends';
-
-
+import PageTest from './components/common/modal/PageTest';
 
 const ButtonMoveTest = () => {
   return (
@@ -14,6 +13,7 @@ const ButtonMoveTest = () => {
       </div>
 
       <Friends />
+      <PageTest />
     </div>
   );
 };

@@ -3,6 +3,7 @@ package com.varabc.problem.controller;
 import com.varabc.problem.domain.dto.CheckUpdateDto;
 import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
+import com.varabc.problem.domain.dto.ProblemListDto;
 import com.varabc.problem.exception.ProblemException;
 import com.varabc.problem.service.ProblemService;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.List;
 //@Controller
 @Slf4j
 @RestController
@@ -27,6 +28,20 @@ public class ProblemController {
 
     //crud
     private final ProblemService problemService;
+
+    @GetMapping("/getList")
+    public ResponseEntity<?> getList(){
+        List<ProblemListDto> problemDtoList = problemService.getList();
+        HttpStatus status;
+        if(problemDtoList.size()==0){
+            System.out.println("문제 없음");
+            status= HttpStatus.NO_CONTENT;
+        }else{
+            status=HttpStatus.OK;
+        }
+        return new ResponseEntity<>(problemDtoList, status);
+    }
+
 
     @GetMapping("/{problemNo}")
     public ResponseEntity<ProblemDto> getProblem(@PathVariable Long problemNo) {
