@@ -1,7 +1,6 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCircleInfo, faBookOpen, faMicrophone} from "@fortawesome/free-solid-svg-icons";
-
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
 import IdeMode from './Select/IdeMode';
