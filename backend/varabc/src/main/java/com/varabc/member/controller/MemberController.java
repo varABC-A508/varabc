@@ -1,50 +1,72 @@
 package com.varabc.member.controller;
 
-import org.springframework.http.ResponseEntity;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.varabc.member.domain.dto.LoginResponseDto;
+import com.varabc.member.domain.entity.Member;
+import com.varabc.member.repository.MemberRepository;
+import java.util.Arrays;
+
+import com.varabc.member.service.GoogleLoginService;
+import com.varabc.member.service.KakaoLoginService;
+import com.varabc.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/member")
+@RequiredArgsConstructor
 public class MemberController {
 
-    //구글 redirect uri->
-    //get
+    private final GoogleLoginService googleLoginService;
+    private final MemberService memberService;
+    private final KakaoLoginService kakaoLoginService;
 
-    MemberController() { }
-
-    @GetMapping("/")
-    public ResponseEntity<?> test() {
-
-        WebClient webClient = WebClient.create("https://varabc.s3.ap-northeast-2.amazonaws.com");
-
-        Mono<String> result = webClient.get()
-                .uri("/problem1_input_1.txt")
-                .retrieve()
-                .bodyToMono(String.class);
-
-        String response = result.block();
-
-        // 파일에 쓰기
-        try {
-            FileWriter writer = new FileWriter("input.txt");
-            writer.write(response);
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred while writing to file: " + e.getMessage());
+    @GetMapping("google-login")
+    public ResponseEntity<Object> loginGoogle(@RequestParam String code){
+        // Access Token 발급
+        JsonNode jsonToken = googleLoginService.getAccessToken(code);
+//        System.out.println(jsonToken.toString());
+        String accessToken = jsonToken.get("access_token").toString();
+        String refreshToken = "";
+        if(jsonToken.has("refresh_token")) {
+            refreshToken = jsonToken.get("refresh_token").toString();
         }
+        String expiresTime = jsonToken.get("expires_in").toString();
+        // Access Token으로 사용자 정보 반환
+        JsonNode userInfo = googleLoginService.getGoogleUserInfo(accessToken);
+        System.out.println(userInfo.toString());
 
-        System.out.println("Response written to output.txt");
-
-        System.out.println("hello");
-
-        return null;
+        return ResponseEntity.ok(memberService.saveGoogleMember(userInfo));
     }
 
+    @GetMapping("kakao-login")
+    public ResponseEntity<Object> loginKakao(@RequestParam String code){
+        // Access Token 발급
+        JsonNode jsonToken = kakaoLoginService.getAccessToken(code);
+        System.out.println(jsonToken.toString());
+        String accessToken = jsonToken.get("access_token").toString();
+        String refreshToken = "";
+        if(jsonToken.has("refresh_token")) {
+            refreshToken = jsonToken.get("refresh_token").toString();
+        }
+        String expiresTime = jsonToken.get("expires_in").toString();
+        // Access Token으로 사용자 정보 반환
+        JsonNode userInfo = kakaoLoginService.getKakaoUserInfo(accessToken);
+        System.out.println(userInfo.toString());
+        return ResponseEntity.ok(userInfo);
+    }
 }

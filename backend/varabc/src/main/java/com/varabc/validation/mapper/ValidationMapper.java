@@ -70,7 +70,7 @@ public class ValidationMapper {
                     .build();
         }
         //SubmitEntity->SubmitDto로 변환
-        public static SubmitDto submitDtotoEntity(Submit submit){
+        public static SubmitDto submitToDto(Submit submit){
             return SubmitDto.builder()
                     .submitNo(submit.getSubmitNo())
                     .submitTime(submit.getSubmitTime())
