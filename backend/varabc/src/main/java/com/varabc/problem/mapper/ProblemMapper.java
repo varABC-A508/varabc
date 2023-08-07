@@ -3,6 +3,7 @@ package com.varabc.problem.mapper;
 import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemImageDto;
+import com.varabc.problem.domain.dto.ProblemListDto;
 import com.varabc.problem.domain.dto.TestCaseDto;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemImage;
@@ -40,16 +41,6 @@ public class ProblemMapper {
                 .problemRestrictionTimeJava(getProblemDto.getProblemRestrictionTimeJava())
                 .problemRestrictionMemory(getProblemDto.getProblemRestrictionMemory())
                 .problemRestrictionResign(false)
-                .build();
-    }
-
-    public TestCase dtoToTestCaseEntity(TestCaseDto testCaseDto, Long problemNo) {
-        return TestCase.builder()
-                .testCaseInput(testCaseDto.getTestCaseInput())
-                .testCaseOutput(testCaseDto.getTestCaseOutput())
-                .testCasePublic(testCaseDto.isTestCasePublic())
-                .problemNo(problemNo)
-                .testCaseResign(false)
                 .build();
     }
 
@@ -91,9 +82,9 @@ public class ProblemMapper {
         }
         List<String> testCaseInputLists = new ArrayList<>();
         List<String> testCaseOutputLists = new ArrayList<>();
-        for (int i=0;i<testCaseDtoList.size();i++) {
-            testCaseInputLists.add(testCaseDtoList.get(i).getTestCaseInput());
-            testCaseOutputLists.add(testCaseDtoList.get(i).getTestCaseOutput());
+        for (TestCaseDto testCaseDto : testCaseDtoList) {
+            testCaseInputLists.add(testCaseDto.getTestCaseInput());
+            testCaseOutputLists.add(testCaseDto.getTestCaseOutput());
         }
 
         builder.testCaseInputList(testCaseInputLists);
@@ -149,6 +140,15 @@ public class ProblemMapper {
                 .problemNo(problemNo)
                 .problemImageS3Url(imgUrl)
                 .problemImageResign(false)
+                .build();
+    }
+
+    public ProblemListDto convertEntityToDto(Problem problem) {
+        return ProblemListDto.builder()
+                .problemNo(problem.getProblemNo())
+                .problemTitle(problem.getProblemTitle())
+                .problemCorrectCount(problem.getProblemCorrectCount())
+                .problemSubmitCount(problem.getProblemSubmitCount())
                 .build();
     }
 }

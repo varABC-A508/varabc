@@ -4,6 +4,7 @@ import com.varabc.admin.controller.AwsS3Controller;
 import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemImageDto;
+import com.varabc.problem.domain.dto.ProblemListDto;
 import com.varabc.problem.domain.dto.TestCaseDto;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemImage;
@@ -16,6 +17,7 @@ import com.varabc.problem.repository.ProblemRestrictionRepository;
 import com.varabc.problem.repository.TestCaseRepository;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -190,5 +192,16 @@ public class ProblemServiceImpl implements ProblemService {
             //db에 저장.
             problemImageRepository.save(problemImage);
         }
+    }
+
+    @Override
+    public List<ProblemListDto> getList() {
+        List<Problem> problemList = problemRepository.findAll();
+        List<ProblemListDto> problemListDtoList = new ArrayList<>();
+        for(Problem problem : problemList){
+            ProblemListDto problemListDto = problemMapper.convertEntityToDto(problem);
+            problemListDtoList.add(problemListDto);
+        }
+        return problemListDtoList;
     }
 }
