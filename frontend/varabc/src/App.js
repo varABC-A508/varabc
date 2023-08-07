@@ -2,7 +2,7 @@ import {Routes, Route} from 'react-router-dom';
 
 import { Nav } from './components/common/nav';
 
-import { Home } from './pages/Home';
+import { Home } from './pages/home/Home';
 import { Problems } from './pages/Problems';
 import { Tier } from './pages/Tier';
 
@@ -15,9 +15,6 @@ import { History } from './pages/myPage/History';
 import { Profile } from './pages/myPage/Profile';
 import { Reviews } from './pages/myPage/Reviews';
 import { MyPage } from './pages/myPage/myPage';
-
-
-import ButtonMoveTest from './ButtonMoveTest';
 
 const App = () => {
   return (
@@ -38,9 +35,6 @@ const App = () => {
           <Route path="friends" element={<Friends />} />
         </Route>
       </Routes>
-
-      
-      <ButtonMoveTest />
     </div>
   );
 }

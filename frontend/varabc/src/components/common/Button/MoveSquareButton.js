@@ -5,21 +5,28 @@ const bgColors = {
   gray: "bg-gray-400",
   green: "bg-[#5BDFCA]",
   basic: "bg-white",
+  point: "bg-point",
 };
 
 const btnSizes = {
-  big: "px-20 py-5 text-2xl",
-  basic: "px-12 py-3 text-xl",
+  big: "w-[358px] h-[100px]",
+  basic: "w-[172px] h-[76px]",
+};
+
+const fontSizes = {
+  big: "text-[64px]",
+  basic: "text-[32px]",
 };
 
 const MoveSquareButton = ({ to, text, bgColor, btnSize }) => {
   const navigate = useNavigate();
   const backgroundColor = bgColors[bgColor];
   const buttonSize = btnSizes[btnSize];
+  const fontSize = fontSizes[btnSize];
   let textColor, hoverColor;
   switch (bgColor) {
     case "basic":
-      textColor = "text-gray-600";
+      textColor = "text-primary";
       hoverColor = "hover:bg-gray-200";
       break;
     case "green":
@@ -28,6 +35,10 @@ const MoveSquareButton = ({ to, text, bgColor, btnSize }) => {
       break;
     case "gray":
       textColor = "text-gray-700";
+      hoverColor = "hover:bg-gray-200";
+      break;
+      case "point":
+      textColor = "text-white";
       hoverColor = "hover:bg-gray-200";
       break;
     default:
@@ -42,7 +53,7 @@ const MoveSquareButton = ({ to, text, bgColor, btnSize }) => {
 
   return (
 
-    <button onClick={handleClick} className={`${backgroundColor} ${textColor} ${hoverColor} flex justify-items-center items-center ${buttonSize}`}>
+    <button onClick={handleClick} className={`${backgroundColor} ${textColor} ${hoverColor} flex justify-center items-center rounded-lg font-bold ${buttonSize} ${fontSize}`}>
       {text}
     </button>
   );
