@@ -56,7 +56,7 @@ public class ProblemMapper {
 
     public ProblemDto mapIntoOneProblemDto(Problem problemEntity,
             ProblemRestriction problemRestrictionEntity,
-            List<TestCase> testCaseEntityList, List<ProblemImage> problemImageList) {
+            List<TestCase> testCaseEntityList, List<ProblemImage> problemImageList, Long problemNo) {
 
         ProblemDto.ProblemDtoBuilder builder = ProblemDto.builder()
                 .problemTitle(problemEntity.getProblemTitle())
@@ -97,6 +97,8 @@ public class ProblemMapper {
             problemImageS3UrlList.add(problemImageDto.getProblemImageS3Url());
         }
         builder.problemImageS3Url(problemImageS3UrlList);
+        builder.problemNo(problemNo);
+
         return builder.build();
     }
 
