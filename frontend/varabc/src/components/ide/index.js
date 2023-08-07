@@ -17,9 +17,6 @@ import { useSelector } from 'react-redux';
 import IdeNav from './IdeNav';
 import SmButton from '../common/Button/SmButton';
 
-// axios.defaults.baseURL = 'http://43.200.245.232:8080/validation/sendvalidatepy';
-// axios.defaults.withCredentials = true;
-
 const firebaseConfig = {
   apiKey: "AIzaSyBK1bjRO-tmrOEzfiyZQy3vSck5wi3Qjg4",
   authDomain: "varabc-d313b.firebaseapp.com",
@@ -43,7 +40,7 @@ const Ide = () => {
   const onCodeChange = (newCode) => {
     const db = getDatabase(app);
     set(ref(db, 'room1/code'), {
-      code: code
+      code: newCode
     });
     setCode(newCode);
   };
@@ -68,36 +65,37 @@ const Ide = () => {
     });
   };
 
-  const receiveCode = () => {
-    const db = getDatabase(app);
-    const codeRef = ref(db, 'room1/code');
-    onValue(codeRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      return data.code;
-    });
-  }
+  useEffect(() => {
+    if(isIdeShown) {
+      const db = getDatabase(app);
+      const codeRef = ref(db, 'room1/code');
+      onValue(codeRef, (snapshot) => {
+        const data = snapshot.val();
+        setCode(data.code);
+      });
+    }
+  }, [code, isIdeShown]);
 
   useEffect(() => {
-    // Code가 변경될 때마다 Ace Editor의 높이를 조정합니다.
     if (editorRef.current) {
       const editor = editorRef.current.editor;
-      editor.resize(); // Ace Editor의 크기를 조정하여 스크롤이 제대로 동작하도록 합니다.
+      editor.resize();
     }
   }, [code]);
     
     return (
-      <div className="w-full h-full flex flex-col">
+      <div className="w-full h-screen flex flex-col">
         <IdeNav />
         <PanelGroup direction='vertical' className="flex-grow">
           <Panel defaultSize={65}>
-            { isIdeShown ? <AceEditor
+            <AceEditor
               mode={mode}
               placeholder="코드를 작성해주세요!"
               theme={theme}
               value={code}
               onChange={onCodeChange}
               fontSize={fontSize}
+              readOnly={isIdeShown}
               editorProps={{ $blockScrolling: false }}
               tabSize={2}
               enableBasicAutocompletion={true}
@@ -107,21 +105,7 @@ const Ide = () => {
                 width: "100%",
                 height: "100%",
               }}
-            /> : <AceEditor
-            mode={mode}
-            theme={theme}
-            readOnly={true}
-            fontSize={fontSize}
-            editorProps={{ $blockScrolling: false }}
-            tabSize={2}
-            enableBasicAutocompletion={true}
-            enableLiveAutocompletion={true}
-            style={{
-              fontSize: `${fontSize}px`,
-              width: "100%",
-              height: "100%",
-            }}
-          />}
+            />
           </Panel>
           <PanelResizeHandle className="cursor-row-resize" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={25}>
@@ -134,7 +118,6 @@ const Ide = () => {
           <Panel defaultSize={10}>
             <SmButton bgColor="basic" text="실행하기" onClick={onRunClick} />
             <SmButton bgColor="green" text="제출하기" onClick={onRunClick} />
-            <SmButton bgColor="green" text="firebaseTest" onClick={receiveCode} />
           </Panel>
         </PanelGroup>
       </div>

@@ -1,18 +1,20 @@
 import TeamWaiting from "./TeamWaiting";
 import MoveSquareButton from "../../components/common/Button/MoveSquareButton";
+import profile1 from '../../img/test/profile1.png';
+import profile2 from '../../img/test/profile2.png';
 
 const team1 = {
   teamNo: 1,
   player1: {
     nickname: "DP조아",
     id: "alias1031",
-    url: `./src/img/test/profile2.png`,
+    url: profile2,
     isEmpty: false,
   },
   player2: {
     nickname: "잠자는커비",
     id: "sleepingkurby",
-    url: "./src/img/test/profile1.png",
+    url: profile1,
     isEmpty: false,
   }
 };
@@ -28,7 +30,7 @@ const team2 = {
   player2: {
     nickname: "잠자는커비",
     id: "sleepingkurby",
-    url: "/img/test/profile1.png",
+    url: profile1,
     isEmpty: false,
   }
 }

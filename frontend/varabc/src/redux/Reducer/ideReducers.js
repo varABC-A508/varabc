@@ -4,7 +4,7 @@ const initialState = {
   mode: 'java',
   fontSize: "16",
   theme: 'monokai',
-  isIdeShown: true,
+  isIdeShown: false,
   isPractice: false,
 };
 

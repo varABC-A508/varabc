@@ -6,6 +6,13 @@ import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 import IconDescription from "./IconDescription";
 import IconDescriptionReverse from "./IconDescriptionReverse";
 
+import ideImage from '../../img/ide.PNG';
+import logo from '../../img/varABC_logo.png';
+import sub2 from '../../img/sub2.png';
+import sub3 from '../../img/sub3.png';
+import sub4 from '../../img/sub4.png';
+import sub5 from '../../img/sub5.png';
+
 export const Home = () => {
   return (
     <div>
@@ -17,7 +24,7 @@ export const Home = () => {
               <img
                 className="w-[480px] h-[225px]"
                 alt="변수명ABC"
-                src="img/varABC_logo.png"
+                src={logo}
               />
             </div>
           </div>
@@ -58,7 +65,7 @@ export const Home = () => {
       </div>
       <div className="w-screen h-screen flex items-center justify-between pl-20 pr-20 bg-bg2 bg-cover">
         <div className="text-white">
-          <img src="img/ide.PNG" alt="변수명abc_ide" className="w-[512px] h-[421px]" />
+          <img src={ideImage} alt="변수명abc_ide" className="w-[512px] h-[421px]" />
         </div>
         <div className="flex flex-col w-[820px] justify-center">
           <div className="flex flex-col justify-center mb-10 h-[152px]">
@@ -83,12 +90,12 @@ export const Home = () => {
       <div className="w-screen h-screen flex bg-bg2 bg-cover pl-20 pr-20">
         <div className="w-full flex items-center justify-between">
           <div>
-            <img src="img/sub2.png" alt="협업" className="w-[600px] h-[600px]" />
+            <img src={sub2} alt="협업" className="w-[600px] h-[600px]" />
           </div>
           <div className="flex flex-col justify-between p-10 bg-white rounded-[20px] w-[560px] h-[600px]">
-            <IconDescription url="img/sub3.png" alt="알고리즘" descTop="친구와 함께" descBottom="알고리즘 문제를 풀어요" />
-            <IconDescriptionReverse url="img/sub4.png" alt="협업" descTop="협업을 위해" descBottom="좀 더 좋은 코드를 작성해요" />
-            <IconDescription url="img/sub5.png" alt="리뷰" descTop="리뷰를 통해" descBottom="내 협업 스킬을 확인해요" />
+            <IconDescription url={sub3} alt="알고리즘" descTop="친구와 함께" descBottom="알고리즘 문제를 풀어요" />
+            <IconDescriptionReverse url={sub4} alt="협업" descTop="협업을 위해" descBottom="좀 더 좋은 코드를 작성해요" />
+            <IconDescription url={sub5} alt="리뷰" descTop="리뷰를 통해" descBottom="내 협업 스킬을 확인해요" />
           </div>
         </div>
       </div>

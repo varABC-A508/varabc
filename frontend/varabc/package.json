@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "draft-js": "^0.11.7",
+    "firebase": "^10.1.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
