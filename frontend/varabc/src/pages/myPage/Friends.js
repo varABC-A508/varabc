@@ -6,21 +6,21 @@ export const Friends = () => {
 
   const [isFriendslist, setIsFriendslist] = useState(true);
 
-  const FriendList = () => {
+  const handleFriendListClick = () => {
     setIsFriendslist(true);
   }
 
-  const FriendRequestList = () => {
+  const handleFriendRequestListClick = () => {
     setIsFriendslist(false);
   }
 
   return (
     <div>
       친구 화면
-      <SmButton onClick={FriendList} text={'친구 목록'} bgColor={'basic'} />
-      <SmButton onClick={FriendRequestList} text={'친구 요청'} bgColor={'basic'} />
-      
-      <FriendsList isMyFriends={isFriendslist} />
+      <SmButton onClick={handleFriendListClick} text={'친구 목록'} bgColor={'basic'} />
+      <SmButton onClick={handleFriendRequestListClick} text={'친구 요청'} bgColor={'basic'} />
+
+      <FriendsList key={isFriendslist} isMyFriends={isFriendslist} />
     </div>
   );
 };
