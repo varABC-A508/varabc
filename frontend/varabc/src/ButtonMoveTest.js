@@ -3,6 +3,7 @@ import MoveRoundButton from './components/common/Button/MoveRoundButton';
 import MoveSquareButton from './components/common/Button/MoveSquareButton';
 import { Friends } from './pages/myPage/Friends';
 import PageTest from './components/common/modal/PageTest';
+import PageModalLogin from './pages/myPage/login/PageModalLogin';
 
 const ButtonMoveTest = () => {
   return (
@@ -14,6 +15,7 @@ const ButtonMoveTest = () => {
 
       <Friends />
       <PageTest />
+      <PageModalLogin />
     </div>
   );
 };
