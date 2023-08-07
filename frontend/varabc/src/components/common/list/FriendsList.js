@@ -47,8 +47,8 @@ setFriends(exampleRequests);
   };
 
   useEffect(() => {
-    { isMyFriends ? myFriend() : myRequest() }
-  }, []);
+    isMyFriends ? myFriend() : myRequest()
+  }, [isMyFriends]);
 
   return (
     <div >
