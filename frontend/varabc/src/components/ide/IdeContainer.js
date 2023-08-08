@@ -1,20 +1,18 @@
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import Ide from ".";
 import Problem from "./Problem";
-import ideStore from '../../redux/Store/ideStore';
-import { Provider } from 'react-redux';
+import { useLocation } from "react-router-dom";
 
 function IdeContainer() {
+  const {state} = useLocation();
   return (
     <PanelGroup direction="horizontal">
         <Panel defaultSize={30} style={{overflowY:"auto"}}>
-            <Problem />
+            <Problem problemNo={state} />
         </Panel>
         <PanelResizeHandle className="cursor-col-resize" style={{ width: '4px', backgroundColor:'gray' }} />
         <Panel defaultSize={70}>
-          <Provider store={ideStore}>
-            <Ide className="w-full" />
-          </Provider>
+          <Ide className="w-full" problemNo={state} />
         </Panel>
     </PanelGroup>
   );

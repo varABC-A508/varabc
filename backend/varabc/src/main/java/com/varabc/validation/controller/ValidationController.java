@@ -13,7 +13,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,7 @@ import software.amazon.awssdk.regions.Region;
 @RestController
 @RequestMapping("/validation")
 @RequiredArgsConstructor
-@Component // Add this annotation to register the class as a Spring bean
+//@Component // Add this annotation to register the class as a Spring bean
 public class ValidationController {
     //일단 파이썬 채점에 필요한 여건들부터 차례대로 확인해보자.
     //클라이언트에서 코드와 기타등등을 전달받았다고 가정하고,

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsIdeShown } from '../../../redux/Reducer/ideReducers';
 
 const Timer = () => {
-  const TWO_MINUTES = 120;
+  const TWO_MINUTES = 30;
   const [seconds, setSeconds] = useState(TWO_MINUTES);
   const [isAlertShown, setIsAlertShown] = useState(false);
 
@@ -37,9 +37,9 @@ const Timer = () => {
   };
 
   return (
-	<div>
-	  <h1 className='mt-1 mr-4'>{formatTime(seconds)}</h1>
-	</div>
+	  <div>
+	    <h1 className='mt-1 mr-4'>{formatTime(seconds)}</h1>
+	  </div>
   );
 };
 

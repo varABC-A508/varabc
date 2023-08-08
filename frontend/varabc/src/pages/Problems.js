@@ -1,4 +1,7 @@
+import { Outlet } from "react-router-dom";
 
 export const Problems = () => {
-    return (<div>문제 화면</div>);
+    return (
+        <Outlet />
+    );
 };

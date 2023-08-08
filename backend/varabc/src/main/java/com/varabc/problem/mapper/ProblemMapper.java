@@ -3,6 +3,7 @@ package com.varabc.problem.mapper;
 import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemImageDto;
+import com.varabc.problem.domain.dto.ProblemListDto;
 import com.varabc.problem.domain.dto.TestCaseDto;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemImage;
@@ -43,16 +44,6 @@ public class ProblemMapper {
                 .build();
     }
 
-    public TestCase dtoToTestCaseEntity(TestCaseDto testCaseDto, Long problemNo) {
-        return TestCase.builder()
-                .testCaseInput(testCaseDto.getTestCaseInput())
-                .testCaseOutput(testCaseDto.getTestCaseOutput())
-                .testCasePublic(testCaseDto.isTestCasePublic())
-                .problemNo(problemNo)
-                .testCaseResign(false)
-                .build();
-    }
-
     public TestCase dtoToTestCaseEntity(TestCaseDto testCaseDto) {
         return TestCase.builder()
                 .testCaseInput(testCaseDto.getTestCaseInput())
@@ -65,7 +56,7 @@ public class ProblemMapper {
 
     public ProblemDto mapIntoOneProblemDto(Problem problemEntity,
             ProblemRestriction problemRestrictionEntity,
-            List<TestCase> testCaseEntityList, List<ProblemImage> problemImageList) {
+            List<TestCase> testCaseEntityList, List<ProblemImage> problemImageList, Long problemNo) {
 
         ProblemDto.ProblemDtoBuilder builder = ProblemDto.builder()
                 .problemTitle(problemEntity.getProblemTitle())
@@ -76,6 +67,7 @@ public class ProblemMapper {
                 .problemInputContent(problemEntity.getProblemInputContent())
                 .problemOutputContent(problemEntity.getProblemOutputContent())
                 .problemSource(problemEntity.getProblemSource())
+                .problemLink(problemEntity.getProblemLink())
                 .problemAlgorithmType(problemEntity.getProblemAlgorithmType())
                 .problemRestrictionPython(problemRestrictionEntity.getProblemRestrictionTimePython())
                 .problemRestrictionJava(problemRestrictionEntity.getProblemRestrictionTimeJava())
@@ -89,15 +81,25 @@ public class ProblemMapper {
             TestCaseDto testCaseDto = convertEntityToDto(testCaseEntity);
             testCaseDtoList.add(testCaseDto);
         }
-        List<String> testCaseInputLists = new ArrayList<>();
-        List<String> testCaseOutputLists = new ArrayList<>();
-        for (int i=0;i<testCaseDtoList.size();i++) {
-            testCaseInputLists.add(testCaseDtoList.get(i).getTestCaseInput());
-            testCaseOutputLists.add(testCaseDtoList.get(i).getTestCaseOutput());
+        List<String> testCaseInputPublicLists = new ArrayList<>();
+        List<String> testCaseInputPrivateLists = new ArrayList<>();
+        List<String> testCaseOutputPublicLists = new ArrayList<>();
+        List<String> testCaseOutputPrivateLists = new ArrayList<>();
+        for (TestCaseDto testCaseDto : testCaseDtoList) {
+            if(testCaseDto.isTestCasePublic()){
+                testCaseInputPublicLists.add(testCaseDto.getTestCaseInput());
+                testCaseOutputPublicLists.add(testCaseDto.getTestCaseOutput());
+            }else{
+                testCaseInputPrivateLists.add(testCaseDto.getTestCaseInput());
+                testCaseOutputPrivateLists.add(testCaseDto.getTestCaseOutput());
+            }
+
         }
 
-        builder.testCaseInputList(testCaseInputLists);
-        builder.testCaseOutputList(testCaseOutputLists);
+        builder.testCaseInputPublicList(testCaseInputPublicLists);
+        builder.testCaseInputPrivateList(testCaseInputPrivateLists);
+        builder.testCaseOutputPublicList(testCaseOutputPublicLists);
+        builder.testCaseOutputPrivateList(testCaseOutputPrivateLists);
 
         //problemImageList 를 problemImageDto 리스트로 만들어서 넣어보기.
         List<String> problemImageS3UrlList = new ArrayList<>();
@@ -106,6 +108,8 @@ public class ProblemMapper {
             problemImageS3UrlList.add(problemImageDto.getProblemImageS3Url());
         }
         builder.problemImageS3Url(problemImageS3UrlList);
+        builder.problemNo(problemNo);
+
         return builder.build();
     }
 
@@ -149,6 +153,16 @@ public class ProblemMapper {
                 .problemNo(problemNo)
                 .problemImageS3Url(imgUrl)
                 .problemImageResign(false)
+                .build();
+    }
+
+    public ProblemListDto convertEntityToDto(Problem problem) {
+        return ProblemListDto.builder()
+                .problemNo(problem.getProblemNo())
+                .problemTitle(problem.getProblemTitle())
+                .problemCorrectCount(problem.getProblemCorrectCount())
+                .problemSubmitCount(problem.getProblemSubmitCount())
+                .problemLevel(problem.getProblemLevel())
                 .build();
     }
 }

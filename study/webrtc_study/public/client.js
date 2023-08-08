@@ -6,16 +6,23 @@ const connectButton = document.getElementById("connect-button");
 
 const videoChatContainer = document.getElementById("video-chat-container");
 const localVideoComponent = document.getElementById("local-video");
-const remoteVideoComponent = document.getElementById("remote-video");
+const remoteAudioComponent = document.getElementById("remote-audio");
+
+//채팅을 위한 변수 선언
+const chatContainer = document.getElementById("chat-container");
+const chatInput = document.getElementById('chat-input');
+const sendMessageButton = document.getElementById('send-message');
+const chatMessages = document.getElementById('chat-messages');
 
 const socket = io();
 const mediaConstraints = {
-  audio: false, 
-  video: { 
-    cursor: "always",
-    displaySurface: 'monitor', 
-    logicalSurface: false 
- },
+  audio: {
+    echoCancellation: false,   // Enable echo cancellation
+    noiseSuppression: true,   // Enable noise suppression
+    autoGainControl: true,    // Enable automatic gain control
+    sampleRate: 44100,        // Set desired sample rate
+  },
+  video: false
 };
 let localStream;
 let remoteStream;
@@ -74,13 +81,13 @@ function showVideoConference() {
 async function setLocalStream(mediaConstraints) {
   let stream;
   try {
-    stream = await navigator.mediaDevices.getDisplayMedia(mediaConstraints);
+    stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
   } catch (error) {
     console.error("Could not get user media", error);
   }
 
   localStream = stream;
-  localVideoComponent.srcObject = stream;
+  // localVideoComponent.srcObject = stream;
 }
 
 socket.on("start_call", async () => {
@@ -165,7 +172,7 @@ async function createAnswer(rtcPeerConnection) {
 }
 
 function setRemoteStream(event) {
-  remoteVideoComponent.srcObject = event.streams[0];
+  remoteAudioComponent.srcObject = event.streams[0];
   remoteStream = event.stream;
 }
 
@@ -178,3 +185,32 @@ function sendIceCandidate(event) {
     });
   }
 }
+
+//채팅 코드
+sendMessageButton.addEventListener('click', () => {
+  const message = chatInput.value;
+  if(message) {
+    socket.emit('chat_message', { roomId, message });
+    appendMessage('You', message);
+    chatInput.value = '';
+  }
+});
+
+socket.on('chat_message', (data) => {
+  appendMessage('Other', data.message);
+});
+
+function appendMessage(sender, message) {
+  const messageElement = document.createElement('div');
+  messageElement.innerHTML = `<b>${sender}:</b> ${message}`;
+  chatMessages.appendChild(messageElement);
+  chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the bottom
+}
+
+// Update the showVideoConference function to also show the chat
+function showVideoConference() {
+  roomSelectionContainer.style = "display: none";
+  videoChatContainer.style = "display: block";
+  chatContainer.style = "display: block"; // show chat container
+}
+//채팅코드 종료

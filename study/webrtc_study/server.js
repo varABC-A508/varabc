@@ -7,8 +7,6 @@ app.use("/", express.static("public"));
 
 io.on("connection", (socket) => {
   socket.on("join", (roomId) => {
-    console.log(typeof roomId)
-    console.log(io.sockets.adapter.rooms);
     const roomClients = io.sockets.adapter.rooms.get(roomId); 
     const numberOfClients = roomClients ? roomClients.size : 0; 
     console.log(numberOfClients);
@@ -55,6 +53,11 @@ io.on("connection", (socket) => {
       `Broadcasting webrtc_ice_candidate event to peers in room ${event.roomId}`
     );
     socket.broadcast.to(event.roomId).emit("webrtc_ice_candidate", event);
+  });
+
+  socket.on('chat_message', (data) => {
+    // Broadcast to everyone else in the room (excluding the sender)
+    socket.to(data.roomId).emit('chat_message', { message: data.message });
   });
 });
 

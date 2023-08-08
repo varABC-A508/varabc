@@ -22,7 +22,7 @@ public class CodeExecutionController {
             throws IOException, InterruptedException {
 
         ValidationResultDto validationResultDto = new ValidationResultDto();
-
+        validationResultDto.setProblemNo(validateDto.getProblemNo());
 
         // 파일이름 정하고 파일에 읽기, 덮어쓰는 방식으로 하자
         String filename = "Main.java";

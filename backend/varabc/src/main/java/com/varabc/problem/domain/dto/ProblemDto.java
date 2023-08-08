@@ -24,6 +24,7 @@ public class ProblemDto {
     private String problemInputContent;
     private String problemOutputContent;
     private String problemSource;
+    private String problemLink;
     private String problemAlgorithmType;
     private boolean problemResign;
     //문제 이미지 테이블.
@@ -36,18 +37,21 @@ public class ProblemDto {
     private boolean problemRestrictionResign;
 
     //테케
-    private List<String> testCaseInputList = new ArrayList<>();
-    private List<String> testCaseOutputList = new ArrayList<>();
+    private List<String> testCaseInputPublicList = new ArrayList<>();
+    private List<String> testCaseOutputPublicList = new ArrayList<>();
+    private List<String> testCaseInputPrivateList = new ArrayList<>();
+    private List<String> testCaseOutputPrivateList = new ArrayList<>();
 
     @Builder
     public ProblemDto(Long problemNo, String problemTitle, String problemContent,
             String problemLevel,
             int problemSubmitCount, int problemCorrectCount, String problemInputContent,
-            String problemOutputContent, String problemSource, String problemAlgorithmType,
-            boolean problemResign, List<String> problemImageS3Url, Double problemRestrictionPython,
-            Double problemRestrictionJava, int problemRestrictionMemory,
-            boolean problemRestrictionResign, List<String> testCaseInputList,
-            List<String> testCaseOutputList) {
+            String problemOutputContent, String problemSource, String problemLink,
+            String problemAlgorithmType, boolean problemResign, List<String> problemImageS3Url,
+            Double problemRestrictionPython, Double problemRestrictionJava,
+            int problemRestrictionMemory, boolean problemRestrictionResign,
+            List<String> testCaseInputPublicList, List<String> testCaseOutputPublicList,
+            List<String> testCaseInputPrivateList, List<String> testCaseOutputPrivateList) {
         this.problemNo = problemNo;
         this.problemTitle = problemTitle;
         this.problemContent = problemContent;
@@ -57,6 +61,7 @@ public class ProblemDto {
         this.problemInputContent = problemInputContent;
         this.problemOutputContent = problemOutputContent;
         this.problemSource = problemSource;
+        this.problemLink = problemLink;
         this.problemAlgorithmType = problemAlgorithmType;
         this.problemResign = problemResign;
         this.problemImageS3Url = problemImageS3Url;
@@ -64,7 +69,9 @@ public class ProblemDto {
         this.problemRestrictionJava = problemRestrictionJava;
         this.problemRestrictionMemory = problemRestrictionMemory;
         this.problemRestrictionResign = problemRestrictionResign;
-        this.testCaseInputList = testCaseInputList;
-        this.testCaseOutputList = testCaseOutputList;
+        this.testCaseInputPublicList = testCaseInputPublicList;
+        this.testCaseOutputPublicList = testCaseOutputPublicList;
+        this.testCaseInputPrivateList = testCaseInputPrivateList;
+        this.testCaseOutputPrivateList = testCaseOutputPrivateList;
     }
 }
