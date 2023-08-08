@@ -30,10 +30,13 @@ public class ValidationMapper {
                 ProblemRestrictionDto problemRestrictionDto, List<FileData> inputFiles,
                 List<FileData> outputFiles, int language){
             double timelimit=0.0;
+            String lang = "";
             if (language==1){
                 timelimit=problemRestrictionDto.getProblemRestrictionPython();
+                lang = "python";
             } else if (language==2) {
                 timelimit=problemRestrictionDto.getProblemRestrictionJava();
+                lang = "java";
             }
 
             return ValidateDto.builder()
@@ -44,6 +47,7 @@ public class ValidationMapper {
                     .memoryLimit(problemRestrictionDto.getProblemRestrictionMemory())
                     .inputFiles(inputFiles)
                     .outputFiles(outputFiles)
+                    .language(lang)
                     .build();
         }
         //ProblemRestriction을 Dto로 변환
@@ -66,6 +70,7 @@ public class ValidationMapper {
                     .submitUsedMemory(validationResultDto.getMemoryUsage())
                     .submitUsedTime(validationResultDto.getExecutionTime())
                     .submitCode(validateDto.getCode())
+                    .submitLanguage(validateDto.getLanguage())
                     .competitionResultNo(1)
                     .build();
         }
@@ -79,6 +84,7 @@ public class ValidationMapper {
                     .submitStatus(submit.getSubmitStatus())
                     .submitUsedMemory(submit.getSubmitUsedMemory())
                     .submitUsedTime(submit.getSubmitUsedTime())
+                    .submitLanguage(submit.getSubmitLanguage())
                     .build();
         }
 }

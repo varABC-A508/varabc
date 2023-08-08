@@ -75,7 +75,7 @@ public class ValidationController {
         List<FileData> outputFiles= validationService.getUrlIntoText(testCaseDto.getOutputFiles());
 
         ProblemRestrictionDto problemRestrictionDto =validationService.getProblemRestriction(validateDataDto.getProblemNo());
-        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,1);
+        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,2);
         //파이썬 서버로 요청 보내기
         System.out.println(problemRestrictionDto);
 

@@ -4,9 +4,11 @@ import com.varabc.problem.domain.dto.CheckUpdateDto;
 import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemListDto;
+import com.varabc.problem.domain.dto.PublicProblemDto;
 import com.varabc.problem.exception.ProblemException;
 import com.varabc.problem.service.ProblemService;
 import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 //@Controller
 @Slf4j
 @RestController
@@ -43,9 +44,9 @@ public class ProblemController {
     }
 
 
-    @GetMapping("/{problemNo}")
+    @GetMapping("/{problemNo}/admin")
     public ResponseEntity<ProblemDto> getProblem(@PathVariable Long problemNo) {
-
+        //관리자페이지
         ProblemDto problemDto= problemService.getProblem(problemNo);
         HttpStatus status;
         if (problemDto == null) {
@@ -55,6 +56,20 @@ public class ProblemController {
         }
         return new ResponseEntity<>(problemDto, status);
     }
+
+    @GetMapping("/{problemNo}")
+    public ResponseEntity<?> getProblemPublic(@PathVariable Long problemNo){
+        //공개 문제. 비공개테케 출력 안함. 문제의 일부 정보들만 출력.
+        PublicProblemDto publicProblemDto = problemService.getProblemPublic(problemNo);
+        HttpStatus status;
+        if (publicProblemDto == null) {
+            status = HttpStatus.NOT_FOUND;
+        }else{
+            status= HttpStatus.OK;
+        }
+        return new ResponseEntity<>(publicProblemDto, status);
+    }
+
 
     @GetMapping("/")
     public String getIndexPage() {

@@ -5,6 +5,7 @@ import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemImageDto;
 import com.varabc.problem.domain.dto.ProblemListDto;
+import com.varabc.problem.domain.dto.PublicProblemDto;
 import com.varabc.problem.domain.dto.TestCaseDto;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemImage;
@@ -56,6 +57,29 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    public PublicProblemDto getProblemPublic(Long problemNo) {
+        Problem problem = problemRepository.findById(problemNo).orElse(null);
+        if (problem == null) {
+            //  해당 problemNo에 대한 데이터가 없는 경우
+            System.out.println("그런 문제 없음");
+            return null;
+        } else {
+            if (!problem.isProblemResign()) {
+                ProblemRestriction problemRestrictionEntity = problemRestrictionRepository.findByProblemNo(
+                        problemNo);
+                List<TestCase> testCaseEntityList = testCaseRepository.findByProblemNo(problemNo);
+                List<ProblemImage> problemImageList = problemImageRepository.findByProblemNo(
+                        problemNo);
+                return problemMapper.mapIntoOnePublicProblemDto(problem,
+                        problemRestrictionEntity, testCaseEntityList, problemImageList, problemNo);
+            } else {
+                System.out.println("삭제된 문제");
+                return null;
+            }
+        }
+    }
+
+    @Override
     public void createProblem(GetProblemDto getProblemDto)
             throws IOException {
         //문제 테이블에 저장
@@ -75,6 +99,7 @@ public class ProblemServiceImpl implements ProblemService {
         //문제 이미지 저장 필요. s3에 저장하고.
         saveImageToS3(problemNo, getProblemDto);
     }
+
 
     @Transactional
     public boolean deleteProblem(Long problemNo) {
@@ -206,4 +231,6 @@ public class ProblemServiceImpl implements ProblemService {
         }
         return problemListDtoList;
     }
+
+
 }

@@ -53,4 +53,18 @@ public class BattleController {
 
     }
 
+//    @GetMapping("/start")
+//    public ResponseEntity<?> startBattle(@RequestBody StartBattleDto startBattleDto){
+//        if(startBattleDto.getCompetitionTeam()==1){
+//            //1팀으로 등록학고 정보 넘겨주는 식으로
+////            다른 url을 리턴해서 redirect 시킨다
+//        }else{
+//            //2팀으로 등록하고 정보 넘겨주는 식으로
+//        }
+//    }
+
+//    @PostMapping("/submit")
+//    public ResponseEntity<?> submit(@RequestBody SubmitBattleDto submitBattleDto){}
+
+
 }
