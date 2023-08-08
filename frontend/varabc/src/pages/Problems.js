@@ -1,10 +1,7 @@
-import IdeContainer from "../components/ide/IdeContainer";
+import { Outlet } from "react-router-dom";
 
 export const Problems = () => {
     return (
-        <div className="h-screen">
-            <div>문제 화면</div>
-            <IdeContainer />
-        </div>
+        <Outlet />
     );
 };

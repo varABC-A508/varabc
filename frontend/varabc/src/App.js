@@ -15,7 +15,8 @@ import { History } from './pages/myPage/History';
 import { Profile } from './pages/myPage/Profile';
 import { Reviews } from './pages/myPage/Reviews';
 import { MyPage } from './pages/myPage/myPage';
-import ButtonMoveTest from './ButtonMoveTest';
+import ProblemDetail from './pages/ProblemDetail';
+import ProblemList from './components/common/list/ProblemList';
 
 const App = () => {
   return (
@@ -27,7 +28,10 @@ const App = () => {
           <Route index element={<BattleMode />} />
           <Route path="room" element={<BattleRoom />} />
         </Route>
-        <Route path="/problems" element={<Problems />} />
+        <Route path="/problems" element={<Problems />}>
+          <Route index element={<ProblemList />} />
+          <Route path="*" element={<ProblemDetail />} />
+        </Route>
         <Route path="/tier" element={<Tier />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route path="profile" element={<Profile />} />
@@ -36,7 +40,6 @@ const App = () => {
           <Route path="friends" element={<Friends />} />
         </Route>
       </Routes>
-      <ButtonMoveTest />
     </div>
   );
 }
