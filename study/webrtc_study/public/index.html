@@ -6,17 +6,23 @@
   <title>WebRTC</title>
 </head>
 <body>
+  <!-- Add this inside your body tag -->
+  <div id="chat-container" style="display: none">
+    <div id="chat-messages" style="height: 300px; overflow-y: scroll;"></div>
+    <textarea id="chat-input"></textarea>
+    <button id="send-message">Send</button>
+  </div>
+
   <div id="room-selection-container" class="centered">
     <h1>WebRTC video conference</h1>
     <label for="room-input">Enter the number of the room you want to connect</label>
     <input type="text" id="room-input" />
     <button id="connect-button">CONNECT</button>
-
   </div>
 
   <div id="video-chat-container" class="video-position" style="display: none">
     <video id="local-video" autoplay="autoplay"></video>
-    <video id="remote-video" autoplay="autoplay"></video>
+    <audio id="remote-audio" autoplay controls></audio>
   </div>
 
 
