@@ -67,6 +67,7 @@ public class ProblemMapper {
                 .problemInputContent(problemEntity.getProblemInputContent())
                 .problemOutputContent(problemEntity.getProblemOutputContent())
                 .problemSource(problemEntity.getProblemSource())
+                .problemLink(problemEntity.getProblemLink())
                 .problemAlgorithmType(problemEntity.getProblemAlgorithmType())
                 .problemRestrictionPython(problemRestrictionEntity.getProblemRestrictionTimePython())
                 .problemRestrictionJava(problemRestrictionEntity.getProblemRestrictionTimeJava())
