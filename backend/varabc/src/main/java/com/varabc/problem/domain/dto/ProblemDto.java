@@ -36,8 +36,10 @@ public class ProblemDto {
     private boolean problemRestrictionResign;
 
     //테케
-    private List<String> testCaseInputList = new ArrayList<>();
-    private List<String> testCaseOutputList = new ArrayList<>();
+    private List<String> testCaseInputPublicList = new ArrayList<>();
+    private List<String> testCaseOutputPublicList = new ArrayList<>();
+    private List<String> testCaseInputPrivateList = new ArrayList<>();
+    private List<String> testCaseOutputPrivateList = new ArrayList<>();
 
     @Builder
     public ProblemDto(Long problemNo, String problemTitle, String problemContent,
@@ -46,8 +48,9 @@ public class ProblemDto {
             String problemOutputContent, String problemSource, String problemAlgorithmType,
             boolean problemResign, List<String> problemImageS3Url, Double problemRestrictionPython,
             Double problemRestrictionJava, int problemRestrictionMemory,
-            boolean problemRestrictionResign, List<String> testCaseInputList,
-            List<String> testCaseOutputList) {
+            boolean problemRestrictionResign, List<String> testCaseInputPublicList,
+            List<String> testCaseOutputPublicList, List<String> testCaseInputPrivateList,
+            List<String> testCaseOutputPrivateList) {
         this.problemNo = problemNo;
         this.problemTitle = problemTitle;
         this.problemContent = problemContent;
@@ -64,7 +67,9 @@ public class ProblemDto {
         this.problemRestrictionJava = problemRestrictionJava;
         this.problemRestrictionMemory = problemRestrictionMemory;
         this.problemRestrictionResign = problemRestrictionResign;
-        this.testCaseInputList = testCaseInputList;
-        this.testCaseOutputList = testCaseOutputList;
+        this.testCaseInputPublicList = testCaseInputPublicList;
+        this.testCaseOutputPublicList = testCaseOutputPublicList;
+        this.testCaseInputPrivateList = testCaseInputPrivateList;
+        this.testCaseOutputPrivateList = testCaseOutputPrivateList;
     }
 }

@@ -14,13 +14,15 @@ public class ProblemListDto {
     private String problemTitle;
     private int problemSubmitCount;
     private int problemCorrectCount;
+    private String problemLevel;
 
     @Builder
     public ProblemListDto(Long problemNo, String problemTitle, int problemSubmitCount,
-            int problemCorrectCount) {
+            int problemCorrectCount, String problemLevel) {
         this.problemNo = problemNo;
         this.problemTitle = problemTitle;
         this.problemSubmitCount = problemSubmitCount;
         this.problemCorrectCount = problemCorrectCount;
+        this.problemLevel = problemLevel;
     }
 }

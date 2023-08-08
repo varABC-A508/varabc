@@ -80,15 +80,25 @@ public class ProblemMapper {
             TestCaseDto testCaseDto = convertEntityToDto(testCaseEntity);
             testCaseDtoList.add(testCaseDto);
         }
-        List<String> testCaseInputLists = new ArrayList<>();
-        List<String> testCaseOutputLists = new ArrayList<>();
+        List<String> testCaseInputPublicLists = new ArrayList<>();
+        List<String> testCaseInputPrivateLists = new ArrayList<>();
+        List<String> testCaseOutputPublicLists = new ArrayList<>();
+        List<String> testCaseOutputPrivateLists = new ArrayList<>();
         for (TestCaseDto testCaseDto : testCaseDtoList) {
-            testCaseInputLists.add(testCaseDto.getTestCaseInput());
-            testCaseOutputLists.add(testCaseDto.getTestCaseOutput());
+            if(testCaseDto.isTestCasePublic()){
+                testCaseInputPublicLists.add(testCaseDto.getTestCaseInput());
+                testCaseOutputPublicLists.add(testCaseDto.getTestCaseOutput());
+            }else{
+                testCaseInputPrivateLists.add(testCaseDto.getTestCaseInput());
+                testCaseOutputPrivateLists.add(testCaseDto.getTestCaseOutput());
+            }
+
         }
 
-        builder.testCaseInputList(testCaseInputLists);
-        builder.testCaseOutputList(testCaseOutputLists);
+        builder.testCaseInputPublicList(testCaseInputPublicLists);
+        builder.testCaseInputPrivateList(testCaseInputPrivateLists);
+        builder.testCaseOutputPublicList(testCaseOutputPublicLists);
+        builder.testCaseOutputPrivateList(testCaseOutputPrivateLists);
 
         //problemImageList 를 problemImageDto 리스트로 만들어서 넣어보기.
         List<String> problemImageS3UrlList = new ArrayList<>();
@@ -151,6 +161,7 @@ public class ProblemMapper {
                 .problemTitle(problem.getProblemTitle())
                 .problemCorrectCount(problem.getProblemCorrectCount())
                 .problemSubmitCount(problem.getProblemSubmitCount())
+                .problemLevel(problem.getProblemLevel())
                 .build();
     }
 }
