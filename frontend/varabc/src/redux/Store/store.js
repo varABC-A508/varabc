@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import ideReducer from '../Reducer/ideReducers';
 
-const ideStore = configureStore({
+const store = configureStore({
   reducer: {
     ide: ideReducer,
   }
 });
 
-export default ideStore;
+export default store;

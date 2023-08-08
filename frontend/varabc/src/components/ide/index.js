@@ -28,9 +28,15 @@ const firebaseConfig = {
   measurementId: "G-2VXY01R153"
 };
 
+const baseURL = 'https://varabc.com:8080/validation/sendvalidate';
+const subURL = {
+  "java" : "java",
+  "python": "py",
+};
+
 const app = initializeApp(firebaseConfig);
 
-const Ide = () => {
+const Ide = ({problemNo}) => {
   const [code, setCode] = useState('');
   const [result, setResult] = useState('');
 
@@ -49,11 +55,12 @@ const Ide = () => {
   const mode = useSelector((state) => state.ide.mode);
   const fontSize = useSelector((state) => state.ide.fontSize);
   const isIdeShown = useSelector((state) => state.ide.isIdeShown);
+  const isPractice = useSelector((state) => state.ide.isPractice);
 
   const onRunClick = (e) => {
     e.preventDefault();
-    axios.post("http://43.200.245.232:8080/validation/sendvalidatepy", {
-      "problemNo": 60,
+    axios.post(baseURL + subURL[mode], {
+      "problemNo": problemNo,
       "memberNo": 123,
       "code": code,
     }).then((res) => {
@@ -66,7 +73,7 @@ const Ide = () => {
   };
 
   useEffect(() => {
-    if(isIdeShown) {
+    if(isIdeShown && !isPractice) {
       const db = getDatabase(app);
       const codeRef = ref(db, 'room1/code');
       onValue(codeRef, (snapshot) => {
@@ -74,14 +81,14 @@ const Ide = () => {
         setCode(data.code);
       });
     }
-  }, [code, isIdeShown]);
+  }, [code, isIdeShown, isPractice]);
 
   useEffect(() => {
-    if (editorRef.current) {
+    if (editorRef.current && !isPractice) {
       const editor = editorRef.current.editor;
       editor.resize();
     }
-  }, [code]);
+  }, [code, isPractice]);
     
     return (
       <div className="w-full h-screen flex flex-col">
