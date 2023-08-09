@@ -51,4 +51,10 @@ public class ProblemRestriction {
         this.problemRestrictionMemory = problemRestrictionMemory;
         this.problemRestrictionResign = problemRestrictionResign;
     }
+
+    public void updateRestriction(ProblemRestriction problemRestriction) {
+        this.problemRestrictionTimePython = problemRestriction.getProblemRestrictionTimePython();
+        this.problemRestrictionTimeJava = problemRestriction.getProblemRestrictionTimeJava();
+        this.problemRestrictionMemory = problemRestriction.getProblemRestrictionMemory();
+    }
 }

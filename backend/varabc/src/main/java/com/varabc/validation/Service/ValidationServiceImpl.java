@@ -4,9 +4,12 @@ package com.varabc.validation.Service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.varabc.battle.domain.dto.ResultDto;
+import com.varabc.battle.domain.dto.SubmitBattleDto;
 import com.varabc.problem.domain.entity.ProblemRestriction;
 import com.varabc.problem.domain.entity.TestCase;
 import com.varabc.problem.repository.ProblemRestrictionRepository;
+import com.varabc.problem.service.ProblemService;
 import com.varabc.validation.domain.dto.ProblemRestrictionDto;
 import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDto;
@@ -28,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -41,6 +45,7 @@ public class ValidationServiceImpl implements ValidationService{
     private final SubmitRepository submitRepository;
     private final ProblemRestrictionRepository problemRestrictionRepository;
     private final ValidationMapper validationMapper;
+    private final ProblemService problemService;
     private final AmazonS3 amazonS3;
 
     @Override
@@ -64,7 +69,7 @@ public class ValidationServiceImpl implements ValidationService{
     }
 
     @Override
-    public TestCaseDto getTestCaseDtoByProblemNo(long problemNo) {
+    public TestCaseDto getTestCaseDtoByProblemNo(Long problemNo) {
         List<TestCase> testCases = validationRepository.findByProblemNo(problemNo);
         List<String> inputFiles = testCases.stream()
                 .map(TestCase::getTestCaseInput)
@@ -74,7 +79,7 @@ public class ValidationServiceImpl implements ValidationService{
                 .map(TestCase::getTestCaseOutput)
                 .collect(Collectors.toList());
 
-        return ValidationMapper.testCaseListToDto(inputFiles, outputFiles);
+        return validationMapper.testCaseListToDto(inputFiles, outputFiles);
     }
 
     //s3파일 경로를 받아서 리스트로 반환하기.
@@ -107,15 +112,59 @@ public class ValidationServiceImpl implements ValidationService{
     }
 
     @Override
-    public void saveValidationResult(ValidationResultDto validationResultDto, ValidateDto validateDto) {
+    public void saveValidationResult(ValidationResultDto validationResultDto, ValidateDto validateDto, int mode) {
         //validationResultDto를 Submit엔티티로 변환
-        Submit submit = validationMapper.mapDtoToSubmitEntity(validationResultDto,validateDto);
+        Submit submit = validationMapper.mapDtoToSubmitEntity(validationResultDto,validateDto, mode);
         submitRepository.save(submit);
     }
     @Override
-    public ProblemRestrictionDto getProblemRestriction(long problemNo) {
+    public ProblemRestrictionDto getProblemRestriction(Long problemNo) {
         ProblemRestriction problemRestriction=problemRestrictionRepository.findByProblemNo(problemNo);
         return validationMapper.problemRestrictionToDto(problemRestriction);
     }
+
+    @Override
+    public ResultDto submitBattle(SubmitBattleDto submitBattleDto, Long competitionResultNo) throws IOException {
+        String pythonServerUrl = "http://43.200.245.232:5000/";
+        String javaServerUrl = "http://43.200.245.232:8081/";
+        TestCaseDto testCaseDto= getTestCaseDtoByProblemNo(submitBattleDto.getProblemNo());
+        //레포지토리에서 문제에 대한 제약사항들을 가져오는 로직 수행
+        List<FileData> inputFiles= getUrlIntoText(testCaseDto.getInputFiles());
+        List<FileData> outputFiles= getUrlIntoText(testCaseDto.getOutputFiles());
+
+
+        ProblemRestrictionDto problemRestrictionDto = getProblemRestriction(submitBattleDto.getProblemNo());
+        ValidateDto validateDto1=null;
+        ValidateDto validateDto2=null;
+        ValidationResultDto validationResultDto=null;
+        validateDto1= validationMapper.mapToValidateDto(submitBattleDto,problemRestrictionDto,inputFiles,outputFiles,1);
+        validateDto2= validationMapper.mapToValidateDto(submitBattleDto,problemRestrictionDto,inputFiles,outputFiles,2);
+        if(submitBattleDto.getLanguage().equals("java")){
+            validationResultDto=sendRequestValidation(javaServerUrl,validateDto1);
+        }else{
+            validationResultDto = sendRequestValidation(pythonServerUrl, validateDto1);
+
+        }
+
+        HttpStatus status=HttpStatus.OK;
+        saveValidationResult(validationResultDto, validateDto1,2);
+        saveValidationResult(validationResultDto, validateDto2,2);
+        String resultMessage;
+        //problemservice 접근해서 문제 정보 업데이트.
+        if(validationResultDto.getResult()==1){
+            //정답인 경우 correct도 올려야.
+            resultMessage = "정답";
+            problemService.updateProblemCounts(validationResultDto.getProblemNo(),1);
+        }else{
+            resultMessage = switch (validationResultDto.getResult()) {
+                case 2 -> "시간초과";
+                case 3 -> "메모리초과";
+                default-> "오답";
+            };
+            problemService.updateProblemCounts(validationResultDto.getProblemNo(),2);
+        }
+        return validationMapper.dtoToDto(validationResultDto,resultMessage);
+    }
+
 
 }
