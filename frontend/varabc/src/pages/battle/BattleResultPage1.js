@@ -59,7 +59,7 @@ export const BattleResultPage1 = () => {
         <div className="flex justify-around ml-[80px]">
           <TeamResult team={team1.isMyTeam ? team1 : team2} />
           <div className='flex flex-col justify-between text-white text-5xl'>
-            <img src={BattleImage } alt='<a href="https://www.freepik.com/free-psd/trophy-cup-icon-isolated-3d-render-illustration_28991002.htm#page=2&query=3d%20result&position=27&from_view=search&track=ais">Image by Xvect intern</a> on Freepik' className='w-[300px] h-[300px] m-[5px]' />
+            <img src={BattleImage } alt='<a href="https://www.freepik.com/free-psd/trophy-cup-icon-isolated-3d-render-illustration_28991002.htm#page=2&query=3d%20result&position=27&from_view=search&track=ais">Image by Xvect intern</a> on Freepik1' className='w-[300px] h-[300px] m-[5px]' />
             <FontAwesomeIcon className=" m-4 " icon={faUserGroup} />
             <FontAwesomeIcon className=" m-4" icon={faStar} />
             <FontAwesomeIcon className=" m-4 " icon={faCircleCheck} />
