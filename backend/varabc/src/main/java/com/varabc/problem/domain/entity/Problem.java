@@ -78,6 +78,9 @@ public class Problem {
         this.problemAlgorithmType = problem.getProblemAlgorithmType();
 
     }
+    public void updateContent(String problemContent) {
+        this.problemContent = problemContent;
+    }
 
     @Builder
     public Problem(String problemTitle, String problemContent, String problemLevel,
@@ -96,6 +99,7 @@ public class Problem {
         this.problemAlgorithmType = problemAlgorithmType;
         this.problemResign = problemResign;
     }
+
 
 
 }

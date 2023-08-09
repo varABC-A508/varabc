@@ -149,6 +149,7 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Transactional
     public void updateProblemImage(Long problemNo, GetProblemDto getProblemDto) throws IOException {
+        Problem problem = problemRepository.findById(problemNo).orElse(null);
         List<ProblemImage> problemImageList = problemImageRepository.findByProblemNo(problemNo);
         System.out.println(problemImageList);
         if (problemImageList.size() == 0) {
@@ -164,6 +165,7 @@ public class ProblemServiceImpl implements ProblemService {
             problemImageRepository.delete(problemNo);
             //다시 s3에 저장하고
             saveImageToS3(problemNo, getProblemDto);
+            problem.updateContent(getProblemDto.getProblemContent());
         }
     }
 
