@@ -10,7 +10,14 @@ const server = https.createServer(
   app
 );
 
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000", // 프론트엔드 도메인 설정
+    methods: ["GET", "POST"],
+    credentials:true,
+  },
+});
+
 
 app.use("/", express.static("public"));
 
@@ -70,7 +77,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 server.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
 });
