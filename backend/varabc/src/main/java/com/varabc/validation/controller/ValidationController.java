@@ -60,7 +60,7 @@ public class ValidationController {
         ValidationResultDto validationResultDto = validationService.sendRequestValidation(
                 pythonServerUrl, validateDto);
         System.out.println(validationResultDto);
-        validationService.saveValidationResult(validationResultDto, validateDto);
+        validationService.saveValidationResult(validationResultDto, validateDto,1);
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
@@ -75,7 +75,7 @@ public class ValidationController {
         List<FileData> outputFiles= validationService.getUrlIntoText(testCaseDto.getOutputFiles());
 
         ProblemRestrictionDto problemRestrictionDto =validationService.getProblemRestriction(validateDataDto.getProblemNo());
-        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,1);
+        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,2);
         //파이썬 서버로 요청 보내기
         System.out.println(problemRestrictionDto);
 
@@ -85,7 +85,7 @@ public class ValidationController {
         String javaServerUrl = "http://43.200.245.232:8081/";
         ValidationResultDto validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
         System.out.println(validationResultDto);
-        validationService.saveValidationResult(validationResultDto, validateDto);
+        validationService.saveValidationResult(validationResultDto, validateDto,1);
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }

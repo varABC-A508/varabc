@@ -20,12 +20,13 @@ public class SubmitDto {
     private String submitTime;
     private int submitUsedMemory;
     private double submitUsedTime;
+    private String submitLanguage;
 
     @Builder
     public SubmitDto(long submitNo, long problemNo, long memberNo,
             long competitionResultNo,
             int submitMode, int submitStatus, String submitCode, String submitTime,
-            int submitUsedMemory, double submitUsedTime) {
+            int submitUsedMemory, double submitUsedTime, String submitLanguage) {
         this.submitNo = submitNo;
         this.problemNo = problemNo;
         this.memberNo = memberNo;
@@ -36,5 +37,6 @@ public class SubmitDto {
         this.submitTime = submitTime;
         this.submitUsedMemory = submitUsedMemory;
         this.submitUsedTime = submitUsedTime;
+        this.submitLanguage = submitLanguage;
     }
 }

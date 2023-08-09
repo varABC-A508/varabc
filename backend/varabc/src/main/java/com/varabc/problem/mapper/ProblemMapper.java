@@ -4,6 +4,7 @@ import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemImageDto;
 import com.varabc.problem.domain.dto.ProblemListDto;
+import com.varabc.problem.domain.dto.PublicProblemDto;
 import com.varabc.problem.domain.dto.TestCaseDto;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemImage;
@@ -112,6 +113,56 @@ public class ProblemMapper {
 
         return builder.build();
     }
+
+    public PublicProblemDto mapIntoOnePublicProblemDto(Problem problemEntity,
+            ProblemRestriction problemRestrictionEntity,
+            List<TestCase> testCaseEntityList, List<ProblemImage> problemImageList, Long problemNo) {
+
+        PublicProblemDto.PublicProblemDtoBuilder builder = PublicProblemDto.builder()
+                .problemTitle(problemEntity.getProblemTitle())
+                .problemContent(problemEntity.getProblemContent())
+                .problemLevel(problemEntity.getProblemLevel())
+                .problemSubmitCount(problemEntity.getProblemSubmitCount())
+                .problemCorrectCount(problemEntity.getProblemCorrectCount())
+                .problemInputContent(problemEntity.getProblemInputContent())
+                .problemOutputContent(problemEntity.getProblemOutputContent())
+                .problemSource(problemEntity.getProblemSource())
+                .problemAlgorithmType(problemEntity.getProblemAlgorithmType())
+                .problemRestrictionPython(problemRestrictionEntity.getProblemRestrictionTimePython())
+                .problemRestrictionJava(problemRestrictionEntity.getProblemRestrictionTimeJava())
+                .problemRestrictionMemory(problemRestrictionEntity.getProblemRestrictionMemory());
+
+        // TestcaseEntity 리스트를 TestcaseDto 리스트로 변환하여 각 리스트로 미리 추출, build 할 때 넣을 수 있게. ProblemDto에 추가
+        List<TestCaseDto> testCaseDtoList = new ArrayList<>();
+        for (TestCase testCaseEntity : testCaseEntityList) {
+            TestCaseDto testCaseDto = convertEntityToDto(testCaseEntity);
+            testCaseDtoList.add(testCaseDto);
+        }
+        List<String> testCaseInputLists = new ArrayList<>();
+        List<String> testCaseOutputLists = new ArrayList<>();
+        for (TestCaseDto testCaseDto : testCaseDtoList) {
+            if(testCaseDto.isTestCasePublic()){
+                testCaseInputLists.add(testCaseDto.getTestCaseInput());
+                testCaseOutputLists.add(testCaseDto.getTestCaseOutput());
+            }
+
+        }
+
+        builder.testCaseInputList(testCaseInputLists);
+        builder.testCaseOutputList(testCaseOutputLists);
+
+        //problemImageList 를 problemImageDto 리스트로 만들어서 넣어보기.
+        List<String> problemImageS3UrlList = new ArrayList<>();
+        for(ProblemImage problemImage:problemImageList){
+            ProblemImageDto problemImageDto = convertEntityToDto(problemImage);
+            problemImageS3UrlList.add(problemImageDto.getProblemImageS3Url());
+        }
+        builder.problemImageS3Url(problemImageS3UrlList);
+        builder.problemNo(problemNo);
+
+        return builder.build();
+    }
+
 
     public ProblemImageDto convertEntityToDto(ProblemImage problemImage) {
         return ProblemImageDto.builder()
