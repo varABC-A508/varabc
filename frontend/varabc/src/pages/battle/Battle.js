@@ -7,5 +7,3 @@ export const Battle = () => {
     </>
   );
 }
-
-export default Battle;
