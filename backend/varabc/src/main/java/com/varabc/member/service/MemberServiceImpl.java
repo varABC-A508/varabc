@@ -24,8 +24,8 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public Member saveGoogleMember(JsonNode userInfo) {
         Member member = memberRepository.findByMemberEmail(userInfo.get("email").asText());
-        System.out.println(member);
-        System.out.println(userInfo);
+//        System.out.println(member);
+//        System.out.println(userInfo);
         if(member==null){
             GoogleMemberDto googleMemberDto =memberMapper.googleJsonToDto(userInfo);
             member = memberMapper.googleMemberDtoToEntity(googleMemberDto);
@@ -49,6 +49,15 @@ public class MemberServiceImpl implements MemberService{
         }
         updateMemberNameInNewTransaction(userInfo.get("name").asText(),member);
         return member;
+    }
+
+    @Override
+    @Transactional
+    public void saveRefreshToken(long memberNo, String refreshToken) {
+        Member member = memberRepository.findByMemberNo(memberNo);
+        System.out.println("saveRefreshToken 1 member : " + member.toString());
+        member.updateMemberToken(refreshToken);
+        System.out.println("saveRefreshToken 2 member : " + member.toString());
     }
 
     @Transactional

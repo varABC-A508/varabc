@@ -36,6 +36,8 @@ public class Member {
     private boolean memberResign;
     @Column(name = "member_name", nullable = false)
     private String memberName;
+    @Column(name = "member_token", length = 400)
+    private String memberToken;
 
     public void updateMemberExp(int memberExp){
         this.memberExp=memberExp;
@@ -49,6 +51,7 @@ public class Member {
     public void updateMemberNickname(String memberNickname){
         this.memberNickname=memberNickname;
     }
+    public void updateMemberToken(String memberToken) { this.memberToken=memberToken; }
 
     @Builder
     public Member(String memberNickname, String memberEmail, int memberExp, String memberImage,
