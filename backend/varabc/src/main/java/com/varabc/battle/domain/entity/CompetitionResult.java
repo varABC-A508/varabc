@@ -62,6 +62,10 @@ public class CompetitionResult {
                 && !Objects.equals(this.competitionResultT2M1No, memberNo)
                 && !Objects.equals(this.competitionResultT2M2No, memberNo);
     }
+
+    public void updateResult(int team) {
+        this.competitionResultRecord = team;
+    }
     @Builder
     public CompetitionResult(Long competitionResultT1M1No,
             Long competitionResultT1M2No, Long competitionResultT2M1No,
@@ -76,6 +80,7 @@ public class CompetitionResult {
         this.competitionResultRecord = competitionResultRecord;
         this.competitionResultResign = competitionResultResign;
     }
+
 
 
 }

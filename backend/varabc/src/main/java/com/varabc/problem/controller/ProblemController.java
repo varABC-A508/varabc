@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 //@Controller
 @Slf4j
 @RestController
+//@Controller
 @RequestMapping("/problem")
 @RequiredArgsConstructor
 public class ProblemController {
@@ -98,12 +100,17 @@ public class ProblemController {
     public ResponseEntity<?> updateProblem(@PathVariable Long problemNo,
             @ModelAttribute GetProblemDto getProblemDto,
             @ModelAttribute CheckUpdateDto checkUpdateDto) {
-
+        System.out.println(getProblemDto);
+        System.out.println("\n\n\n");
+        System.out.println(checkUpdateDto);
+        System.out.println("\n\n\n");
         if (checkUpdateDto.isProblemUpdate()) {
+            System.out.println("1");
             problemService.updateProblem(problemNo, getProblemDto);
         }
         if (checkUpdateDto.isProblemContentUpdate()) { //변경이 있을때
             try {
+                System.out.println("2");
                 problemService.updateProblemImage(problemNo, getProblemDto);
             } catch (IOException e) {
                 log.info("ProblemController_updateProblem_updateProblemImage_end: io exception");
@@ -112,12 +119,14 @@ public class ProblemController {
         }
         if (checkUpdateDto.isTestCaseUpdate()) {
             try {
+                System.out.println("3");
                 problemService.updateTestCase(problemNo, getProblemDto);
             } catch (IOException e) {
                 log.info("ProblemController_updateProblem_updateTestCase_end: io exception");
                 throw new ProblemException("cannot update testcase");
             }
         }
+        System.out.println("AAAAAAAAAAAAAAAAA");
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 

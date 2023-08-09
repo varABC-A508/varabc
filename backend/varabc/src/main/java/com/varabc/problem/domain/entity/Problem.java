@@ -52,11 +52,32 @@ public class Problem {
     @Column(name = "problem_source", columnDefinition = "TEXT", nullable = false)
     private String problemSource;
 
-    @Column(name = "problem_algorithm_type", length=20 , nullable = false)
+    @Column(name = "problem_algorithm_type", length = 20, nullable = false)
     private String problemAlgorithmType;
 
     @Column(name = "problem_resign", nullable = false, columnDefinition = "TINYINT(1) default 0")
     private boolean problemResign;
+
+    public void updateCounts(int correct) {
+        if (correct == 1) {
+            this.problemCorrectCount += 1;
+        }
+        this.problemSubmitCount += 1;
+    }
+
+    public void updateProblem(Problem problem) {
+        this.problemTitle = problem.getProblemTitle();
+        this.problemContent = problem.getProblemContent();
+        this.problemLevel = problem.getProblemLevel();
+        this.problemSubmitCount = problem.getProblemSubmitCount();
+        this.problemCorrectCount = problem.getProblemCorrectCount();
+        this.problemInputContent = problem.getProblemInputContent();
+        this.problemOutputContent = problem.getProblemOutputContent();
+        this.problemLink = problem.getProblemLink();
+        this.problemSource = problem.getProblemSource();
+        this.problemAlgorithmType = problem.getProblemAlgorithmType();
+
+    }
 
     @Builder
     public Problem(String problemTitle, String problemContent, String problemLevel,
@@ -75,4 +96,6 @@ public class Problem {
         this.problemAlgorithmType = problemAlgorithmType;
         this.problemResign = problemResign;
     }
+
+
 }

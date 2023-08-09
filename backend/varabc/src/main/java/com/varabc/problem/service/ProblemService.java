@@ -28,4 +28,6 @@ public interface ProblemService {
     List<ProblemListDto> getList();
 
     PublicProblemDto getProblemPublic(Long problemNo);
+
+    void updateProblemCounts(Long problemNo,int correct);
 }

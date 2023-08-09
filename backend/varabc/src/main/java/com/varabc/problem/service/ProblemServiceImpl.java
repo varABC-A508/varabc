@@ -79,6 +79,17 @@ public class ProblemServiceImpl implements ProblemService {
         }
     }
 
+
+    @Transactional
+    public void updateProblemCounts(Long  problemNo, int correct) {
+        Problem problem = problemRepository.findById(problemNo).orElse(null);
+        if(problem==null){
+            System.out.println("업데잇 핧 문제 부재");
+        }else{
+            problem.updateCounts(correct);
+        }
+    }
+
     @Override
     public void createProblem(GetProblemDto getProblemDto)
             throws IOException {
@@ -118,19 +129,19 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Transactional
     public void updateProblem(Long problemNo, GetProblemDto getProblemDto) {
-        Problem problemEntity = problemRepository.findById(problemNo).orElse(null);
-        System.out.println(problemEntity);
-        if (problemEntity == null) {
+        Problem problem = problemRepository.findById(problemNo).orElse(null);
+        System.out.println(problem);
+        if (problem == null) {
             //  해당 problemNo에 대한 데이터가 없는 경우
             System.out.println("그런 문제 이미 없음");
         } else {
             // DTO의 값을 엔티티에 복사
-            problemEntity = problemMapper.dtoToProblemEntity(
-                    getProblemDto);
-            System.out.println(problemEntity.toString());
+            problem.updateProblem(problemMapper.dtoToProblemEntity(
+                    getProblemDto));
+            System.out.println(problem.toString());
             ProblemRestriction problemRestrictionEntity = problemRestrictionRepository.findByProblemNo(
                     problemNo);
-            problemMapper.dtoToProblemRestrictionEntity(getProblemDto, problemNo);
+            problemRestrictionEntity.updateRestriction(problemMapper.dtoToProblemRestrictionEntity(getProblemDto, problemNo));
             System.out.println(problemRestrictionEntity.toString());
 
         }

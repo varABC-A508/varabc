@@ -1,6 +1,8 @@
 package com.varabc.validation.mapper;
 
 
+import com.varabc.battle.domain.dto.ResultDto;
+import com.varabc.battle.domain.dto.SubmitBattleDto;
 import com.varabc.problem.domain.entity.ProblemRestriction;
 import com.varabc.validation.domain.dto.ProblemRestrictionDto;
 import com.varabc.validation.domain.dto.SubmitDto;
@@ -19,14 +21,14 @@ import org.springframework.stereotype.Component;
 public class ValidationMapper {
         //testCaseEntity를 testCaseDto로 변환해기
 
-        public static TestCaseDto testCaseListToDto(List<String> inputFiles, List<String> outputFiles) {
+        public  TestCaseDto testCaseListToDto(List<String> inputFiles, List<String> outputFiles) {
             return TestCaseDto.builder()
                     .inputFiles(inputFiles)
                     .outputFiles(outputFiles)
                     .build();
         }
         //validateDto를  validateDataDto+testCaseDto와 함께 빌드
-        public static ValidateDto mapToValidateDto(ValidateDataDto validateDataDto,
+        public  ValidateDto mapToValidateDto(ValidateDataDto validateDataDto,
                 ProblemRestrictionDto problemRestrictionDto, List<FileData> inputFiles,
                 List<FileData> outputFiles, int language){
             double timelimit=0.0;
@@ -50,8 +52,33 @@ public class ValidationMapper {
                     .language(lang)
                     .build();
         }
+
+    public  ValidateDto mapToValidateDto(SubmitBattleDto submitBattleDto,
+            ProblemRestrictionDto problemRestrictionDto, List<FileData> inputFiles,
+            List<FileData> outputFiles, int member){
+        double timelimit=0.0;
+        if (submitBattleDto.getLanguage().equals("python")){
+            timelimit=problemRestrictionDto.getProblemRestrictionPython();
+        } else  {
+            timelimit=problemRestrictionDto.getProblemRestrictionJava();
+        }
+        Long memberNo = null;
+        if(member==1) memberNo = submitBattleDto.getMember1();
+        else memberNo = submitBattleDto.getMember2();
+        return ValidateDto.builder()
+                .memberNo(memberNo)
+                .problemNo(submitBattleDto.getProblemNo())
+                .code(submitBattleDto.getCode())
+                .timeLimit(timelimit)
+                .memoryLimit(problemRestrictionDto.getProblemRestrictionMemory())
+                .inputFiles(inputFiles)
+                .outputFiles(outputFiles)
+                .language(submitBattleDto.getLanguage())
+                .build();
+    }
+
         //ProblemRestriction을 Dto로 변환
-        public static ProblemRestrictionDto problemRestrictionToDto(ProblemRestriction problemRestriction){
+        public  ProblemRestrictionDto problemRestrictionToDto(ProblemRestriction problemRestriction){
            return ProblemRestrictionDto.builder()
                    .problemNo(problemRestriction.getProblemNo())
                    .problemRestrictionJava(problemRestriction.getProblemRestrictionTimeJava())
@@ -62,11 +89,12 @@ public class ValidationMapper {
         }
 
         //validationResultDto->submitEntity로 변환
-        public static Submit mapDtoToSubmitEntity(ValidationResultDto validationResultDto, ValidateDto validateDto){
+        public  Submit mapDtoToSubmitEntity(ValidationResultDto validationResultDto, ValidateDto validateDto, int mode){
             return Submit.builder()
                     .memberNo(validateDto.getMemberNo())
                     .problemNo(validateDto.getProblemNo())
                     .submitStatus(validationResultDto.getResult())
+                    .submitMode(mode)
                     .submitUsedMemory(validationResultDto.getMemoryUsage())
                     .submitUsedTime(validationResultDto.getExecutionTime())
                     .submitCode(validateDto.getCode())
@@ -75,7 +103,7 @@ public class ValidationMapper {
                     .build();
         }
         //SubmitEntity->SubmitDto로 변환
-        public static SubmitDto submitToDto(Submit submit){
+        public  SubmitDto submitToDto(Submit submit){
             return SubmitDto.builder()
                     .submitNo(submit.getSubmitNo())
                     .submitTime(submit.getSubmitTime())
@@ -85,6 +113,16 @@ public class ValidationMapper {
                     .submitUsedMemory(submit.getSubmitUsedMemory())
                     .submitUsedTime(submit.getSubmitUsedTime())
                     .submitLanguage(submit.getSubmitLanguage())
+                    .build();
+        }
+        public  ResultDto dtoToDto(ValidationResultDto validationResultDto, String resultMessage){
+            return ResultDto.builder()
+                    .problemNo(validationResultDto.getProblemNo())
+                    .result(validationResultDto.getResult())
+                    .executionTime(validationResultDto.getExecutionTime())
+                    .memoryUsage(validationResultDto.getMemoryUsage())
+                    .exceptionMessage(validationResultDto.getExceptionMessage())
+                    .resultMessage(resultMessage)
                     .build();
         }
 }
