@@ -1,5 +1,7 @@
 import React from 'react';
 
+import GitHubLogo from "../../img/github_logo.png"
+
 const SignGitHub = () => {
 
   // GitHub OAuth2 인증 요청을 보낼 URL 
@@ -17,7 +19,7 @@ const SignGitHub = () => {
   return (
     <div className='flex flex-col items-center'>
       <img onClick={loginGitHub} className="w-20 h-20 rounded-lg border-4 border-coler-200"
-        src="images/github_logo.png"
+        src={ GitHubLogo }
         alt="깃헙 로그인"
       />
       <p className='text-lg font-semibold'>GitHub</p>
