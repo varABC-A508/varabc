@@ -14,7 +14,7 @@ const bgColors = {
 
 const btnSizes = {
   big: "w-[420px] text-2xl",
-  basic: "px-12 py-3 text-xl",
+  basic: "w-[300px] h-[80px] text-xl",
 };
 
 

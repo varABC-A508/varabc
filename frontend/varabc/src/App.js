@@ -19,10 +19,9 @@ import { MyPage } from './pages/myPage/myPage';
 import ProblemDetail from './pages/ProblemDetail';
 import ProblemList from './components/common/list/ProblemList';
 
-import PageModalLogin from './pages/myPage/login/PageModalLogin';
-
 import { BattleResultPage1 } from './pages/battle/BattleResultPage1';
 import { BattleResultPage2 } from './pages/battle/BattleResultPage2';
+import { TeamReview } from './pages/battle/TeamReview';
 
 
 const App = () => {
@@ -49,6 +48,7 @@ const App = () => {
           <Route path="friends" element={<Friends />} />
         </Route>
       </Routes>
+      <TeamReview />
     </div>
   );
 }
