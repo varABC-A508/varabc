@@ -1,6 +1,6 @@
 import React from "react";
 
-
+import KakaoLogo from "../../img/kakao_logo.png"
 
 const SignKakao = () => {
 
@@ -21,7 +21,7 @@ const SignKakao = () => {
   return (
     <div  className='flex flex-col items-center'>
       <img onClick = {loginKakao} className="w-20 h-20 rounded-lg border-4 border-coler-200"
-        src = "images/kakao_logo.png"
+        src = { KakaoLogo }
         alt = "카카오 로그인" 
       />
        <p className='text-lg font-semibold'>Kakao</p>

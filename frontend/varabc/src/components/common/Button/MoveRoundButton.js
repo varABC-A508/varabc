@@ -48,8 +48,6 @@ const MoveRoundButton = ({ to, text, bgColor, btnSize }) => {
   }
   childHoverColor = "group-" + hoverColor;
 
-
-
   const handleClick = () => {
     console.log('페이지 이동');
     navigate(to);

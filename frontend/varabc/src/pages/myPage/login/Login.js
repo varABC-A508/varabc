@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,6 +7,8 @@ import SignGoogle from "../../../components/login/SignGoogle"
 import SignKakao from "../../../components/login/SignKakao";
 import SignNaver from "../../../components/login/SignNaver";
 import SignGitHub from "../../../components/login/SignGitHub";
+
+import VarabcLogo from "../../../img/varABC_logo.png";
 
 export const Login = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -21,7 +22,7 @@ export const Login = ({ isOpen, onClose }) => {
         </div>
         <h2 className="text-2xl font-bold mb-4">varABC</h2>
         <hr />
-        <img src="/images/varabc_logo.png" alt="로고" className="object-cover mt-4 mb-4" />
+        <img src={VarabcLogo } alt="로고" className="object-cover mt-4 mb-4" />
         <div className="flex justify-around">
           <SignGoogle />
           <SignKakao />

@@ -1,5 +1,7 @@
 import React from "react";
 
+import NaverLogo from "../../img/naver_logo.png"
+
 const SignNaver = () => {
 
   // Naver OAuth2 인증 요청을 보낼 URL 
@@ -19,7 +21,7 @@ const SignNaver = () => {
   return (
     <div className='flex flex-col items-center'>
       <img onClick={loginNaver} className="w-20 h-20 rounded-lg border-4 border-coler-200"
-        src="images/naver_logo.png"
+        src={ NaverLogo }
         alt="네이버 로그인"
       />
        <p className='text-lg font-semibold'>Naver</p>

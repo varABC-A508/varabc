@@ -20,7 +20,7 @@ const team1 = {
 };
 
 const team2 = {
-  teamNo: 1,
+  teamNo: 2,
   player1: {
     nickname: "",
     id: "",

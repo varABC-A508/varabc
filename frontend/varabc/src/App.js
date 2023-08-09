@@ -15,8 +15,15 @@ import { History } from './pages/myPage/History';
 import { Profile } from './pages/myPage/Profile';
 import { Reviews } from './pages/myPage/Reviews';
 import { MyPage } from './pages/myPage/myPage';
+
 import ProblemDetail from './pages/ProblemDetail';
 import ProblemList from './components/common/list/ProblemList';
+
+import PageModalLogin from './pages/myPage/login/PageModalLogin';
+
+import { BattleResultPage1 } from './pages/battle/BattleResultPage1';
+import { BattleResultPage2 } from './pages/battle/BattleResultPage2';
+
 
 const App = () => {
   return (
@@ -27,6 +34,8 @@ const App = () => {
         <Route path="/battle" element={<Battle />}>
           <Route index element={<BattleMode />} />
           <Route path="room" element={<BattleRoom />} />
+          <Route path="result1" element={<BattleResultPage1 />} />
+          <Route path="result2" element={<BattleResultPage2 />} />
         </Route>
         <Route path="/problems" element={<Problems />}>
           <Route index element={<ProblemList />} />
