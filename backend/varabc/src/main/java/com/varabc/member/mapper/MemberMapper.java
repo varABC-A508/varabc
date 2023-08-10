@@ -54,7 +54,14 @@ public class MemberMapper {
 
     //이거 해야댐
     public KakaoMemberDto kakaoJsonToDto(JsonNode userInfo) {
-        return KakaoMemberDto.builder().build();
+        String memberEmail = userInfo.path("kakao_account").path("email").asText();
+        String memberName = userInfo.path("kakao_account").path("profile").path("nickname").asText();
+        String memberImage = userInfo.path("kakao_account").path("profile").path("thumbnail_image_url").asText();
+        return KakaoMemberDto.builder()
+                .memberEmail(memberEmail)
+                .memberName(memberName)
+                .memberImage(memberImage)
+                .build();
     }
 
     public Member kakaoMemberDtoToEntity(KakaoMemberDto kakaoMemberDto) {

@@ -55,13 +55,28 @@ public class MemberController {
     }
 
     @GetMapping("kakaoLogin")
-    public ResponseEntity<Object> loginKakao(@RequestParam String code){
+    public RedirectView loginKakao(@RequestParam String code){
         JsonNode jsonToken = kakaoLoginService.getAccessToken(code);
         System.out.println(jsonToken.toString());
         String accessToken = jsonToken.get("access_token").toString();
         JsonNode userInfo = kakaoLoginService.getKakaoUserInfo(accessToken);
+        Member member=memberService.saveKakaoMember(userInfo);
         System.out.println(userInfo.toString());
-        return ResponseEntity.ok(userInfo);
+        RedirectView redirectView = new RedirectView("https://localhost:3000/");
+        try{
+            String accessTokenForJwt=jwtService.createAccessToken("memberNo", member.getMemberNo());
+            System.out.println(accessTokenForJwt);
+            String refreshTokenForJwt=jwtService.createRefreshToken("memberNo", member.getMemberNo());
+            System.out.println(refreshTokenForJwt);
+            memberService.saveRefreshToken(member.getMemberNo(), refreshTokenForJwt);
+            redirectView.addStaticAttribute("access-token", accessTokenForJwt);
+            redirectView.addStaticAttribute("refresh-token", refreshTokenForJwt);
+            System.out.println(member.getMemberNickname());
+            redirectView.addStaticAttribute("memberNickname", member.getMemberNickname());
+        }catch(Exception e){
+            redirectView.addStaticAttribute("errorMessage", e.getMessage());
+        }
+        return redirectView;
     }
     @GetMapping("getUserInfo")
     public ResponseEntity<Object> getUserInfo(@RequestHeader("access-token") String accessToken) {
