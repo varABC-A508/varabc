@@ -1,14 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 
-const AudioChat = () => {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMicrophone,
+  faMicrophoneSlash,
+} from "@fortawesome/free-solid-svg-icons";
+
+const AudioChat = ({ roomId }) => {
   const socketRef = useRef();
   const myAudioRef = useRef(null);
   const remoteAudioRef = useRef(null);
   const pcRef = useRef();
 
-  const { roomId } = useParams();
+  // const { roomId } = useParams();
 
   const [localStream, setLocalStream] = useState(null);
   const [micEnabled, setMicEnabled] = useState(false);
@@ -25,7 +30,7 @@ const AudioChat = () => {
   const getMedia = async () => {
     const mediaConstraints = {
       audio: {
-        echoCancellation: false, // Enable echo cancellation
+        echoCancellation: true, // Enable echo cancellation
         noiseSuppression: true, // Enable noise suppression
         autoGainControl: true, // Enable automatic gain control
         sampleRate: 44100, // Set desired sample rate
@@ -184,10 +189,24 @@ const AudioChat = () => {
   }, []);
 
   return (
-    <div className="m-3">
-      <audio ref={remoteAudioRef} autoPlay controls className="m-3"></audio>
-      <button onClick={toggleMicrophone} className="m-3 p-1 border border-black">
-        {micEnabled ? "마이크끄기" : "마이크켜기"}
+    <div>
+      <audio
+        ref={remoteAudioRef}
+        autoPlay
+        controls
+        className="hidden"
+      ></audio>
+      <button
+        onClick={toggleMicrophone}
+      >
+        {micEnabled ? (
+          <FontAwesomeIcon className="ml-4 text-gray-700" icon={faMicrophone} />
+        ) : (
+          <FontAwesomeIcon
+            className="ml-4 text-gray-700"
+            icon={faMicrophoneSlash}
+          />
+        )}
       </button>
     </div>
   );

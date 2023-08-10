@@ -17,7 +17,6 @@ import { Reviews } from './pages/myPage/Reviews';
 import { MyPage } from './pages/myPage/myPage';
 import ProblemDetail from './pages/ProblemDetail';
 import ProblemList from './components/common/list/ProblemList';
-import AudioChat from './components/common/AudioChat';
 
 const App = () => {
   return (
@@ -40,7 +39,6 @@ const App = () => {
           <Route path="reviews" element={<Reviews />} />
           <Route path="friends" element={<Friends />} />
         </Route>
-        <Route path="/webrtc/:roomId" element={<AudioChat />} />
       </Routes>
     </div>
   );
