@@ -40,7 +40,7 @@ const App = () => {
           <Route path="reviews" element={<Reviews />} />
           <Route path="friends" element={<Friends />} />
         </Route>
-        <Route path="/webrtc/:room" element={<AudioChat />} />
+        <Route path="/webrtc/:roomId" element={<AudioChat />} />
       </Routes>
     </div>
   );

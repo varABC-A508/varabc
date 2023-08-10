@@ -1,258 +1,194 @@
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import io from "socket.io-client";
-import { useState, useEffect, useRef } from "react";
-import { useParams } from 'react-router-dom';
-
-const socket = io.connect("https://localhost:4000");
 
 const AudioChat = () => {
-  const [isMicrophoneOn, setIsMicrophoneOn] = useState(true);
-  const [isRoomCreator, setIsRoomCreator] = useState(false);
+  const socketRef = useRef();
+  const myAudioRef = useRef(null);
+  const remoteAudioRef = useRef(null);
+  const pcRef = useRef();
+
+  const { roomId } = useParams();
+
   const [localStream, setLocalStream] = useState(null);
-  const [remoteStream, setRemoteStream] = useState(null);
+  const [micEnabled, setMicEnabled] = useState(false);
 
-  const {room} = useParams();
-
-  const remoteAudioElement = useRef(null);
-
-  const mediaConstraints = {
-    audio: {
-      echoCancellation: false, // Enable echo cancellation
-      noiseSuppression: true, // Enable noise suppression
-      autoGainControl: true, // Enable automatic gain control
-      sampleRate: 44100, // Set desired sample rate
-    },
-    video: false,
+  const toggleMicrophone = () => {
+    if (localStream) {
+      localStream.getAudioTracks().forEach((track) => {
+        track.enabled = !track.enabled;
+        setMicEnabled(track.enabled);
+      });
+    }
   };
 
-  const rtcPeerConnection = useRef();
-  const iceServers = {
-    iceServers: [
-      { urls: "stun:stun.l.google.com:19302" },
-      { urls: "stun:stun1.l.google.com:19302" },
-      { urls: "stun:stun2.l.google.com:19302" },
-      { urls: "stun:stun3.l.google.com:19302" },
-      { urls: "stun:stun4.l.google.com:19302" },
-    ],
-  };
-
-  useEffect(()=>{
-    const joinRoom = () => {
-      if (room === "") {
-        alert("Please type a room ID");
-      } else {
-        socket.emit("join", room);
-      }
+  const getMedia = async () => {
+    const mediaConstraints = {
+      audio: {
+        echoCancellation: false, // Enable echo cancellation
+        noiseSuppression: true, // Enable noise suppression
+        autoGainControl: true, // Enable automatic gain control
+        sampleRate: 44100, // Set desired sample rate
+      },
+      video: false,
     };
-    joinRoom();
-
-  }, [])
-
-
-  const handleLocalStream = async (mediaConstraints) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia(
         mediaConstraints
       );
+
+      stream.getAudioTracks().forEach((track) => (track.enabled = false));
       setLocalStream(stream);
-    } catch (error) {
-      console.error("Could not get user media", error);
-    }
-  };
 
-  const setRemoteStreamCallback = (event) => {
-    setRemoteStream(event.streams[0]); // Update the remoteStream state
-  };
+      if (myAudioRef.current) {
+        myAudioRef.current.srcObject = stream;
+      }
 
-  const addLocalTracks = (rtcPeerConnection) => {
-    localStream.getTracks().forEach((track) => {
-      rtcPeerConnection.addTrack(track, localStream);
-    });
-  };
+      if (!(pcRef.current && socketRef.current)) {
+        return;
+      }
 
-  const sendIceCandidate = (event) => {
-    if (event.candidate) {
-      socket.emit("webrtc_ice_candidate", {
-        room,
-        label: event.candidate.sdpMLineIndex,
-        candidate: event.candidate.candidate,
+      stream.getTracks().forEach((track) => {
+        if (!pcRef.current) {
+          return;
+        }
+        pcRef.current.addTrack(track, stream);
       });
+      console.log("addtrack");
+
+      pcRef.current.onicecandidate = (e) => {
+        console.log(e);
+        if (e.candidate) {
+          console.log("e.candidate true?");
+          if (!socketRef.current) {
+            console.log("no socket ref");
+            return;
+          }
+          console.log("recv candidate");
+          socketRef.current.emit("webrtc_ice_candidate", {
+            roomId,
+            label: e.candidate.sdpMLineIndex,
+            candidate: e.candidate.candidate,
+            sdpMid: e.candidate.sdpMid,
+          });
+        }
+        console.log("no candidate");
+      };
+
+      console.log("added onicecandidate");
+
+      pcRef.current.ontrack = (e) => {
+        if (remoteAudioRef.current) {
+          remoteAudioRef.current.srcObject = e.streams[0];
+        }
+      };
+
+      console.log("ontrack");
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  const createOffer = async (rtcPeerConnection) => {
-    let sessionDescription;
+  const createOffer = async () => {
+    console.log("create offer");
+    if (!(pcRef.current && socketRef.current)) {
+      return;
+    }
+
     try {
-      sessionDescription = await rtcPeerConnection.createOffer();
-      rtcPeerConnection.setLocalDescription(sessionDescription);
-    } catch (error) {
-      console.error(error);
+      const sdp = await pcRef.current.createOffer();
+      pcRef.current.setLocalDescription(sdp);
+      console.log("sent the offer");
+      socketRef.current.emit("webrtc_offer", sdp, roomId);
+    } catch (e) {
+      console.error(e);
     }
-
-    console.log('offer emit room number', room)
-
-    socket.emit("webrtc_offer", {
-      type: "webrtc_offer",
-      sdp: sessionDescription,
-      roomId: room,
-    });
   };
 
-  const createAnswer = async (rtcPeerConnection) => {
-    let sessionDescription;
+  const createAnswer = async (sdp) => {
+    console.log("createAnswer");
+    if (!(pcRef.current && socketRef.current)) {
+      return;
+    }
+
     try {
-      sessionDescription = await rtcPeerConnection.createAnswer();
-      rtcPeerConnection.setLocalDescription(sessionDescription);
-    } catch (error) {
-      console.error(error);
+      pcRef.current.setRemoteDescription(sdp);
+      const answerSdp = await pcRef.current.createAnswer();
+      pcRef.current.setLocalDescription(answerSdp);
+
+      console.log("sent the answer");
+      socketRef.current.emit("webrtc_answer", answerSdp, roomId);
+    } catch (e) {
+      console.error(e);
     }
   };
 
   useEffect(() => {
-    socket.on("room_joined", async () => {
-      console.log("Socket event callback: room_joined");
+    const webrtc = async () => {
+      socketRef.current = io.connect("https://localhost:4000");
 
-      await handleLocalStream(mediaConstraints);
-      console.log("room",room)
-      console.log("localstream")
-      socket.emit("start_call", room);
-      console.log('start call emit')
-    });
-
-  }, [room])
-
-  useEffect(() => {
-    socket.on("start_call", async () => {
-      console.log("Socket event callback: start_call");
-      console.log('isRoomCreator', isRoomCreator)
-
-      if (isRoomCreator) {
-        rtcPeerConnection.current = new RTCPeerConnection(iceServers);
-        addLocalTracks(rtcPeerConnection.current);
-        rtcPeerConnection.current.ontrack = setRemoteStreamCallback;
-        rtcPeerConnection.current.onicecandidate = sendIceCandidate;
-
-        await createOffer(rtcPeerConnection.current);
-
-      }
-    });
-
-  }, [isRoomCreator])
-
-  useEffect(() => {
-    socket.on("room_created", async () => {
-      console.log("Socket event callback: room_created");
-
-      await handleLocalStream(mediaConstraints);
-      setIsRoomCreator(true);
-    });
-
-
-
-    socket.on("full_room", () => {
-      console.log("Socket event callback: full_room");
-      alert("The room is full, please try another one");
-    });
-
-
-
-    socket.on("webrtc_offer", async (event) => {
-      console.log("Socket event callback: webrtc_offer");
-
-      if (!isRoomCreator) {
-        rtcPeerConnection.current = new RTCPeerConnection(iceServers);
-        addLocalTracks(rtcPeerConnection.current);
-        rtcPeerConnection.current.ontrack = setRemoteStreamCallback;
-        rtcPeerConnection.current.onicecandidate = sendIceCandidate;
-        rtcPeerConnection.current.setRemoteDescription(
-          new RTCSessionDescription(event)
-        );
-        await createAnswer(rtcPeerConnection.current);
-      }
-    });
-
-    socket.on("webrtc_answer", (event) => {
-      console.log("Socket event callback: webrtc_answer");
-      rtcPeerConnection.current.setRemoteDescription(new RTCSessionDescription(event));
-    });
-
-    socket.on("webrtc_ice_candidate", (event) => {
-      console.log("Socket event callback: webrtc_ice_candidate");
-
-      const candidate = new RTCIceCandidate({
-        sdpMLineIndex: event.label,
-        candidate: event.candidate,
+      pcRef.current = new RTCPeerConnection({
+        iceServers: [
+          { urls: "stun:stun.l.google.com:19302" },
+          // { urls: "stun:stun1.l.google.com:19302" },
+          // { urls: "stun:stun2.l.google.com:19302" },
+          // { urls: "stun:stun3.l.google.com:19302" },
+          // { urls: "stun:stun4.l.google.com:19302" },
+        ],
       });
 
-      rtcPeerConnection.current.addIceCandidate(candidate);
-    });
+      socketRef.current.on("all_users", (allUsers) => {
+        if (allUsers.length > 0) {
+          createOffer();
+        }
+      });
+
+      socketRef.current.on("webrtc_offer", (sdp) => {
+        console.log("recv Offer");
+        createAnswer(sdp);
+      });
+
+      socketRef.current.on("webrtc_answer", (sdp) => {
+        console.log("recv Answer");
+        if (!pcRef.current) {
+          return;
+        }
+        pcRef.current.setRemoteDescription(sdp);
+      });
+
+      socketRef.current.on("webrtc_ice_candidate", async (candidate) => {
+        if (!pcRef.current) {
+          return;
+        }
+        await pcRef.current.addIceCandidate(candidate);
+      });
+
+      await getMedia();
+
+      socketRef.current.emit("join", {
+        room: roomId,
+      });
+
+      return () => {
+        if (socketRef.current) {
+          socketRef.current.disconnect();
+        }
+
+        if (pcRef.current) {
+          pcRef.current.close();
+        }
+      };
+    };
+
+    webrtc();
   }, []);
 
-  useEffect(() => {
-    if (remoteAudioElement.current) {
-      remoteAudioElement.current.srcObject = remoteStream || null;
-    }
-  }, [remoteStream]);
-
-  const toggleMicrophone = async () => {
-    setIsMicrophoneOn((prevState) => !prevState);
-
-    // if (!isMicrophoneOn) {
-    //   await startMicrophone();
-    // } else {
-    //   stopMicrophone();
-    // }
-  };
-
-  // const startMicrophone = async () => {
-  //   try {
-  //     const localStream = await navigator.mediaDevices.getUserMedia({
-  //       audio: true,
-  //     });
-  //     localStream
-  //       .getTracks()
-  //       .forEach((track) => peerConnection.addTrack(track, localStream));
-  //   } catch (error) {
-  //     console.error("Error capturing local audio stream:", error);
-  //   }
-  // };
-
-  // const stopMicrophone = () => {
-  //   peerConnection
-  //     .getSenders()
-  //     .filter((sender) => sender.track && sender.track.kind === "audio")
-  //     .forEach((sender) => peerConnection.removeTrack(sender));
-  // };
-
   return (
-    <div>
-      <h1>Audio Chat</h1>
-      <div id="room-selection-container">
-        {/* <label htmlFor="room-input">
-          Enter the number of the room you want to connect
-        </label>
-        <input
-          type="text"
-          id="room-input"
-          value={room}
-          onChange={(e) => setRoom(e.target.value)}
-        />
-        <button id="connect-button" onClick={joinRoom}>
-          CONNECT
-        </button> */}
-      </div>
-
-      <div id="video-chat-container" className="video-position">
-        <button onClick={toggleMicrophone}>
-          {isMicrophoneOn ? "Turn Off Microphone" : "Turn On Microphone"}
-        </button>
-        <audio
-          id="remote-audio"
-          autoPlay
-          controls
-          style={{ display: "block" }}
-          ref={remoteAudioElement}
-        ></audio>
-      </div>
+    <div className="m-3">
+      <audio ref={remoteAudioRef} autoPlay controls className="m-3"></audio>
+      <button onClick={toggleMicrophone} className="m-3 p-1 border border-black">
+        {micEnabled ? "마이크끄기" : "마이크켜기"}
+      </button>
     </div>
   );
 };
