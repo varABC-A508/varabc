@@ -13,6 +13,8 @@ module.exports = {
         'primary': '#3C4051',
         'point': '#5BDFCA',
         'primaryDark': '#323543',
+        'red': '#FF5959',
+        'green': '#4Dff89',
       },
     },
   },

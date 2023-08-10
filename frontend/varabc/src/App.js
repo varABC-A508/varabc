@@ -3,7 +3,6 @@ import {Routes, Route} from 'react-router-dom';
 import { Nav } from './components/common/nav';
 
 import { Home } from './pages/home/Home';
-import { Problems } from './pages/Problems';
 import { Tier } from './pages/Tier';
 
 import { Battle } from './pages/battle/Battle';
@@ -11,12 +10,13 @@ import { BattleMode } from './pages/battle/BattleMode';
 import { BattleRoom } from './pages/battle/BattleRoom';
 
 import { Friends } from './pages/myPage/Friends';
-import { History } from './pages/myPage/History';
+import { History } from './pages/myPage/history/History';
 import { Profile } from './pages/myPage/Profile';
 import { Reviews } from './pages/myPage/Reviews';
 import { MyPage } from './pages/myPage/myPage';
 
-import ProblemDetail from './pages/ProblemDetail';
+import { Problems } from './pages/problem/Problems';
+import ProblemDetail from './pages/problem/ProblemDetail';
 import ProblemList from './components/common/list/ProblemList';
 
 import PageModalLogin from './pages/myPage/login/PageModalLogin';
@@ -37,7 +37,7 @@ const App = () => {
           <Route path="result1" element={<BattleResultPage1 />} />
           <Route path="result2" element={<BattleResultPage2 />} />
         </Route>
-        <Route path="/problems" element={<Problems />}>
+        <Route path="/problem" element={<Problems />}>
           <Route index element={<ProblemList />} />
           <Route path="*" element={<ProblemDetail />} />
         </Route>
@@ -49,7 +49,6 @@ const App = () => {
           <Route path="friends" element={<Friends />} />
         </Route>
       </Routes>
-
     </div>
   );
 }

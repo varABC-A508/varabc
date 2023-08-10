@@ -51,7 +51,7 @@ export const Home = () => {
                 코드 배틀 하기 {<FontAwesomeIcon icon={faArrowRight} />}
               </Link>
               <Link
-                to="/problems"
+                to="/problem"
                 className="text-point font-bold text-3xl mr-10"
               >
                 문제 보러가기 {<FontAwesomeIcon icon={faArrowRight} />}

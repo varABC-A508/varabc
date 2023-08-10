@@ -1,4 +1,4 @@
-import IdeContainer from '../components/ide/IdeContainer';
+import IdeContainer from '../../components/ide/IdeContainer';
 
 const ProblemDetail = () => {
     return(

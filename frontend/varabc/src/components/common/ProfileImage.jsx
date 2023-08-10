@@ -1,9 +1,9 @@
-export default function Profile({
+const ProfileImage = ({
   size, 
   imgLink,
   isActive = true,
   clickable = true,
-}) {
+}) => {
 
   const handleClick = e => {
     if (clickable) {
@@ -22,14 +22,16 @@ export default function Profile({
 
   return (
     <div
-      className={`box-border inline-flex overflow-hidden mx-auto my-0 border border-solid border-[#E3E3E3] rounded-[16px] ${sizeStyle[size]} ${clickable ? clickStyle : ""}`}
+      className={`box-border inline-flex overflow-hidden border border-[2px] border-solid border-[#E3E3E3] rounded-[16px] ${sizeStyle[size]} ${clickable ? clickStyle : ""}`}
       onClick={handleClick}
     >
       <img
         className={`w-full h-full object-cover ${isActive ? "" : "brightness-50"}`}
         src={imgLink}
-        alt="profile-image"
+        alt="profile"
       />
     </div>
   );
 }
+
+export default ProfileImage;

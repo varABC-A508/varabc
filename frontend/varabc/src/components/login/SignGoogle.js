@@ -6,7 +6,8 @@ const SignGoogle = () => {
 
   // Google OAuth2 인증 요청을 보낼 URL 
 
-  const redirect_uri = "https://localhost:8080/member/google-login";
+  // const redirect_uri = "https://localhost:8080/member/google-login";
+  const redirect_uri = "https://localhost:3000";
   // const redirect_uri = "https://localhost:3000";
   const clientId = "1050412541304-1oh88pq5loji98ahf8fi7vdd5l94s44s.apps.googleusercontent.com";
 
