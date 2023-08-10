@@ -18,6 +18,7 @@ public class CompetitionResultDto {
     private Long competitionResultT2M1No;
 
     private Long competitionResultT2M2No;
+
     private int competitionResultMemberCount;
 
     private int competitionResultRecord;

@@ -1,6 +1,8 @@
 package com.varabc.battle.controller;
 
 import com.varabc.battle.config.NumberEncryptor;
+import com.varabc.battle.domain.dto.BattleInfoDto;
+import com.varabc.battle.domain.dto.BattleUrlDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.StartBattleDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
@@ -25,21 +27,23 @@ public class BattleController {
     private final NumberEncryptor encryptor;
     private final ValidationService validationService;
 
-    //4인방, 내 정보 넣어서. 둘둘 나눠서.
-    //디비에 저장.
     @PostMapping("/newRoom/{memberNo}")
     public ResponseEntity<?> createRoom(@PathVariable Long memberNo) {
+        //얘가 방만들고 방 코드 암호화해서 리턴하는거.
         Long roomCode = battleService.createRoom(memberNo);
         HttpStatus status;
         if (roomCode != null) {
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.CONFLICT;
+            return new ResponseEntity<>(status);
         }
         try {
             // 수 암호화
             String encryptedData = encryptor.encrypt(roomCode);
-            return new ResponseEntity<>(encryptedData, status);
+            String url = "/battle/join/" + encryptedData;
+            return new ResponseEntity<>(url, status);
+            //위 리턴값에 /멤버no 붙여서 접근하면 됨.
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,50 +51,98 @@ public class BattleController {
         }
     }
 
-    @PostMapping("/{memberNo}")
-    public ResponseEntity<?> joinRoom(@PathVariable Long memberNo, @RequestBody String roomCode) {
+    @PostMapping("/{memberNo}/{roomCode}")
+    public ResponseEntity<?> joinRoom(@PathVariable Long memberNo, @PathVariable String roomCode) {
+        //생성된 방에 초대. 이미 있는 사람? 그럼 못들어옴요. 4명 있는 방? 그럼 못들어옴요.
+        String url = "";
+        HttpStatus status;
         try {
-            long competitionResultNo = encryptor.decrypt(String.valueOf(roomCode));
-            battleService.joinRoom(memberNo, competitionResultNo);
-            return new ResponseEntity<>(HttpStatus.OK);
+            //이 링크로 타고 들어와서 join을 마쳤다면 대기방으로 redirect 시켜야.
+            Long competitionResultNo = encryptor.decrypt(roomCode);
+
+            if (battleService.joinRoom(memberNo, competitionResultNo)) {
+                //참여
+                //대기방 url로 이동.
+                url = "join";
+                status = HttpStatus.OK;
+            } else {
+                //그대로 대기.
+                url = "failed";
+                status = HttpStatus.NOT_ACCEPTABLE;
+            }
+            return new ResponseEntity<>(url, status);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity<>(url, status);
         }
 
     }
 
-    @GetMapping("/start")
-    public ResponseEntity<?> startBattle(@RequestBody StartBattleDto startBattleDto){
+
+    @GetMapping("/start/{roomCode}")
+    public ResponseEntity<?> startBattle(@PathVariable String roomCode,
+            @RequestBody StartBattleDto startBattleDto) {
         //일단 다시 입력된 정보로 db 업데이트.
-        battleService.updateBattleInfoToFinal(startBattleDto);
-        if(startBattleDto.getCompetitionTeam()==1){
-            //1팀으로 등록학고 정보 넘겨주는 식으로
-//            다른 url을 리턴해서 redirect 시킨다
-        }else{
-            //2팀으로 등록하고 정보 넘겨주는 식으로
+        Long competitionResultNo = null;
+        HttpStatus status = null;
+        try {
+            competitionResultNo = encryptor.decrypt(roomCode);
+            status = HttpStatus.OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = HttpStatus.BAD_REQUEST;
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        battleService.updateBattleInfoToFinal(competitionResultNo,startBattleDto);
+
+        BattleUrlDto battleUrlDto = battleService.getBattleUrl(startBattleDto.getCompetitionTeam(),
+                roomCode, startBattleDto.getProblemNo());
+
+        return new ResponseEntity<>(battleUrlDto, status);
+        //경로 두개 보냄.
     }
 
-    @PostMapping("/submit")
+    @GetMapping("/game/{problemNo}/{roomCode}/{team}")
+    public ResponseEntity<?> getBattle(@PathVariable Long problemNo, @PathVariable String roomCode,
+            @PathVariable int team, @RequestBody StartBattleDto startBattleDto) {
+        //이게 배틀 시작 페이지. 여기에서 문제 정보 리턴해줘야한다. 멤버 정보도 리턴?
+//        멤버 메일이랑, 문제 정보랑, 배틀 코드 리턴.
+        BattleInfoDto battleInfoDto = battleService.getBattleInfo(String.valueOf(roomCode),
+                startBattleDto);
+        return new ResponseEntity<>(battleInfoDto, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/submit/{roomCode}")
     public ResponseEntity<?> submit(@RequestBody SubmitBattleDto submitBattleDto) {
         try {
             Long competitionResultNo = encryptor.decrypt(submitBattleDto.getBattleCode());
             ResultDto resultDto = validationService.submitBattle(submitBattleDto,
                     competitionResultNo);
-            String resultMessage;
-            //resultDto.getResult()에 따라, 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답. 따라서 다른 리턴을 보여야함.
+            String redirectURL = null;
             //1인 경우, 승패 기록을 해줘야한다.
             if (resultDto.getResult() == 1) {
                 battleService.endBattle(submitBattleDto.getTeam(), competitionResultNo);
-                // 얘는 여기서 새 페이지로 리다이렉트.
             }
-            return new ResponseEntity<>(resultDto, HttpStatus.OK);
+            return new ResponseEntity<>(resultDto, HttpStatus.OK); //여기에서 newPage로 넘어감요.
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
+
+//    @GetMapping("/finalResult/{roomCode}")
+//    public ResponseEntity<?> getFinalResult(@PathVariable String roomCode){
+//        //경기 결과 리턴.
+//        Long competitionResultNo = null;
+//        try {
+//            competitionResultNo = encryptor.decrypt(roomCode);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        FinalResultDto finalResultDto = battleService.getFinalResult(competitionResultNo);
+//        return new ResponseEntity<>(finalResultDto, HttpStatus.OK);
+//    }
 
 
 }
