@@ -142,6 +142,11 @@ const AudioChat = ({ roomId }) => {
         ],
       });
 
+      socketRef.current.on("room_full", () => {
+        console.log("Socket event callback: full_room");
+        alert("The room is full, please try another one");
+      });
+
       socketRef.current.on("all_users", (allUsers) => {
         if (allUsers.length > 0) {
           createOffer();
@@ -168,37 +173,38 @@ const AudioChat = ({ roomId }) => {
         await pcRef.current.addIceCandidate(candidate);
       });
 
+      // socketRef.current.on("user_exit", (data) => {
+      //   console.log(`유저 퇴장, 현재 ${data.clientNumber}명`)
+      // })
+
       await getMedia();
 
       socketRef.current.emit("join", {
-        room: roomId,
+        roomId: roomId,
+        maxPlayers: 2,
       });
-
-      return () => {
-        if (socketRef.current) {
-          socketRef.current.disconnect();
-        }
-
-        if (pcRef.current) {
-          pcRef.current.close();
-        }
-      };
     };
 
     webrtc();
+
+    return () => {
+      // 브라우저 닫을 때는 실행 안 됨 
+      // socketRef.current.emit("leave_room", {roomId})
+
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+
+      if (pcRef.current) {
+        pcRef.current.close();
+      }
+    };
   }, []);
 
   return (
     <div>
-      <audio
-        ref={remoteAudioRef}
-        autoPlay
-        controls
-        className="hidden"
-      ></audio>
-      <button
-        onClick={toggleMicrophone}
-      >
+      <audio ref={remoteAudioRef} autoPlay controls className="hidden"></audio>
+      <button onClick={toggleMicrophone}>
         {micEnabled ? (
           <FontAwesomeIcon className="ml-4 text-gray-700" icon={faMicrophone} />
         ) : (

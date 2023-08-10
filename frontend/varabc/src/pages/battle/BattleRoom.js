@@ -2,6 +2,7 @@ import TeamWaiting from "./TeamWaiting";
 import MoveSquareButton from "../../components/common/Button/MoveSquareButton";
 import profile1 from '../../img/test/profile1.png';
 import profile2 from '../../img/test/profile2.png';
+import TextChat from "../../components/common/TextChat";
 
 const team1 = {
   teamNo: 1,
@@ -41,7 +42,8 @@ export const BattleRoom = () => {
         <div className="w-screen h-screen flex items-center bg-battleBlur bg-cover pl-20 pr-20">
           <div className="w-full flex justify-between items-end">
             <TeamWaiting players={team1} />
-            <div>
+            <div className="flex flex-col">
+              <TextChat roomId="texttest" />
               <div className="flex w-[358px] justify-between items-end">
                 <MoveSquareButton
                   text="친구 초대"
