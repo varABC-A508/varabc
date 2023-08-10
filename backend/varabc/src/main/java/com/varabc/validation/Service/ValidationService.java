@@ -1,5 +1,7 @@
 package com.varabc.validation.Service;
 
+import com.varabc.battle.domain.dto.BattleMemberDto;
+import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
 import com.varabc.validation.domain.dto.ProblemRestrictionDto;
@@ -14,13 +16,21 @@ import java.util.List;
 public interface ValidationService {
 
     ValidationResultDto sendRequestValidation(String serverUrl, ValidateDto validateDto);
-    public TestCaseDto getTestCaseDtoByProblemNo(Long problemNo);
-    public List<FileData> getUrlIntoText(List<String> files) throws MalformedURLException, IOException;
 
-    public void saveValidationResult(ValidationResultDto validationResultDto, ValidateDto validateDto,
-            int mode);
+    public TestCaseDto getTestCaseDtoByProblemNo(Long problemNo);
+
+    public List<FileData> getUrlIntoText(List<String> files)
+            throws MalformedURLException, IOException;
+
+    public void saveValidationResult(ValidationResultDto validationResultDto,
+            ValidateDto validateDto,
+            int mode, Long competitionResultNo, int order);
 
     ProblemRestrictionDto getProblemRestriction(Long problemNo);
 
-    ResultDto submitBattle(SubmitBattleDto submitBattleDto, Long competitionResultNo) throws IOException;
+    ResultDto submitBattle(SubmitBattleDto submitBattleDto, Long competitionResultNo, Long memberNo)
+            throws IOException;
+
+    FinalResultListDto getFinalResult(Long competitionResultNo, BattleMemberDto battleMemberDto);
+
 }

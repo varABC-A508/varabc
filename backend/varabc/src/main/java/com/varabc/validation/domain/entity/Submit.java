@@ -51,10 +51,13 @@ public class  Submit {
     @Column(name = "submit_language", nullable = false)
     private String submitLanguage;
 
+    @Column(name = "submit_order", nullable= false)
+    private int submitOrder;
+
     @Builder
     public Submit(long problemNo, long memberNo, long competitionResultNo, int submitMode,
             int submitStatus, String submitCode, String submitTime, int submitUsedMemory,
-            double submitUsedTime, String submitLanguage) {
+            double submitUsedTime, String submitLanguage, int submitOrder) {
         this.problemNo = problemNo;
         this.memberNo = memberNo;
         this.competitionResultNo = competitionResultNo;
@@ -65,5 +68,6 @@ public class  Submit {
         this.submitUsedMemory = submitUsedMemory;
         this.submitUsedTime = submitUsedTime;
         this.submitLanguage = submitLanguage;
+        this.submitOrder = submitOrder;
     }
 }

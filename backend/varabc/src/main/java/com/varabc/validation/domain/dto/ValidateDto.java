@@ -8,7 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @ToString
-public class                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ValidateDto {
+public class ValidateDto {
+
     private long memberNo;
     private long problemNo;
     private String code;
@@ -17,7 +18,6 @@ public class                                                                    
     private List<FileData> inputFiles;
     private List<FileData> outputFiles;
     private String language;
-
 
 
     @Builder
