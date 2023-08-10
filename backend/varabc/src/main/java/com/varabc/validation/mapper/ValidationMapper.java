@@ -1,6 +1,8 @@
 package com.varabc.validation.mapper;
 
 
+import com.varabc.battle.domain.dto.FinalResultDto;
+import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
 import com.varabc.problem.domain.entity.ProblemRestriction;
@@ -89,7 +91,8 @@ public class ValidationMapper {
         }
 
         //validationResultDto->submitEntity로 변환
-        public  Submit mapDtoToSubmitEntity(ValidationResultDto validationResultDto, ValidateDto validateDto, int mode){
+        public  Submit mapDtoToSubmitEntity(ValidationResultDto validationResultDto, ValidateDto validateDto, int mode,
+                Long competitionResultNo, int order){
             return Submit.builder()
                     .memberNo(validateDto.getMemberNo())
                     .problemNo(validateDto.getProblemNo())
@@ -99,7 +102,8 @@ public class ValidationMapper {
                     .submitUsedTime(validationResultDto.getExecutionTime())
                     .submitCode(validateDto.getCode())
                     .submitLanguage(validateDto.getLanguage())
-                    .competitionResultNo(1)
+                    .competitionResultNo(competitionResultNo)
+                    .submitOrder(order)
                     .build();
         }
         //SubmitEntity->SubmitDto로 변환
@@ -127,4 +131,22 @@ public class ValidationMapper {
                     .redirectUrl(redirectUrl)
                     .build();
         }
+
+    public FinalResultDto EntityToDto(Submit submit, String email, String submitStatus) {
+            return FinalResultDto.builder()
+                    .memberEmail(email)
+                    .submitLanguage(submit.getSubmitLanguage())
+                    .submitStatus(submitStatus)
+                    .submitUsedMemory(submit.getSubmitUsedMemory())
+                    .submitTime(submit.getSubmitTime())
+                    .submitUsedTime(submit.getSubmitUsedTime())
+                    .build();
+    }
+
+    public FinalResultListDto dtoToDto(List<FinalResultDto> winnerList, List<FinalResultDto> loserList) {
+            return FinalResultListDto.builder()
+                    .winnerList(winnerList)
+                    .loserList(loserList)
+                    .build();
+    }
 }

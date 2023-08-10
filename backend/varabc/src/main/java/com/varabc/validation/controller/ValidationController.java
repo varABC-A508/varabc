@@ -60,7 +60,8 @@ public class ValidationController {
         ValidationResultDto validationResultDto = validationService.sendRequestValidation(
                 pythonServerUrl, validateDto);
         System.out.println(validationResultDto);
-        validationService.saveValidationResult(validationResultDto, validateDto,1);
+        validationService.saveValidationResult(validationResultDto, validateDto,1,
+                1L,0);
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
@@ -85,7 +86,8 @@ public class ValidationController {
         String javaServerUrl = "http://43.200.245.232:8081/";
         ValidationResultDto validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
         System.out.println(validationResultDto);
-        validationService.saveValidationResult(validationResultDto, validateDto,1);
+        validationService.saveValidationResult(validationResultDto, validateDto,1,
+                1L,0);
 
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }

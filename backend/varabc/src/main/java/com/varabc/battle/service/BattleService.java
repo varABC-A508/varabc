@@ -2,6 +2,7 @@ package com.varabc.battle.service;
 
 import com.varabc.battle.domain.dto.BattleInfoDto;
 import com.varabc.battle.domain.dto.BattleUrlDto;
+import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.StartBattleDto;
 
 public interface BattleService {
@@ -22,5 +23,4 @@ public interface BattleService {
 
     void updateBattleInfoToFinal(Long competitionResultNo, StartBattleDto startBattleDto);
 
-//    FinalResultDto getFinalResult(Long competitionResultNo);
 }

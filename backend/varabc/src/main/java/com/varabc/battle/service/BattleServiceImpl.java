@@ -81,14 +81,14 @@ public class BattleServiceImpl implements BattleService {
         String url2 = null;
         Random rand = new Random();
 //        if (competitionTeam == 1) {
-            //1팀으로 등록학고 정보 넘겨주는 식으로
-            int ranN1 = rand.nextInt(Integer.MAX_VALUE);
-            url1 = "/battle/" + problemNo + "/game/" + roomCode + "/" + ranN1;
+        //1팀으로 등록학고 정보 넘겨주는 식으로
+        int ranN1 = rand.nextInt(Integer.MAX_VALUE);
+        url1 = "/battle/" + problemNo + "/game/" + roomCode + "/" + ranN1;
 //            다른 url을 리턴해서 redirect 시킨다
 //        } else {
-            //2팀으로 등록하고 정보 넘겨주는 식으로
-            int ranN2 = rand.nextInt(Integer.MAX_VALUE);
-            url2 = "/battle/" + problemNo + "/game/" + roomCode + "/" + ranN2;
+        //2팀으로 등록하고 정보 넘겨주는 식으로
+        int ranN2 = rand.nextInt(Integer.MAX_VALUE);
+        url2 = "/battle/" + problemNo + "/game/" + roomCode + "/" + ranN2;
 //        }
         return battleMapper.urlToDto(url1, url2);
     }
@@ -115,8 +115,7 @@ public class BattleServiceImpl implements BattleService {
 
     }
 
-//    @Override
-//    public FinalResultDto getFinalResult(Long competitionResultNo) {
-//        //경기 결과 반환.
-//    }
+
+
+
 }

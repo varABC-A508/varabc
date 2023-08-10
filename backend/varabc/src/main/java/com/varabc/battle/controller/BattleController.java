@@ -2,7 +2,9 @@ package com.varabc.battle.controller;
 
 import com.varabc.battle.config.NumberEncryptor;
 import com.varabc.battle.domain.dto.BattleInfoDto;
+import com.varabc.battle.domain.dto.BattleMemberDto;
 import com.varabc.battle.domain.dto.BattleUrlDto;
+import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.StartBattleDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
@@ -93,7 +95,7 @@ public class BattleController {
             e.printStackTrace();
             status = HttpStatus.BAD_REQUEST;
         }
-        battleService.updateBattleInfoToFinal(competitionResultNo,startBattleDto);
+        battleService.updateBattleInfoToFinal(competitionResultNo, startBattleDto);
 
         BattleUrlDto battleUrlDto = battleService.getBattleUrl(startBattleDto.getCompetitionTeam(),
                 roomCode, startBattleDto.getProblemNo());
@@ -113,12 +115,13 @@ public class BattleController {
     }
 
 
-    @PostMapping("/submit/{roomCode}")
-    public ResponseEntity<?> submit(@RequestBody SubmitBattleDto submitBattleDto) {
+    @PostMapping("/submit/{roomCode}/{memberNo}")
+    public ResponseEntity<?> submit(@RequestBody SubmitBattleDto submitBattleDto,
+            @PathVariable Long memberNo) {
         try {
             Long competitionResultNo = encryptor.decrypt(submitBattleDto.getBattleCode());
             ResultDto resultDto = validationService.submitBattle(submitBattleDto,
-                    competitionResultNo);
+                    competitionResultNo, memberNo);
             String redirectURL = null;
             //1인 경우, 승패 기록을 해줘야한다.
             if (resultDto.getResult() == 1) {
@@ -131,18 +134,29 @@ public class BattleController {
         }
     }
 
-//    @GetMapping("/finalResult/{roomCode}")
-//    public ResponseEntity<?> getFinalResult(@PathVariable String roomCode){
-//        //경기 결과 리턴.
-//        Long competitionResultNo = null;
-//        try {
-//            competitionResultNo = encryptor.decrypt(roomCode);
-//        } catch (Exception e) {
+    @GetMapping("/finalResult/{roomCode}")
+    public ResponseEntity<?> getFinalResult(@PathVariable String roomCode, @RequestBody
+    BattleMemberDto battleMemberDto) {
+        //경기 결과 리턴.
+        Long competitionResultNo = null;
+        HttpStatus status = null;
+        try {
+            competitionResultNo = encryptor.decrypt(roomCode);
+            status = HttpStatus.OK;
+        } catch (Exception e) {
 //            throw new RuntimeException(e);
-//        }
-//        FinalResultDto finalResultDto = battleService.getFinalResult(competitionResultNo);
-//        return new ResponseEntity<>(finalResultDto, HttpStatus.OK);
-//    }
+            e.printStackTrace();
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity<>( status);
+        }
+        FinalResultListDto finalResultListDto = validationService.getFinalResult(
+                competitionResultNo, battleMemberDto);
+        if (finalResultListDto == null) {
+            status = HttpStatus.CONFLICT;
+            return new ResponseEntity<>( status);
+        }
+        return new ResponseEntity<>(finalResultListDto, status);
+    }
 
 
 }
