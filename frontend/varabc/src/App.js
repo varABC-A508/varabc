@@ -19,6 +19,8 @@ import { MyPage } from './pages/myPage/myPage';
 import ProblemDetail from './pages/ProblemDetail';
 import ProblemList from './components/common/list/ProblemList';
 
+import PageModalLogin from './pages/myPage/login/PageModalLogin';
+
 import { BattleResultPage1 } from './pages/battle/BattleResultPage1';
 import { BattleResultPage2 } from './pages/battle/BattleResultPage2';
 

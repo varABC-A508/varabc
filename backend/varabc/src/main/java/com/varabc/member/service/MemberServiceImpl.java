@@ -4,6 +4,7 @@ package com.varabc.member.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.varabc.member.domain.dto.GoogleMemberDto;
 import com.varabc.member.domain.dto.KakaoMemberDto;
+import com.varabc.member.domain.dto.MemberDto;
 import com.varabc.member.domain.entity.Member;
 import com.varabc.member.mapper.MemberMapper;
 import com.varabc.member.repository.MemberRepository;
@@ -22,8 +23,6 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public Member saveGoogleMember(JsonNode userInfo) {
         Member member = memberRepository.findByMemberEmail(userInfo.get("email").asText());
-        System.out.println(member);
-        System.out.println(userInfo);
         if(member==null){
             GoogleMemberDto googleMemberDto =memberMapper.googleJsonToDto(userInfo);
             member = memberMapper.googleMemberDtoToEntity(googleMemberDto);
@@ -59,14 +58,34 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public void saveRefreshToken(long memberNo, String refreshToken) {
         Member member = memberRepository.findByMemberNo(memberNo);
-        System.out.println("saveRefreshToken 1 member : " + member.toString());
         member.updateMemberToken(refreshToken);
-        System.out.println("saveRefreshToken 2 member : " + member.toString());
+    }
+
+    @Override
+    public MemberDto getMemberByMemberNo(long memberNo) {
+        Member member= memberRepository.findByMemberNo(memberNo);
+        MemberDto memberDto=memberMapper.memberToDto(member);
+        return memberDto;
+    }
+
+    @Override
+    @Transactional
+    public void updateMemberNickname(String memberNickname, long memberNo) {
+        Member member=memberRepository.findByMemberNo(memberNo);
+        member.updateMemberNickname(memberNickname);
+    }
+
+    @Override
+    public boolean findMemberNickname(String memberNickname) {
+        Member member = memberRepository.findByMemberNickname(memberNickname);
+        if (member!=null){
+            return true;
+        }
+        return false;
     }
 
     @Transactional
     public void updateMemberNameInNewTransaction(String newName, Member member) {
-        System.out.println("method call");
         member.updateMemberName(newName);
     }
 }
