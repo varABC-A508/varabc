@@ -115,7 +115,8 @@ public class ValidationMapper {
                     .submitLanguage(submit.getSubmitLanguage())
                     .build();
         }
-        public  ResultDto dtoToDto(ValidationResultDto validationResultDto, String resultMessage){
+        public  ResultDto dtoToDto(ValidationResultDto validationResultDto, String resultMessage,
+                String redirectUrl){
             return ResultDto.builder()
                     .problemNo(validationResultDto.getProblemNo())
                     .result(validationResultDto.getResult())
@@ -123,6 +124,7 @@ public class ValidationMapper {
                     .memoryUsage(validationResultDto.getMemoryUsage())
                     .exceptionMessage(validationResultDto.getExceptionMessage())
                     .resultMessage(resultMessage)
+                    .redirectUrl(redirectUrl)
                     .build();
         }
 }

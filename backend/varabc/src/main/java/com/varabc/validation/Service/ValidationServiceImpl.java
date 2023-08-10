@@ -150,10 +150,12 @@ public class ValidationServiceImpl implements ValidationService{
         saveValidationResult(validationResultDto, validateDto1,2);
         saveValidationResult(validationResultDto, validateDto2,2);
         String resultMessage;
+        String redirectUrl = "";
         //problemservice 접근해서 문제 정보 업데이트.
         if(validationResultDto.getResult()==1){
             //정답인 경우 correct도 올려야.
             resultMessage = "정답";
+            redirectUrl = "/newPage";
             problemService.updateProblemCounts(validationResultDto.getProblemNo(),1);
         }else{
             resultMessage = switch (validationResultDto.getResult()) {
@@ -163,7 +165,7 @@ public class ValidationServiceImpl implements ValidationService{
             };
             problemService.updateProblemCounts(validationResultDto.getProblemNo(),2);
         }
-        return validationMapper.dtoToDto(validationResultDto,resultMessage);
+        return validationMapper.dtoToDto(validationResultDto,resultMessage,redirectUrl);
     }
 
 

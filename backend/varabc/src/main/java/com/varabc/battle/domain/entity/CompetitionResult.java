@@ -1,5 +1,6 @@
 package com.varabc.battle.domain.entity;
 
+import com.varabc.battle.domain.dto.StartBattleDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,12 +48,7 @@ public class CompetitionResult {
     @Column(name = "competition_result_resign", nullable = false, columnDefinition = "TINYINT(1) default 0")
     private boolean competitionResultResign;
 
-    public void updateMember(Long memberNo, int count) {
-        switch (count) {
-            case 1 -> this.competitionResultT1M2No = memberNo;
-            case 2 -> this.competitionResultT2M1No = memberNo;
-            case 3 -> this.competitionResultT2M2No = memberNo;
-        }
+    public void updateMember(int count) {
         this.competitionResultMemberCount = count + 1;
     }
 
@@ -82,5 +78,11 @@ public class CompetitionResult {
     }
 
 
+    public void updateCompetition(StartBattleDto startBattleDto) {
+        this.competitionResultT1M1No = startBattleDto.getCompetitionResultT1M1No();
+        this.competitionResultT1M2No = startBattleDto.getCompetitionResultT1M2No();
+        this.competitionResultT2M1No = startBattleDto.getCompetitionResultT2M1No();
+        this.competitionResultT2M2No = startBattleDto.getCompetitionResultT2M2No();
+    }
 
 }

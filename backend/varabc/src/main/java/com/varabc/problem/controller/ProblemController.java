@@ -5,6 +5,7 @@ import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemListDto;
 import com.varabc.problem.domain.dto.PublicProblemDto;
+import com.varabc.problem.domain.dto.RandomProblemDto;
 import com.varabc.problem.exception.ProblemException;
 import com.varabc.problem.service.ProblemService;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -100,10 +102,6 @@ public class ProblemController {
     public ResponseEntity<?> updateProblem(@PathVariable Long problemNo,
             @ModelAttribute GetProblemDto getProblemDto,
             @ModelAttribute CheckUpdateDto checkUpdateDto) {
-        System.out.println(getProblemDto);
-        System.out.println("\n\n\n");
-        System.out.println(checkUpdateDto);
-        System.out.println("\n\n\n");
         if (checkUpdateDto.isProblemUpdate()) {
             System.out.println("1");
             problemService.updateProblem(problemNo, getProblemDto);
@@ -126,8 +124,7 @@ public class ProblemController {
                 throw new ProblemException("cannot update testcase");
             }
         }
-        System.out.println("AAAAAAAAAAAAAAAAA");
-        return new ResponseEntity<String>("success", HttpStatus.OK);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
 
@@ -135,10 +132,22 @@ public class ProblemController {
     public ResponseEntity<?> deleteProblem(@PathVariable Long problemNo) {
         boolean rslt = problemService.deleteProblem(problemNo);
         if(rslt){
-            return new ResponseEntity<String>("success", HttpStatus.OK);
+            return new ResponseEntity<>("success", HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>("failed", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("failed", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/getRandomProblem")
+    public ResponseEntity<?> getRandomProblem(@RequestBody RandomProblemDto randomProblemDto){
+        //문제 난이도랑 출처 받아와서, 그걸로 랜덤 돌리기.
+        //난이도는 실버 골드 이정도로만.
+        //problemNo 리턴.
+        Long problemNo = problemService.getRandomProblem(randomProblemDto);
+        if(problemNo!=null)
+            return new ResponseEntity<>(problemNo, HttpStatus.OK);
+        else
+            return  new ResponseEntity<>( HttpStatus.CONFLICT);
     }
 
 }

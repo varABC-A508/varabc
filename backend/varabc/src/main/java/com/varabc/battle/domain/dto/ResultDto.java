@@ -17,15 +17,16 @@ ResultDto {
     private int memoryUsage;
     private String exceptionMessage;
     private String resultMessage;
-
+    private String redirectUrl;
     @Builder
     public ResultDto(Long problemNo, int result, double executionTime, int memoryUsage,
-            String exceptionMessage, String resultMessage) {
+            String exceptionMessage, String resultMessage,String redirectUrl) {
         this.problemNo = problemNo;
         this.result = result;
         this.executionTime = executionTime;
         this.memoryUsage = memoryUsage;
         this.exceptionMessage = exceptionMessage;
         this.resultMessage=resultMessage;
+        this.redirectUrl = redirectUrl;
     }
 }

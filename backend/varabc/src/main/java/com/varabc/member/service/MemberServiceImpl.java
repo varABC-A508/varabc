@@ -4,14 +4,12 @@ package com.varabc.member.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.varabc.member.domain.dto.GoogleMemberDto;
 import com.varabc.member.domain.dto.KakaoMemberDto;
-import com.varabc.member.domain.dto.MemberDto;
 import com.varabc.member.domain.entity.Member;
 import com.varabc.member.mapper.MemberMapper;
 import com.varabc.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +22,8 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public Member saveGoogleMember(JsonNode userInfo) {
         Member member = memberRepository.findByMemberEmail(userInfo.get("email").asText());
-//        System.out.println(member);
-//        System.out.println(userInfo);
+        System.out.println(member);
+        System.out.println(userInfo);
         if(member==null){
             GoogleMemberDto googleMemberDto =memberMapper.googleJsonToDto(userInfo);
             member = memberMapper.googleMemberDtoToEntity(googleMemberDto);
@@ -49,6 +47,12 @@ public class MemberServiceImpl implements MemberService{
         }
         updateMemberNameInNewTransaction(userInfo.get("name").asText(),member);
         return member;
+    }
+
+    @Override
+    public String getEmail(Long memberNo) {
+        Member member = memberRepository.findByMemberNo(memberNo);
+        return member.getMemberEmail();
     }
 
     @Override
