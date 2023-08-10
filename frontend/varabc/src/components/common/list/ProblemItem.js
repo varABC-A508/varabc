@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { setIsPractice } from '../../../redux/Reducer/ideReducers';
 
 const ProblemItem = ({problem, index, last}) => {
-  const dispatch = useDispatch();
   let navigate = useNavigate();
   const onProblemClick = () => {
-    dispatch(setIsPractice(true));
-    navigate(`/problems/${problem.problemNo}`, {
+    if(!localStorage.getItem('isPractice')){
+      localStorage.setItem('isPractice', JSON.stringify(true));
+    }
+    navigate(`/problem/${problem.problemNo}`, {
       state: problem.problemNo
     });
   };

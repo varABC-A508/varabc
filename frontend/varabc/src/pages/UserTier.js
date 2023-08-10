@@ -1,9 +1,9 @@
 import diamond from '../img/tier/diamond.png';
 import profile2 from '../img/test/profile2.png';
+import ProfileImage from '../components/common/ProfileImage';
 
 const userTier = {
     "username": "DP조아",
-    "userId": "alias1031",
     "solvedProblems": 187,
     "win": 134,
     "lose": 53,
@@ -24,23 +24,23 @@ const UserTier = () => {
     return (
         <div className="w-[1000px] h-[540px] bg-primary rounded-[30px] flex items-center justify-between">
             <div className="h-full flex flex-col">
-                <div className="w-[540px] h-[420px] flex items-center justify-center">
+                <div className="w-[440px] h-[400px] flex items-center justify-center">
                     <img src={diamond} alt="다이아" />
                 </div>
-                <div className="w-[540px] h-[100px] flex items-center justify-center font-bold text-[64px] text-point">{tierList[userTier.tier]}</div>
+                <div className="w-[440px] h-[100px] flex items-center justify-center font-bold text-[64px] text-point">{tierList[userTier.tier]}</div>
             </div>
-            <div>
-                <div>
-                    <div>
-                        <div className="text-[52px] font-bold text-point">{userTier.username}</div>
-                        <div className="text-[32px] font-bold text-point">#{userTier.userId}</div>
-                    </div>
-                    <div className="w-[120px] h-[120px]">
-                        <img src={profile2} alt={userTier.username} />
-                    </div>
+            <div className="w-[560px] p-[40px] h-full flex flex-col justify-between">
+                <div className="flex justify-between items-center">
+                    <div className="text-[56px] font-bold text-point">{userTier.username}</div>
+                    <ProfileImage size="medium" imgLink={profile2} />
                 </div>
-                <div>통계</div>
-                <div>상태메세지</div>
+                <div className="text-[32px] font-bold">
+                    <div className="text-white">푼 문제 수 {userTier.solvedProblems}회</div>
+                    <div className="text-green">승리 {userTier.win}회</div>
+                    <div className="text-red">패배 {userTier.lose}회</div>
+                    <div className="text-white">승률 {((userTier.win / (userTier.win + userTier.lose)) * 100).toFixed(1)}%</div>
+                </div>
+                <div className="text-[28px] text-white mt-[10px]">{userTier.profileMessage}</div>
             </div>
         </div>
     );

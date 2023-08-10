@@ -55,7 +55,7 @@ const Ide = ({problemNo}) => {
   const mode = useSelector((state) => state.ide.mode);
   const fontSize = useSelector((state) => state.ide.fontSize);
   const isIdeShown = useSelector((state) => state.ide.isIdeShown);
-  const isPractice = useSelector((state) => state.ide.isPractice);
+  const isPractice = JSON.parse(localStorage.getItem('isPractice'));
 
   const onRunClick = (e) => {
     e.preventDefault();
@@ -114,15 +114,15 @@ const Ide = ({problemNo}) => {
               }}
             />
           </Panel>
-          <PanelResizeHandle className="cursor-row-resize" style={{ height: '4px', backgroundColor: 'gray' }} />
-          <Panel defaultSize={25}>
+          <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
+          <Panel defaultSize={25} className="bg-primary text-white">
             <div>실행 결과</div>
             <div>실행 시간: {result.executionTime}</div>
             <div>사용 메모리: {result.memoryUsage}</div>
-            <div>{result.result ? "성공" : "실패"}</div>
+            <div>{result.result === 1 ? "성공" : "실패"}</div>
           </Panel>
-          <PanelResizeHandle className="cursor-row-resize" style={{ height: '4px', backgroundColor: 'gray' }} />
-          <Panel defaultSize={10}>
+          <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
+          <Panel defaultSize={10} className="bg-primary">
             <SmButton bgColor="basic" text="실행하기" onClick={onRunClick} />
             <SmButton bgColor="green" text="제출하기" onClick={onRunClick} />
           </Panel>
