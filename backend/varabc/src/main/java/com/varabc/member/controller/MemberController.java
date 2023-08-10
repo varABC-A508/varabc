@@ -63,7 +63,7 @@ public class MemberController {
         System.out.println(userInfo.toString());
         return ResponseEntity.ok(userInfo);
     }
-    @GetMapping("/getUserInfo")
+    @GetMapping("getUserInfo")
     public ResponseEntity<Object> getUserInfo(@RequestHeader("access-token") String accessToken) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
@@ -84,7 +84,7 @@ public class MemberController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/changeNickname")
+    @PostMapping("changeNickname")
     public ResponseEntity<Object> changeNickname(@RequestBody NicknameDto nicknameDto, @RequestHeader(name = "access-token") String accessToken){
         HttpStatus status = null;
         try {
@@ -101,7 +101,7 @@ public class MemberController {
             return ResponseEntity.status(status).body("nickname change fail");
         }
     }
-    @PostMapping("/checkNickname")
+    @PostMapping("checkNickname")
     public ResponseEntity<Object> checkNickname(@RequestBody NicknameDto nicknameDto){
        if(memberService.findMemberNickname(nicknameDto.getMemberNickname())){
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("already exist nickname");
