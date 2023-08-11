@@ -215,7 +215,7 @@ public class ProblemServiceImpl implements ProblemService {
                     getProblemDto.getTestCaseOutputPublicList().get(i));
 
             TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl,
-                    outputUrl, false);
+                    outputUrl, true);
             TestCase testCase = problemMapper.dtoToTestCaseEntity(testCaseDto);
             testCaseRepository.save(testCase);
         }
@@ -227,7 +227,7 @@ public class ProblemServiceImpl implements ProblemService {
             String outputUrl = awsS3Controller.upload(
                     getProblemDto.getTestCaseOutputPrivateList().get(i));
             TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl,
-                    outputUrl, true);
+                    outputUrl, false);
             TestCase testCase = problemMapper.dtoToTestCaseEntity(testCaseDto);
             testCaseRepository.save(testCase);
         }
