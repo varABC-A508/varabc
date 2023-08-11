@@ -56,7 +56,7 @@ export const Home = () => {
   const handleModalSave = (newNickname) => {
     console.log(">>>>저장했대");
     setNickname(newNickname);
-    // localStorage.setItem('access-token', accessToken);
+    SessionStorage.setItem('access-token', accessToken);
     localStorage.setItem('nickname', newNickname);
 
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
