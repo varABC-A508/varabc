@@ -37,7 +37,7 @@ public class MemberController {
         JsonNode userInfo = googleLoginService.getGoogleUserInfo(accessToken);
         Member member = memberService.saveGoogleMember(userInfo);
         //추후수정 필요
-        RedirectView redirectView = new RedirectView("https://localhost:3000/");
+        RedirectView redirectView = new RedirectView("https://varabc.com/");
         try{
             String accessTokenForJwt=jwtService.createAccessToken("memberNo", member.getMemberNo());
             System.out.println(accessTokenForJwt);
