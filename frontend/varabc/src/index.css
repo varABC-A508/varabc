@@ -7,6 +7,13 @@
     height:100vh;
 }
 
+<<<<<<< HEAD
+@tailwind utilities;
+
+body { 
+    background-color: blue;
+=======
 body{
     overflow-x:hidden;
+>>>>>>> 460191dbfec67728f6aa6beb9f43feb03ed8d100
 }

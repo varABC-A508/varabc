@@ -1,19 +1,22 @@
-import {Routes, Route} from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 
-import { Nav } from './components/common/nav';
+import { Nav } from "./components/common/nav";
 
 import { Home } from './pages/home/Home';
 import { Tier } from './pages/Tier';
 
-import { Battle } from './pages/battle/Battle';
-import { BattleMode } from './pages/battle/BattleMode';
-import { BattleRoom } from './pages/battle/BattleRoom';
+import { Battle } from "./pages/battle/Battle";
+import { BattleMode } from "./pages/battle/BattleMode";
+import { BattleRoom } from "./pages/battle/BattleRoom";
 
-import { Friends } from './pages/myPage/Friends';
-import { History } from './pages/myPage/history/History';
-import { Profile } from './pages/myPage/Profile';
-import { Reviews } from './pages/myPage/Reviews';
-import { MyPage } from './pages/myPage/myPage';
+import { Friends } from "./pages/myPage/Friends";
+import { History } from "./pages/myPage/history/History";
+import { Profile } from "./pages/myPage/Profile";
+import { Reviews } from "./pages/myPage/Reviews";
+import { MyPage } from "./pages/myPage/myPage";
+
+import ProblemForm from "./components/ProblemForm/ProblemForm";
+import ProblemPost from "./components/ProblemPost/ProblemPost";
 
 import { Problems } from './pages/problem/Problems';
 import ProblemDetail from './pages/problem/ProblemDetail';
@@ -48,9 +51,12 @@ const App = () => {
           <Route path="reviews" element={<Reviews />} />
           <Route path="friends" element={<Friends />} />
         </Route>
+        <Route path="/admin/create" element={<ProblemForm />} />
+        <Route path="/admin/post/:postId" element={<ProblemPost />} />
+        <Route path="/admin/edit/:postId" element={<ProblemForm />} />
       </Routes>
     </div>
   );
-}
+};
 
 export default App;
