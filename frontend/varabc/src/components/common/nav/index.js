@@ -1,8 +1,31 @@
-import {Link} from 'react-router-dom';
-import Profile from '../ProfileImage';
-import profile2 from '../../../img/test/profile2.png';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Login } from '../../../pages/myPage/login/Login';
 
 export const Nav = () => {
+
+  const [currentNickname, setCurrentNickname] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    window.location.reload();
+  }
+
+  useEffect(() => {
+    console.log(">>>네브바 로컬 가져오기");
+    const storedNickname = localStorage.getItem('nickname');
+    setCurrentNickname(storedNickname);
+  }, [])
+
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
       <div className="w-20% pl-10">
@@ -22,20 +45,29 @@ export const Nav = () => {
           티어
         </Link>
       </div>
-      <div className="w-20% pr-10 flex">
-        <Profile size="small" imgLink={profile2} />
-        {
+      <div className='w-20% pr-10'>
+        {/* 로컬에 닉네임 정보가 있으면 닉네임을 표시, 없으면 로그인 버튼을 표시 */}
+        {currentNickname ? (
           <Link to="/myPage/profile">
-            <div className="flex flex-col ml-[20px]">
-              <div className="text-xl">환영합니다</div>
-              <div className="text-2xl">
-                <span className="font-bold">DP조아</span>
-                <span>님!</span>
-              </div>
+            <div className='text-xl'>환영합니다</div>
+            <div className='text-2xl'>
+              <span className='font-bold'>{currentNickname}</span>
+              <span>님!</span>
+              <button onClick={logout} >로그아웃</button>
             </div>
           </Link>
-        }
-      </div>
+        ) : (
+          <div>
+            <button onClick={handleOpenModal} className="bg-blue-500 text-white px-4 py-2 rounded">
+              Login
+            </button>
+            <Login
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+            />
+          </div>
+        )}
+      </div >
     </div>
   );
 };

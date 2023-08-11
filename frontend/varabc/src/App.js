@@ -27,6 +27,9 @@ import { BattleResultPage2 } from './pages/battle/BattleResultPage2';
 
 
 const App = () => {
+
+  console.log('>>>>>들어왔어');
+
   return (
     <div className="App">
       <Nav />

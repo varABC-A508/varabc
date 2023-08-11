@@ -5,7 +5,7 @@ import GitHubLogo from "../../img/github_logo.png"
 const SignGitHub = () => {
 
   // GitHub OAuth2 인증 요청을 보낼 URL 
-  const redirect_uri = "https://localhost:8080/member/github-login";
+  const redirect_uri = "https://varabc.com:8080/member/github-login";
   // const redirect_uri = "https://localhost:3000";
   const clientId = "9067acb2a2d736dfa65f";
 
@@ -22,7 +22,7 @@ const SignGitHub = () => {
         src={ GitHubLogo }
         alt="깃헙 로그인"
       />
-      <p className='text-lg font-semibold'>GitHub</p>
+      <p className='text-lg text-black font-semibold'>GitHub</p>
     </div>
   );
 };

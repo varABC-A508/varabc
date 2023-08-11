@@ -20,7 +20,7 @@ export const Login = ({ isOpen, onClose }) => {
         <div className="flex justify-end ">
           <FontAwesomeIcon onClick={onClose} className='text-gray-700 w-10 h-10' icon={faXmark} />
         </div>
-        <h2 className="text-2xl font-bold mb-4">varABC</h2>
+        <h2 className="text-2xl text-black font-bold mb-4">varABC</h2>
         <hr />
         <img src={VarabcLogo } alt="로고" className="object-cover mt-4 mb-4" />
         <div className="flex justify-around">
