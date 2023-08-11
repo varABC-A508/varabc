@@ -220,7 +220,7 @@ public class ProblemServiceImpl implements ProblemService {
             testCaseRepository.save(testCase);
         }
         //비공개 테케
-        for (int i = 0; i < getProblemDto.getTestCaseInputPublicList().size();
+        for (int i = 0; i < getProblemDto.getTestCaseInputPrivateList().size();
                 i++) {
             String inputUrl = awsS3Controller.upload(
                     getProblemDto.getTestCaseInputPrivateList().get(i));
