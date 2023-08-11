@@ -2,8 +2,11 @@ package com.varabc.battle.mapper;
 
 import com.varabc.battle.domain.dto.BattleInfoDto;
 import com.varabc.battle.domain.dto.BattleUrlDto;
+import com.varabc.battle.domain.dto.ReviewDto;
 import com.varabc.battle.domain.dto.StartBattleDto;
 import com.varabc.battle.domain.entity.CompetitionResult;
+import com.varabc.battle.domain.entity.Review;
+import com.varabc.battle.domain.entity.ReviewTag;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -49,5 +52,26 @@ public class BattleMapper {
                     .build();
         }
 
+    }
+
+    public Review createEntity(Long competitionResultNo, ReviewDto reviewDto) {
+        return Review.builder()
+                .competitionResultNo(competitionResultNo)
+                .reviewSendMemberNo(reviewDto.getReviewSendMemberNo())
+                .reviewReceiveMemberNo(reviewDto.getReviewReceiveMemberNo())
+                .reviewContent(reviewDto.getReviewContent())
+                .reviewResign(false)
+                .build();
+    }
+
+    public ReviewTag createEntity(ReviewDto reviewDto, Long reviewNo) {
+        return ReviewTag.builder()
+                .reviewNo(reviewNo)
+                .reviewTagCommunication(reviewDto.isReviewTagCommunication())
+                .reviewTagNaming(reviewDto.isReviewTagNaming())
+                .reviewTagReadability(reviewDto.isReviewTagReadability())
+                .reviewTagSpeed(reviewDto.isReviewTagSpeed())
+                .reviewTagCResign(false)
+                .build();
     }
 }

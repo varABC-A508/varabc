@@ -6,6 +6,7 @@ import com.varabc.battle.domain.dto.BattleMemberDto;
 import com.varabc.battle.domain.dto.BattleUrlDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
+import com.varabc.battle.domain.dto.ReviewDto;
 import com.varabc.battle.domain.dto.StartBattleDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
 import com.varabc.battle.service.BattleService;
@@ -147,15 +148,36 @@ public class BattleController {
 //            throw new RuntimeException(e);
             e.printStackTrace();
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity<>( status);
+            return new ResponseEntity<>(status);
         }
         FinalResultListDto finalResultListDto = validationService.getFinalResult(
                 competitionResultNo, battleMemberDto);
         if (finalResultListDto == null) {
             status = HttpStatus.CONFLICT;
-            return new ResponseEntity<>( status);
+            return new ResponseEntity<>(status);
         }
         return new ResponseEntity<>(finalResultListDto, status);
+    }
+
+    @PostMapping("/review/{roomCode}")
+    public ResponseEntity<?> createReview(@PathVariable String roomCode,
+            @RequestBody ReviewDto reviewDto) {
+        Long competitionResultNo = null;
+        HttpStatus status = null;
+        try {
+            competitionResultNo = encryptor.decrypt(roomCode);
+            status = HttpStatus.OK;
+        } catch (Exception e) {
+//            throw new RuntimeException(e);
+            e.printStackTrace();
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity<>(status);
+        }
+        boolean request = battleService.createReview(competitionResultNo, reviewDto);
+        if (!request) {
+            status = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(status);
     }
 
 
