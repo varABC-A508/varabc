@@ -1,15 +1,4 @@
 const FileUploads = ({ handleIOChange, mode }) => {
-  const originalFiles = (files, fileName) => {
-    const allFiles = files.map((file, idx) => {
-      return (
-        <div className="px-2 py-1 border-rose-300 rounded-full" key={file}>
-          <a href={file} download={`${fileName}${idx + 1}.txt`}>
-            <button>{`${fileName}${idx + 1}`}</button>
-          </a>
-        </div>
-      );
-    });
-  };
   return (
     <>
       <label

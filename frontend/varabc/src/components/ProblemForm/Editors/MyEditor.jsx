@@ -71,6 +71,7 @@ const MyEditor = forwardRef(
           modules: ["Resize", "DisplaySize", "Toolbar"],
         },
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 복사 붙여넣기 시 모든 양식을 지워주도록 override
@@ -96,11 +97,13 @@ const MyEditor = forwardRef(
       }
       return () => {
         if (ref.current != null) {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           ref.current
             .getEditor()
             .root.removeEventListener("paste", handlePaste);
         }
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
