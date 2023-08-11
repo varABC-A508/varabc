@@ -108,7 +108,7 @@ const ProblemPost = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center m-3 p-3">
+    <div className="flex flex-col items-center p-3 bg-bg2 bg-cover">
       <h1 className=" mb-4 w-3/5 text-4xl text-white font-bold">
         알고리즘 문제 정보
       </h1>
@@ -119,10 +119,10 @@ const ProblemPost = () => {
           <FileUploads />
         </div>
         <div className="flex justify-end bg-transparent">
-          <button onClick={handleEditClick} className="bg-green-400">
+          <button onClick={handleEditClick} className="p-3 me-2 bg-teal-400">
             수정
           </button>
-          <button onClick={handleDeleteClick} className="bg-red-400">
+          <button onClick={handleDeleteClick} className="p-3 bg-rose-400">
             삭제
           </button>
         </div>

@@ -223,7 +223,7 @@ const ProblemForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center m-3 p-3">
+    <div className="flex flex-col items-center p-3 bg-bg2 bg-cover">
       <h1 className=" mb-4 w-3/5 text-4xl text-white font-bold">
         {`알고리즘 문제 ${mode === "create" ? "등록" : "수정"}`}
       </h1>
@@ -250,7 +250,7 @@ const ProblemForm = () => {
           >
             취소
           </button>
-          <button type="submit" className="p-3 bg-green-400">
+          <button type="submit" className="p-3 bg-teal-400">
             {mode === "create" ? "저장" : "수정"}
           </button>
         </div>
