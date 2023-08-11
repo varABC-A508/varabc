@@ -25,18 +25,23 @@ export const Home = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const receivedAccessToken = queryParams.get('access-token');
+  const receivedRefreshToken = queryParams.get('refresh-token');
   const receivedNickname = queryParams.get('memberNickname');
   const navigate = useNavigate();
 
   const [accessToken, setAccessToken] = useState(receivedAccessToken);
+  const [refreshToken, setRefreshToken] = useState(receivedRefreshToken);
   const [nickname, setNickname] = useState();
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (receivedAccessToken) {
       setAccessToken(receivedAccessToken);
+      setRefreshToken(receivedRefreshToken);
       sessionStorage.setItem('access-token', accessToken);
+      sessionStorage.setItem('refresh-token', refreshToken);
       console.log(accessToken);
+      console.log(refreshToken);
 
       if (nickname) {
         setNickname(nickname);     
