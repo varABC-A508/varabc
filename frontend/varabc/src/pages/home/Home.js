@@ -50,6 +50,7 @@ export const Home = () => {
         console.log('>>>>>>>모달');
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [receivedAccessToken, receivedNickname]);
 
   const handleModalSave = (newNickname) => {
