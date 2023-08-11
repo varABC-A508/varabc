@@ -35,7 +35,7 @@ export const Home = () => {
   useEffect(() => {
     if (receivedAccessToken) {
       setAccessToken(receivedAccessToken);
-      // localStorage.setItem('access-token', accessToken);
+      sessionStorage.setItem('access-token', accessToken);
       console.log(accessToken);
 
       if (nickname) {
