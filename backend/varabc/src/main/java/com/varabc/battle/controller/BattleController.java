@@ -83,7 +83,7 @@ public class BattleController {
     }
 
 
-    @GetMapping("/start/{roomCode}")
+    @PostMapping("/start/{roomCode}")
     public ResponseEntity<?> startBattle(@PathVariable String roomCode,
             @RequestBody StartBattleDto startBattleDto) {
         //일단 다시 입력된 정보로 db 업데이트.
