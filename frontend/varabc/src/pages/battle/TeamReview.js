@@ -45,7 +45,7 @@ export const TeamReview = () => {
               </div>
               <MoveRoundButton to={"/"} text={"회의 하기"} bgColor={"basic"} btnSize={"basic"} />
               <br />
-              <MoveRoundButton to={"/"} text={"나가기"} bgColor={"red"} btnSize={"basic"} />
+              <MoveRoundButton to={"/"} text={"완료"} bgColor={"red"} btnSize={"basic"} />
             </div>
           </div>
         </div>

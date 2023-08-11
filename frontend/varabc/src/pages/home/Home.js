@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 import IconDescription from "./IconDescription";
 import IconDescriptionReverse from "./IconDescriptionReverse";
@@ -13,7 +15,76 @@ import sub3 from '../../img/sub3.png';
 import sub4 from '../../img/sub4.png';
 import sub5 from '../../img/sub5.png';
 
+import NicknameModal from "../../components/login/NicknameModal";
+
+
 export const Home = () => {
+  console.log('>>>>홈');
+
+  // 백엔드 서버에서 token과 nickname이 옴(nickname 초기값은 null > 설정 창을 띄우고 저장 후 다시 백엔드로 보내주기) > 저장
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const receivedAccessToken = queryParams.get('access-token');
+  const receivedNickname = queryParams.get('memberNickname');
+  const navigate = useNavigate();
+
+  const [accessToken, setAccessToken] = useState(receivedAccessToken);
+  const [nickname, setNickname] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (receivedAccessToken) {
+      setAccessToken(receivedAccessToken);
+      // localStorage.setItem('access-token', accessToken);
+      console.log(accessToken);
+
+      if (nickname) {
+        setNickname(nickname);     
+        localStorage.setItem('nickname', nickname);
+        console.log(nickname);
+        navigate('/');
+      } else {
+        // 닉네임이 없으면 모달 열기
+        setModalOpen(true);
+        navigate('/');
+        console.log('>>>>>>>모달');
+      }
+    }
+  }, [receivedAccessToken, receivedNickname]);
+
+  const handleModalSave = (newNickname) => {
+    console.log(">>>>저장했대");
+    setNickname(newNickname);
+    // localStorage.setItem('access-token', accessToken);
+    localStorage.setItem('nickname', newNickname);
+
+    // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
+    if (localStorage.getItem('nickname')) {
+      console.log('>>>>>요청 보내라');
+      console.log(accessToken);
+      const api = 'https://www.varabc.com:8080/member/changeNickname';
+      const requestBody = {
+        memberNickname: newNickname,
+      };
+
+      axios.post(api, requestBody, {
+        headers: {
+          'access-token': accessToken,
+        }
+      })
+      .then(response => {
+        console.log('>>>>>>>>요청 성공', response);
+        setModalOpen(false);
+        navigate('/');
+        window.location.reload();
+      })
+      .catch(error => {
+        console.log('>>>>에러 응답', error.response.data);
+        console.log('>>>>에러 상태 코드', error.response.status);
+      });
+    }
+  }
+
   return (
     <div>
       <div className="w-screen h-screen flex items-end p-20 bg-bg1 bg-cover">
@@ -84,7 +155,7 @@ export const Home = () => {
           </div>
           <div className="flex justify-center">
             <MoveRoundButton to="/battle" text="코드 배틀 하기" bgColor="point" btnSize="big" />
-        </div>
+          </div>
         </div>
       </div>
       <div className="w-screen h-screen flex bg-bg2 bg-cover pl-20 pr-20">
@@ -99,6 +170,11 @@ export const Home = () => {
           </div>
         </div>
       </div>
+      <NicknameModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSave={handleModalSave}
+      />
     </div>
   );
 };
