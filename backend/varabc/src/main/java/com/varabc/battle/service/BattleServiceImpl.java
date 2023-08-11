@@ -2,10 +2,15 @@ package com.varabc.battle.service;
 
 import com.varabc.battle.domain.dto.BattleInfoDto;
 import com.varabc.battle.domain.dto.BattleUrlDto;
+import com.varabc.battle.domain.dto.ReviewDto;
 import com.varabc.battle.domain.dto.StartBattleDto;
 import com.varabc.battle.domain.entity.CompetitionResult;
+import com.varabc.battle.domain.entity.Review;
+import com.varabc.battle.domain.entity.ReviewTag;
 import com.varabc.battle.mapper.BattleMapper;
 import com.varabc.battle.repository.CompetitionResultRepository;
+import com.varabc.battle.repository.ReviewTagRepository;
+import com.varabc.battle.repository.ReviewRepository;
 import com.varabc.member.service.MemberService;
 import jakarta.transaction.Transactional;
 import java.util.Random;
@@ -18,6 +23,8 @@ public class BattleServiceImpl implements BattleService {
 
     private final BattleMapper battleMapper;
     private final CompetitionResultRepository competitionResultRepository;
+    private final ReviewRepository reviewRepository;
+    private final ReviewTagRepository reviewTagRepository;
     private final MemberService memberService;
 
     @Override
@@ -115,7 +122,18 @@ public class BattleServiceImpl implements BattleService {
 
     }
 
-
+    @Override
+    public boolean createReview(Long competitionResultNo, ReviewDto reviewDto) {
+        //디비에 저장 필요.
+        //근데 디비가 두개임요.
+        //그래서 먼저 리뷰 등록하고 그 no 받아와서 등록해야함요.
+        Review review = battleMapper.createEntity(competitionResultNo, reviewDto);
+        reviewRepository.save(review);
+        Long reviewNo = review.getReviewNo();
+        ReviewTag reviewTag = battleMapper.createEntity(reviewDto,reviewNo);
+        reviewTagRepository.save(reviewTag);
+        return true;
+    }
 
 
 }

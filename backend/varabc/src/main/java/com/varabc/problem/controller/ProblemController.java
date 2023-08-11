@@ -21,12 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.stereotype.Controller;
 //@Controller
 @Slf4j
-@RestController
-//@Controller
+//@RestController
+@Controller
 @RequestMapping("/problem")
 @RequiredArgsConstructor
 public class ProblemController {
