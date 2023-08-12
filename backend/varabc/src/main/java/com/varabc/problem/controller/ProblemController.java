@@ -8,6 +8,7 @@ import com.varabc.problem.domain.dto.PublicProblemDto;
 import com.varabc.problem.domain.dto.RandomProblemDto;
 import com.varabc.problem.exception.ProblemException;
 import com.varabc.problem.service.ProblemService;
+import com.varabc.problem.service.SearchService;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
+
 //@Controller
 @Slf4j
 //@RestController
@@ -32,6 +35,30 @@ public class ProblemController {
 
     //crud
     private final ProblemService problemService;
+    private final SearchService searchService;
+
+    @PostMapping("/search")
+    public ResponseEntity<?> search(@RequestParam String keyword, @RequestParam(required = false) List<Integer> algoType) {
+        if (keyword.equals("")){
+            return new ResponseEntity<>(searchService.searchProblemsOnlyAlgorithmType(algoType),HttpStatus.OK);
+        }
+        if (algoType==null){
+            return new ResponseEntity<>(searchService.searchProblemsOnlyKey(keyword),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(searchService.searchProblems(keyword, algoType),HttpStatus.OK);
+    }
+
+    @PostMapping("/searchByNo")
+    public ResponseEntity<?> searchByNo(@RequestParam String keyword, @RequestParam(required = false) List<Integer> algoType) {
+        if (keyword.equals("")){
+            return new ResponseEntity<>(searchService.searchProblemsOnlyAlgorithmType(algoType),HttpStatus.OK);
+        }
+        long problemNo=Long.parseLong(keyword);
+        if (algoType==null){
+            return new ResponseEntity<>(searchService.searchProblemsOnlyProblemNo(problemNo),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(searchService.searchProblemsByNo(problemNo, algoType),HttpStatus.OK);
+    }
 
     @GetMapping("/getList")
     public ResponseEntity<?> getList(){

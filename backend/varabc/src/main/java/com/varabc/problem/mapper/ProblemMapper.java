@@ -19,6 +19,25 @@ import org.springframework.stereotype.Component;
 @Mapper
 public class ProblemMapper {
 
+    //문제 리스트를 문제 리스트디티오 리스트로 바꾸기
+    public List<ProblemListDto> problemEntityListToDtoList(List<Problem> problemList){
+        List<ProblemListDto> tempList=new ArrayList<>();
+        for (int i=0;i<problemList.size();i++){
+            ProblemListDto problemListDto=problemEntityToDto(problemList.get(i));
+            tempList.add(problemListDto);
+        }
+        return tempList;
+    }
+    public ProblemListDto problemEntityToDto(Problem problem){
+        return ProblemListDto.builder()
+                .problemTitle(problem.getProblemTitle())
+                .problemLevel(problem.getProblemLevel())
+                .problemNo(problem.getProblemNo())
+                .problemCorrectCount(problem.getProblemCorrectCount())
+                .problemSubmitCount(problem.getProblemSubmitCount())
+                .build();
+    }
+
     public Problem dtoToProblemEntity(GetProblemDto getProblemDto) {
         //초기값으로 넣고 생성하고 싶은데 구냥 이렇게 여기서 바로 적어서 넣어버려도 될련지
         return Problem.builder()
