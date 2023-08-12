@@ -22,7 +22,7 @@ export const Nav = () => {
   }
 
   useEffect(() => {
-    window.localStorage.setItem('nickname', nickname);
+    setNickname(window.localStorage.setItem('nickname', nickname));
   }, [window.localStorage.getItem('nickname')]);
 
   // useEffect(() => {
