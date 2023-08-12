@@ -29,7 +29,7 @@ export const Home = () => {
 
   // const [accessToken, setAccessToken] = useState('');
   // const [refreshToken, setRefreshToken] = useState('');
-  const [nickname, setNickname] = useState("null");
+  const [nickname, setNickname] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
