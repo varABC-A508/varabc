@@ -14,7 +14,6 @@ import com.varabc.validation.Service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -105,7 +104,7 @@ public class BattleController {
         //경로 두개 보냄.
     }
 
-    @GetMapping("/game/{problemNo}/{roomCode}/{team}")
+    @PostMapping("/game/{problemNo}/{roomCode}/{team}")
     public ResponseEntity<?> getBattle(@PathVariable Long problemNo, @PathVariable String roomCode,
             @PathVariable int team, @RequestBody StartBattleDto startBattleDto) {
         //이게 배틀 시작 페이지. 여기에서 문제 정보 리턴해줘야한다. 멤버 정보도 리턴?
@@ -135,7 +134,7 @@ public class BattleController {
         }
     }
 
-    @GetMapping("/finalResult/{roomCode}")
+    @PostMapping("/finalResult/{roomCode}")
     public ResponseEntity<?> getFinalResult(@PathVariable String roomCode, @RequestBody
     BattleMemberDto battleMemberDto) {
         //경기 결과 리턴.
@@ -179,6 +178,7 @@ public class BattleController {
         }
         return new ResponseEntity<>(status);
     }
+
 
 
 }
