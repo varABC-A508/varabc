@@ -5,6 +5,7 @@ import com.varabc.battle.domain.dto.FinalResultDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
+import com.varabc.mypage.domain.dto.MyPageSubmitDto;
 import com.varabc.problem.domain.entity.ProblemRestriction;
 import com.varabc.validation.domain.dto.ProblemRestrictionDto;
 import com.varabc.validation.domain.dto.SubmitDto;
@@ -149,4 +150,18 @@ public class ValidationMapper {
                     .loserList(loserList)
                     .build();
     }
+
+    public MyPageSubmitDto EntityToDto(Submit submit, String submitStatus) {
+            return MyPageSubmitDto.builder()
+                    .submitNo(submit.getSubmitNo())
+                    .competitionResultNo(submit.getCompetitionResultNo())
+                    .problemNo(submit.getProblemNo())
+                    .submitUsedTime(submit.getSubmitUsedTime())
+                    .submitLanguage(submit.getSubmitLanguage())
+                    .submitStatus(submitStatus)
+                    .submitUsedMemory(submit.getSubmitUsedMemory())
+                    .submitTime(submit.getSubmitTime())
+                    .build();
+    }
+
 }

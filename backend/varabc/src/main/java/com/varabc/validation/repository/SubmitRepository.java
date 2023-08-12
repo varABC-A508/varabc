@@ -11,4 +11,8 @@ public interface SubmitRepository extends JpaRepository<Submit, Long> {
 
     @Query("SELECT s FROM Submit s WHERE s.competitionResultNo = ?1 AND (s.memberNo = ?2 OR s.memberNo = ?3) AND s.submitOrder = 1")
     List<Submit> getBattleList(Long competitionResultNo, Long member1, Long member2);
+
+    List<Submit> findByMemberNoAndSubmitMode(Long memberNo, int submitMode);
+
+    Submit findBySubmitNo(Long submitNo);
 }

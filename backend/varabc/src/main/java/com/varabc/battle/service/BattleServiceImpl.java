@@ -9,8 +9,8 @@ import com.varabc.battle.domain.entity.Review;
 import com.varabc.battle.domain.entity.ReviewTag;
 import com.varabc.battle.mapper.BattleMapper;
 import com.varabc.battle.repository.CompetitionResultRepository;
-import com.varabc.battle.repository.ReviewTagRepository;
 import com.varabc.battle.repository.ReviewRepository;
+import com.varabc.battle.repository.ReviewTagRepository;
 import com.varabc.member.service.MemberService;
 import jakarta.transaction.Transactional;
 import java.util.Random;
@@ -68,6 +68,7 @@ public class BattleServiceImpl implements BattleService {
         //경기 기록 업데이트 시켜야.
         CompetitionResult competitionResult = competitionResultRepository.findById(
                 competitionResultNo).orElse(null);
+        System.out.println(competitionResult);
         if (competitionResult == null) {
             System.out.println("배틀 코드 잘못 입력");
         } else {
@@ -134,6 +135,8 @@ public class BattleServiceImpl implements BattleService {
         reviewTagRepository.save(reviewTag);
         return true;
     }
+
+
 
 
 }

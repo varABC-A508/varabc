@@ -24,4 +24,5 @@ public interface BattleService {
     void updateBattleInfoToFinal(Long competitionResultNo, StartBattleDto startBattleDto);
 
     boolean createReview(Long competitionResultNo, ReviewDto reviewDto);
+
 }

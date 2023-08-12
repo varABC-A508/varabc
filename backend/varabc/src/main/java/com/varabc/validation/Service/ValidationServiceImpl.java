@@ -9,12 +9,15 @@ import com.varabc.battle.domain.dto.FinalResultDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
+import com.varabc.member.repository.MemberRepository;
 import com.varabc.member.service.MemberService;
+import com.varabc.mypage.domain.dto.MyPageSubmitDto;
 import com.varabc.problem.domain.entity.ProblemRestriction;
 import com.varabc.problem.domain.entity.TestCase;
 import com.varabc.problem.repository.ProblemRestrictionRepository;
 import com.varabc.problem.service.ProblemService;
 import com.varabc.validation.domain.dto.ProblemRestrictionDto;
+import com.varabc.validation.domain.dto.SubmitDto;
 import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
@@ -48,6 +51,7 @@ public class ValidationServiceImpl implements ValidationService {
     private final ValidationRepository validationRepository;
     private final SubmitRepository submitRepository;
     private final ProblemRestrictionRepository problemRestrictionRepository;
+    private final MemberRepository memberRepository;
     private final ValidationMapper validationMapper;
     private final ProblemService problemService;
     private final MemberService memberService;
@@ -196,42 +200,75 @@ public class ValidationServiceImpl implements ValidationService {
         List<FinalResultDto> winnerList = new ArrayList<>();
         List<FinalResultDto> loserList = new ArrayList<>();
         //팀 분류 정보 가지고 들어와야. 쿼리문으로 날려야한다.
-        List<Submit> submitList1=null;
+        List<Submit> submitList1 = null;
         List<Submit> submitList2 = null;
 
-        if(battleMemberDto.getWinnerTeam()==1){
-            submitList1 = submitRepository.getBattleList(competitionResultNo,battleMemberDto.getCompetitionResultT1M1No(),battleMemberDto.getCompetitionResultT1M2No());
-            submitList2 = submitRepository.getBattleList(competitionResultNo,battleMemberDto.getCompetitionResultT2M1No(),battleMemberDto.getCompetitionResultT2M2No());
+        if (battleMemberDto.getWinnerTeam() == 1) {
+            submitList1 = submitRepository.getBattleList(competitionResultNo,
+                    battleMemberDto.getCompetitionResultT1M1No(),
+                    battleMemberDto.getCompetitionResultT1M2No());
+            submitList2 = submitRepository.getBattleList(competitionResultNo,
+                    battleMemberDto.getCompetitionResultT2M1No(),
+                    battleMemberDto.getCompetitionResultT2M2No());
+        } else {
+            submitList1 = submitRepository.getBattleList(competitionResultNo,
+                    battleMemberDto.getCompetitionResultT1M1No(),
+                    battleMemberDto.getCompetitionResultT1M2No());
+            submitList2 = submitRepository.getBattleList(competitionResultNo,
+                    battleMemberDto.getCompetitionResultT2M1No(),
+                    battleMemberDto.getCompetitionResultT2M2No());
         }
-        else{
-            submitList1 = submitRepository.getBattleList(competitionResultNo,battleMemberDto.getCompetitionResultT1M1No(),battleMemberDto.getCompetitionResultT1M2No());
-            submitList2 = submitRepository.getBattleList(competitionResultNo,battleMemberDto.getCompetitionResultT2M1No(),battleMemberDto.getCompetitionResultT2M2No());
-        }
-        for(Submit submit : submitList1){
+        for (Submit submit : submitList1) {
             String email = memberService.getEmail(submit.getMemberNo());
             String submitStatus;
-            if(submit.getSubmitStatus()==1){
+            if (submit.getSubmitStatus() == 1) {
 //                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
-                  submitStatus=  "맞았습니다.";
-            }else{
-                submitStatus="틀렸습니다.";
+                submitStatus = "맞았습니다.";
+            } else {
+                submitStatus = "틀렸습니다.";
             }
-            winnerList.add(validationMapper.EntityToDto(submit,email,submitStatus));
+            winnerList.add(validationMapper.EntityToDto(submit, email, submitStatus));
 
         }
-        for(Submit submit : submitList2){
+        for (Submit submit : submitList2) {
             String email = memberService.getEmail(submit.getMemberNo());
             String submitStatus;
-            if(submit.getSubmitStatus()==1){
+            if (submit.getSubmitStatus() == 1) {
 //                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
-                  submitStatus=  "맞았습니다.";
-            }else{
-                submitStatus="틀렸습니다.";
+                submitStatus = "맞았습니다.";
+            } else {
+                submitStatus = "틀렸습니다.";
             }
-            loserList.add(validationMapper.EntityToDto(submit,email,submitStatus));
+            loserList.add(validationMapper.EntityToDto(submit, email, submitStatus));
 
         }
-        finalResultListDto= validationMapper.dtoToDto(winnerList,loserList);
+        finalResultListDto = validationMapper.dtoToDto(winnerList, loserList);
         return finalResultListDto;
+    }
+
+    @Override
+    public List<MyPageSubmitDto> getSubmits(Long memberNo, int mode) {
+//        Member member= memberRepository.findByMemberNo(memberNo);
+        List<MyPageSubmitDto> myPageSubmitDtoList = new ArrayList<>();
+        List<Submit> submitList = submitRepository.findByMemberNoAndSubmitMode(memberNo, mode);
+        String submitStatus;
+        for (Submit submit : submitList) {
+            if (submit.getSubmitStatus() == 1) {
+//                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
+                submitStatus = "맞았습니다.";
+            } else {
+                submitStatus = "틀렸습니다.";
+            }
+            MyPageSubmitDto myPageSubmitDto = validationMapper.EntityToDto(submit, submitStatus);
+            myPageSubmitDtoList.add(myPageSubmitDto);
+        }
+        return myPageSubmitDtoList;
+    }
+
+    @Override
+    public SubmitDto getSubmit(Long submitNo) {
+        SubmitDto submitDto = null;
+        submitDto = validationMapper.submitToDto(submitRepository.findBySubmitNo(submitNo));
+        return submitDto;
     }
 }

@@ -4,7 +4,9 @@ import com.varabc.battle.domain.dto.BattleMemberDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
+import com.varabc.mypage.domain.dto.MyPageSubmitDto;
 import com.varabc.validation.domain.dto.ProblemRestrictionDto;
+import com.varabc.validation.domain.dto.SubmitDto;
 import com.varabc.validation.domain.dto.TestCaseDto;
 import com.varabc.validation.domain.dto.ValidateDto;
 import com.varabc.validation.domain.dto.ValidationResultDto;
@@ -33,4 +35,7 @@ public interface ValidationService {
 
     FinalResultListDto getFinalResult(Long competitionResultNo, BattleMemberDto battleMemberDto);
 
+    List<MyPageSubmitDto> getSubmits(Long memberNo, int mode);
+
+    SubmitDto getSubmit(Long submitNo);
 }
