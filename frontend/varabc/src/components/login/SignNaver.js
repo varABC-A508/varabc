@@ -7,15 +7,12 @@ const SignNaver = () => {
   // Naver OAuth2 인증 요청을 보낼 URL 
 
   const redirect_uri = "https://varabc.com:8080/member/naver-login";
-  // const redirect_uri = "https://localhost:3000";
   const clientId = "hJcAv1JmHoHtXXOt91lO";
   const STATE = "false";
-
   const oAuth2URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&state=${STATE}&redirect_uri=${redirect_uri}`;
 
   function loginNaver() {
     window.location.href = oAuth2URL;
-    console.log(oAuth2URL);
   }
 
   return (
