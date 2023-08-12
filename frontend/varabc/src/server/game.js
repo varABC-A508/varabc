@@ -35,8 +35,8 @@ io.on("connection", (socket) => {
       // 방 참가 로직
       socket.join(room);
       const nextNumber = rooms[room].members.length + 1;
-      rooms[room].members.push({ id: socket.id, userRoomIndex: nextNumber, member: member });
-      console.log(`사용자가 방에 참가했습니다: ${room}, 번호: ${nextNumber}`);
+      rooms[room].members.push({ userRoomIndex: nextNumber, member: member });
+      console.log(`사용자가 방에 참가했습니다: ${room}, 사용자id: ${member.memberNo} 번호: ${nextNumber}`);
       socket.emit('updateWaitingRoom', {members: rooms[room].members, userRoomIndex: nextNumber});
     } else {
       console.log(`방에 더 이상 참가할 수 없습니다: ${room}`);
