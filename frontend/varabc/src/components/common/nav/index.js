@@ -4,7 +4,7 @@ import { Login } from '../../../pages/myPage/login/Login';
 
 export const Nav = () => {
 
-  const [nickname, setNickname] = useState(null);
+  const [nickname, setNickname] = useState(localStorage.getItem('nickname'));
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -22,11 +22,8 @@ export const Nav = () => {
   }
 
   useEffect(() => {
-    const storedNickname = localStorage.getItem('nickname');
-    if (storedNickname) {
-      setNickname(storedNickname);
-    }
-  }, []);
+    localStorage.setItem('nickname', nickname);
+  }, [nickname]);
 
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
