@@ -3,7 +3,7 @@ import ideReducer from '../Reducer/ideReducers';
 import problemFormReducer from '../Reducer/problemFormReducers';
 import problemPostReducer from '../Reducer/problemPostReducers';
 import adminReducer from '../Reducer/adminReducers';
-import userReducers from '../Reducer/userReducers';
+import userReducer from '../Reducer/userReducers';
 
 const store = configureStore({
   reducer: {
@@ -11,7 +11,7 @@ const store = configureStore({
     problemForm: problemFormReducer,
     problemPost: problemPostReducer,
     admin: adminReducer,
-    user: userReducers,
+    user: userReducer,
   }
 });
 
