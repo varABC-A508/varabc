@@ -2,6 +2,7 @@ import TeamWaiting from "./TeamWaiting";
 import MoveSquareButton from "../../components/common/Button/MoveSquareButton";
 import profile1 from '../../img/test/profile1.png';
 import profile2 from '../../img/test/profile2.png';
+import SelectButton from "../../components/common/Button/SelectButton";
 
 const team1 = {
   teamNo: 1,
