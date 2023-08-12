@@ -9,7 +9,7 @@ const NicknameModal = ({ isOpen, onClose, onSave }) => {
     axios.post("https://varabc.com:8080/member/checkNickname", {
       "memberNickname": nickname
     }).then((res) => {
-      if (response.data === "already exist nickname") {
+      if (res.data === "already exist nickname") {
         setNicknameCheck(false); 
       } else {
         setNicknameCheck(true); 
