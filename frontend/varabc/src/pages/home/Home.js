@@ -38,7 +38,7 @@ export const Home = () => {
       sessionStorage.setItem('access-token', accessToken);
       sessionStorage.setItem('refresh-token', refreshToken);
 
-      if (receivedNickname.trim().length > 0) {
+      if ( receivedNickname !== null && receivedNickname !== undefined && receivedNickname.trim().length > 0) {
         setNickname(receivedNickname.trim());     
         localStorage.setItem('nickname', nickname);
         navigate('/');
