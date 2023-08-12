@@ -1,44 +1,10 @@
 import TeamWaiting from "./TeamWaiting";
 import MoveSquareButton from "../../components/common/Button/MoveSquareButton";
-// import profile1 from '../../img/test/profile1.png';
-// import profile2 from '../../img/test/profile2.png';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import StartGameButton from "../../components/common/Button/StartGameButton";
-
-// const team1 = {
-//   teamNo: 1,
-//   player1: {
-//     nickname: "DP조아",
-//     id: "alias1031",
-//     url: profile2,
-//     isEmpty: false,
-//   },
-//   player2: {
-//     nickname: "잠자는커비",
-//     id: "sleepingkurby",
-//     url: profile1,
-//     isEmpty: false,
-//   }
-// };
-
-// const team2 = {
-//   teamNo: 2,
-//   player1: {
-//     nickname: "",
-//     id: "",
-//     url: ``,
-//     isEmpty: true,
-//   },
-//   player2: {
-//     nickname: "잠자는커비",
-//     id: "sleepingkurby",
-//     url: profile1,
-//     isEmpty: false,
-//   }
-// }
 
 export const BattleRoom = () => {
   const [members, setMembers] = useState([]);
@@ -63,7 +29,7 @@ export const BattleRoom = () => {
           member: res.data.userInfo 
         });
       }).catch((err) => {
-        alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!");
+        alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
         navigate("/");
       });
     }
