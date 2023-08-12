@@ -19,9 +19,6 @@ import NicknameModal from "../../components/login/NicknameModal";
 
 
 export const Home = () => {
-  console.log('>>>>홈');
-
-  // 백엔드 서버에서 token과 nickname이 옴(nickname 초기값은 null > 설정 창을 띄우고 저장 후 다시 백엔드로 보내주기) > 저장
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const receivedAccessToken = queryParams.get('access-token');
@@ -40,33 +37,26 @@ export const Home = () => {
       setRefreshToken(receivedRefreshToken);
       sessionStorage.setItem('access-token', accessToken);
       sessionStorage.setItem('refresh-token', refreshToken);
-      console.log(accessToken);
-      console.log(refreshToken);
 
-      if (nickname) {
-        setNickname(nickname);     
+      if (receivedNickname.trim().length > 0) {
+        setNickname(receivedNickname.trim());     
         localStorage.setItem('nickname', nickname);
-        console.log(nickname);
         navigate('/');
       } else {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
         navigate('/');
-        console.log('>>>>>>>모달');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [receivedAccessToken, receivedNickname]);
 
   const handleModalSave = (newNickname) => {
-    console.log(">>>>저장했대");
     setNickname(newNickname);
     localStorage.setItem('nickname', newNickname);
 
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
     if (localStorage.getItem('nickname')) {
-      console.log('>>>>>요청 보내라');
-      console.log(accessToken);
       const api = 'https://www.varabc.com:8080/member/changeNickname';
       const requestBody = {
         memberNickname: newNickname,
@@ -78,14 +68,11 @@ export const Home = () => {
         }
       })
       .then(response => {
-        console.log('>>>>>>>>요청 성공', response);
         setModalOpen(false);
         navigate('/');
         window.location.reload();
       })
       .catch(error => {
-        console.log('>>>>에러 응답', error.response.data);
-        console.log('>>>>에러 상태 코드', error.response.status);
       });
     }
   }

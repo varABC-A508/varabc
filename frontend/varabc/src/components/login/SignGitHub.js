@@ -6,14 +6,11 @@ const SignGitHub = () => {
 
   // GitHub OAuth2 인증 요청을 보낼 URL 
   const redirect_uri = "https://varabc.com:8080/member/github-login";
-  // const redirect_uri = "https://localhost:3000";
   const clientId = "9067acb2a2d736dfa65f";
-
   const oAuth2URL = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user&redirect_uri=${redirect_uri}`;
 
   function loginGitHub() {
     window.location.href = oAuth2URL;
-    console.log(oAuth2URL);
   }
 
   return (

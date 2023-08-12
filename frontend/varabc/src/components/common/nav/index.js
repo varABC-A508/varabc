@@ -21,7 +21,6 @@ export const Nav = () => {
   }
 
   useEffect(() => {
-    console.log(">>>네브바 로컬 가져오기");
     const storedNickname = localStorage.getItem('nickname');
     setCurrentNickname(storedNickname);
   }, [])
@@ -46,7 +45,6 @@ export const Nav = () => {
         </Link>
       </div>
       <div className='w-20% pr-10'>
-        {/* 로컬에 닉네임 정보가 있으면 닉네임을 표시, 없으면 로그인 버튼을 표시 */}
         {currentNickname ? (
           <Link to="/myPage/profile">
             <div className='text-xl'>환영합니다</div>
