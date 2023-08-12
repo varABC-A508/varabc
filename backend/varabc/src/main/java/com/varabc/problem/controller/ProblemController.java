@@ -1,11 +1,5 @@
 package com.varabc.problem.controller;
-
-import com.varabc.problem.domain.dto.CheckUpdateDto;
-import com.varabc.problem.domain.dto.GetProblemDto;
-import com.varabc.problem.domain.dto.ProblemDto;
-import com.varabc.problem.domain.dto.ProblemListDto;
-import com.varabc.problem.domain.dto.PublicProblemDto;
-import com.varabc.problem.domain.dto.RandomProblemDto;
+import com.varabc.problem.domain.dto.*;
 import com.varabc.problem.exception.ProblemException;
 import com.varabc.problem.service.ProblemService;
 import com.varabc.problem.service.SearchService;
@@ -15,20 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-//@Controller
 @Slf4j
-//@RestController
-@Controller
+@RestController
 @RequestMapping("/problem")
 @RequiredArgsConstructor
 public class ProblemController {
@@ -36,28 +20,34 @@ public class ProblemController {
     //crud
     private final ProblemService problemService;
     private final SearchService searchService;
+    public boolean allSearchInputNull(SearchDto searchDto){
+        if (searchDto.getKeyword()==null&& searchDto.getAlgoType()==null){return true;}
+        return false;
+    }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(@RequestParam String keyword, @RequestParam(required = false) List<Integer> algoType) {
-        if (keyword.equals("")){
-            return new ResponseEntity<>(searchService.searchProblemsOnlyAlgorithmType(algoType),HttpStatus.OK);
+    public ResponseEntity<?> search(@RequestBody SearchDto searchDto) {
+        if (allSearchInputNull(searchDto)){return getList();}
+        if (searchDto.getKeyword()==null ||searchDto.getKeyword().equals("")){
+            return new ResponseEntity<>(searchService.searchProblemsOnlyAlgorithmType(searchDto.getAlgoType()),HttpStatus.OK);
         }
-        if (algoType==null){
-            return new ResponseEntity<>(searchService.searchProblemsOnlyKey(keyword),HttpStatus.OK);
+        if (searchDto.getAlgoType()==null){
+            return new ResponseEntity<>(searchService.searchProblemsOnlyKey(searchDto.getKeyword()),HttpStatus.OK);
         }
-        return new ResponseEntity<>(searchService.searchProblems(keyword, algoType),HttpStatus.OK);
+        return new ResponseEntity<>(searchService.searchProblems(searchDto.getKeyword(), searchDto.getAlgoType()),HttpStatus.OK);
     }
 
     @PostMapping("/searchByNo")
-    public ResponseEntity<?> searchByNo(@RequestParam String keyword, @RequestParam(required = false) List<Integer> algoType) {
-        if (keyword.equals("")){
-            return new ResponseEntity<>(searchService.searchProblemsOnlyAlgorithmType(algoType),HttpStatus.OK);
+    public ResponseEntity<?> searchByNo(@RequestBody SearchDto searchDto) {
+        if (allSearchInputNull(searchDto)){return getList();}
+        if (searchDto.getKeyword()==null||searchDto.getKeyword().equals("")){
+            return new ResponseEntity<>(searchService.searchProblemsOnlyAlgorithmType(searchDto.getAlgoType()),HttpStatus.OK);
         }
-        long problemNo=Long.parseLong(keyword);
-        if (algoType==null){
+        long problemNo=Long.parseLong(searchDto.getKeyword());
+        if (searchDto.getAlgoType()==null){
             return new ResponseEntity<>(searchService.searchProblemsOnlyProblemNo(problemNo),HttpStatus.OK);
         }
-        return new ResponseEntity<>(searchService.searchProblemsByNo(problemNo, algoType),HttpStatus.OK);
+        return new ResponseEntity<>(searchService.searchProblemsByNo(problemNo, searchDto.getAlgoType()),HttpStatus.OK);
     }
 
     @GetMapping("/getList")
@@ -100,11 +90,6 @@ public class ProblemController {
         return new ResponseEntity<>(publicProblemDto, status);
     }
 
-
-    @GetMapping("/")
-    public String getIndexPage() {
-        return "index";
-    }
     @PostMapping("/")
     public ResponseEntity<?> createProblem(@ModelAttribute GetProblemDto getProblemDto) {
         System.out.println(getProblemDto.toString());
@@ -117,12 +102,6 @@ public class ProblemController {
         }
     }
 
-    //수정 함수 3부분으로 구현. 지문, 테케는 s3 접근해서 수정해줘야하니깐.
-
-    @GetMapping("/{problemNo}/update")
-    public String getUpdatePage() {
-        return "updateForm";
-    }
 
     @PostMapping("/{problemNo}/update")
     public ResponseEntity<?> updateProblem(@PathVariable Long problemNo,
@@ -175,5 +154,4 @@ public class ProblemController {
         else
             return  new ResponseEntity<>( HttpStatus.CONFLICT);
     }
-
 }
