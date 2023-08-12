@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,9 +17,7 @@ const btnSizes = {
   small: "w-[100px] h-[28px] text-[16px]",
 };
 
-
-
-const MoveRoundButton = ({ to, text, bgColor, btnSize }) => {
+const MoveRoundButton = ({ to, text, bgColor, btnSize, isCreateRoom }) => {
   const navigate = useNavigate();
   const backgroundColor = bgColors[bgColor];
   const buttonSize = btnSizes[btnSize];
@@ -49,14 +46,13 @@ const MoveRoundButton = ({ to, text, bgColor, btnSize }) => {
   }
   childHoverColor = "group-" + hoverColor;
 
-  const handleClick = () => {
-    console.log('페이지 이동');
+  const onButtonClick = () => {
     navigate(to);
   };
 
   return (
 
-    <button onClick={handleClick} className={`${backgroundColor} ${textColor} ${hoverColor} group flex justify-center items-center font-bold rounded-full ${buttonSize}`}>
+    <button onClick={onButtonClick} className={`${backgroundColor} ${textColor} ${hoverColor} group flex justify-center items-center font-bold rounded-full ${buttonSize}`}>
       {text}
       <FontAwesomeIcon className={`${backgroundColor} ${textColor} ${childHoverColor} flex ml-4`} icon={faArrowRightFromBracket} />
     </button>

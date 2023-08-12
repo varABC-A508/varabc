@@ -12,10 +12,12 @@ import AceEditor from "react-ace";
 import 'ace-builds/src-noconflict/ext-language_tools';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { useSelector } from 'react-redux';
+import { io } from "socket.io-client";
 
 // components
 import IdeNav from './IdeNav';
 import SmButton from '../common/Button/SmButton';
+import { useParams } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBK1bjRO-tmrOEzfiyZQy3vSck5wi3Qjg4",
@@ -39,23 +41,49 @@ const app = initializeApp(firebaseConfig);
 const Ide = ({problemNo}) => {
   const [code, setCode] = useState('');
   const [result, setResult] = useState('');
+  const [isPlayerTurn, setIsPlayerTurn] = useState(null);
 
-  
   const editorRef = useRef(null);
-  
-  const onCodeChange = (newCode) => {
-    const db = getDatabase(app);
-    set(ref(db, 'room1/code'), {
-      code: newCode
-    });
-    setCode(newCode);
-  };
 
   const theme = useSelector((state) => state.ide.theme);
   const mode = useSelector((state) => state.ide.mode);
   const fontSize = useSelector((state) => state.ide.fontSize);
-  const isIdeShown = useSelector((state) => state.ide.isIdeShown);
+
   const isPractice = JSON.parse(localStorage.getItem('isPractice'));
+  const socket = io('http://localhost:3001', {reconnection:false});
+
+  const params = useParams();
+  const roomToken = params.roomToken;
+  const teamToken = params.teamNo;
+
+  useEffect(() => {
+    if(!isPractice){
+      socket.emit('onTimerStart', {
+        roomToken: roomToken
+      });
+    }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem('isPlayerTurn', JSON.stringify(isPlayerTurn));
+  }, [isPlayerTurn])
+
+  socket.on('getPlayerTurn', ({ isPlayerTurn }) => {
+    setIsPlayerTurn(isPlayerTurn);
+  });
+
+  socket.on('togglePlayerTurn', ({ isPlayerTurn })=> {
+    setIsPlayerTurn(isPlayerTurn);
+  });
+  
+  const onCodeChange = (newCode) => {
+    const db = getDatabase(app);
+    set(ref(db, `${roomToken}/${teamToken}/code`), {
+      code: newCode
+    });
+    setCode(newCode);
+  };
 
   const onRunClick = (e) => {
     e.preventDefault();
@@ -72,23 +100,25 @@ const Ide = ({problemNo}) => {
     });
   };
 
+
   useEffect(() => {
-    if(isIdeShown && !isPractice) {
+    if(!isPlayerTurn && !isPractice) {
       const db = getDatabase(app);
-      const codeRef = ref(db, 'room1/code');
+      const codeRef = ref(db, `${roomToken}/${teamToken}/code`);
       onValue(codeRef, (snapshot) => {
         const data = snapshot.val();
         setCode(data.code);
       });
     }
-  }, [code, isIdeShown, isPractice]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [code]);
 
   useEffect(() => {
-    if (editorRef.current && !isPractice) {
+    if (editorRef.current) {
       const editor = editorRef.current.editor;
       editor.resize();
     }
-  }, [code, isPractice]);
+  }, [code]);
     
     return (
       <div className="w-full h-screen flex flex-col">
@@ -102,7 +132,7 @@ const Ide = ({problemNo}) => {
               value={code}
               onChange={onCodeChange}
               fontSize={fontSize}
-              readOnly={isIdeShown}
+              readOnly={!isPlayerTurn}
               editorProps={{ $blockScrolling: false }}
               tabSize={2}
               enableBasicAutocompletion={true}

@@ -7,7 +7,7 @@ import Testcase from "./Testcase";
 const Problem = ({problemNo}) => {
   const [problem, setProblem] = useState({});
   useEffect(() => {
-    axios.get('https://varabc.com:8080/problem/' + problemNo + "/admin"
+    axios.get('https://varabc.com:8080/problem/' + problemNo
     ).then((res) => {
       setProblem(res.data);
     }).catch((err) => {
