@@ -40,6 +40,8 @@ export const BattleRoom = () => {
   // 현재 방에 있는 참가자들 업데이트
   socket.on('updateWaitingRoom', ({members, userRoomIndex}) => {
     setMembers(...members);
+    console.log("멤버들: ");
+    console.log(members);
     sessionStorage.setItem('userRoomIndex', JSON.stringify(userRoomIndex));
     console.log("참가자의 방 번호: " + userRoomIndex);
   });
