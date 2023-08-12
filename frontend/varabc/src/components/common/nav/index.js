@@ -4,7 +4,7 @@ import { Login } from '../../../pages/myPage/login/Login';
 
 export const Nav = () => {
 
-  const [nickname, setNickname] = useState(window.localStorage.getItem('nickname'));
+  const [nickname, setNickname] = useState("null");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -50,7 +50,7 @@ export const Nav = () => {
         </Link>
       </div>
       <div className='w-20% pr-10'>
-        {nickname ? (
+        {nickname !== "null" ? (
           <Link to="/myPage/profile">
             <div className='text-xl'>환영합니다</div>
             <div className='text-2xl'>
