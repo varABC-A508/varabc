@@ -51,6 +51,8 @@ export const Home = () => {
         // setNickname(receivedNickname.trim());
         dispatch(setNickname(receivedNickname.trim()));
         console.log("DB에서 받은 닉네임: " + receivedNickname.trim());
+        console.log("리덕스에 넣은 닉네임: " + nickname);
+        localStorage.setItem('nickname', receivedNickname.trim());
       } else {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
@@ -63,6 +65,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (nickname) {
+      console.log("Home.js의 useEffect 실행");
       localStorage.setItem('nickname', nickname);
       navigate('/');
     }
