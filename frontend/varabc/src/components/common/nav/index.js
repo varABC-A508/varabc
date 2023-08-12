@@ -17,12 +17,13 @@ export const Nav = () => {
 
   const logout = () => {
     localStorage.removeItem('nickname');
+    console.log(typeof(localStorage.getItem('nickname')));
     window.location.reload();
   }
 
   useEffect(() => {
     window.localStorage.setItem('nickname', nickname);
-  }, [nickname]);
+  }, [window.localStorage.getItem('nickname')]);
 
   // useEffect(() => {
   //   const storedNickname = localStorage.getItem('nickname');
