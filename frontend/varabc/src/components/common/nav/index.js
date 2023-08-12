@@ -2,10 +2,35 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Login } from '../../../pages/myPage/login/Login';
 
+const useLocalStorage = (keyName, defaultValue) => {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const value = window.localStorage.getItem(keyName);
+
+      if (value) {
+        return (value);
+      } else {
+        window.localStorage.setItem(keyName, (defaultValue));
+        return defaultValue;
+      }
+    } catch (err) {
+      return defaultValue;
+    }
+  });
+
+  const setValue = newValue => {
+    try {
+      window.localStorage.setItem(keyName, (newValue));
+    } catch (err) {}
+    setStoredValue(newValue);
+  };
+
+  return [storedValue, setValue];
+};
+
 export const Nav = () => {
 
-  const [nickname, setNickname] = useState(localStorage.getItem('nickname'));
-  const [isLogged, setIsLogged] = useState(false);
+  const [nickname, setNickname] = useLocalStorage("nickname", null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -21,19 +46,6 @@ export const Nav = () => {
     setNickname(null);
     window.location.reload();
   }
-
-  useEffect(() => {
-    if((nickname !== "null") && (nickname !== null) && (nickname !== (undefined)) && (nickname !== "") && (nickname !== "undefined")){
-      setNickname(localStorage.getItem('nickname'));
-      console.log("닉네임: " + nickname);
-    }
-  }, [localStorage.getItem('nickname')]);
-
-  // useEffect(() => {
-  //   if((nickname !== "null") && (nickname !== null) && (nickname !== (undefined)) && (nickname !== "") && (nickname !== "undefined")){
-  //     setIsLogged(true);
-  //   }
-  // }, [nickname])
 
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
