@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
       rooms[room].members.push({ userRoomIndex: nextNumber, member: member });
       console.log(`사용자가 방에 참가했습니다: ${room}, 사용자id: ${member.memberNo} 번호: ${nextNumber}`);
       console.log(rooms[room].members[nextNumber - 1].member.memberNickname);
-      socket.emit('updateWaitingRoom', {members: rooms[room].members, userRoomIndex: nextNumber});
+      socket.emit('updateWaitingRoom', {currMembers: rooms[room].members, userRoomIndex: nextNumber});
     } else {
       console.log(`방에 더 이상 참가할 수 없습니다: ${room}`);
     }
