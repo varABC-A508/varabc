@@ -27,19 +27,19 @@ export const Home = () => {
   const receivedNickname = queryParams.get('memberNickname');
   const navigate = useNavigate();
 
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
+  // const [accessToken, setAccessToken] = useState('');
+  // const [refreshToken, setRefreshToken] = useState('');
   const [nickname, setNickname] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (receivedAccessToken) {
       console.log("token: " + receivedAccessToken);
-      setAccessToken(receivedAccessToken);
-      setRefreshToken(receivedRefreshToken);
+      // setAccessToken(receivedAccessToken);
+      // setRefreshToken(receivedRefreshToken);
 
-      sessionStorage.setItem('access-token', accessToken);
-      sessionStorage.setItem('refresh-token', refreshToken);
+      sessionStorage.setItem('access-token', receivedAccessToken);
+      sessionStorage.setItem('refresh-token', receivedRefreshToken);
 
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
         setNickname(receivedNickname.trim());
