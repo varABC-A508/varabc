@@ -2,9 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>알고리즘 검색</title>
+  <!-- jQuery 추가 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<form action="/problem/search" method="post">
+<form id="searchForm">
   <input type="text" name="keyword" placeholder="키워드 입력" />
   <br />
   <select name="searchType">
@@ -19,5 +21,35 @@
   <br />
   <button type="submit">검색</button>
 </form>
+
+<script>
+  $(document).ready(function() {
+    $('#searchForm').submit(function(e) {
+      e.preventDefault(); // 기본 form 제출 이벤트를 중지
+
+      let formData = {
+        keyword: $('input[name="keyword"]').val(),
+        searchType: $('select[name="searchType"]').val(),
+        algoType: $('input[name="algoType"]:checked').map(function() {
+          return parseInt($(this).val());
+        }).get()
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: '/problem/search',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+          // 성공적으로 데이터를 전송한 후의 처리 로직을 여기에 작성
+        },
+        error: function(error) {
+          // 에러 발생 시 처리 로직을 여기에 작성
+        }
+      });
+    });
+  });
+</script>
+
 </body>
 </html>

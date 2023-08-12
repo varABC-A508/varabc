@@ -16,11 +16,7 @@ import com.varabc.problem.domain.entity.ProblemRestriction;
 import com.varabc.problem.domain.entity.TestCase;
 import com.varabc.problem.repository.ProblemRestrictionRepository;
 import com.varabc.problem.service.ProblemService;
-import com.varabc.validation.domain.dto.ProblemRestrictionDto;
-import com.varabc.validation.domain.dto.SubmitDto;
-import com.varabc.validation.domain.dto.TestCaseDto;
-import com.varabc.validation.domain.dto.ValidateDto;
-import com.varabc.validation.domain.dto.ValidationResultDto;
+import com.varabc.validation.domain.dto.*;
 import com.varabc.validation.domain.entity.Submit;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
@@ -57,6 +53,23 @@ public class ValidationServiceImpl implements ValidationService {
     private final MemberService memberService;
     private final AmazonS3 amazonS3;
 
+
+    @Override
+    public CompileResultDto sendRequestCompile(String pythonServerUrl, ValidateDto validateDto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        HttpEntity<ValidateDto> requestEntity = new HttpEntity<>(validateDto, headers);
+
+        // 채점 서버로 HTTP POST 요청을 보내고 응답을 받음
+        ResponseEntity<CompileResultDto> responseEntity = restTemplate.exchange(
+                pythonServerUrl + "/compile",  // 채점 서버의 URL
+                HttpMethod.POST,            // POST 요청
+                requestEntity,              // 요청 데이터
+                CompileResultDto.class   // 응답 데이터 타입
+        );
+        // 채점 서버로부터 받은 응답 결과 반환
+        return responseEntity.getBody();
+    }
     @Override
     public ValidationResultDto sendRequestValidation(String serverUrl, ValidateDto validateDto) {
         //채점 서버로 해당 dto를 넘겨줌
@@ -87,6 +100,20 @@ public class ValidationServiceImpl implements ValidationService {
         List<String> outputFiles = testCases.stream()
                 .map(TestCase::getTestCaseOutput)
                 .collect(Collectors.toList());
+
+        return validationMapper.testCaseListToDto(inputFiles, outputFiles);
+    }
+
+    @Override
+    public TestCaseDto getPublicTestCaseDtoByProblemNo(long problemNo) {
+        List<TestCase> testCases = validationRepository.findByProblemNoAndTestCasePublicIs(problemNo);
+        List<String> inputFiles = testCases.stream()
+                                           .map(TestCase::getTestCaseInput)
+                                           .collect(Collectors.toList());
+
+        List<String> outputFiles = testCases.stream()
+                                            .map(TestCase::getTestCaseOutput)
+                                            .collect(Collectors.toList());
 
         return validationMapper.testCaseListToDto(inputFiles, outputFiles);
     }
