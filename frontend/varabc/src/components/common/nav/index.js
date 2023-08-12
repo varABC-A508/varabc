@@ -16,6 +16,7 @@ export const Nav = () => {
   };
 
   const logout = () => {
+    setNickname(undefined);
     localStorage.clear();
     window.location.reload();
   }
