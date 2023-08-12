@@ -38,8 +38,8 @@ export const Home = () => {
       setAccessToken(receivedAccessToken);
       setRefreshToken(receivedRefreshToken);
 
-      sessionStorage.setItem('access-token', JSON.stringify(accessToken));
-      sessionStorage.setItem('refresh-token', JSON.stringify(refreshToken));
+      sessionStorage.setItem('access-token', accessToken);
+      sessionStorage.setItem('refresh-token', refreshToken);
 
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
         setNickname(receivedNickname.trim());
@@ -55,7 +55,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (nickname) {
-      localStorage.setItem('nickname', JSON.stringify(nickname));
+      localStorage.setItem('nickname', nickname);
       navigate('/');
     }
     // eslint-disable-next-line
