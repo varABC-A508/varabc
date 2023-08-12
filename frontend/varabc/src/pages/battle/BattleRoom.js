@@ -33,7 +33,8 @@ export const BattleRoom = () => {
         navigate("/");
       });
     }
-  }, [navigate, roomToken, socket]);
+    // eslint-disable-next-line
+  }, []);
 
   // 현재 방에 있는 참가자들 업데이트
   socket.on('updateWaitingRoom', ({members, userRoomIndex}) => {
