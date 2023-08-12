@@ -50,7 +50,7 @@ export const Home = () => {
       navigate('/');
     }
     // eslint-disable-next-line
-  }, [receivedAccessToken, receivedRefreshToken, receivedNickname]);
+  }, [receivedAccessToken]);
 
   useEffect(() => {
     if (nickname) {
