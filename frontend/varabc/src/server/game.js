@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
       members: [],
     }; // 방장은 항상 1번
     console.log(`새로운 방 생성: ${room}`);
+    console.log(`방장의 No: ${memberNo}`);
   });
 
   socket.on('joinWaitingRoom', ({ roomToken, member }) => {

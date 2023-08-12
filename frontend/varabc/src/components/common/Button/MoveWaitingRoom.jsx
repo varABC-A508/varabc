@@ -11,7 +11,8 @@ const MoveWaitingRoomButton = () => {
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
       "access-token": userToken
     }}).then((res) => {
-      console.log("사용자 정보 가져오기: " + res.data);
+      console.log("사용자 정보 가져오기:");
+      console.log(res.data);
       fetchRoomId(res.data.userInfo.memberNo);
     }).catch((err) => {
       alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!");
