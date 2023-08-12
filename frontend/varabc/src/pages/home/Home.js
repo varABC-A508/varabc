@@ -81,7 +81,7 @@ export const Home = () => {
       //   .catch((error) => {
       //     // console.error(error);
       //   });
-      axios.post('https://localhost:8080/member/changeNickname', {
+      axios.post('https://varabc.com/member/changeNickname', {
         "memberNickname": newNickname
       }, {
         headers: {
