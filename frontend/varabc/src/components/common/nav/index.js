@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Login } from '../../../pages/myPage/login/Login';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,6 +17,10 @@ export const Nav = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    console.log("닉네임: " + nickname);
+  }, [nickname]);
 
   const logout = () => {
     localStorage.removeItem('nickname');
