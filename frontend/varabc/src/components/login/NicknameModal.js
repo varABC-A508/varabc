@@ -5,33 +5,24 @@ const NicknameModal = ({ isOpen, onClose, onSave }) => {
   const [nickname, setNickname] = useState('');
   const [nicknameCheck, setNicknameCheck] = useState(false);
 
-  const checkNickname = async () => {
-    try {
-      const api = "https://varabc.com:8080/member/checkNickname";
-      const requestBody = {
-        memberNickname: nickname,
-      };
-
-      axios.post(api, requestBody)
-        .then(response => {
-          if (response.data === "already exist nickname") {
-            setNicknameCheck(false); 
-          } else {
-            setNicknameCheck(true); 
-          }
-        })
-
-    } catch (error) {
-
-    }
-  }
+  const checkNickname = () => {
+    axios.post("https://varabc.com:8080/member/checkNickname", {
+      "memberNickname": nickname
+    }).then((res) => {
+      if (response.data === "already exist nickname") {
+        setNicknameCheck(false); 
+      } else {
+        setNicknameCheck(true); 
+      }
+    }).catch((err) => {
+      alert("현재 서버가 아파서 조금 이따가 시도해주세요!" + err);
+    })
+  };
 
   const handleSave = () => {
     if (nicknameCheck) {
       onSave(nickname);
       onClose();
-    } else {
-     
     }
   };
 

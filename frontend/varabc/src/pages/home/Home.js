@@ -37,8 +37,8 @@ export const Home = () => {
       setAccessToken(receivedAccessToken);
       setRefreshToken(receivedRefreshToken);
 
-      sessionStorage.setItem('access-token', accessToken);
-      sessionStorage.setItem('refresh-token', refreshToken);
+      sessionStorage.setItem('access-token', JSON.stringify(accessToken));
+      sessionStorage.setItem('refresh-token', JSON.stringify(refreshToken));
 
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
         setNickname(receivedNickname.trim());
@@ -54,7 +54,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (nickname) {
-      localStorage.setItem('nickname', nickname);
+      localStorage.setItem('nickname', JSON.stringify(nickname));
       navigate('/');
     }
     // eslint-disable-next-line
@@ -65,22 +65,32 @@ export const Home = () => {
 
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
     if (receivedAccessToken && newNickname) {
-      const api = 'https://localhost:8080/member/changeNickname';
-      const requestBody = {
-        memberNickname: newNickname,
-      };
-
-      axios.post(api, requestBody, {
+      // const api = 'https://localhost:8080/member/changeNickname';
+      // const requestBody = {
+      //   memberNickname: newNickname,
+      // };
+      // axios.post(api, requestBody, {
+      //   headers: {
+      //     'access-token': receivedAccessToken,
+      //   },
+      // })
+      //   .then(() => {
+      //     setModalOpen(false);
+      //   })
+      //   .catch((error) => {
+      //     // console.error(error);
+      //   });
+      axios.post('https://localhost:8080/member/changeNickname', {
+        "memberNickname": newNickname
+      }, {
         headers: {
-          'access-token': receivedAccessToken,
-        },
-      })
-        .then(() => {
-          setModalOpen(false);
-        })
-        .catch((error) => {
-          // console.error(error);
-        });
+          "access-token": receivedAccessToken
+        }
+      }).then(() => {
+        setModalOpen(false);
+      }).catch((err) => {
+        alert("지금은 서버가 아파요! 나중에 다시 시도해주세요!" + err);
+      });
     }
   };
   return (
