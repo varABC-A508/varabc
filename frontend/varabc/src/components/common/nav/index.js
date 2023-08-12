@@ -4,7 +4,7 @@ import { Login } from '../../../pages/myPage/login/Login';
 
 export const Nav = () => {
 
-  const [currentNickname, setCurrentNickname] = useState();
+  const [nickname, setNickname] = useState(window.localStorage.getItem('nickname'));
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -21,9 +21,13 @@ export const Nav = () => {
   }
 
   useEffect(() => {
-    const storedNickname = localStorage.getItem('nickname');
-    setCurrentNickname(storedNickname);
-  }, [])
+    window.localStorage.setItem('nickname', nickname);
+  }, [nickname]);
+
+  // useEffect(() => {
+  //   const storedNickname = localStorage.getItem('nickname');
+  //   setCurrentNickname(storedNickname);
+  // }, [])
 
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
@@ -45,11 +49,11 @@ export const Nav = () => {
         </Link>
       </div>
       <div className='w-20% pr-10'>
-        {currentNickname ? (
+        {nickname ? (
           <Link to="/myPage/profile">
             <div className='text-xl'>환영합니다</div>
             <div className='text-2xl'>
-              <span className='font-bold'>{currentNickname}</span>
+              <span className='font-bold'>{nickname}</span>
               <span>님!</span>
               <button onClick={logout} >로그아웃</button>
             </div>
