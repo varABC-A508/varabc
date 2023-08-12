@@ -34,6 +34,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (receivedAccessToken) {
+      console.log("token: " + receivedAccessToken);
       setAccessToken(receivedAccessToken);
       setRefreshToken(receivedRefreshToken);
 
