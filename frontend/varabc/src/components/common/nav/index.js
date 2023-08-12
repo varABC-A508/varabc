@@ -5,6 +5,7 @@ import { Login } from '../../../pages/myPage/login/Login';
 export const Nav = () => {
 
   const [nickname, setNickname] = useState(localStorage.getItem('nickname'));
+  const [isLogged, setIsLogged] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -23,7 +24,14 @@ export const Nav = () => {
 
   useEffect(() => {
     setNickname(localStorage.getItem('nickname'));
+    console.log("닉네임: " + nickname);
   }, [localStorage.getItem('nickname')]);
+
+  // useEffect(() => {
+  //   if((nickname !== "null") && (nickname !== null) && (nickname !== (undefined)) && (nickname !== "") && (nickname !== "undefined")){
+  //     setIsLogged(true);
+  //   }
+  // }, [nickname])
 
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
@@ -45,7 +53,7 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="w-20% pr-10">
-        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "" )? (
+        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "")? (
           <div>
             <button
               onClick={handleOpenModal}
