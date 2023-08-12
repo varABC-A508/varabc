@@ -29,7 +29,7 @@ export const Home = () => {
 
   // const [accessToken, setAccessToken] = useState('');
   // const [refreshToken, setRefreshToken] = useState('');
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState("null");
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -66,21 +66,6 @@ export const Home = () => {
 
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
     if (receivedAccessToken && newNickname) {
-      // const api = 'https://localhost:8080/member/changeNickname';
-      // const requestBody = {
-      //   memberNickname: newNickname,
-      // };
-      // axios.post(api, requestBody, {
-      //   headers: {
-      //     'access-token': receivedAccessToken,
-      //   },
-      // })
-      //   .then(() => {
-      //     setModalOpen(false);
-      //   })
-      //   .catch((error) => {
-      //     // console.error(error);
-      //   });
       axios.post('https://varabc.com:8080/member/changeNickname', {
         "memberNickname": newNickname
       }, {
