@@ -50,7 +50,7 @@ export const Nav = () => {
         </Link>
       </div>
       <div className='w-20% pr-10'>
-        {nickname !== "null" ? (
+        {(nickname !== "null") && (nickname !== undefined) ? (
           <Link to="/myPage/profile">
             <div className='text-xl'>환영합니다</div>
             <div className='text-2xl'>
