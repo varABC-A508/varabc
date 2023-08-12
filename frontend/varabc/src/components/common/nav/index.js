@@ -16,10 +16,8 @@ export const Nav = () => {
   };
 
   const logout = () => {
-    setNickname(undefined);
-    localStorage.clear();
+    localStorage.removeItem('nickname');
     window.location.reload();
-    // => localStorage.removeItem('nickname'); 으로 바꿔주기
   }
 
   useEffect(() => {
