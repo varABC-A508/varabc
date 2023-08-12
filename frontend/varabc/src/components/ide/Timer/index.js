@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 
 const Timer = () => {
-  const TWO_MINUTES = 1;
+  const TWO_MINUTES = 20;
   const [seconds, setSeconds] = useState(TWO_MINUTES);
   const [isAlertShown, setIsAlertShown] = useState(false);
 
