@@ -22,8 +22,8 @@ export const Nav = () => {
   }
 
   useEffect(() => {
-    localStorage.setItem('nickname', nickname);
-  }, [nickname]);
+    setNickname(localStorage.getItem('nickname'));
+  }, [localStorage.getItem('nickname')]);
 
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
