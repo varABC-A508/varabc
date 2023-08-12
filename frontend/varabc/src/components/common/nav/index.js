@@ -23,8 +23,10 @@ export const Nav = () => {
   }
 
   useEffect(() => {
-    setNickname(localStorage.getItem('nickname'));
-    console.log("닉네임: " + nickname);
+    if((nickname !== "null") && (nickname !== null) && (nickname !== (undefined)) && (nickname !== "") && (nickname !== "undefined")){
+      setNickname(localStorage.getItem('nickname'));
+      console.log("닉네임: " + nickname);
+    }
   }, [localStorage.getItem('nickname')]);
 
   // useEffect(() => {
@@ -53,7 +55,7 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="w-20% pr-10">
-        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "")? (
+        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "" )? (
           <div>
             <button
               onClick={handleOpenModal}
