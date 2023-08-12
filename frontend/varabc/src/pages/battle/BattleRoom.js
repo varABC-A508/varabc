@@ -23,7 +23,8 @@ export const BattleRoom = () => {
       axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
         "access-token": userToken
       }}).then((res) => {
-        console.log("방 참가자 정보 가져오기: " + res.data.userInfo);
+        console.log("방 참가자 정보 가져오기: ");
+        console.log(res.data.userInfo);
         socket.emit('joinWaitingRoom', {
           roomToken: roomToken,
           member: res.data.userInfo 
