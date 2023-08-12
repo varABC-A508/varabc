@@ -64,12 +64,10 @@ export const Home = () => {
   }, [receivedAccessToken]);
 
   useEffect(() => {
-    if (nickname) {
-      console.log("Home.js의 useEffect 실행");
-      console.log("useEffect 안에서 받은 redux 닉네임: " + nickname);
-      localStorage.setItem('nickname', nickname);
-      navigate('/');
-    }
+    console.log("Home.js의 useEffect 실행");
+    localStorage.setItem('nickname', nickname);
+    console.log("useEffect 안에서 받은 redux 닉네임: " + nickname);
+    navigate('/');
     // eslint-disable-next-line
   }, [nickname]);
 
