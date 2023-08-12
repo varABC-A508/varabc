@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector} from 'react-redux';
+import { setNickname } from "../../redux/Reducer/userReducers";
 
 const NicknameModal = ({ isOpen, onClose, onSave }) => {
-  const [nickname, setNickname] = useState('');
+  const nickname = useSelector((state) => state.user.nickname);
   const [nicknameCheck, setNicknameCheck] = useState(false);
 
   const checkNickname = () => {

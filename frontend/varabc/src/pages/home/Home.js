@@ -17,8 +17,12 @@ import sub5 from '../../img/sub5.png';
 
 import NicknameModal from "../../components/login/NicknameModal";
 
+import {useDispatch, useSelector} from 'react-redux';
+import { setNickname } from "../../redux/Actions/userActions";
+
 
 export const Home = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   sessionStorage.setItem('query', queryParams);
@@ -29,8 +33,10 @@ export const Home = () => {
 
   // const [accessToken, setAccessToken] = useState('');
   // const [refreshToken, setRefreshToken] = useState('');
-  const [nickname, setNickname] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const nickname = useSelector((state) => state.user.nickname);
+
+
 
   useEffect(() => {
     if (receivedAccessToken) {
@@ -55,6 +61,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (nickname) {
+      dispatch(setNickname(nickname));
       localStorage.setItem('nickname', nickname);
       navigate('/');
     }

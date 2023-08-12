@@ -1,36 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Login } from '../../../pages/myPage/login/Login';
-
-const useLocalStorage = (keyName, defaultValue) => {
-  const [storedValue, setStoredValue] = useState(() => {
-    try {
-      const value = window.localStorage.getItem(keyName);
-
-      if (value) {
-        return (value);
-      } else {
-        window.localStorage.setItem(keyName, (defaultValue));
-        return defaultValue;
-      }
-    } catch (err) {
-      return defaultValue;
-    }
-  });
-
-  const setValue = newValue => {
-    try {
-      window.localStorage.setItem(keyName, (newValue));
-    } catch (err) {}
-    setStoredValue(newValue);
-  };
-
-  return [storedValue, setValue];
-};
+import {useDispatch, useSelector} from 'react-redux';
+import { setNickname } from "../../../redux/Reducer/userReducers";
 
 export const Nav = () => {
 
-  const [nickname, setNickname] = useLocalStorage("nickname", null);
+  const dispatch = useDispatch();
+  const nickname = useSelector((state) => state.user.nickname);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -43,9 +20,9 @@ export const Nav = () => {
 
   const logout = () => {
     localStorage.removeItem('nickname');
-    setNickname(null);
+    dispatch(setNickname(null));
     window.location.reload();
-  }
+  };
 
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
@@ -67,7 +44,7 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="w-20% pr-10">
-        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "" )? (
+        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "" ) ? (
           <div>
             <button
               onClick={handleOpenModal}
