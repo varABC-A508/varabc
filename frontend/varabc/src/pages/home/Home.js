@@ -21,62 +21,68 @@ import NicknameModal from "../../components/login/NicknameModal";
 export const Home = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+  sessionStorage.setItem('query', queryParams);
   const receivedAccessToken = queryParams.get('access-token');
   const receivedRefreshToken = queryParams.get('refresh-token');
   const receivedNickname = queryParams.get('memberNickname');
   const navigate = useNavigate();
 
-  const [accessToken, setAccessToken] = useState(receivedAccessToken);
-  const [refreshToken, setRefreshToken] = useState(receivedRefreshToken);
-  const [nickname, setNickname] = useState();
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+  const [nickname, setNickname] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (receivedAccessToken) {
       setAccessToken(receivedAccessToken);
       setRefreshToken(receivedRefreshToken);
+
       sessionStorage.setItem('access-token', accessToken);
       sessionStorage.setItem('refresh-token', refreshToken);
 
-      if ( receivedNickname !== null && receivedNickname !== undefined && receivedNickname.trim().length > 0) {
-        setNickname(receivedNickname.trim());     
-        localStorage.setItem('nickname', nickname);
-        navigate('/');
+      if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
+        setNickname(receivedNickname.trim());
       } else {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
-        navigate('/');
       }
+    }else {
+      navigate('/');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [receivedAccessToken, receivedNickname]);
+    // eslint-disable-next-line
+  }, [receivedAccessToken, receivedRefreshToken, receivedNickname]);
+
+  useEffect(() => {
+    if (nickname) {
+      localStorage.setItem('nickname', nickname);
+      navigate('/');
+    }
+    // eslint-disable-next-line
+  }, [nickname, navigate]);
 
   const handleModalSave = (newNickname) => {
     setNickname(newNickname);
-    localStorage.setItem('nickname', newNickname);
 
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
-    if (localStorage.getItem('nickname')) {
-      const api = 'https://www.varabc.com:8080/member/changeNickname';
+    if (receivedAccessToken && newNickname) {
+      const api = 'https://localhost:8080/member/changeNickname';
       const requestBody = {
         memberNickname: newNickname,
       };
 
       axios.post(api, requestBody, {
         headers: {
-          'access-token': accessToken,
-        }
+          'access-token': receivedAccessToken,
+        },
       })
-      .then(response => {
-        setModalOpen(false);
-        navigate('/');
-        window.location.reload();
-      })
-      .catch(error => {
-      });
+        .then(() => {
+          setModalOpen(false);
+        })
+        .catch((error) => {
+          // console.error(error);
+        });
     }
-  }
-
+  };
   return (
     <div>
       <div className="w-screen h-screen flex items-end p-20 bg-bg1 bg-cover">
