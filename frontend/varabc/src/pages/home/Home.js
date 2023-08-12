@@ -48,7 +48,8 @@ export const Home = () => {
       sessionStorage.setItem('refresh-token', receivedRefreshToken);
 
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
-        setNickname(receivedNickname.trim());
+        // setNickname(receivedNickname.trim());
+        dispatch(setNickname(receivedNickname.trim()));
       } else {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
@@ -59,18 +60,18 @@ export const Home = () => {
     // eslint-disable-next-line
   }, [receivedAccessToken]);
 
-  useEffect(() => {
-    if (nickname) {
-      dispatch(setNickname(nickname));
-      localStorage.setItem('nickname', nickname);
-      navigate('/');
-    }
-    // eslint-disable-next-line
-  }, [nickname, navigate]);
+  // useEffect(() => {
+  //   if (nickname) {
+  //     dispatch(setNickname(nickname));
+  //     localStorage.setItem('nickname', nickname);
+  //     navigate('/');
+  //   }
+  //   // eslint-disable-next-line
+  // }, [nickname, navigate]);
 
   const handleModalSave = (newNickname) => {
-    setNickname(newNickname);
-
+    dispatch(setNickname(newNickname));
+    localStorage.setItem('nickname', newNickname);
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
     if (receivedAccessToken && newNickname) {
       axios.post('https://varabc.com:8080/member/changeNickname', {
