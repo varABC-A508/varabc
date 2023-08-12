@@ -19,7 +19,7 @@ export const Nav = () => {
   };
 
   useEffect(() => {
-    console.log("닉네임: " + nickname);
+    console.log("NAV의 닉네임: " + nickname);
   }, [nickname]);
 
   const logout = () => {

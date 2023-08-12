@@ -67,7 +67,7 @@ export const Home = () => {
     console.log("Home.js의 useEffect 실행");
     localStorage.setItem('nickname', nickname);
     console.log("useEffect 안에서 받은 redux 닉네임: " + nickname);
-    navigate('/');
+    // navigate('/');
     // eslint-disable-next-line
   }, [nickname]);
 
