@@ -31,12 +31,12 @@ export const Home = () => {
   const receivedNickname = queryParams.get('memberNickname');
   const navigate = useNavigate();
 
-  // const [accessToken, setAccessToken] = useState('');
-  // const [refreshToken, setRefreshToken] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const nickname = useSelector((state) => state.user.nickname);
 
-
+  const handleClose = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     if (receivedAccessToken) {
@@ -50,6 +50,7 @@ export const Home = () => {
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
         // setNickname(receivedNickname.trim());
         dispatch(setNickname(receivedNickname.trim()));
+        console.log("DB에서 받은 닉네임: " + receivedNickname.trim());
       } else {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
@@ -60,33 +61,14 @@ export const Home = () => {
     // eslint-disable-next-line
   }, [receivedAccessToken]);
 
-  // useEffect(() => {
-  //   if (nickname) {
-  //     dispatch(setNickname(nickname));
-  //     localStorage.setItem('nickname', nickname);
-  //     navigate('/');
-  //   }
-  //   // eslint-disable-next-line
-  // }, [nickname, navigate]);
-
-  const handleModalSave = (newNickname) => {
-    dispatch(setNickname(newNickname));
-    localStorage.setItem('nickname', newNickname);
-    // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
-    if (receivedAccessToken && newNickname) {
-      axios.post('https://varabc.com:8080/member/changeNickname', {
-        "memberNickname": newNickname
-      }, {
-        headers: {
-          "access-token": receivedAccessToken
-        }
-      }).then(() => {
-        setModalOpen(false);
-      }).catch((err) => {
-        alert("지금은 서버가 아파요! 나중에 다시 시도해주세요!" + err);
-      });
+  useEffect(() => {
+    if (nickname) {
+      localStorage.setItem('nickname', nickname);
+      navigate('/');
     }
-  };
+    // eslint-disable-next-line
+  }, [nickname, navigate]);
+
   return (
     <div>
       <div className="w-screen h-screen flex items-end p-20 bg-bg1 bg-cover">
@@ -174,8 +156,7 @@ export const Home = () => {
       </div>
       <NicknameModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSave={handleModalSave}
+        onClose={handleClose}
       />
     </div>
   );
