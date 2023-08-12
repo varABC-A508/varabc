@@ -19,6 +19,7 @@ export const Nav = () => {
     setNickname(undefined);
     localStorage.clear();
     window.location.reload();
+    // => localStorage.removeItem('nickname'); 으로 바꿔주기
   }
 
   useEffect(() => {

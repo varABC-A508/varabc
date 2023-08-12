@@ -48,7 +48,7 @@ export const BattleRoom = () => {
   const socket = io('http://localhost:3001', {reconnection:false});
 
   useEffect(() => {
-    const userToken = JSON.parse(sessionStorage.getItem('access-token'));
+    const userToken = sessionStorage.getItem('access-token');
     if(!userToken){
       alert('회원가입부터 해주세요!');
       navigate("/");
