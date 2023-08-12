@@ -18,7 +18,7 @@ import sub5 from '../../img/sub5.png';
 import NicknameModal from "../../components/login/NicknameModal";
 
 import {useDispatch, useSelector} from 'react-redux';
-import { setNickname } from "../../redux/Actions/userActions";
+import { setNickname } from "../../redux/Reducer/userReducers"; 
 
 
 export const Home = () => {
