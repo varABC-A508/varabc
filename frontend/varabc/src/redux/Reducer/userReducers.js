@@ -9,7 +9,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setNickname(state, action) {
+      console.log("Before state:", state); // 현재 상태를 로그로 출력
       state.nickname = action.payload;
+      console.log("After state:", state); // 업데이트된 상태를 로그로 출력
     },
   },
 });
