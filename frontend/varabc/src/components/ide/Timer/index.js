@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsIdeShown } from '../../../redux/Reducer/ideReducers';
+import { io } from "socket.io-client";
+
 
 const Timer = () => {
-  const TWO_MINUTES = 30;
+  const TWO_MINUTES = 1;
   const [seconds, setSeconds] = useState(TWO_MINUTES);
   const [isAlertShown, setIsAlertShown] = useState(false);
 
-  const isIdeShown = useSelector((state) => state.ide.isIdeShown);
-  const dispatch = useDispatch();
+  const socket = io('http://localhost:3001', {reconnection:false});
 
   useEffect(() => {
     if(!isAlertShown){
@@ -22,13 +21,15 @@ const Timer = () => {
         return () => clearInterval(intervalId);
       }
     } else {
-      console.log('2분이 지났습니다!');
+      const isPlayerTurn = JSON.parse(sessionStorage.getItem('isPlayerTurn'));
+      socket.emit('onTimerEnd', { 
+        isPlayerTurn: isPlayerTurn
+      });
 	    setSeconds(TWO_MINUTES);
       setIsAlertShown(false);
-      dispatch(setIsIdeShown(!isIdeShown));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seconds, isAlertShown, dispatch]);
+  }, [seconds, isAlertShown]);
 
   const formatTime = (time) => {
 	  const minutes = Math.floor(time / 60);

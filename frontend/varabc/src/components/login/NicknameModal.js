@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const NicknameModal = ({ isOpen, onClose, onSave }) => {
-
   const [nickname, setNickname] = useState('');
   const [nicknameCheck, setNicknameCheck] = useState(false);
 

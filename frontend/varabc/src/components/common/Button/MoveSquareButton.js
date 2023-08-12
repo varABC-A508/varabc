@@ -18,7 +18,8 @@ const fontSizes = {
   basic: "text-[32px]",
 };
 
-const MoveSquareButton = ({ to, text, bgColor, btnSize }) => {
+const MoveSquareButton = ({ to, text, bgColor, btnSize, roomToken }) => {
+  if(roomToken) console.log(roomToken);
   const navigate = useNavigate();
   const backgroundColor = bgColors[bgColor];
   const buttonSize = btnSizes[btnSize];
@@ -44,16 +45,12 @@ const MoveSquareButton = ({ to, text, bgColor, btnSize }) => {
     default:
   }
 
-
-
-  const handleClick = () => {
-    console.log('페이지 이동');
+  const onButtonClick = () => {
     navigate(to);
   };
 
   return (
-
-    <button onClick={handleClick} className={`${backgroundColor} ${textColor} ${hoverColor} flex justify-center items-center rounded-lg font-bold ${buttonSize} ${fontSize}`}>
+    <button onClick={onButtonClick} type="button" className={`${backgroundColor} ${textColor} ${hoverColor} flex justify-center items-center rounded-lg font-bold ${buttonSize} ${fontSize}`}>
       {text}
     </button>
   );

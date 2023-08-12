@@ -24,6 +24,7 @@ import ProblemList from './components/common/list/ProblemList';
 
 import { BattleResultPage1 } from './pages/battle/BattleResultPage1';
 import { BattleResultPage2 } from './pages/battle/BattleResultPage2';
+import IdeContainer from './components/ide/IdeContainer';
 
 
 const App = () => {
@@ -31,16 +32,18 @@ const App = () => {
     <div className="App">
       <Nav />
       <Routes>
+        {"battle/45/game/w5fuZzsQK9y9A-JoN6iNTA/203334841"}
         <Route path="/" element={<Home />} />
         <Route path="/battle" element={<Battle />}>
           <Route index element={<BattleMode />} />
-          <Route path="room" element={<BattleRoom />} />
+          <Route path="join/:roomToken" element={<BattleRoom />} />
           <Route path="result1" element={<BattleResultPage1 />} />
           <Route path="result2" element={<BattleResultPage2 />} />
+          <Route path=":problemNo/game/:roomToken/:TeamNo" element={<IdeContainer />} />
         </Route>
         <Route path="/problem" element={<Problems />}>
           <Route index element={<ProblemList />} />
-          <Route path="*" element={<ProblemDetail />} />
+          <Route path=":problemNo" element={<ProblemDetail />} />
         </Route>
         <Route path="/tier" element={<Tier />} />
         <Route path="/mypage" element={<MyPage />}>
