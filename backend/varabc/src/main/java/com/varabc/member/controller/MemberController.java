@@ -63,8 +63,8 @@ public class MemberController {
         System.out.println(jsonToken.toString());
         String accessToken = jsonToken.get("access_token").toString();
         JsonNode userInfo = kakaoLoginService.getKakaoUserInfo(accessToken);
+        System.out.println(userInfo);
         Member member=memberService.saveKakaoMember(userInfo);
-        System.out.println(userInfo.toString());
         RedirectView redirectView = new RedirectView("https://varabc.com/");
         try{
             String accessTokenForJwt=jwtService.createAccessToken("memberNo", member.getMemberNo());

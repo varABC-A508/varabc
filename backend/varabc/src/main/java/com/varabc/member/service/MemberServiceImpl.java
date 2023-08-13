@@ -37,9 +37,10 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member saveKakaoMember(JsonNode userInfo) {
-        Member member = memberRepository.findByMemberEmail(userInfo.get("email").asText());
-        System.out.println(member);
-        System.out.println(userInfo);
+        System.out.println(userInfo.get("kakao_account"));
+        System.out.println(userInfo.get("kakao_account").get("email"));
+        Member member = memberRepository.findByMemberEmail(userInfo.get("kakao_account").get("email").asText());
+
         if(member==null){
             KakaoMemberDto kakaoMemberDto =memberMapper.kakaoJsonToDto(userInfo);
             member = memberMapper.kakaoMemberDtoToEntity(kakaoMemberDto);
