@@ -1,12 +1,7 @@
 package com.varabc.validation.controller;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.varabc.validation.Service.ValidationService;
-import com.varabc.validation.domain.dto.ProblemRestrictionDto;
-import com.varabc.validation.domain.dto.TestCaseDto;
-import com.varabc.validation.domain.dto.ValidateDataDto;
-import com.varabc.validation.domain.dto.ValidateDto;
-import com.varabc.validation.domain.dto.ValidationResultDto;
+import com.varabc.validation.domain.dto.*;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
 import java.util.List;
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import software.amazon.awssdk.regions.Region;
 
 
 @RestController
@@ -25,17 +19,31 @@ import software.amazon.awssdk.regions.Region;
 @RequiredArgsConstructor
 //@Component // Add this annotation to register the class as a Spring bean
 public class ValidationController {
-    //일단 파이썬 채점에 필요한 여건들부터 차례대로 확인해보자.
-    //클라이언트에서 코드와 기타등등을 전달받았다고 가정하고,
-    //해당 요청을 현재 로컬서버의 파이썬 채점서버에 전달해서 채점 결과를 받아오는
-    //api를 먼저 작성해보자.
-    //마무리
     private final ValidationService validationService;
     private final ValidationMapper validationMapper;
-    private final AmazonS3 amazonS3;
-    private static final Region region = Region.AP_NORTHEAST_2;
+
+    @PostMapping("compilePython")
+    public ResponseEntity<CompileResultDto> compilePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
+        TestCaseDto testCaseDto= validationService.getPublicTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
+
+        List<FileData> inputFiles= validationService.getUrlIntoText(testCaseDto.getInputFiles());
+        List<FileData> outputFiles= validationService.getUrlIntoText(testCaseDto.getOutputFiles());
 
 
+        ProblemRestrictionDto problemRestrictionDto =validationService.getProblemRestriction(validateDataDto.getProblemNo());
+        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,1);
+        //파이썬 서버로 요청 보내기
+        System.out.println(problemRestrictionDto);
+        HttpStatus status=HttpStatus.OK;
+
+        //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
+        String pythonServerUrl = "https://varabc.com:5000/";
+        CompileResultDto compileResultDto = validationService.sendRequestCompile(
+                pythonServerUrl, validateDto);
+        System.out.println(compileResultDto);
+
+        return new ResponseEntity<CompileResultDto>(compileResultDto, status);
+    }
     //파이썬 서버로 요청 보내기
     @PostMapping("sendvalidatepy")
     public ResponseEntity<ValidationResultDto> validatePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
@@ -56,7 +64,7 @@ public class ValidationController {
         HttpStatus status=HttpStatus.OK;
 
         //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
-        String pythonServerUrl = "http://43.200.245.232:5000/";
+        String pythonServerUrl = "https://varabc.com:5000/";
         ValidationResultDto validationResultDto = validationService.sendRequestValidation(
                 pythonServerUrl, validateDto);
         System.out.println(validationResultDto);
@@ -83,7 +91,7 @@ public class ValidationController {
         HttpStatus status=HttpStatus.OK;
 
         //service단에서 자바 채점 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
-        String javaServerUrl = "http://43.200.245.232:8081/";
+        String javaServerUrl = "http://varabc.com:8081/";
         ValidationResultDto validationResultDto=validationService.sendRequestValidation(javaServerUrl,validateDto);
         System.out.println(validationResultDto);
         validationService.saveValidationResult(validationResultDto, validateDto,1,
