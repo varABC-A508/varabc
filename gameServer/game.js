@@ -10,13 +10,13 @@ const server = https.createServer(
   app
 );
 
-// const io = require("socket.io")(server, {
-//   cors: {
-//     origin: '*',// 프론트엔드 도메인 설정
-//     credentials: true,
-//   },
-// });
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: 'https://varabc.com',// 프론트엔드 도메인 설정
+    credentials: true,
+  },
+});
+// const io = require("socket.io")(server);
 
 const MAX_PLAYERS = 4;
 
