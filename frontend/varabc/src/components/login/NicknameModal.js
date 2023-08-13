@@ -48,13 +48,11 @@ const NicknameModal = ({ isOpen, onClose }) => {
         }
       }).then((res) => {
         console.log(res.data);
-        isOpen(false);
+        isOpen = false;
         onClose();
       }).catch((err) => {
         alert("닉네임 DB 저장 에러" + err);
       });
-    } else {
-      
     }
   };
 
