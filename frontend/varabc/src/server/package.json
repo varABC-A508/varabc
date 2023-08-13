@@ -1,11 +1,8 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "game.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies": {
+    "express": "*"
   },
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "start": "node server/game.js"
+  }
 }

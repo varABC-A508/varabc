@@ -12,6 +12,10 @@ const StartGameButton = ({roomToken, members}) => {
 
   const navigate = useNavigate();
   const splitTeam = () => {
+    console.log("멤버1:" + members[0].memberNo);
+    console.log("멤버2:" + members[1].memberNo);
+    console.log("멤버3:" + members[2].memberNo);
+    console.log("멤버4:" + members[3].memberNo);
     axios.post(
       `https://varabc.com:8080/battle/start/${roomToken}`,
       {
