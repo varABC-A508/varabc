@@ -64,7 +64,7 @@ public class ValidationController {
         HttpStatus status=HttpStatus.OK;
 
         //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
-        String pythonServerUrl = "https://varabc.com:5000/";
+        String pythonServerUrl = "http://varabc.com:5000/";
         ValidationResultDto validationResultDto = validationService.sendRequestValidation(
                 pythonServerUrl, validateDto);
         System.out.println(validationResultDto);
