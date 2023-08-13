@@ -13,6 +13,7 @@ const server = https.createServer(
 const io = require("socket.io")(server, {
   cors: {
     origin: 'https://varabc.com',// 프론트엔드 도메인 설정
+    methods: ['GET', 'POST'],
     credentials: true,
   },
 });
