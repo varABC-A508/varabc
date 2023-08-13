@@ -1,12 +1,16 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const StartGameButton = ({roomToken, members, socket}) => {
   const userRoomIndex = JSON.parse(sessionStorage.getItem('userRoomIndex'));
   const [isDisabled, setIsDisabled] = useState(true);
-  if(members.length === 4 && userRoomIndex === 1)
+
+  useEffect(() => {
+    if(members.length === 4 && userRoomIndex === 1)
     setIsDisabled(false);
+  // eslint-disable-next-line
+  }, [members.length])
 
   const navigate = useNavigate();
   const splitTeam = () => {
