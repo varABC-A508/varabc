@@ -88,7 +88,7 @@ export const BattleRoom = () => {
               />
             </div>
             <div className="mt-4">
-              <StartGameButton roomToken={roomToken} members={members} source={selectedSource} difficulty={selectedDifficulty} />
+              <StartGameButton roomToken={roomToken} members={members} socket={socket} source={selectedSource} difficulty={selectedDifficulty} />
             </div>
           </div>
           <TeamWaiting player1={members[2]} player2={members[3]} teamNo={2} />

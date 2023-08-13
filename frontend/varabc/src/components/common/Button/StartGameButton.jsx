@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
-const StartGameButton = ({roomToken, members}) => {
-  const socket = io('http://localhost:3001', { reconnection: false });
+const StartGameButton = ({roomToken, members, socket}) => {
   const userRoomIndex = JSON.parse(sessionStorage.getItem('userRoomIndex'));
   const [isDisabled, setIsDisabled] = useState(true);
   if(members.length === 4 && userRoomIndex === 1)
@@ -26,6 +24,7 @@ const StartGameButton = ({roomToken, members}) => {
         "competitionResultT2M1No": members[2].member.memberNo,
         "competitionResultT2M2No": members[3].member.memberNo
       }).then((res) => {
+        console.log(res.data);
         const url1 = res.data.url1;
         const url2 = res.data.url2;
         socket.emit('onGameStart', {
