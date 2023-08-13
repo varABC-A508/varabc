@@ -16,11 +16,12 @@ public class MyPageReviewDto {
     private Long reviewReceiveMemberNo;
     private Long reviewSendMemberNo;
     private String reviewContent;
+    private Long competitionResultNo;
 
     @Builder
     public MyPageReviewDto(boolean reviewTagReadability, boolean reviewTagNaming,
             boolean reviewTagSpeed, boolean reviewTagCommunication, Long reviewReceiveMemberNo,
-            Long reviewSendMemberNo, String reviewContent) {
+            Long reviewSendMemberNo, String reviewContent, Long competitionResultNo) {
         this.reviewTagReadability = reviewTagReadability;
         this.reviewTagNaming = reviewTagNaming;
         this.reviewTagSpeed = reviewTagSpeed;
@@ -28,5 +29,6 @@ public class MyPageReviewDto {
         this.reviewReceiveMemberNo = reviewReceiveMemberNo;
         this.reviewSendMemberNo = reviewSendMemberNo;
         this.reviewContent = reviewContent;
+        this.competitionResultNo = competitionResultNo;
     }
 }

@@ -5,19 +5,22 @@ import com.varabc.jwt.service.JwtService;
 import com.varabc.member.domain.dto.MemberDto;
 import com.varabc.member.domain.dto.NicknameDto;
 import com.varabc.member.domain.entity.Member;
-
 import com.varabc.member.service.GoogleLoginService;
 import com.varabc.member.service.KakaoLoginService;
 import com.varabc.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
@@ -122,5 +125,14 @@ public class MemberController {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("already exist nickname");
        }
        return ResponseEntity.status(HttpStatus.OK).body("valid nickname");
+    }
+
+    @GetMapping("/memberList/admin")
+    public ResponseEntity<?> getAllMemberNickname(){
+        List<MemberDto> memberDtoList = memberService.getMember();
+        if(memberDtoList.size()==0){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(memberDtoList,HttpStatus.OK);
     }
 }

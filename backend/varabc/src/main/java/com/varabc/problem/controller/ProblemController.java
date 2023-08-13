@@ -51,14 +51,14 @@ public class ProblemController {
     }
 
     @GetMapping("/getList")
-    public ResponseEntity<?> getList(){
+    public ResponseEntity<?> getList() {
         List<ProblemListDto> problemDtoList = problemService.getList();
         HttpStatus status;
-        if(problemDtoList.size()==0){
+        if (problemDtoList.size() == 0) {
             System.out.println("문제 없음");
-            status= HttpStatus.NO_CONTENT;
-        }else{
-            status=HttpStatus.OK;
+            status = HttpStatus.NO_CONTENT;
+        } else {
+            status = HttpStatus.OK;
         }
         return new ResponseEntity<>(problemDtoList, status);
     }
@@ -67,25 +67,25 @@ public class ProblemController {
     @GetMapping("/{problemNo}/admin")
     public ResponseEntity<ProblemDto> getProblem(@PathVariable Long problemNo) {
         //관리자페이지
-        ProblemDto problemDto= problemService.getProblem(problemNo);
+        ProblemDto problemDto = problemService.getProblem(problemNo);
         HttpStatus status;
         if (problemDto == null) {
             status = HttpStatus.NOT_FOUND;
-        }else{
-            status= HttpStatus.OK;
+        } else {
+            status = HttpStatus.OK;
         }
         return new ResponseEntity<>(problemDto, status);
     }
 
     @GetMapping("/{problemNo}")
-    public ResponseEntity<?> getProblemPublic(@PathVariable Long problemNo){
+    public ResponseEntity<?> getProblemPublic(@PathVariable Long problemNo) {
         //공개 문제. 비공개테케 출력 안함. 문제의 일부 정보들만 출력.
         PublicProblemDto publicProblemDto = problemService.getProblemPublic(problemNo);
         HttpStatus status;
         if (publicProblemDto == null) {
             status = HttpStatus.NOT_FOUND;
-        }else{
-            status= HttpStatus.OK;
+        } else {
+            status = HttpStatus.OK;
         }
         return new ResponseEntity<>(publicProblemDto, status);
     }
@@ -136,22 +136,21 @@ public class ProblemController {
     @DeleteMapping("/{problemNo}")
     public ResponseEntity<?> deleteProblem(@PathVariable Long problemNo) {
         boolean rslt = problemService.deleteProblem(problemNo);
-        if(rslt){
+        if (rslt) {
             return new ResponseEntity<>("success", HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>("failed", HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/getRandomProblem")
-    public ResponseEntity<?> getRandomProblem(@RequestBody RandomProblemDto randomProblemDto){
-        //문제 난이도랑 출처 받아와서, 그걸로 랜덤 돌리기.
-        //난이도는 실버 골드 이정도로만.
-        //problemNo 리턴.
+    public ResponseEntity<?> getRandomProblem(@RequestBody RandomProblemDto randomProblemDto) {
         Long problemNo = problemService.getRandomProblem(randomProblemDto);
-        if(problemNo!=null)
+        if (problemNo != null) {
             return new ResponseEntity<>(problemNo, HttpStatus.OK);
-        else
-            return  new ResponseEntity<>( HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
+
 }
