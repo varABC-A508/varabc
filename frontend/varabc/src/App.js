@@ -26,7 +26,6 @@ import { BattleResultPage1 } from './pages/battle/BattleResultPage1';
 import { BattleResultPage2 } from './pages/battle/BattleResultPage2';
 import IdeContainer from './components/ide/IdeContainer';
 
-
 const App = () => {
   return (
     <div className="App">

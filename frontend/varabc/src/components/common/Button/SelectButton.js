@@ -1,42 +1,64 @@
-import React, { useState } from 'react';
-// import axios from 'axios';
+import React from 'react';
 
-const SelectButton = () => {
-  const [selectedOption, setSelectedOption] = useState('option1'); 
+const SelectButton = ({ selectedSource, selectedDifficulty, onSourceSelect, onDifficultySelect }) => {
+  const sources = [
+    { label: '백준', value: 'backjoon' },
+    { label: 'SWEA', value: 'swea' },
+    { label: '정올', value: 'jungol' },
+    { label: '기타', value: 'other' },
+  ];
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-//   const handleSendToBackend = () => {
-//     if (selectedOption) {
-//       axios.post('https://varabc.com/save-selected-option', { selectedOption })
-//         .then(response => {
-//           console.log('Successfully sent to backend:', response.data);
-//         })
-//         .catch(error => {
-//           console.error('Error sending to backend:', error);
-//         });
-//     }
-//   };
+  const difficulties = [
+    { label: '브론즈', value: 'bronze' },
+    { label: '실버', value: 'silver' },
+    { label: '골드', value: 'gold' },
+    { label: '다이아', value: 'diamond' },
+  ];
 
   return (
-    <div className="p-4"> 
-      <select
-        value={selectedOption}
-        onChange={handleSelectChange}
-        className="border rounded px-2 py-1"
-      >
-        <option value="option1">옵션 1</option>
-        <option value="option2">옵션 2</option>
-        <option value="option3">옵션 3</option>
-      </select>
-      <button
-        // onClick={handleSendToBackend}
-        className="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-      >
-        완료
-      </button>
+    <div className="container mx-auto mt-8 p-4 text-white">
+      <h1 className="text-2xl font-bold mb-4">옵션 선택</h1>
+      <div className="grid grid-cols-2 gap-4">
+        {/* 출처 선택 */}
+        <div>
+          <label htmlFor="sourceSelect" className="block font-medium">
+            출처
+          </label>
+          <select
+            id="sourceSelect"
+            className="border p-2 text-black"
+            value={selectedSource}
+            onChange={onSourceSelect}
+          >
+            <option value="">선택하세요</option>
+            {sources.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* 난이도 선택 */}
+        <div>
+          <label htmlFor="difficultySelect" className="block font-medium">
+            난이도
+          </label>
+          <select
+            id="difficultySelect"
+            className="border p-2 text-black"
+            value={selectedDifficulty}
+            onChange={onDifficultySelect}
+          >
+            <option value="">선택하세요</option>
+            {difficulties.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
     </div>
   );
 };

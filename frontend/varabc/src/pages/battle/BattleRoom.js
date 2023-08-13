@@ -5,17 +5,29 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import StartGameButton from "../../components/common/Button/StartGameButton";
+import SelectButton from "../../components/common/Button/SelectButton";
 
 export const BattleRoom = () => {
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
   const roomToken = params.roomToken;
-  const socket = io('http://localhost:3001', {reconnection:false});
+  const socket = io('http://localhost:3001', { reconnection: false });
+  const [selectedSource, setSelectedSource] = useState('');
+  const [selectedDifficulty, setSelectedDifficulty] = useState('');
+
+  const handleSourceSelect = (event) => {
+    setSelectedSource(event.target.value);
+  };
+
+  const handleDifficultySelect = (event) => {
+    setSelectedDifficulty(event.target.value);
+  };
+
 
   useEffect(() => {
     const userToken = sessionStorage.getItem('access-token');
-    if(!userToken){
+    if (!userToken) {
       alert('회원가입부터 해주세요!');
       navigate("/");
     }
@@ -27,7 +39,7 @@ export const BattleRoom = () => {
         console.log(res.data.userInfo);
         socket.emit('joinWaitingRoom', {
           roomToken: roomToken,
-          member: res.data.userInfo 
+          member: res.data.userInfo
         });
       }).catch((err) => {
         alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
@@ -53,6 +65,12 @@ export const BattleRoom = () => {
         <div className="w-full flex justify-between items-end">
           <TeamWaiting player1={members[0]} player2={members[1]} teamNo={1} />
           <div>
+            <SelectButton
+              selectedSource={selectedSource}
+              selectedDifficulty={selectedDifficulty}
+              onSourceSelect={handleSourceSelect}
+              onDifficultySelect={handleDifficultySelect}
+            />
             <div className="flex w-[358px] justify-between items-end">
               <MoveSquareButton
                 text="친구 초대"
@@ -66,7 +84,7 @@ export const BattleRoom = () => {
               />
             </div>
             <div className="mt-4">
-              <StartGameButton roomToken={roomToken} members={members} />
+              <StartGameButton roomToken={roomToken} members={members} source={selectedSource} difficulty={selectedDifficulty} />
             </div>
           </div>
           <TeamWaiting player1={members[2]} player2={members[3]} teamNo={2} />
