@@ -6,9 +6,6 @@ import axios from "axios";
 import { io } from "socket.io-client";
 
 const MoveWaitingRoomButton = () => {
-
-  let socketId;
-
   const fetchCreatorNo = () => {
     const userToken = sessionStorage.getItem('access-token');
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {

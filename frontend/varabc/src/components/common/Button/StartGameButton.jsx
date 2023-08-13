@@ -31,7 +31,7 @@ const StartGameButton = ({roomToken, members}) => {
         socket.emit('onGameStart', {
           roomToken: roomToken,
           url1: url1,
-          url2, url2
+          url2: url2
         });
       }).catch((err) => {
         alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
