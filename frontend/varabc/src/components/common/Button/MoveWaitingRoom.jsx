@@ -5,6 +5,12 @@ import axios from "axios";
 import socket from '../../../modules/socketInstance';
 
 const MoveWaitingRoomButton = () => {
+
+  socket.on('logMessage', (message) => {
+    // 로그 메시지를 받아서 화면에 표시
+    console.log('express log:', message);
+  });
+
   const fetchCreatorNo = () => {
     const userToken = sessionStorage.getItem('access-token');
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {

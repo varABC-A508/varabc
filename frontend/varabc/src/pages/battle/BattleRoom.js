@@ -62,6 +62,11 @@ export const BattleRoom = () => {
     navigate(url);
   });
 
+  socket.on('logMessage', (message) => {
+    // 로그 메시지를 받아서 화면에 표시
+    console.log('express log:', message);
+  });
+
   return (
     <>
       <div className="w-screen h-screen flex items-center bg-battleBlur bg-cover pl-20 pr-20">

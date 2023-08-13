@@ -7,6 +7,11 @@ const StartGameButton = ({roomToken, members }) => {
   const userRoomIndex = JSON.parse(sessionStorage.getItem('userRoomIndex'));
   const [isDisabled, setIsDisabled] = useState(true);
 
+  socket.on('logMessage', (message) => {
+    // 로그 메시지를 받아서 화면에 표시
+    console.log('express log:', message);
+  });
+
   useEffect(() => {
     console.log("멤버 수가 변경되었습니다!: " + members.length);
     if(members.length === 4 && userRoomIndex === 1)
