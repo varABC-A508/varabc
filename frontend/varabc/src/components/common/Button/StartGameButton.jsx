@@ -7,6 +7,7 @@ const StartGameButton = ({roomToken, members, socket}) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
+    console.log("멤버 수가 변경되었습니다!: " + members.length);
     if(members.length === 4 && userRoomIndex === 1)
     setIsDisabled(false);
   // eslint-disable-next-line
