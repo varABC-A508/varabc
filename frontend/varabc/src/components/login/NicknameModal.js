@@ -20,6 +20,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
       if (res.data === "already exist nickname") {
         setNicknameCheck(false); 
       } else {
+        dispatch(setNickname(newNickname));
         setNicknameCheck(true); 
       }
     }).catch((err) => {
@@ -29,17 +30,16 @@ const NicknameModal = ({ isOpen, onClose }) => {
 
   const handleSave = () => {
     if (nicknameCheck) {
-      handleModalSave(nickname);
+      handleModalSave();
     }
   };
 
-  const handleModalSave = (newNickname) => {
-    dispatch(setNickname(newNickname));
+  const handleModalSave = () => {
     // TODO: 최종 빌드 시 localstrage 변경
     sessionStorage.setItem('nickname', nickname);
     const accessToken = sessionStorage.getItem("access-token");
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
-    if (accessToken && newNickname) {
+    if (accessToken && nickname) {
       axios.post('https://varabc.com:8080/member/changeNickname', {
         "memberNickname": nickname
       }, {
