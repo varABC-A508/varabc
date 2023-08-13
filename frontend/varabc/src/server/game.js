@@ -47,8 +47,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on('onGameStart', ({roomToken, url1, url2}) => {
-    console.log({roomToken} +" 방의 게임을 시작합니다!");
+    console.log(roomToken +" 방의 게임을 시작합니다!");
     const room = roomToken;
+    console.log('url1:' + url1);
+    console.log('url2:' + url2);
     io.to(room).emit('startGame', { 
       url1: url1, 
       url2: url2,

@@ -59,9 +59,11 @@ export const BattleRoom = () => {
   });
 
   socket.on('startGame', ({ url1, url2 }) => {
+    console.log("게임이 시작되려고 합니다!");
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
       "access-token": sessionStorage.getItem('access-token')
     }}).then((res) => {
+      console.log(res);
       const userNo = res.data.userInfo.memberNo;
       for(const member in members){
         if(member.member.memberNo === userNo){
