@@ -7,7 +7,6 @@ import com.varabc.battle.domain.dto.SubmitBattleDto;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
 import com.varabc.validation.domain.dto.*;
 import com.varabc.validation.domain.util.FileData;
-import jdk.incubator.vector.VectorOperators;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

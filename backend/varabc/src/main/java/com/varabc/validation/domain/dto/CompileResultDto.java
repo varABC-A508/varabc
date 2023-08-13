@@ -1,6 +1,7 @@
 package com.varabc.validation.domain.dto;
 
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class CompileResultDto {
-    private String output;
+    private List<String> output;
     private long problemNo;
     private int result;
     private double executionTime;
@@ -19,7 +20,8 @@ public class CompileResultDto {
 
 
     @Builder
-    public CompileResultDto(String output, long problemNo, int result, double executionTime, int memoryUsage, String exceptionMessage) {
+    public CompileResultDto(List<String> output, long problemNo, int result, double executionTime,
+            int memoryUsage, String exceptionMessage) {
         this.output = output;
         this.problemNo = problemNo;
         this.result = result;

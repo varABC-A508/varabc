@@ -106,7 +106,7 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public TestCaseDto getPublicTestCaseDtoByProblemNo(long problemNo) {
-        List<TestCase> testCases = validationRepository.findByProblemNoAndTestCasePublicIs(problemNo);
+        List<TestCase> testCases = validationRepository.findByProblemNoAndTestCasePublic(problemNo,true);
         List<String> inputFiles = testCases.stream()
                                            .map(TestCase::getTestCaseInput)
                                            .collect(Collectors.toList());
