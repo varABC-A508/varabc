@@ -15,4 +15,8 @@ public interface SubmitRepository extends JpaRepository<Submit, Long> {
     List<Submit> findByMemberNoAndSubmitMode(Long memberNo, int submitMode);
 
     Submit findBySubmitNo(Long submitNo);
+
+    List<Submit> findByCompetitionResultNoAndSubmitModeAndSubmitOrder(Long competitionResultNo, int submitMode, int submitStatus);
+
+    List<Submit> findByMemberNoAndProblemNo(Long memberNo, Long problemNo);
 }

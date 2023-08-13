@@ -36,7 +36,7 @@ public class SearchService {
         return problemMapper.problemEntityListToDtoList(problemRepository.findByProblemNoAndProblemAlgorithmType(problemNo, compareBit));
     }
     public List<ProblemListDto> searchProblemsOnlyProblemNo(long problemNo){
-        return problemMapper.problemEntityListToDtoList(problemRepository.findByProblemNo(problemNo));
+        return problemMapper.problemEntityListToDtoList(problemRepository.findByProblemNoContaining(problemNo));
     }
     public List<ProblemListDto> searchProblemsOnlyAlgorithmType(List<Integer> algoType){
         String compareBit=makeCompareBit(algoType);

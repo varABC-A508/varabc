@@ -275,16 +275,13 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public List<MyPageSubmitDto> getSubmits(Long memberNo, int mode) {
-//        Member member= memberRepository.findByMemberNo(memberNo);
         List<MyPageSubmitDto> myPageSubmitDtoList = new ArrayList<>();
         List<Submit> submitList = submitRepository.findByMemberNoAndSubmitMode(memberNo, mode);
-        String submitStatus;
+        String submitStatus = "틀렸습니다.";
         for (Submit submit : submitList) {
             if (submit.getSubmitStatus() == 1) {
 //                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
                 submitStatus = "맞았습니다.";
-            } else {
-                submitStatus = "틀렸습니다.";
             }
             MyPageSubmitDto myPageSubmitDto = validationMapper.EntityToDto(submit, submitStatus);
             myPageSubmitDtoList.add(myPageSubmitDto);
@@ -292,10 +289,4 @@ public class ValidationServiceImpl implements ValidationService {
         return myPageSubmitDtoList;
     }
 
-    @Override
-    public SubmitDto getSubmit(Long submitNo) {
-        SubmitDto submitDto = null;
-        submitDto = validationMapper.submitToDto(submitRepository.findBySubmitNo(submitNo));
-        return submitDto;
-    }
 }

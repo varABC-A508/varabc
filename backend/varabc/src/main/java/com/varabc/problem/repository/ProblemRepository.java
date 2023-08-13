@@ -20,12 +20,13 @@ public interface ProblemRepository extends JpaRepository<Problem,Long> {
 
     List<Problem> findByProblemTitleContainingAndProblemAlgorithmType(String keyword, String compareBit);
     List<Problem> findByProblemTitleContaining(String keyword);
-    List<Problem> findByProblemNo(long problemNo);
+    List<Problem> findByProblemNoContaining(long problemNo);
+
     List<Problem> findByProblemNoAndProblemAlgorithmType(long problemNo, String compareBit);
     List<Problem> findByProblemAlgorithmType(String compareBit);
 
     @Query("SELECT p FROM Problem p WHERE p.problemNo IN (SELECT s.problemNo FROM Submit s WHERE s.competitionResultNo = :competitionResultNo)")
     List<Problem> findProblemsByCompetitionResultNo(@Param("competitionResultNo") Long competitionResultNo);
 
-
+    Problem findByProblemNo(long problemNo);
 }
