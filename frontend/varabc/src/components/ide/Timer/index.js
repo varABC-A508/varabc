@@ -8,7 +8,7 @@ const Timer = () => {
   const [seconds, setSeconds] = useState(TWO_MINUTES);
   const [isAlertShown, setIsAlertShown] = useState(false);
 
-  const socket = io('http://varabc.com:3001', {reconnection:false});
+  const socket = io('https://varabc.com:3001', {reconnection:false});
   const params = useParams();
   const roomToken = params.roomToken;
 

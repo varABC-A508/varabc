@@ -12,7 +12,7 @@ export const BattleRoom = () => {
   const navigate = useNavigate();
   const params = useParams();
   const roomToken = params.roomToken;
-  const socket = io('http://varabc.com:3001', { reconnection: false });
+  const socket = io('https://varabc.com:3001', { reconnection: false });
   const [selectedSource, setSelectedSource] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
 
