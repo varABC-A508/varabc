@@ -53,7 +53,43 @@ def run_code_with_test_case(input_content, output_content, time_limit, memory_li
             execution_time = end_time - start_time
             result['execution_time'] = execution_time
             result['memory_usage'] = memory_usage.value
-            # result['memory_usage'] = f"{memory_usage.value:} bytes"
+            if memory_usage.value > memory_limit:
+                result['result'] = 3
+                result['exception_message'] = "Error: 메모리초과"
+            else:
+                result['result'] = 1 if output == expected_output else 4
+    except Exception as e:
+        result['exception_message'] = str(e)
+    return result
+
+
+def compile_code_with_test_case(input_content, output_content, time_limit, memory_limit):
+    expected_output = output_content.strip()
+    result = {'result': 0, 'execution_time': 0, 'memory_usage': 0, 'exception_message': '', 'output': ''}
+    memory_usage = multiprocessing.Value('i', 0)
+    try:
+        queue = multiprocessing.Queue()
+        start_time = time.time()
+        #프로세스의 실행시간을 탐지하기 위해 멀티프로세싱을 적용해 시간초과 여부를 확인한다.
+        process = multiprocessing.Process(target=run_subprocess, args=(queue, input_content, memory_usage))
+        process.start()
+        process.join(timeout=time_limit)
+        end_time = time.time()
+
+        if process.is_alive():
+            print("Test case takes too long to complete. Killing...")
+            process.terminate()
+            process.join()
+            result['result'] = 2
+            result['exception_message'] = "Error: 시간초과"
+        else:
+            output = queue.get()
+            print(output)
+            print(expected_output)
+            result['output']=output
+            execution_time = end_time - start_time
+            result['execution_time'] = execution_time
+            result['memory_usage'] = memory_usage.value
             if memory_usage.value > memory_limit:
                 result['result'] = 3
                 result['exception_message'] = "Error: 메모리초과"
