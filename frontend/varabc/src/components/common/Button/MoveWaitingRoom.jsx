@@ -22,7 +22,7 @@ const MoveWaitingRoomButton = () => {
 
   const fetchRoomId = (memberNo) => {
     axios.post(`https://varabc.com:8080/battle/newRoom/${memberNo}`).then((res) => {
-      const socket = io('http://localhost:3001', {reconnection:false});
+      const socket = io('http://varabc.com:3001', {reconnection:false});
       const splitUrl = res.data.split('/');
       socket.emit('createWaitingRoom', {
         roomToken: splitUrl[splitUrl.length - 1],
