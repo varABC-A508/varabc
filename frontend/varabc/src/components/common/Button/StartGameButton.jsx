@@ -1,14 +1,14 @@
 import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { io } from "socket.io-client";
 
 const StartGameButton = ({roomToken, members}) => {
-  let isDisabled;
+  const socket = io('http://localhost:3001', { reconnection: false });
   const userRoomIndex = JSON.parse(sessionStorage.getItem('userRoomIndex'));
-  if(members.length !== 4 && userRoomIndex === 1)
-    isDisabled = true;
-  else
-    isDisabled = false;
+  const [isDisabled, setIsDisabled] = useState(true);
+  if(members.length === 4 && userRoomIndex === 1)
+    setIsDisabled(false);
 
   const navigate = useNavigate();
   const splitTeam = () => {
@@ -28,11 +28,11 @@ const StartGameButton = ({roomToken, members}) => {
       }).then((res) => {
         const url1 = res.data.url1;
         const url2 = res.data.url2;
-        if(userRoomIndex < 2){
-          navigate(url1);
-        } else {
-          navigate(url2);
-        }
+        socket.emit('onGameStart', {
+          roomToken: roomToken,
+          url1: url1,
+          url2, url2
+        });
       }).catch((err) => {
         alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
         navigate('/');

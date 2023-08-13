@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
       // 방 참가 로직
       socket.join(room);
       const nextNumber = rooms[room].members.length + 1;
-      rooms[room].members.push({ userRoomIndex: nextNumber, member: member });
+      rooms[room].members.push({ userRoomIndex: nextNumber, member: member, socketId: socket.id});
       console.log(`사용자가 방에 참가했습니다: ${room}, 사용자id: ${member.memberNo} 번호: ${nextNumber}`);
       console.log(rooms[room].members[nextNumber - 1].member.memberNickname);
       io.to(room).emit('updateWaitingRoom', {currMembers: rooms[room].members, userRoomIndex: nextNumber});
@@ -46,19 +46,31 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on('onTimerStart', ({roomToken}) => {
+  socket.on('onGameStart', ({roomToken, url1, url2}) => {
     const room = roomToken;
-    for(const member in rooms[room].members){
-      if(member.userRoomIndex === 0 || member.userRoomIndex === 2){
-        socket.emit('getPlayerTurn', {isPlayerTurn: true});
+    for(const member in rooms[room].memebrs){
+      if(member.userRoomIndex === 0 && member.userRoomIndex === 1){
+        io.to(member.socketId).emit('getTeamUrl', {url: url1});
       } else {
-        socket.emit('getPlayerTurn', {isPlayerTurn: false});
+        io.to(member.socketId).emit('getTeamUrl', {url: url2});
       }
     }
   });
 
-  socket.on('onTimerEnd', ({isPlayerTurn}) => {
-    socket.emit('togglePlayerTurn', {isPlayerTurn: !isPlayerTurn});
+  socket.on('onTimerStart', ({roomToken}) => {
+    const room = roomToken;
+    for(const member in rooms[room].members){
+      if(member.userRoomIndex === 0 || member.userRoomIndex === 2){
+        io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: true});
+      } else {
+        io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: false});
+      }
+    }
+  });
+
+  socket.on('onTimerEnd', ({isPlayerTurn, roomToken}) => {
+    const room = roomToken;
+    io.to(room).emit('togglePlayerTurn', {isPlayerTurn: !isPlayerTurn});
   });
 
   socket.on('disconnect', () => {

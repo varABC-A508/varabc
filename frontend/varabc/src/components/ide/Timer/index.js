@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
 
 
@@ -8,6 +9,8 @@ const Timer = () => {
   const [isAlertShown, setIsAlertShown] = useState(false);
 
   const socket = io('http://localhost:3001', {reconnection:false});
+  const params = useParams();
+  const roomToken = params.roomToken;
 
   useEffect(() => {
     if(!isAlertShown){
@@ -23,7 +26,8 @@ const Timer = () => {
     } else {
       const isPlayerTurn = JSON.parse(sessionStorage.getItem('isPlayerTurn'));
       socket.emit('onTimerEnd', { 
-        isPlayerTurn: isPlayerTurn
+        isPlayerTurn: isPlayerTurn,
+        roomToken: roomToken
       });
 	    setSeconds(TWO_MINUTES);
       setIsAlertShown(false);

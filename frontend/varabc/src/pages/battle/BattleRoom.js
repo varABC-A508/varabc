@@ -59,6 +59,10 @@ export const BattleRoom = () => {
     console.log("참가자의 방 번호: " + userRoomIndex);
   });
 
+  socket.on('getTeamUrl', ({url}) => {
+    navigate(url);
+  });
+
   return (
     <>
       <div className="w-screen h-screen flex items-center bg-battleBlur bg-cover pl-20 pr-20">
