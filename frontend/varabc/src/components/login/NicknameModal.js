@@ -46,12 +46,15 @@ const NicknameModal = ({ isOpen, onClose }) => {
         headers: {
           "access-token": accessToken
         }
-      }).then(() => {
+      }).then((res) => {
+        console.log(res.data);
         isOpen(false);
         onClose();
       }).catch((err) => {
-        alert("지금은 서버가 아파요! 나중에 다시 시도해주세요!" + err);
+        alert("닉네임 DB 저장 에러" + err);
       });
+    } else {
+      
     }
   };
 
