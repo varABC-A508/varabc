@@ -5,8 +5,8 @@ const fs = require("fs");
 const app = express();
 const server = https.createServer(
   {
-    key: fs.readFileSync("./ssl/privkey.pem"),
-    cert: fs.readFileSync("./ssl/cert.pem"),
+    key: fs.readFileSync("ssl/privkey.pem"),
+    cert: fs.readFileSync("ssl/cert.pem"),
   },
   app
 );
