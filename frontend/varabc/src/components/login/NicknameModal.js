@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector} from 'react-redux';
 import { setNickname } from "../../redux/Reducer/userReducers";
@@ -8,6 +8,10 @@ const NicknameModal = ({ isOpen, onClose }) => {
   const nickname = useSelector((state) => state.user.nickname);
   const [nicknameCheck, setNicknameCheck] = useState(false);
   const [newNickname, setNewNickname] = useState("");
+
+  useEffect(() => {
+    console.log("입력한 닉네임: " + newNickname);
+  }, [newNickname]);
 
   const checkNickname = () => {
     axios.post("https://varabc.com:8080/member/checkNickname", {
