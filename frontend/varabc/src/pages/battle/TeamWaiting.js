@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import AddPlayerButton from "./AddPlayerButton";
 import PlayerProfile from "./PlayerProfile";
 
