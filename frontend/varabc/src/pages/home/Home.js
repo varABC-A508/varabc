@@ -52,7 +52,9 @@ export const Home = () => {
         dispatch(setNickname(receivedNickname.trim()));
         console.log("DB에서 받은 닉네임: " + receivedNickname.trim());
         console.log("리덕스에 넣은 닉네임: " + nickname);
-        localStorage.setItem('nickname', receivedNickname.trim());
+
+        // TODO: 최종 빌드 시 localstrage 변경
+        sessionStorage.setItem('nickname', receivedNickname.trim());
       } else {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
@@ -65,7 +67,9 @@ export const Home = () => {
 
   useEffect(() => {
     console.log("Home.js의 useEffect 실행");
-    localStorage.setItem('nickname', nickname);
+
+    // TODO: 최종 빌드 시 localstrage 변경
+    sessionStorage.setItem('nickname', nickname);
     console.log("useEffect 안에서 받은 redux 닉네임: " + nickname);
     navigate('/');
     // eslint-disable-next-line

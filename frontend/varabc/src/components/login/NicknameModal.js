@@ -30,7 +30,8 @@ const NicknameModal = ({ isOpen, onClose }) => {
 
   const handleModalSave = (newNickname) => {
     dispatch(setNickname(newNickname));
-    localStorage.setItem('nickname', newNickname);
+    // TODO: 최종 빌드 시 localstrage 변경
+    sessionStorage.setItem('nickname', newNickname);
     const accessToken = sessionStorage.getItem("access-token");
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음
     if (accessToken && newNickname) {

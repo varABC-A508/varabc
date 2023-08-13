@@ -23,7 +23,8 @@ export const Nav = () => {
   }, [nickname]);
 
   const logout = () => {
-    localStorage.removeItem('nickname');
+    // TODO: 최종 빌드 시 localstrage 변경
+    sessionStorage.removeItem('nickname');
     dispatch(setNickname(null));
     window.location.reload();
   };
