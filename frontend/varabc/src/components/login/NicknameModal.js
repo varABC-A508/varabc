@@ -7,6 +7,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const nickname = useSelector((state) => state.user.nickname);
   const [nicknameCheck, setNicknameCheck] = useState(false);
+  const [newNickname, setNewNickname] = useState("");
 
   const checkNickname = () => {
     axios.post("https://varabc.com:8080/member/checkNickname", {
@@ -61,7 +62,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
               className="border"
               type="text"
               value={newNickname}
-              onChange={(e) => setNickname(e.target.value)}
+              onChange={(e) => setNewNickname(e.target.value)}
             />
             <button
               className="mt-4 px-4 py-2 bg-green text-black rounded z-60"
