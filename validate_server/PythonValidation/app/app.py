@@ -126,4 +126,4 @@ def evaluate_code():
 
 if __name__=="__main__":
   # host 등을 직접 지정하고 싶다면
-  app.run(host='43.200.245.232',ssl_context=('cert.pem', 'key.pem'),port="5000", debug=False)
+  app.run(host='0.0.0.0',ssl_context=('cert.pem', 'key.pem'),port="5000", debug=False)
