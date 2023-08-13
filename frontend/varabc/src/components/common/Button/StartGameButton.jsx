@@ -12,19 +12,19 @@ const StartGameButton = ({roomToken, members}) => {
 
   const navigate = useNavigate();
   const splitTeam = () => {
-    console.log("멤버1:" + members[0].memberNo);
-    console.log("멤버2:" + members[1].memberNo);
-    console.log("멤버3:" + members[2].memberNo);
-    console.log("멤버4:" + members[3].memberNo);
+    console.log("멤버1:" + members[0].member.memberNo);
+    console.log("멤버2:" + members[1].member.memberNo);
+    console.log("멤버3:" + members[2].member.memberNo);
+    console.log("멤버4:" + members[3].member.memberNo);
     axios.post(
       `https://varabc.com:8080/battle/start/${roomToken}`,
       {
         "roomCode": roomToken,
         "problemNo": 1,
-        "competitionResultT1M1No": members[0].memberNo,
-        "competitionResultT1M2No": members[1].memberNo,
-        "competitionResultT2M1No": members[2].memberNo,
-        "competitionResultT2M2No": members[3].memberNo
+        "competitionResultT1M1No": members[0].member.memberNo,
+        "competitionResultT1M2No": members[1].member.memberNo,
+        "competitionResultT2M1No": members[2].member.memberNo,
+        "competitionResultT2M2No": members[3].member.memberNo
       }).then((res) => {
         const url1 = res.data.url1;
         const url2 = res.data.url2;
