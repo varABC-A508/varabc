@@ -16,7 +16,7 @@ const StartGameButton = ({roomToken, members}) => {
       `https://varabc.com:8080/battle/start/${roomToken}`,
       {
         "roomCode": roomToken,
-        "problemNo": 94,
+        "problemNo": 1,
         "competitionResultT1M1No": members[0].memberNo,
         "competitionResultT1M2No": members[1].memberNo,
         "competitionResultT2M1No": members[2].memberNo,
