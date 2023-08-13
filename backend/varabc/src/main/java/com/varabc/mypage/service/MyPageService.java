@@ -1,6 +1,5 @@
 package com.varabc.mypage.service;
 
-import com.varabc.mypage.domain.dto.BattleInfoDto;
 import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
@@ -13,7 +12,7 @@ public interface MyPageService {
 
     List<BattleListDetailDto> getBattleList(Long memberNo);
 
-    BattleResultDetailDto getBattleDetail(BattleInfoDto battleInfoDto, int team);
+    BattleResultDetailDto getBattleDetail(Long competitionResultNo, Long memberNo);
 
     MyPageReviewDto getBattleReview(Long competitionResultNo, Long memberNo);
 

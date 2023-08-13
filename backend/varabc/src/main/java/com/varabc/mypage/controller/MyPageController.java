@@ -2,7 +2,6 @@ package com.varabc.mypage.controller;
 
 import com.varabc.member.domain.dto.MemberDto;
 import com.varabc.member.service.MemberService;
-import com.varabc.mypage.domain.dto.BattleInfoDto;
 import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
@@ -16,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,10 +73,10 @@ public class MyPageController {
         return new ResponseEntity<>(battleResultDtoList, HttpStatus.OK);
     }
 
-    @PostMapping("/battle/{competitionResultNo}/{team}")
-    public ResponseEntity<?> getBattleDetail(@RequestBody BattleInfoDto battleInfoDto, @PathVariable int team) {
+    @GetMapping("/battleDetail/{competitionResultNo}/{memberNo}")
+    public ResponseEntity<?> getBattleDetail(@PathVariable Long competitionResultNo, @PathVariable Long memberNo) {
 
-        BattleResultDetailDto battleResultDetailDto = myPageService.getBattleDetail(battleInfoDto,  team);
+        BattleResultDetailDto battleResultDetailDto = myPageService.getBattleDetail(competitionResultNo,  memberNo);
         if(battleResultDetailDto.getMyTeamSubmitList().isEmpty() && battleResultDetailDto.getOpponentTeamSubmitList().isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
