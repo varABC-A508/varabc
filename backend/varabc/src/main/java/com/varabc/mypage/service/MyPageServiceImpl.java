@@ -8,7 +8,6 @@ import com.varabc.battle.repository.ReviewRepository;
 import com.varabc.battle.repository.ReviewTagRepository;
 import com.varabc.member.domain.entity.Member;
 import com.varabc.member.repository.MemberRepository;
-import com.varabc.mypage.domain.dto.BattleInfoDto;
 import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
@@ -100,12 +99,19 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public BattleResultDetailDto getBattleDetail(BattleInfoDto battleInfoDto, int team
+    public BattleResultDetailDto getBattleDetail(Long competitionResultNo, Long memberNo
     ) {
+        CompetitionResult competitionResult = competitionResultRepository.findByCompetitionResultNo(
+                competitionResultNo);
+        int team = 2;
+        if (memberNo.equals(competitionResult.getCompetitionResultT1M1No()) || memberNo.equals(
+                competitionResult.getCompetitionResultT2M1No())) {
+            team = 1;
+        }
         List<MyPageSubmitDto> submitList1 = new ArrayList<>();
         List<MyPageSubmitDto> submitList2 = new ArrayList<>();
         List<Submit> submitList = submitRepository.findByCompetitionResultNoAndSubmitModeAndSubmitOrder(
-                battleInfoDto.getCompetitionResultNo(), 2, 1);
+                competitionResult.getCompetitionResultNo(), 2, 1);
 
         for (Submit submit : submitList) {
             Member member = memberRepository.findByMemberNo(submit.getMemberNo());
@@ -115,8 +121,8 @@ public class MyPageServiceImpl implements MyPageService {
             }
             MyPageSubmitDto myPageSubmitDto = myPageMapper.EntityToDto(member, submit,
                     submitStatus);
-            if (submit.getMemberNo() == battleInfoDto.getCompetitionResultT1M1No()
-                    || submit.getMemberNo() == battleInfoDto.getCompetitionResultT1M2No()) {
+            if (submit.getMemberNo() == competitionResult.getCompetitionResultT1M1No()
+                    || submit.getMemberNo() == competitionResult.getCompetitionResultT1M2No()) {
                 submitList1.add(myPageSubmitDto);
             } else {
                 submitList2.add(myPageSubmitDto);
@@ -160,9 +166,9 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public SubmitCodeDto getSubmit(Long submitNo, Long memberNo) {
-        Member member= memberRepository.findByMemberNo(memberNo);
-        Submit submit= submitRepository.findBySubmitNo(submitNo);
+        Member member = memberRepository.findByMemberNo(memberNo);
+        Submit submit = submitRepository.findBySubmitNo(submitNo);
         Problem problem = problemRepository.findByProblemNo(submit.getProblemNo());
-        return myPageMapper.EntityToDto(submit,member,problem);
+        return myPageMapper.EntityToDto(submit, member, problem);
     }
 }
