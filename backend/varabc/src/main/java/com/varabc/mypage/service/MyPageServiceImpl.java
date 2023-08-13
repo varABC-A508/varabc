@@ -52,48 +52,32 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public List<BattleListDetailDto> getBattleList(Long memberNo) {
         List<BattleListDetailDto> battleListDetailDtoList = new ArrayList<>();
+        List<CompetitionResult> competitionResultList = competitionResultRepository.findByCompetitionResultT1M1NoOrCompetitionResultT1M2NoOrCompetitionResultT2M1NoOrCompetitionResultT2M2No(
+                memberNo, memberNo, memberNo, memberNo);
+        for (CompetitionResult competitionResult : competitionResultList) {
+            Member member1 = memberRepository.findByMemberNo(
+                    competitionResult.getCompetitionResultT1M1No());
+            Member member2 = memberRepository.findByMemberNo(
+                    competitionResult.getCompetitionResultT1M2No());
+            Member member3 = memberRepository.findByMemberNo(
+                    competitionResult.getCompetitionResultT2M1No());
+            Member member4 = memberRepository.findByMemberNo(
+                    competitionResult.getCompetitionResultT2M2No());
+            Problem problem = problemRepository.findProblemsByCompetitionResultNo(
+                    competitionResult.getCompetitionResultNo()).get(0);
+            int team = 2;
+            if (memberNo == member1.getMemberNo() || memberNo == member2.getMemberNo()) {
+                team = 1;
+            }
+            boolean isWinner = false;
+            if (team == competitionResult.getCompetitionResultRecord()) {
+                isWinner = true;
+            }
+            BattleListDetailDto battleListDetailDto = myPageMapper.EntityToDto(competitionResult,
+                    problem, member1, member2, member3, member4, isWinner);
+            battleListDetailDtoList.add(battleListDetailDto);
+        }
 
-        List<CompetitionResult> competitionResultListT1 = competitionResultRepository.findByCompetitionResultT1M1NoOrCompetitionResultT1M2No(
-                memberNo, memberNo);
-        List<CompetitionResult> competitionResultListT2 = competitionResultRepository.findByCompetitionResultT2M1NoOrCompetitionResultT2M2No(
-                memberNo, memberNo);
-//
-        for (CompetitionResult competitionResult : competitionResultListT1) {
-            //competition_result_no를 submit에서 찾아서 problemNo만 가져오기
-            //내가 1팀인 경우
-            Problem problem = problemRepository.findProblemsByCompetitionResultNo(
-                    competitionResult.getCompetitionResultNo()).get(0);
-            Member member1 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT1M1No());
-            Member member2 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT1M2No());
-            Member member3 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT2M1No());
-            Member member4 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT2M2No());
-            boolean isWinner = 2 != competitionResult.getCompetitionResultRecord();
-            BattleListDetailDto battleListDetailDto = myPageMapper.EntityToDto(competitionResult,
-                    problem, member1, member2, member3, member4, isWinner);
-            battleListDetailDtoList.add(battleListDetailDto);
-        }
-        for (CompetitionResult competitionResult : competitionResultListT2) {
-            //competition_result_no를 submit에서 찾아서 problemNo만 가져오기
-            //내가 1팀인 경우
-            Problem problem = problemRepository.findProblemsByCompetitionResultNo(
-                    competitionResult.getCompetitionResultNo()).get(0);
-            Member member1 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT1M1No());
-            Member member2 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT1M2No());
-            Member member3 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT2M1No());
-            Member member4 = memberRepository.findByMemberNo(
-                    competitionResult.getCompetitionResultT2M2No());
-            boolean isWinner = 1 != competitionResult.getCompetitionResultRecord();
-            BattleListDetailDto battleListDetailDto = myPageMapper.EntityToDto(competitionResult,
-                    problem, member1, member2, member3, member4, isWinner);
-            battleListDetailDtoList.add(battleListDetailDto);
-        }
         return battleListDetailDtoList;
 
     }
