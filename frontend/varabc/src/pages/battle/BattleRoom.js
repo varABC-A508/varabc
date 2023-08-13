@@ -25,6 +25,7 @@ export const BattleRoom = () => {
 
 
   useEffect(() => {
+    console.log(socket);
     const userToken = sessionStorage.getItem('access-token');
     if (!userToken) {
       alert('회원가입부터 해주세요!');
