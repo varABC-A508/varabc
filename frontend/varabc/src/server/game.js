@@ -49,11 +49,13 @@ io.on("connection", (socket) => {
   socket.on('onGameStart', ({roomToken, url1, url2}) => {
     console.log({roomToken} +" 방의 게임을 시작합니다!");
     const room = roomToken;
+    console.log("현재 클라이언트의 socketID");
+    console.log(socket.id);
     for(const member in rooms[room].members){
       if(member.userRoomIndex === 1 && member.userRoomIndex === 2){
-        io.to(member.socketId).emit('getTeamUrl', {url: url1});
+        io.to(member.memberNo).emit('getTeamUrl', {url: url1});
       } else {
-        io.to(member.socketId).emit('getTeamUrl', {url: url2});
+        io.to(member.memberNo).emit('getTeamUrl', {url: url2});
       }
     }
   });
@@ -62,9 +64,9 @@ io.on("connection", (socket) => {
     const room = roomToken;
     for(const member in rooms[room].members){
       if(member.userRoomIndex === 0 || member.userRoomIndex === 2){
-        io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: true});
+        io.to(member.memberNo).emit('getPlayerTurn', {isPlayerTurn: true});
       } else {
-        io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: false});
+        io.to(member.memberNo).emit('getPlayerTurn', {isPlayerTurn: false});
       }
     }
   });
