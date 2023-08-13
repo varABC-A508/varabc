@@ -1,12 +1,13 @@
 const express = require("express");
 const http = require("http");
+const cors = require('cors');
 const fs = require("fs");
 const app = express();
 const server = http.createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000", // 프론트엔드 도메인 설정
+    origin: '*',// 프론트엔드 도메인 설정
     credentials: true,
   },
 });
