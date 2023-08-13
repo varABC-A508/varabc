@@ -58,8 +58,24 @@ export const BattleRoom = () => {
     console.log("참가자의 방 번호: " + userRoomIndex);
   });
 
-  socket.on('getTeamUrl', ({url}) => {
-    navigate(url);
+  socket.on('startGame', ({ url1, url2 }) => {
+    axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
+      "access-token": sessionStorage.getItem('access-token')
+    }}).then((res) => {
+      const userNo = res.data.userInfo.memberNo;
+      for(const member in members){
+        if(member.member.memberNo === userNo){
+          if(member.userRoomIndex < 3)
+            navigate(url1);
+          else
+            navigate(url2);
+          break;
+        }
+      }
+    }).catch((err) => {
+      alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!");
+      navigate("/");
+    });
   });
 
   return (

@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
       socket.join(room);
       const nextNumber = rooms[room].members.length + 1;
       rooms[room].members.push({ userRoomIndex: nextNumber, member: member, socketId: socket.id});
-      console.log(`사용자가 방에 참가했습니다: ${room}, 사용자id: ${member.memberNo} 번호: ${nextNumber}`);
+      console.log(`사용자가 방에 참가했습니다!\n 방: ${room}\n 사용자No: ${member.memberNo} 순번: ${nextNumber}`);
       console.log(rooms[room].members[nextNumber - 1].member.memberNickname);
       io.to(room).emit('updateWaitingRoom', {currMembers: rooms[room].members, userRoomIndex: nextNumber});
     } else {
@@ -49,24 +49,19 @@ io.on("connection", (socket) => {
   socket.on('onGameStart', ({roomToken, url1, url2}) => {
     console.log({roomToken} +" 방의 게임을 시작합니다!");
     const room = roomToken;
-    console.log("현재 클라이언트의 socketID");
-    console.log(socket.id);
-    for(const member in rooms[room].members){
-      if(member.userRoomIndex === 1 && member.userRoomIndex === 2){
-        io.to(member.memberNo).emit('getTeamUrl', {url: url1});
-      } else {
-        io.to(member.memberNo).emit('getTeamUrl', {url: url2});
-      }
-    }
+    io.to(room).emit('startGame', { 
+      url1: url1, 
+      url2: url2,
+    });
   });
 
   socket.on('onTimerStart', ({roomToken}) => {
     const room = roomToken;
     for(const member in rooms[room].members){
       if(member.userRoomIndex === 0 || member.userRoomIndex === 2){
-        io.to(member.memberNo).emit('getPlayerTurn', {isPlayerTurn: true});
+        io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: true});
       } else {
-        io.to(member.memberNo).emit('getPlayerTurn', {isPlayerTurn: false});
+        io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: false});
       }
     }
   });
