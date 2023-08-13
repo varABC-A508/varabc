@@ -55,7 +55,6 @@ export const BattleRoom = () => {
     setMembers([...currMembers]);
     console.log("멤버들: ");
     console.log(currMembers);
-    sessionStorage.setItem('userRoomIndex', JSON.stringify(userRoomIndex));
     console.log("참가자의 방 번호: " + userRoomIndex);
   });
 

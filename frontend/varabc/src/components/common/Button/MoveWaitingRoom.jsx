@@ -28,6 +28,7 @@ const MoveWaitingRoomButton = () => {
         roomToken: splitUrl[splitUrl.length - 1],
         memberNo: memberNo 
       });
+      sessionStorage.setItem('userRoomIndex', JSON.stringify(1));
       navigate(res.data);
     }).catch((err) => {
       alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!");
