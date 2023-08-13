@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import socket from "../../../modules/socketInstance";
 
-const StartGameButton = ({roomToken, members, socket}) => {
+const StartGameButton = ({roomToken, members }) => {
   const userRoomIndex = JSON.parse(sessionStorage.getItem('userRoomIndex'));
   const [isDisabled, setIsDisabled] = useState(true);
 

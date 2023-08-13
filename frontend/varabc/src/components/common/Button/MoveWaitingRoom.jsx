@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { io } from "socket.io-client";
+import socket from '../../../modules/socketInstance';
 
 const MoveWaitingRoomButton = () => {
   const fetchCreatorNo = () => {
@@ -22,7 +21,6 @@ const MoveWaitingRoomButton = () => {
 
   const fetchRoomId = (memberNo) => {
     axios.post(`https://varabc.com:8080/battle/newRoom/${memberNo}`).then((res) => {
-      const socket = io('https://varabc.com:3001', {reconnection:false});
       const splitUrl = res.data.split('/');
       socket.emit('createWaitingRoom', {
         roomToken: splitUrl[splitUrl.length - 1],

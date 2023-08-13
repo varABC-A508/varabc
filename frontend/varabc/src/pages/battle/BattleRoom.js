@@ -3,16 +3,15 @@ import MoveSquareButton from "../../components/common/Button/MoveSquareButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
 import StartGameButton from "../../components/common/Button/StartGameButton";
 import SelectButton from "../../components/common/Button/SelectButton";
+import socket from "../../modules/socketInstance";
 
 export const BattleRoom = () => {
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
   const roomToken = params.roomToken;
-  const socket = io('https://varabc.com:3001', { reconnection: false });
   const [selectedSource, setSelectedSource] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
 
@@ -58,26 +57,9 @@ export const BattleRoom = () => {
     console.log("참가자의 방 번호: " + userRoomIndex);
   });
 
-  socket.on('startGame', ({ url1, url2 }) => {
+  socket.on('getTeamUrl', ({ url }) => {
     console.log("게임이 시작되려고 합니다!");
-    axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
-      "access-token": sessionStorage.getItem('access-token')
-    }}).then((res) => {
-      console.log(res);
-      const userNo = res.data.userInfo.memberNo;
-      for(const member in members){
-        if(member.member.memberNo === userNo){
-          if(member.userRoomIndex < 3)
-            navigate(url1);
-          else
-            navigate(url2);
-          break;
-        }
-      }
-    }).catch((err) => {
-      alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!");
-      navigate("/");
-    });
+    navigate(url);
   });
 
   return (
@@ -105,7 +87,7 @@ export const BattleRoom = () => {
               />
             </div>
             <div className="mt-4">
-              <StartGameButton roomToken={roomToken} members={members} socket={socket} source={selectedSource} difficulty={selectedDifficulty} />
+              <StartGameButton roomToken={roomToken} members={members} source={selectedSource} difficulty={selectedDifficulty} />
             </div>
           </div>
           <TeamWaiting player1={members[2]} player2={members[3]} teamNo={2} />

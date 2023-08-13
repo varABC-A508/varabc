@@ -54,18 +54,23 @@ io.on("connection", (socket) => {
   socket.on('onGameStart', ({roomToken, url1, url2}) => {
     console.log(roomToken +" 방의 게임을 시작합니다!");
     const room = roomToken;
-    console.log('url1:' + url1);
-    console.log('url2:' + url2);
-    io.to(room).emit('startGame', { 
-      url1: url1, 
-      url2: url2,
-    });
+    for(const member of rooms[room].members){
+      if(member.userRoomIndex <= 2){
+        io.to(member.socketId).emit('getTeamUrl', { 
+          url: url1, 
+        });
+      } else {
+        io.to(member.socketId).emit('getTeamUrl', { 
+          url: url2, 
+        });
+      }
+    }
   });
 
   socket.on('onTimerStart', ({roomToken}) => {
     const room = roomToken;
-    for(const member in rooms[room].members){
-      if(member.userRoomIndex === 0 || member.userRoomIndex === 2){
+    for(const member of rooms[room].members){
+      if(member.userRoomIndex === 1 || member.userRoomIndex === 3){
         io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: true});
       } else {
         io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: false});
