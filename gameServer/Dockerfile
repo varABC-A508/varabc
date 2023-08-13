@@ -7,6 +7,8 @@ RUN apt-get update \
 # 2. 소스 코드 복사
 WORKDIR /usr/src/app
 COPY package.json package-lock.json /usr/src/app/
+COPY ssl/privkey.pem /usr/src/app/ssl/privkey.pem
+COPY ssl/cert.pem /usr/src/app/ssl/cert.pem
 RUN npm install
 
 # 3. 소스 코드 복사 (캐싱을 최적화하기 위해 변경이 빈번한 파일을 뒤로 배치)
