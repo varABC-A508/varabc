@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService{
             memberRepository.save(member);
             return member;
         }
-        updateMemberNameInNewTransaction(userInfo.get("name").asText(),member);
+        updateMemberNameInNewTransaction(userInfo.path("kakao_account").path("profile").path("nickname").asText(),member);
         return member;
     }
 
