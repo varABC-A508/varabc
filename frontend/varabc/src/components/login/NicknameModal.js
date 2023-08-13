@@ -60,7 +60,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
             <input
               className="border"
               type="text"
-              value={nickname}
+              value={newNickname}
               onChange={(e) => setNickname(e.target.value)}
             />
             <button
