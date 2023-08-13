@@ -1,14 +1,23 @@
 package com.varabc.mypage.service;
 
+import com.varabc.mypage.domain.dto.BattleInfoDto;
+import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
-import com.varabc.mypage.domain.dto.BattleResultDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
+import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.mypage.domain.dto.SubmitCodeDto;
 import java.util.List;
 public interface MyPageService {
 
     List<MyPageReviewDto> getReviews(Long memberNo);
 
-    List<BattleResultDto> getBattleList(Long memberNo);
+    List<BattleListDetailDto> getBattleList(Long memberNo);
 
-    BattleResultDetailDto getBattleResult(Long battleNo, Long memberNo);
+    BattleResultDetailDto getBattleDetail(BattleInfoDto battleInfoDto, int team);
+
+    MyPageReviewDto getBattleReview(Long competitionResultNo, Long memberNo);
+
+    List<MyPageSubmitDto> getSubmitList(Long memberNo, Long problemNo);
+
+    SubmitCodeDto getSubmit(Long submitNo, Long memberNo);
 }

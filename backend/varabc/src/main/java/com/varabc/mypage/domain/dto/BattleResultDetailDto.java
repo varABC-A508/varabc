@@ -10,12 +10,12 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class BattleResultDetailDto {
-    private List<BattleResultDto> myTeamSubmitList;
-    private List<BattleResultDto> opponentTeamSubmitList;
+    private List<MyPageSubmitDto> myTeamSubmitList;
+    private List<MyPageSubmitDto> opponentTeamSubmitList;
 
     @Builder
-    public BattleResultDetailDto(List<BattleResultDto> myTeamSubmitList,
-            List<BattleResultDto> opponentTeamSubmitList) {
+    public BattleResultDetailDto(List<MyPageSubmitDto> myTeamSubmitList,
+            List<MyPageSubmitDto> opponentTeamSubmitList) {
         this.myTeamSubmitList = myTeamSubmitList;
         this.opponentTeamSubmitList = opponentTeamSubmitList;
     }

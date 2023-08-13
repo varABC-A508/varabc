@@ -9,6 +9,8 @@ import com.varabc.member.domain.entity.Member;
 import com.varabc.member.mapper.MemberMapper;
 import com.varabc.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,17 @@ public class MemberServiceImpl implements MemberService{
     public String getEmail(Long memberNo) {
         Member member = memberRepository.findByMemberNo(memberNo);
         return member.getMemberEmail();
+    }
+
+    @Override
+    public List<MemberDto> getMember() {
+        List<Member> list = memberRepository.findAll();
+        List<MemberDto> memberDtoList = new ArrayList<>();
+        for(Member member :list){
+            MemberDto memberDto = memberMapper.memberToDto(member);
+            memberDtoList.add(memberDto);
+        }
+        return memberDtoList;
     }
 
     @Override

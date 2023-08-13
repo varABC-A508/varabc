@@ -11,6 +11,8 @@ import lombok.ToString;
 public class MyPageSubmitDto {
 
     //문제, 결과, 메모리, 시간, 언어, 제출시간.
+    String nickname;
+    int memberExp;
     Long submitNo;
     Long competitionResultNo;
     Long problemNo;
@@ -19,11 +21,14 @@ public class MyPageSubmitDto {
     double submitUsedTime;
     String submitLanguage;
     String submitTime;
+    String problemTitle;
 
     @Builder
-    public MyPageSubmitDto(Long submitNo, Long competitionResultNo, Long problemNo,
+    public MyPageSubmitDto(String nickname,int memberExp,Long submitNo, Long competitionResultNo, Long problemNo,
             String submitStatus,
-            int submitUsedMemory, double submitUsedTime, String submitLanguage, String submitTime) {
+            int submitUsedMemory, double submitUsedTime, String submitLanguage, String submitTime,String problemTitle) {
+        this.nickname = nickname;
+        this.memberExp = memberExp;
         this.submitNo = submitNo;
         this.competitionResultNo = competitionResultNo;
         this.problemNo = problemNo;
@@ -32,5 +37,6 @@ public class MyPageSubmitDto {
         this.submitUsedTime = submitUsedTime;
         this.submitLanguage = submitLanguage;
         this.submitTime = submitTime;
+        this.problemTitle = problemTitle;
     }
 }
