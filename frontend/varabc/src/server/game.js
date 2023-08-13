@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
     console.log({roomToken} +" 방의 게임을 시작합니다!");
     const room = roomToken;
     for(const member in rooms[room].members){
-      if(member.userRoomIndex === 0 && member.userRoomIndex === 1){
+      if(member.userRoomIndex === 1 && member.userRoomIndex === 2){
         io.to(member.socketId).emit('getTeamUrl', {url: url1});
       } else {
         io.to(member.socketId).emit('getTeamUrl', {url: url2});

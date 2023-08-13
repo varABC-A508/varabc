@@ -30,6 +30,8 @@ const StartGameButton = ({roomToken, members, socket}) => {
         "competitionResultT2M2No": members[3].member.memberNo
       }).then((res) => {
         console.log(res.data);
+        console.log("시작할 방의 룸 토큰: ");
+        console.log(roomToken);
         const url1 = res.data.url1;
         const url2 = res.data.url2;
         socket.emit('onGameStart', {
