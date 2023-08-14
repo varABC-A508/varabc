@@ -97,11 +97,11 @@ io.on("connection", (socket) => {
       }
     }
   });
+}); 
 
-  const sendLogToClients = (message) => {
-    io.emit('logMessage', message);
-  };
-});
+const sendLogToClients = (message) => {
+  io.emit('logMessage', message);
+};
 
 server.listen(3001, () => {
   console.log(`Express server listening on port 3001`);

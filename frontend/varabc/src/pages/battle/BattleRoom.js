@@ -21,7 +21,7 @@ export const BattleRoom = () => {
 
   const handleDifficultySelect = (event) => {
     setSelectedDifficulty(event.target.value);
-  }; 
+  };
 
 
   useEffect(() => {
