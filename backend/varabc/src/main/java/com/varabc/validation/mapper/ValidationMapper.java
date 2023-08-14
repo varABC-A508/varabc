@@ -5,7 +5,9 @@ import com.varabc.battle.domain.dto.FinalResultDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
+import com.varabc.member.domain.entity.Member;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemRestriction;
 import com.varabc.validation.domain.dto.*;
 import com.varabc.validation.domain.entity.Submit;
@@ -146,7 +148,8 @@ public class ValidationMapper {
                     .build();
     }
 
-    public MyPageSubmitDto EntityToDto(Submit submit, String submitStatus) {
+    public MyPageSubmitDto EntityToDto(Submit submit, String submitStatus, Problem problem,
+            Member member) {
             return MyPageSubmitDto.builder()
                     .submitNo(submit.getSubmitNo())
                     .competitionResultNo(submit.getCompetitionResultNo())
@@ -156,6 +159,9 @@ public class ValidationMapper {
                     .submitStatus(submitStatus)
                     .submitUsedMemory(submit.getSubmitUsedMemory())
                     .submitTime(submit.getSubmitTime())
+                    .nickname(member.getMemberNickname())
+                    .memberExp(member.getMemberExp())
+                    .problemTitle(problem.getProblemTitle())
                     .build();
     }
 
