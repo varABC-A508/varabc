@@ -17,7 +17,7 @@ import socket from "../../modules/socketInstance";
 // components
 import IdeNav from './IdeNav';
 import SmButton from '../common/Button/SmButton';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBK1bjRO-tmrOEzfiyZQy3vSck5wi3Qjg4",
@@ -57,6 +57,8 @@ const Ide = ({ problemNo }) => {
   const teamToken = params.teamNo;
 
   const userToken = sessionStorage.getItem('access-token');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
