@@ -56,11 +56,11 @@ io.on("connection", (socket) => {
     sendLogToClients(roomToken +" 방의 게임을 시작합니다!");
     const room = roomToken;
     for(const member in rooms[room].members){
-      if(member.userRoomIndex <= 2){
-        sendLogToClients(member.memberNickname +"에게 1번 url 전송");
+      if(member.userRoomIndex === 1 || member.userRoomIndex === 2){
+        sendLogToClients(member.member.memberNickname +"에게 1번 url 전송");
         io.to(member.socketId).emit('getTeamUrl', { url: url1 });
       } else {
-        sendLogToClients(member.memberNickname +"에게 2번 url 전송");
+        sendLogToClients(member.member.memberNickname +"에게 2번 url 전송");
         io.to(member.socketId).emit('getTeamUrl', { url: url2 });
       }
     }
