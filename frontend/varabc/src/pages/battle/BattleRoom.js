@@ -26,7 +26,7 @@ export const BattleRoom = () => {
 
   useEffect(() => {
     sessionStorage.setItem('isPractice', JSON.stringify(false));
-    const userToken = sessionStorage.getItem('access-token');
+    const userToken = localStorage.getItem('access-token');
     if (!userToken) {
       alert('회원가입부터 해주세요!');
       navigate("/");

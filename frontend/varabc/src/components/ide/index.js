@@ -52,7 +52,7 @@ const Ide = ( { problemNo }) => {
 
   const { roomToken, TeamNo } = useParams();
 
-  const userToken = sessionStorage.getItem('access-token');
+  const userToken = localStorage.getItem('access-token');
 
   const navigate = useNavigate();
 

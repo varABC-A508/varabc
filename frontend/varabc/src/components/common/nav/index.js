@@ -24,9 +24,9 @@ export const Nav = () => {
 
   const logout = () => {
     // TODO: 최종 빌드 시 localstrage 변경
-    sessionStorage.removeItem('nickname');
+    localStorage.removeItem('nickname');
     dispatch(setNickname(null));
-    sessionStorage.clear();
+    localStorage.clear();
     window.location.reload();
   };
 

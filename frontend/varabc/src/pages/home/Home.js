@@ -38,14 +38,14 @@ export const Home = () => {
 
   useEffect(() => {
     if (receivedAccessToken) {
-      sessionStorage.setItem('access-token', receivedAccessToken);
-      sessionStorage.setItem('refresh-token', receivedRefreshToken);
+      localStorage.setItem('access-token', receivedAccessToken);
+      localStorage.setItem('refresh-token', receivedRefreshToken);
 
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
         dispatch(setNickname(receivedNickname.trim()));
 
         // TODO: 최종 빌드 시 localstrage 변경
-        sessionStorage.setItem('nickname', receivedNickname.trim());
+        localStorage.setItem('nickname', receivedNickname.trim());
       } else {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
@@ -58,7 +58,7 @@ export const Home = () => {
 
   useEffect(() => {
     // TODO: 최종 빌드 시 localstrage 변경
-    sessionStorage.setItem('nickname', nickname);
+    localStorage.setItem('nickname', nickname);
     navigate('/');
     // eslint-disable-next-line
   }, [nickname]);

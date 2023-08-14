@@ -12,7 +12,7 @@ const MoveWaitingRoomButton = () => {
   });
 
   const fetchCreatorNo = () => {
-    const userToken = sessionStorage.getItem('access-token');
+    const userToken = localStorage.getItem('access-token');
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
       "access-token": userToken
     }}).then((res) => {
