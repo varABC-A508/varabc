@@ -9,14 +9,21 @@ import com.varabc.battle.domain.dto.FinalResultDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
+import com.varabc.member.domain.entity.Member;
 import com.varabc.member.repository.MemberRepository;
 import com.varabc.member.service.MemberService;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemRestriction;
 import com.varabc.problem.domain.entity.TestCase;
+import com.varabc.problem.repository.ProblemRepository;
 import com.varabc.problem.repository.ProblemRestrictionRepository;
 import com.varabc.problem.service.ProblemService;
-import com.varabc.validation.domain.dto.*;
+import com.varabc.validation.domain.dto.CompileResultDto;
+import com.varabc.validation.domain.dto.ProblemRestrictionDto;
+import com.varabc.validation.domain.dto.TestCaseDto;
+import com.varabc.validation.domain.dto.ValidateDto;
+import com.varabc.validation.domain.dto.ValidationResultDto;
 import com.varabc.validation.domain.entity.Submit;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
@@ -47,6 +54,7 @@ public class ValidationServiceImpl implements ValidationService {
     private final ValidationRepository validationRepository;
     private final SubmitRepository submitRepository;
     private final ProblemRestrictionRepository problemRestrictionRepository;
+    private final ProblemRepository problemRepository;
     private final MemberRepository memberRepository;
     private final ValidationMapper validationMapper;
     private final ProblemService problemService;
@@ -277,13 +285,15 @@ public class ValidationServiceImpl implements ValidationService {
     public List<MyPageSubmitDto> getSubmits(Long memberNo, int mode) {
         List<MyPageSubmitDto> myPageSubmitDtoList = new ArrayList<>();
         List<Submit> submitList = submitRepository.findByMemberNoAndSubmitMode(memberNo, mode);
+        Member member = memberRepository.findByMemberNo(memberNo);
         String submitStatus = "틀렸습니다.";
         for (Submit submit : submitList) {
             if (submit.getSubmitStatus() == 1) {
 //                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
                 submitStatus = "맞았습니다.";
             }
-            MyPageSubmitDto myPageSubmitDto = validationMapper.EntityToDto(submit, submitStatus);
+            Problem problem = problemRepository.findByProblemNo(submit.getProblemNo());
+            MyPageSubmitDto myPageSubmitDto = validationMapper.EntityToDto(submit, submitStatus,problem,member);
             myPageSubmitDtoList.add(myPageSubmitDto);
         }
         return myPageSubmitDtoList;
