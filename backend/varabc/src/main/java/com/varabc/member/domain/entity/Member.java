@@ -24,7 +24,7 @@ public class Member {
     private long memberNo;
     @Column(name = "member_nickname")
     private String memberNickname;
-    @Column(name = "member_email",nullable = false)
+    @Column(name = "member_email")
     private String memberEmail;
     @Column(name = "member_exp")
     private int memberExp;
@@ -38,6 +38,8 @@ public class Member {
     private String memberName;
     @Column(name = "member_token", length = 400)
     private String memberToken;
+    @Column(name="member_id",nullable = false)
+    private String memberId;
 
     public void updateMemberExp(int memberExp){
         this.memberExp=memberExp;
@@ -54,8 +56,10 @@ public class Member {
     public void updateMemberToken(String memberToken) { this.memberToken=memberToken; }
 
     @Builder
-    public Member(String memberNickname, String memberEmail, int memberExp, String memberImage,
-            boolean memberAdmin, boolean memberResign, String memberName) {
+    public Member(long memberNo, String memberNickname, String memberEmail, int memberExp,
+            String memberImage, boolean memberAdmin, boolean memberResign, String memberName,
+            String memberToken, String memberId) {
+        this.memberNo = memberNo;
         this.memberNickname = memberNickname;
         this.memberEmail = memberEmail;
         this.memberExp = memberExp;
@@ -63,5 +67,7 @@ public class Member {
         this.memberAdmin = memberAdmin;
         this.memberResign = memberResign;
         this.memberName = memberName;
+        this.memberToken = memberToken;
+        this.memberId = memberId;
     }
 }

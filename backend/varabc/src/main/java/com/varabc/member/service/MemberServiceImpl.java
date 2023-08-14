@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     @Transactional
     public Member saveGoogleMember(JsonNode userInfo) {
-        Member member = memberRepository.findByMemberEmail(userInfo.get("email").asText());
+        Member member = memberRepository.findByMemberId(userInfo.get("id").asText());
         if(member==null){
             GoogleMemberDto googleMemberDto =memberMapper.googleJsonToDto(userInfo);
             member = memberMapper.googleMemberDtoToEntity(googleMemberDto);
@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService{
     public Member saveKakaoMember(JsonNode userInfo) {
         System.out.println(userInfo.get("kakao_account"));
         System.out.println(userInfo.get("kakao_account").get("email"));
-        Member member = memberRepository.findByMemberEmail(userInfo.get("kakao_account").get("email").asText());
+        Member member = memberRepository.findByMemberId(userInfo.get("id").asText());
 
         if(member==null){
             KakaoMemberDto kakaoMemberDto =memberMapper.kakaoJsonToDto(userInfo);
