@@ -88,7 +88,7 @@ public class ValidationController {
         HttpStatus status=HttpStatus.OK;
 
         //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
-        String javaServerUrl = "http://localhost:8081";
+        String javaServerUrl = "http://varabc.com:8081";
         CompileResultDto compileResultDto = validationService.sendRequestCompile(
                 javaServerUrl, validateDto);
         System.out.println(compileResultDto);
