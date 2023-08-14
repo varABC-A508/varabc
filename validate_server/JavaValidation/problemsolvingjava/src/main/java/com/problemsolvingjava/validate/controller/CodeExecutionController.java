@@ -2,6 +2,9 @@ package com.problemsolvingjava.validate.controller;
 
 import com.problemsolvingjava.validate.domain.dto.ValidateDto;
 import com.problemsolvingjava.validate.domain.dto.ValidationResultDto;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
@@ -9,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +42,9 @@ public class CodeExecutionController {
 
         int compileResult = compileProcess.waitFor();
         if (compileResult != 0) {
-            System.out.println("error");
+            System.out.println("compile error");
             validationResultDto.setResult(4);
+            validationResultDto.setExceptionMessage("compile error");
             return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
         }
 
@@ -47,6 +52,7 @@ public class CodeExecutionController {
 
         // 3. 각각의 테케로 실행하기
         long maxElapsedTime = 0;
+        AtomicLong maxMemoryUsed = new AtomicLong();
 
         for (int i = 0; i < validateDto.getInputFiles().size(); i++) {
             String inputData = validateDto.getInputFiles().get(i).getContent();
@@ -58,7 +64,7 @@ public class CodeExecutionController {
             //output설정하기
             File outputFile = new File("output.txt");
             //메모리제한
-            ProcessBuilder runProcessBuilder = new ProcessBuilder("java", "-Xmx512m", "Main")
+            ProcessBuilder runProcessBuilder = new ProcessBuilder("java", "-Xmx" + validateDto.getMemoryLimit() + "m", "Main")
                     .redirectInput(ProcessBuilder.Redirect.PIPE)
                     .redirectOutput(outputFile)
                     .directory(new File(filename).getParentFile());
@@ -67,70 +73,31 @@ public class CodeExecutionController {
             long startTime = System.nanoTime();
             Process runProcess = runProcessBuilder.start();
 
-            // PID를 얻습니다.
-            long pid = runProcess.pid();
+            // 메모리 측정할 객체
+            MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
 
-            // 메모리 사용량을 주기적으로 확인하는 스레드를 시작합니다.
-            String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("win")) {
-                //윈도우용 코드
-                Thread memoryMonitor = new Thread(() -> {
-                    long maxMemoryUsage = 0;
-                    try {
-                        while (runProcess.isAlive()) {
-                            ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", "tasklist /FI \"PID eq " + pid + "\" /FO CSV /NH");
-                            Process memoryProcess = processBuilder.start();
-                            try (BufferedReader reader = new BufferedReader(new InputStreamReader(memoryProcess.getInputStream()))) {
-                                String line;
-                                while ((line = reader.readLine()) != null) {
-                                    String[] split = line.split(",");
-                                    if (split.length > 4) {
-                                        // 메모리 사용량은 5번째 열에 있습니다.
-                                        // 그것을 파싱하고 킬로바이트 단위로 출력합니다.
-                                        long memoryUsage = Long.parseLong(split[4].replaceAll("\"", "").replaceAll(",", "").trim());
-                                        maxMemoryUsage = Math.max(maxMemoryUsage, memoryUsage);
-                                    }
-                                }
-                            }
-                            // 매 0.1초마다 메모리 사용량을 확인합니다.
-                            Thread.sleep(100);
-                        }
-                    } catch (InterruptedException | IOException e) {
-                        e.printStackTrace();
+            // 메모리 측정 쓰레드
+            Thread memoryMonitor = new Thread(() -> {
+                try {
+                    while (runProcess.isAlive()) {
+                        MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+                        MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+
+//                        System.out.println(heapMemoryUsage.toString());
+//                        System.out.println(nonHeapMemoryUsage.toString());
+
+                        // 최대 사용 메모리를 저장해두기
+                        maxMemoryUsed.set(Math.max(maxMemoryUsed.get(),
+                                heapMemoryUsage.getUsed() + nonHeapMemoryUsage.getUsed()));
+
+                        // 매 100밀리초마다 메모리 사용량을 확인합니다.
+                        Thread.sleep(100);
                     }
-                    System.out.println("Maximum memory usage: " + maxMemoryUsage + "KB");
-                });
-                memoryMonitor.start();
-            } else {
-                //리눅스용 코드
-                Thread memoryMonitor = new Thread(() -> {
-                    long maxMemoryUsage = 0;
-                    try {
-                        while (runProcess.isAlive()) {
-                            ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "ps -p " + pid + " -o rss");
-                            Process memoryProcess = processBuilder.start();
-                            try (BufferedReader reader = new BufferedReader(new InputStreamReader(memoryProcess.getInputStream()))) {
-                                String line;
-                                while ((line = reader.readLine()) != null) {
-                                    // 첫 번째 줄은 헤더이므로 건너뛰기
-                                    if (line.trim().startsWith("RSS")) {
-                                        continue;
-                                    }
-                                    // 메모리 사용량은 킬로바이트 단위로 출력됩니다.
-                                    long memoryUsage = Long.parseLong(line.trim());
-                                    maxMemoryUsage = Math.max(maxMemoryUsage, memoryUsage);
-                                }
-                            }
-                            // 매 0.1초마다 메모리 사용량을 확인합니다.
-                            Thread.sleep(100);
-                        }
-                    } catch (InterruptedException | IOException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("Maximum memory usage: " + maxMemoryUsage + "KB");
-                });
-                memoryMonitor.start();
-            }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            memoryMonitor.start();
 
             //input 입력해주기
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(runProcess.getOutputStream()));
@@ -149,8 +116,22 @@ public class CodeExecutionController {
                 return true;
             });
 
+            // 메모리초과가 발생했었는지 검사하기
+            BufferedReader reader = new BufferedReader(new InputStreamReader(runProcess.getErrorStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("OutOfMemoryError")) {
+                    // OOM 발생 감지
+                    System.out.println("memory out");
+                    validationResultDto.setResult(3);
+                    validationResultDto.setExceptionMessage("memory out");
+                    return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
+                }
+            }
+
             try {
-                future.get(2, TimeUnit.SECONDS); // If the task takes more than 2 seconds, a TimeoutException will be thrown
+                // 시간제한이 실수일 수 있으므로 올림 해서 정수로 만든다
+                future.get((long) Math.ceil(validateDto.getTimeLimit()), TimeUnit.SECONDS); // If the task takes more than 2 seconds, a TimeoutException will be thrown
             } catch (TimeoutException e) {
                 future.cancel(true); // In case it is still running, interrupt the thread
                 if (runProcess.isAlive()) {
@@ -158,10 +139,12 @@ public class CodeExecutionController {
                 }
                 System.out.println("timeout");
                 validationResultDto.setResult(2);
+                validationResultDto.setExceptionMessage("time out");
                 return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             } catch (InterruptedException | ExecutionException e) {
                 System.out.println("other error");
                 validationResultDto.setResult(4);
+                validationResultDto.setExceptionMessage("other error");
                 return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
             }
 
@@ -187,9 +170,15 @@ public class CodeExecutionController {
         Files.deleteIfExists(Paths.get(filename.substring(0, filename.lastIndexOf('.')) + ".class"));
         System.out.println(maxElapsedTime);
 
+        // 반올림해서 못잡은 시간초과도 체크하기
+        if (validateDto.getTimeLimit() < maxElapsedTime / 1_000_000_000) {
+            validationResultDto.setResult(2);
+            return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
+        }
+
         validationResultDto.setResult(1);
         validationResultDto.setExecutionTime(maxElapsedTime / 1_000_000);
-
+        validationResultDto.setMemoryUsage((int) maxMemoryUsed.get());
         return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
     }
 }
