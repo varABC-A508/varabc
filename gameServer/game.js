@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
   socket.on('onGameStart', ({roomToken, url1, url2}) => {
     sendLogToClients(roomToken +" 방의 게임을 시작합니다!");
     const room = roomToken;
-    for(const member of rooms[room].members){
+    for(const member in rooms[room].members){
       if(member.userRoomIndex <= 2){
         io.to(member.socketId).emit('getTeamUrl', { 
           url: url1, 
@@ -70,7 +70,7 @@ io.on("connection", (socket) => {
 
   socket.on('onTimerStart', ({roomToken}) => {
     const room = roomToken;
-    for(const member of rooms[room].members){
+    for(const member in rooms[room].members){
       if(member.userRoomIndex === 1 || member.userRoomIndex === 3){
         io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: true});
       } else {
@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on('disconnect', () => {
-    for (const room of rooms) {
+    for (const room in rooms) {
       if (rooms[room].members.includes(socket.id)) {
         rooms[room].members = rooms[room].members.filter(member => member !== socket.id);
         console.log(`사용자가 방을 나갔습니다: ${room}`);
