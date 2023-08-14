@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import socket from "../../../modules/socketInstance";
 
 const StartGameButton = ({roomToken, members }) => {
+  const navigate = useNavigate();
   const userRoomIndex = JSON.parse(sessionStorage.getItem('userRoomIndex'));
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -24,7 +25,6 @@ const StartGameButton = ({roomToken, members }) => {
   // eslint-disable-next-line
   }, [members.length])
 
-  const navigate = useNavigate();
   const splitTeam = () => {
     console.log("멤버1:" + members[0].member.memberNo);
     console.log("멤버2:" + members[1].member.memberNo);

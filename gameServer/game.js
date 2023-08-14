@@ -57,13 +57,11 @@ io.on("connection", (socket) => {
     const room = roomToken;
     for(const member in rooms[room].members){
       if(member.userRoomIndex <= 2){
-        io.to(member.socketId).emit('getTeamUrl', { 
-          url: url1, 
-        });
+        sendLogToClients(member.memberNickname +"에게 1번 url 전송");
+        io.to(member.socketId).emit('getTeamUrl', { url: url1 });
       } else {
-        io.to(member.socketId).emit('getTeamUrl', { 
-          url: url2, 
-        });
+        sendLogToClients(member.memberNickname +"에게 2번 url 전송");
+        io.to(member.socketId).emit('getTeamUrl', { url: url2 });
       }
     }
   });
