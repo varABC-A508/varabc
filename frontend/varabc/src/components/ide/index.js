@@ -177,7 +177,7 @@ const Ide = ( { problemNo }) => {
             {/* <div>{!result.output && result.result === 1 ? "성공" : "실패"}</div> */}
             { <div>{(!result.output) ? (result.result === 1 ? "성공" : "실패") : ("")}</div> }
             <br />
-            { result.output ? result.output.map((outputMessage, index) => (<div key={index}>{`테스트케이스 ${index}: ${outputMessage}`}</div>)) : ""}
+            { result.output ? result.output.map((outputMessage, index) => (<div key={index}>{`테스트 ${index + 1}:    ${outputMessage}`}</div>)) : ""}
           </Panel>
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={10} className="bg-primary">
