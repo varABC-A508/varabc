@@ -154,4 +154,4 @@ export const Home = () => {
       />
     </div>
   );
-};
+}; 

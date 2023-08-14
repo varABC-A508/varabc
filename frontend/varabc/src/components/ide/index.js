@@ -117,8 +117,9 @@ const Ide = ( { problemNo }) => {
       "code": code,
     }).then((res) => {
       setResult(res.data);
+      // TODO: 결과가 1일시 결과창 이동 넣기
+      if(result.result === 1) navigate('/');
       alert("코드 전송 성공");
-      navigate('/');
     }).catch(function (err){
       alert("코드 전송 실패\n" + err);
     });
@@ -174,7 +175,7 @@ const Ide = ( { problemNo }) => {
             <div>실행 시간: {result.executionTime}</div>
             <div>사용 메모리: {result.memoryUsage}</div>
             <div>{result.result === 1 ? "성공" : "실패"}</div>
-            {JSON.parse(sessionStorage.getItem('isPractice')) ? (<div>output : {result.output}</div>): <div></div>}
+            { result.output ? (<div>output : {result.output} </div>): <div>제출 되었습니다.</div>}
           </Panel>
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={10} className="bg-primary">
