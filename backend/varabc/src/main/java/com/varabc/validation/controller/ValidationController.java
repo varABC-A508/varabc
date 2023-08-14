@@ -74,6 +74,28 @@ public class ValidationController {
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
 
+    // 자바 실행하기
+    @PostMapping("compileJava")
+    public ResponseEntity<CompileResultDto> compileJava(@RequestBody ValidateDataDto validateDataDto) throws Exception{
+        TestCaseDto testCaseDto= validationService.getPublicTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
+        List<FileData> inputFiles= validationService.getUrlIntoText(testCaseDto.getInputFiles());
+        List<FileData> outputFiles= validationService.getUrlIntoText(testCaseDto.getOutputFiles());
+
+        ProblemRestrictionDto problemRestrictionDto =validationService.getProblemRestriction(validateDataDto.getProblemNo());
+        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,2);
+        //파이썬 서버로 요청 보내기
+        System.out.println(problemRestrictionDto);
+        HttpStatus status=HttpStatus.OK;
+
+        //service단에서 파이썬 서버로 요청을 보내고 그에 대한 응답을 받게끔 처리
+        String javaServerUrl = "http://localhost:8081";
+        CompileResultDto compileResultDto = validationService.sendRequestCompile(
+                javaServerUrl, validateDto);
+        System.out.println(compileResultDto);
+
+        return new ResponseEntity<CompileResultDto>(compileResultDto, status);
+    }
+
     //자바 서버로 요청 보내기
     @PostMapping("sendvalidatejava")
     public ResponseEntity<ValidationResultDto> validateJava(@RequestBody ValidateDataDto validateDataDto) throws Exception{
