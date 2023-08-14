@@ -50,11 +50,7 @@ const Ide = ({ problemNo }) => {
   const mode = useSelector((state) => state.ide.mode);
   const fontSize = useSelector((state) => state.ide.fontSize);
 
-  const isPractice = JSON.parse(sessionStorage.getItem('isPractice'));
-
-  const params = useParams();
-  const roomToken = params.roomToken;
-  const teamToken = params.teamNo;
+  const { problemNo, roomToken, TeamNo } = useParams();
 
   const userToken = sessionStorage.getItem('access-token');
 
@@ -129,7 +125,7 @@ const Ide = ({ problemNo }) => {
 
 
   useEffect(() => {
-    if(!isPlayerTurn && !isPractice) {
+    if(!isPlayerTurn && !JSON.parse(sessionStorage.getItem('isPractice'))) {
       const db = getDatabase(app);
       const codeRef = ref(db, `${roomToken}/${teamToken}/code`);
       onValue(codeRef, (snapshot) => {
@@ -159,7 +155,7 @@ const Ide = ({ problemNo }) => {
               value={code}
               onChange={onCodeChange}
               fontSize={fontSize}
-              readOnly={!isPlayerTurn && !isPractice}
+              readOnly={!isPlayerTurn && !JSON.parse(sessionStorage.getItem('isPractice'))}
               editorProps={{ $blockScrolling: false }}
               tabSize={2}
               enableBasicAutocompletion={true}
@@ -177,7 +173,7 @@ const Ide = ({ problemNo }) => {
             <div>실행 시간: {result.executionTime}</div>
             <div>사용 메모리: {result.memoryUsage}</div>
             <div>{result.result === 1 ? "성공" : "실패"}</div>
-            {isPractice ? (<div>output : {result.output}</div>): <div></div>}
+            {JSON.parse(sessionStorage.getItem('isPractice')) ? (<div>output : {result.output}</div>): <div></div>}
           </Panel>
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={10} className="bg-primary">
