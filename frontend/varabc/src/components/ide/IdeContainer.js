@@ -26,8 +26,7 @@ function IdeContainer() {
 
   useEffect(() => {
     getMemberNo();
-  }
-  );
+  },[]);
 
   return (
     <PanelGroup direction="horizontal">
