@@ -88,10 +88,12 @@ const Ide = ( { problemNo }) => {
   });
   
   const onCodeChange = (newCode) => {
-    const db = getDatabase(app);
-    set(ref(db, `${roomToken}/${TeamNo}/code`), {
-      code: newCode
-    });
+    if(!JSON.parse(sessionStorage.getItem('isPractice'))){
+      const db = getDatabase(app);
+      set(ref(db, `${roomToken}/${TeamNo}/code`), {
+        code: newCode,
+      });
+    }
     setCode(newCode);
   };
 
