@@ -85,16 +85,22 @@ io.on("connection", (socket) => {
   });
 
   socket.on('disconnect', () => {
+    let isFoundUser = false;
     for (const room in rooms) {
-      if (rooms[room].members.includes(socket.id)) {
-        rooms[room].members = rooms[room].members.filter(member => member !== socket.id);
-        console.log(`사용자가 방을 나갔습니다: ${room}`);
-        if (rooms[room].members.length === 0) {
-          delete rooms[room]; // 방에 더 이상 사용자가 없으면 방을 삭제
-          console.log(`방이 비어서 삭제되었습니다: ${room}`);
+      for(const member in rooms[room].members){
+        if(members.socketId === socket.id){
+          rooms[room].members = rooms[room].members.filter(member => member !== socket.id);
+          console.log(`사용자가 방을 나갔습니다: ${room}`);
+          isFoundUser = true;
+          if (rooms[room].members.length === 0) {
+            delete rooms[room]; // 방에 더 이상 사용자가 없으면 방을 삭제
+            console.log(`방이 비어서 삭제되었습니다: ${room}`);
+          }
+          break;
         }
-        break;
       }
+      if(isFoundUser)
+        break;
     }
   });
 }); 
