@@ -3,6 +3,7 @@ import Ide from ".";
 import Problem from "./Problem";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function IdeContainer() {
   const params = useParams();
@@ -18,7 +19,6 @@ function IdeContainer() {
     }).then((res) => {
       console.log(">>>>멤버 정보 요청", res);
       setMemberNo(res.userInfo.memberNo);
-      console.log(result.output);
     }).catch(function (err) {
       alert("멤버 정보 요청\n" + err);
     });
