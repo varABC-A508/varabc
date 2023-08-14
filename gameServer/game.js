@@ -88,7 +88,7 @@ io.on("connection", (socket) => {
     let isFoundUser = false;
     for (const room in rooms) {
       for(const member in rooms[room].members){
-        if(members.socketId === socket.id){
+        if(member.socketId === socket.id){
           rooms[room].members = rooms[room].members.filter(member => member !== socket.id);
           console.log(`사용자가 방을 나갔습니다: ${room}`);
           isFoundUser = true;
