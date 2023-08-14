@@ -177,9 +177,9 @@ const Ide = ( { problemNo }) => {
             {/* <div>{!result.output && result.result === 1 ? "성공" : "실패"}</div> */}
             { <div>{(!result.output) ? (result.result === 1 ? "성공" : "실패") : ("")}</div> }
             <br />
-            {result.output.forEach((outputMessage, index) => {
+            { result.output ? result.output.forEach((outputMessage, index) => {
               return(<div>{`테스트케이스 ${index}: ${outputMessage}`}</div>);
-            })}
+            }) : ""}
             { result.output ? (<div>output : {result.output} </div>): <div>제출 되었습니다.</div>}
           </Panel>
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
