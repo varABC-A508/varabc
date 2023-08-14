@@ -84,8 +84,8 @@ io.on("connection", (socket) => {
 
   socket.on('disconnect', () => {
     let isFoundUser = false;
-    for (const room in rooms) {
-      for(const member in rooms[room].members){
+    for (const room of rooms) {
+      for(const member of rooms[room].members){
         if(member.socketId === socket.id){
           rooms[room].members = rooms[room].members.filter(member => member !== socket.id);
           socket.leave(room);
