@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
 
   socket.on('onTimerStart', ({roomToken}) => {
     const room = roomToken;
-    for(const member in rooms[room].members){
+    for(const member of rooms[room].members){
       if(member.userRoomIndex == 1 || member.userRoomIndex == 3){
         io.to(member.socketId).emit('getPlayerTurn', {isPlayerTurn: true});
       } else {

@@ -57,6 +57,7 @@ const Ide = ( { problemNo }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("사용자 토큰: " + userToken);
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
         "access-token": userToken
       }}).then((res) => {
