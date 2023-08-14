@@ -8,6 +8,9 @@ const algorithmTypes = [
   { idx: 6, algoType: "자료구조" },
   { idx: 7, algoType: "다익스트라" },
   { idx: 8, algoType: "수학" },
+  { idx: 9, algoType: "이분탐색"},
+  { idx: 10, algoType: "정렬"}, 
+  { idx: 11, algoType: "스택/큐"}
 ];
 
 export default algorithmTypes;

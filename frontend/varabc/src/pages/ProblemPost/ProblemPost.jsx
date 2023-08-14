@@ -6,9 +6,10 @@ import ProblemInfo from "./ProblemInfo/ProblemInfo";
 import Editors from "./Editors/Editors";
 import FileUploads from "./FileUploads/FileUploads";
 
-import { editImagesInPost } from "../../utils/problemForm/imageUtil";
+import { editImagesInPost } from "../../utils/problemUtil";
 
 import { useNavigate, useParams } from "react-router-dom";
+import SmButton from "../../components/common/Button/SmButton";
 
 const ProblemPost = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const ProblemPost = () => {
     };
 
     // const { problemNo, problemSubmitCount, problemCorrectCount, problemImageS3Url, problemResign, problemRestrictionResign, ...problemUpdateData } = problemData
-    navigate(`/admin/edit/${problemData.problemNo}`, {
+    navigate(`/admin/post/${problemData.problemNo}/edit`, {
       state: { data: problemUpdateData },
     });
   };
@@ -109,23 +110,23 @@ const ProblemPost = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center p-3 bg-bg2 bg-cover">
-      <h1 className=" mb-4 w-3/5 text-4xl text-white font-bold">
+    <div className="flex flex-col items-center mx-auto p-3 min-h-screen">
+      <h1 className=" mb-4 w-9/12 text-4xl text-white font-bold">
         알고리즘 문제 정보
       </h1>
-      <div className="w-3/5">
+      <div className="w-9/12">
         <div className="bg-white grid grid-cols-6">
           <ProblemInfo />
           <Editors />
           <FileUploads />
         </div>
         <div className="flex justify-end bg-transparent">
-          <button onClick={handleEditClick} className="p-3 me-2 bg-teal-400">
-            수정
-          </button>
-          <button onClick={handleDeleteClick} className="p-3 bg-rose-400">
-            삭제
-          </button>
+          <div className="pt-2">
+            <SmButton text="삭제" onClick={handleDeleteClick} bgColor="red" />
+          </div>
+          <div className="pt-2">
+            <SmButton text="수정" onClick={handleEditClick} bgColor="green" />
+          </div>
         </div>
       </div>
     </div>

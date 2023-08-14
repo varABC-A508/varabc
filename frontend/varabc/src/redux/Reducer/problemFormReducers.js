@@ -4,7 +4,7 @@ import { setProblemData } from '../Actions/problemFormActions';
 const initialState = {
   problemTitle: "",
   problemLevel: "",
-  problemAlgorithmType: "000000000",
+  problemAlgorithmType: "000000000000",
   problemSource: "",
   problemLink: "",
   problemRestrictionTimePython: "",
