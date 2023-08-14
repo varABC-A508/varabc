@@ -102,9 +102,7 @@ const Ide = ( { problemNo }) => {
       "problemNo": problemNo,
       "code": code,
     }).then((res) => {
-      console.log(">>>>컴파일", res);
       setResult(res.data);
-      console.log(result.output);
       alert("코드 전송 성공");
     }).catch(function (err){
       alert("코드 전송 실패\n" + err);
@@ -120,6 +118,7 @@ const Ide = ( { problemNo }) => {
     }).then((res) => {
       setResult(res.data);
       alert("코드 전송 성공");
+      navigate('/');
     }).catch(function (err){
       alert("코드 전송 실패\n" + err);
     });
