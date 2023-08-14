@@ -77,9 +77,8 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on('onTimerEnd', ({isPlayerTurn, roomToken}) => {
-    const room = roomToken;
-    io.to(room).emit('togglePlayerTurn', {isPlayerTurn: !isPlayerTurn});
+  socket.on('onTimerEnd', ({ isPlayerTurn }) => {
+    io.to(socket.id).emit('togglePlayerTurn', {isPlayerTurn: !isPlayerTurn});
   });
 
   socket.on('disconnect', () => {
