@@ -38,7 +38,7 @@ const subURL = {
 
 const app = initializeApp(firebaseConfig);
 
-const Ide = ({ problemNo }) => {
+const Ide = () => {
   const [code, setCode] = useState('');
   const [result, setResult] = useState('');
   const [isPlayerTurn, setIsPlayerTurn] = useState(null);
@@ -50,7 +50,7 @@ const Ide = ({ problemNo }) => {
   const mode = useSelector((state) => state.ide.mode);
   const fontSize = useSelector((state) => state.ide.fontSize);
 
-  const { problemNo, roomToken, TeamNo } = useParams();
+  const { roomToken, TeamNo } = useParams();
 
   const userToken = sessionStorage.getItem('access-token');
 
@@ -88,7 +88,7 @@ const Ide = ({ problemNo }) => {
   
   const onCodeChange = (newCode) => {
     const db = getDatabase(app);
-    set(ref(db, `${roomToken}/${teamToken}/code`), {
+    set(ref(db, `${roomToken}/${TeamNo}/code`), {
       code: newCode
     });
     setCode(newCode);
@@ -117,6 +117,7 @@ const Ide = ({ problemNo }) => {
       "memberNo": memberNo,
       "code": code,
     }).then((res) => {
+      setResult(res.data);
       alert("코드 전송 성공");
     }).catch(function (err){
       alert("코드 전송 실패\n" + err);
@@ -127,7 +128,7 @@ const Ide = ({ problemNo }) => {
   useEffect(() => {
     if(!isPlayerTurn && !JSON.parse(sessionStorage.getItem('isPractice'))) {
       const db = getDatabase(app);
-      const codeRef = ref(db, `${roomToken}/${teamToken}/code`);
+      const codeRef = ref(db, `${roomToken}/${TeamNo}/code`);
       onValue(codeRef, (snapshot) => {
         const data = snapshot.val();
         setCode(data.code);
