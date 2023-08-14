@@ -47,7 +47,6 @@ const NicknameModal = ({ isOpen, onClose }) => {
           "access-token": accessToken
         }
       }).then((res) => {
-        console.log(res.data);
         isOpen = false;
         onClose();
       }).catch((err) => {

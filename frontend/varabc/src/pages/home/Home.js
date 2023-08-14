@@ -24,7 +24,6 @@ export const Home = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  sessionStorage.setItem('query', queryParams);
   const receivedAccessToken = queryParams.get('access-token');
   const receivedRefreshToken = queryParams.get('refresh-token');
   const receivedNickname = queryParams.get('memberNickname');
@@ -39,18 +38,11 @@ export const Home = () => {
 
   useEffect(() => {
     if (receivedAccessToken) {
-      console.log("token: " + receivedAccessToken);
-      // setAccessToken(receivedAccessToken);
-      // setRefreshToken(receivedRefreshToken);
-
       sessionStorage.setItem('access-token', receivedAccessToken);
       sessionStorage.setItem('refresh-token', receivedRefreshToken);
 
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
-        // setNickname(receivedNickname.trim());
         dispatch(setNickname(receivedNickname.trim()));
-        console.log("DB에서 받은 닉네임: " + receivedNickname.trim());
-        console.log("리덕스에 넣은 닉네임: " + nickname);
 
         // TODO: 최종 빌드 시 localstrage 변경
         sessionStorage.setItem('nickname', receivedNickname.trim());
@@ -65,11 +57,8 @@ export const Home = () => {
   }, [receivedAccessToken]);
 
   useEffect(() => {
-    console.log("Home.js의 useEffect 실행");
-
     // TODO: 최종 빌드 시 localstrage 변경
     sessionStorage.setItem('nickname', nickname);
-    console.log("useEffect 안에서 받은 redux 닉네임: " + nickname);
     navigate('/');
     // eslint-disable-next-line
   }, [nickname]);
