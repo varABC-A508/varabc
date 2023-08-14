@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
     const room = roomToken;
     if (rooms[room] && rooms[room].members.length < MAX_PLAYERS) {
       // 방 참가 로직
-      if(member.memberNo !== rooms[room].creator){
+      if(member.memberNo != rooms[room].creator){
         socket.join(room);
       }
       const nextNumber = rooms[room].members.length + 1;
@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
     sendLogToClients(roomToken +" 방의 게임을 시작합니다!");
     const room = roomToken;
     for(const member in rooms[room].members){
-      if(member.userRoomIndex === 1 || member.userRoomIndex === 2){
+      if(member.userRoomIndex == 1 || member.userRoomIndex == 2){
         sendLogToClients(member.member.memberNickname +"에게 1번 url 전송");
         io.to(member.socketId).emit('getTeamUrl', { url: url1 });
       } else {
