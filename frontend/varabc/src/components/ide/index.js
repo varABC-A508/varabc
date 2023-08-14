@@ -49,7 +49,7 @@ const Ide = ({problemNo}) => {
   const mode = useSelector((state) => state.ide.mode);
   const fontSize = useSelector((state) => state.ide.fontSize);
 
-  const isPractice = JSON.parse(localStorage.getItem('isPractice'));
+  const isPractice = JSON.parse(sessionStorage.getItem('isPractice'));
   const socket = io('https://varabc.com:3001', {reconnection:false});
 
   const params = useParams();

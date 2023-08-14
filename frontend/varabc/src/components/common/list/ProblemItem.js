@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 const ProblemItem = ({problem, index, last}) => {
   let navigate = useNavigate();
   const onProblemClick = () => {
-    if(!localStorage.getItem('isPractice')){
-      localStorage.setItem('isPractice', JSON.stringify(true));
-    }
+    sessionStorage.setItem('isPractice', JSON.stringify(true));
     navigate(`/problem/${problem.problemNo}`, {
       state: problem.problemNo
     });
