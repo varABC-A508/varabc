@@ -132,7 +132,7 @@ const Ide = ({problemNo}) => {
               value={code}
               onChange={onCodeChange}
               fontSize={fontSize}
-              readOnly={!isPlayerTurn}
+              readOnly={!isPlayerTurn && !isPractice}
               editorProps={{ $blockScrolling: false }}
               tabSize={2}
               enableBasicAutocompletion={true}
