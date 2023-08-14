@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
   socket.on('onGameStart', ({roomToken, url1, url2}) => {
     sendLogToClients(roomToken +" 방의 게임을 시작합니다!");
     const room = roomToken;
-    for(const player in rooms[room].members){
+    for(const player of rooms[room].members){
       if(player.userRoomIndex == 1 || player.userRoomIndex == 2){
         sendLogToClients(player.member.memberNickname +"에게 1번 url 전송");
         io.to(player.socketId).emit('getTeamUrl', { url: url1 });
