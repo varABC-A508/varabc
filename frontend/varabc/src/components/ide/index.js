@@ -38,7 +38,7 @@ const subURL = {
 
 const app = initializeApp(firebaseConfig);
 
-const Ide = () => {
+const Ide = ( { problemNo }) => {
   const [code, setCode] = useState('');
   const [result, setResult] = useState('');
   const [isPlayerTurn, setIsPlayerTurn] = useState(null);
@@ -66,7 +66,7 @@ const Ide = () => {
         alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
         navigate("/");
       });
-    if(!isPractice){
+    if(!JSON.parse(sessionStorage.getItem('isPractice'))){
       socket.emit('onTimerStart', {
         roomToken: roomToken
       });
