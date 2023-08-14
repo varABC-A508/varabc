@@ -54,6 +54,7 @@ public class MemberController {
         }catch(Exception e){
             redirectView.addStaticAttribute("errorMessage", e.getMessage());
         }
+        System.out.println(redirectView);
         return redirectView;
     }
 
@@ -79,6 +80,7 @@ public class MemberController {
         }catch(Exception e){
             redirectView.addStaticAttribute("errorMessage", e.getMessage());
         }
+        System.out.println(redirectView);
         return redirectView;
     }
     @GetMapping("getUserInfo")

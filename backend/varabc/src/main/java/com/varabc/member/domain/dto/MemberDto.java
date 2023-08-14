@@ -1,6 +1,5 @@
 package com.varabc.member.domain.dto;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -10,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class MemberDto {
     private long memberNo;
+    private String memberId;
     private String memberNickname;
     private String memberEmail;
     private int memberExp;
@@ -19,8 +19,11 @@ public class MemberDto {
     private String memberName;
 
     @Builder
-    public MemberDto(long memberNo, String memberNickname, String memberEmail, int memberExp, String memberImage, boolean memberAdmin, boolean memberResign, String memberName) {
+    public MemberDto(long memberNo, String memberId, String memberNickname, String memberEmail,
+            int memberExp, String memberImage, boolean memberAdmin, boolean memberResign,
+            String memberName) {
         this.memberNo = memberNo;
+        this.memberId = memberId;
         this.memberNickname = memberNickname;
         this.memberEmail = memberEmail;
         this.memberExp = memberExp;
