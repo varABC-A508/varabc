@@ -12,7 +12,7 @@ import AceEditor from "react-ace";
 import 'ace-builds/src-noconflict/ext-language_tools';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { useSelector } from 'react-redux';
-import { io } from "socket.io-client";
+import socket from "../../modules/socketInstance";
 
 // components
 import IdeNav from './IdeNav';
@@ -38,10 +38,11 @@ const subURL = {
 
 const app = initializeApp(firebaseConfig);
 
-const Ide = ({problemNo, memberNo}) => {
+const Ide = ({ problemNo }) => {
   const [code, setCode] = useState('');
   const [result, setResult] = useState('');
   const [isPlayerTurn, setIsPlayerTurn] = useState(null);
+  const [memberNo, setMemberNo] = useState();
 
   const editorRef = useRef(null);
 
@@ -50,13 +51,23 @@ const Ide = ({problemNo, memberNo}) => {
   const fontSize = useSelector((state) => state.ide.fontSize);
 
   const isPractice = JSON.parse(sessionStorage.getItem('isPractice'));
-  const socket = io('https://varabc.com:3001', {reconnection:false});
 
   const params = useParams();
   const roomToken = params.roomToken;
   const teamToken = params.teamNo;
 
+  const userToken = sessionStorage.getItem('access-token');
+
   useEffect(() => {
+    axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
+        "access-token": userToken
+      }}).then((res) => {
+        setMemberNo(res.data.userInfo.memberNo);
+        sessionStorage.setItem('memberNo', memberNo);
+      }).catch((err) => {
+        alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
+        navigate("/");
+      });
     if(!isPractice){
       socket.emit('onTimerStart', {
         roomToken: roomToken

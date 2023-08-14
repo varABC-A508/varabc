@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { io } from "socket.io-client";
-
+import socket from '../../../modules/socketInstance';
 
 const Timer = () => {
   const TWO_MINUTES = 20;
   const [seconds, setSeconds] = useState(TWO_MINUTES);
   const [isAlertShown, setIsAlertShown] = useState(false);
 
-  const socket = io('https://varabc.com:3001', {reconnection:false});
   const params = useParams();
   const roomToken = params.roomToken;
 

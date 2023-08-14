@@ -8,7 +8,7 @@ import IdeTheme from './Select/IdeTheme';
 import Timer from './Timer';
 
 const IdeNav = () => {
-  const isPractice = JSON.parse(localStorage.getItem('isPractice'));
+  const isPractice = JSON.parse(sessionStorage.getItem('isPractice'));
     return (
         <div className='w-full bg-primary text-white p-1 flex flex-wrap justify-between'>
           <div className='mt-2'>
