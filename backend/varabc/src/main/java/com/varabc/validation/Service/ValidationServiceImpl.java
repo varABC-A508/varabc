@@ -63,14 +63,14 @@ public class ValidationServiceImpl implements ValidationService {
 
 
     @Override
-    public CompileResultDto sendRequestCompile(String pythonServerUrl, ValidateDto validateDto) {
+    public CompileResultDto sendRequestCompile(String serverUrl, ValidateDto validateDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<ValidateDto> requestEntity = new HttpEntity<>(validateDto, headers);
 
         // 채점 서버로 HTTP POST 요청을 보내고 응답을 받음
         ResponseEntity<CompileResultDto> responseEntity = restTemplate.exchange(
-                pythonServerUrl + "/compile",  // 채점 서버의 URL
+                serverUrl + "/compile",  // 채점 서버의 URL
                 HttpMethod.POST,            // POST 요청
                 requestEntity,              // 요청 데이터
                 CompileResultDto.class   // 응답 데이터 타입

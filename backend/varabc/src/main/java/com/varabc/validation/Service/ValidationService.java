@@ -36,5 +36,5 @@ public interface ValidationService {
     List<MyPageSubmitDto> getSubmits(Long memberNo, int mode);
 
 
-    CompileResultDto sendRequestCompile(String pythonServerUrl, ValidateDto validateDto);
+    CompileResultDto sendRequestCompile(String serverUrl, ValidateDto validateDto);
 }
