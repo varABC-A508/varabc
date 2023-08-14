@@ -1,8 +1,17 @@
 import { useNavigate } from "react-router-dom";
 
-const ProblemItem = ({problem, index, last}) => {
+const ProblemItem = ({problem, index, last, mode}) => {
   let navigate = useNavigate();
   const onProblemClick = () => {
+
+    if (mode==='admin') {
+
+      const postId = problem.problemNo;
+      console.log('admin', postId)
+      navigate(`/admin/post/${postId}`)
+      return;
+    }
+
     sessionStorage.setItem('isPractice', JSON.stringify(true));
     navigate(`/problem/${problem.problemNo}`, {
       state: problem.problemNo

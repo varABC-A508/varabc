@@ -3,7 +3,7 @@ import axios from "axios";
 import Pagination from '@mui/material/Pagination';
 import ProblemItem from "./ProblemItem";
 
-const ProblemList = () => {
+const ProblemList = ({mode="user"}) => {
   const [problems, setProblems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const problemPerPage = 10;
@@ -29,7 +29,7 @@ const ProblemList = () => {
   };
 
     return (
-      <div className="w-full h-screen bg-bg2 bg-cover flex items-center justify-center">
+      <div className={`w-full ${mode==="user"? "bg-bg2 bg-cover":""} flex items-center justify-center m-0`}>
         <div className="flex flex-col items-center">
           <table className="w-[1000px] h-[600px] table-auto divide-y divide-white mt-[20px]">
             <thead className="bg-primary text-white h-[50px]">
@@ -48,6 +48,7 @@ const ProblemList = () => {
                     key={index}
                     problem={problem}
                     index={index}
+                    mode={mode}
                     last={currentProblems.length - 1}
                   />
                 );

@@ -17,7 +17,6 @@ const AlgorithmTypeCheckboxes = () => {
       problemAlgorithmType.slice(0, index) +
       changedDigit +
       problemAlgorithmType.slice(index + 1);
-    console.log(newProblemAlgorithmType);
     dispatch(setProblemAlgorithmType(newProblemAlgorithmType));
   };
 
@@ -34,7 +33,7 @@ const AlgorithmTypeCheckboxes = () => {
   });
 
   return (
-    <div className="bg-white col-span-5 border-x border-t border-neutral-300 flex justify-start align-center ps-2 gap-x-3">
+    <div className="bg-white col-span-5 border-x border-t border-neutral-300 flex flex-wrap justify-start align-center ps-2 gap-x-3">
       {checkboxes}
     </div>
   );

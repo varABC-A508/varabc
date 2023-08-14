@@ -12,9 +12,14 @@ import Editors from "./Editors/Editors.jsx";
 import FileUploads from "./FileUploads/FileUploads.jsx";
 import CheckEditStatus from "./CheckEditStatus";
 
+
 // util 및 기타
-import { extractImages } from "../../utils/problemForm/imageUtil.jsx";
+import {
+  extractImages,
+  URLToFile,
+} from "../../utils/problemForm/imageUtil.jsx";
 import axios from "axios";
+import SmButton from "../../components/common/Button/SmButton";
 
 const ProblemForm = () => {
   const location = useLocation();
@@ -47,28 +52,48 @@ const ProblemForm = () => {
     []
   );
 
+  // 수정모드 시 이미 업로드된 테스트케이스
+  const [uploadedInputPublicList, setUploadedInputPublicList] = useState([]);
+  const [uploadedOutputPublicList, setUploadedOutputPublicList] = useState([]);
+  const [uploadedInputPrivateList, setUploadedInputPrivateList] = useState([]);
+  const [uploadedOutputPrivateList, setUploadedOutputPrivateList] = useState(
+    []
+  );
+
   // 모드 (작성, 수정)
   const [mode, setMode] = useState("create");
-  const [apiUrl, setApiUrl] = useState("https://varabc.com:8080/problem/");
+  const [apiUrl, setApiUrl] = useState("https://varabc.com:8080/problem/admin");
 
+  // 파일 관리
   // form의 각 input field에 대한 onChange 함수
-
   const handlePublicInputChange = (e) => {
+    if (mode === "edit") {
+      setUploadedInputPublicList([]);
+    }
     const files = e.target.files;
     setTestcaseInputPublicList(files);
   };
 
   const handlePublicOutputChange = (e) => {
+    if (mode === "edit") {
+      setUploadedOutputPublicList([]);
+    }
     const files = e.target.files;
     setTestcaseOutputPublicList(files);
   };
 
   const handleInputChange = (e) => {
+    if (mode === "edit") {
+      setUploadedInputPrivateList([]);
+    }
     const files = e.target.files;
     setTestcaseInputPrivateList(files);
   };
 
   const handleOutputChange = (e) => {
+    if (mode === "edit") {
+      setUploadedOutputPrivateList([]);
+    }
     const files = e.target.files;
     setTestcaseOutputPrivateList(files);
   };
@@ -80,12 +105,21 @@ const ProblemForm = () => {
     testCaseOutputPrivateList,
   ];
 
+  const uploadedFiles = [
+    uploadedInputPublicList,
+    uploadedOutputPublicList,
+    uploadedInputPrivateList,
+    uploadedOutputPrivateList,
+  ];
+
   const handleIOChange = [
     handlePublicInputChange,
     handlePublicOutputChange,
     handleInputChange,
     handleOutputChange,
   ];
+
+
 
   // useEffect
 
@@ -96,6 +130,7 @@ const ProblemForm = () => {
     }
   });
 
+  // 이미지 blob link revoke (페이지 이동 시 수행)
   useEffect(() => {
     return () => {
       for (const url of imageURLs) {
@@ -105,30 +140,59 @@ const ProblemForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
-  // post create/edit mode
+  // post create/edit 모드 관련 설정
   useEffect(() => {
-    if (location.pathname.startsWith("/admin/edit")) {
-      setMode("edit");
-      setApiUrl(`https://varabc.com:8080/problem/${postId}/update`);
+    async function modeSettings() {
+      if (location.pathname.endsWith("/edit")) {
+        setMode("edit");
+        setApiUrl(`https://varabc.com:8080/problem/${postId}/update`);
 
-      const { data } = location.state || {};
+        const { data } = location.state || {};
 
-      const {
-        inputPublic,
-        outputPublic,
-        inputPrivate,
-        outputPrivate,
-        ...problemUpdateData
-      } = data;
+        const {
+          inputPublic,
+          outputPublic,
+          inputPrivate,
+          outputPrivate,
+          ...problemUpdateData
+        } = data;
 
-      dispatch(setProblemData(problemUpdateData));
-      setTestcaseInputPublicList(inputPublic);
-      setTestcaseOutputPublicList(outputPublic);
-      setTestcaseInputPrivateList(inputPrivate);
-      setTestcaseOutputPrivateList(outputPrivate);
-    } else {
-      setMode("create");
+        // 기존 업로드된 파일 저장 (새로 업로드할 파일과 따로 관리)
+        const uploadedInputPublic = await Promise.all(
+          inputPublic.map(
+            async (file, index) => await URLToFile(file, index + 1, "PublicInput")
+          )
+        );
+        const uploadedOutputPublic = await Promise.all(
+          outputPublic.map(
+            async (file, index) =>
+              await URLToFile(file, index + 1, "PublicOutput")
+          )
+        );
+        const uploadedInputPrivate = await Promise.all(
+          inputPrivate.map(
+            async (file, index) =>
+              await URLToFile(file, index + 1, "PrivateInput")
+          )
+        );
+        const uploadedOutputPrivate = await Promise.all(
+          outputPrivate.map(
+            async (file, index) =>
+              await URLToFile(file, index + 1, "PrivateOutput")
+          )
+        );
+        setUploadedInputPublicList(uploadedInputPublic);
+        setUploadedOutputPublicList(uploadedOutputPublic);
+        setUploadedInputPrivateList(uploadedInputPrivate);
+        setUploadedOutputPrivateList(uploadedOutputPrivate);
+
+        // 다른 문제 정보 등 데이터 저장 (redux)
+        dispatch(setProblemData(problemUpdateData));
+      } else {
+        setMode("create");
+      }
     }
+    modeSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -153,6 +217,7 @@ const ProblemForm = () => {
       formData.append(p, problemData[p]);
     }
 
+    // 첨부파일 append 
     const files = {
       testCaseInputPublicList,
       testCaseOutputPublicList,
@@ -160,13 +225,36 @@ const ProblemForm = () => {
       testCaseOutputPrivateList,
     };
 
+    const uploadedFiles = {
+      testCaseInputPublicList: uploadedInputPublicList,
+      testCaseOutputPublicList: uploadedOutputPublicList,
+      testCaseInputPrivateList: uploadedInputPrivateList,
+      testCaseOutputPrivateList: uploadedOutputPrivateList,
+    };
+
+
+
+    if (mode === "edit") {
+      for (const filename in uploadedFiles) {
+        if (uploadedFiles[filename].length !== 0) {
+          for (let i = 0; i < uploadedFiles[filename].length; i++) {
+            console.log(`${filename}`, uploadedFiles[filename][i][1])
+            formData.append(`${filename}`, uploadedFiles[filename][i][1]);
+          }
+        }
+      }
+    }
+
+
     for (const filename in files) {
       if (files[filename].length !== 0) {
         for (let i = 0; i < files[filename].length; i++) {
+          console.log(files[filename][i])
           formData.append(`${filename}`, files[filename][i]);
         }
       }
     }
+    
 
     const mainImages = await extractImages(
       quillRefContent,
@@ -216,7 +304,9 @@ const ProblemForm = () => {
       console.log("Response from server:", response.data);
 
       if (mode === "edit") {
-        navigate(`admin/post/${postId}`);
+        navigate(`/admin/post/${postId}`);
+      } else if (mode === "create") {
+        navigate(`/admin/post`)
       }
     } catch (error) {
       console.error(`Error sending data: ${error}`);
@@ -224,11 +314,11 @@ const ProblemForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-3 bg-bg2 bg-cover">
-      <h1 className=" mb-4 w-3/5 text-4xl text-white font-bold">
+    <div className="flex flex-col items-center p-3 min-h-screen mx-auto">
+      <h1 className=" mb-4 w-9/12 text-4xl text-white font-bold">
         {`알고리즘 문제 ${mode === "create" ? "등록" : "수정"}`}
       </h1>
-      <form onSubmit={handleSubmit} className="w-3/5">
+      <form onSubmit={handleSubmit} className="w-9/12">
         <div className="grid grid-cols-6">
           {mode === "edit" && <CheckEditStatus />}
           <ProblemInfo />
@@ -239,21 +329,21 @@ const ProblemForm = () => {
           />
           <FileUploads
             files={files}
+            uploadedFiles={uploadedFiles}
             handleIOChange={handleIOChange}
             mode={mode}
           />
         </div>
+
+
         <div className="flex justify-end bg-transparent">
-          <button
-            type="button"
-            className="bg-rose-400 p-3 me-2"
-            onClick={() => navigate(-1)}
-          >
-            취소
-          </button>
-          <button type="submit" className="p-3 bg-teal-400">
-            {mode === "create" ? "저장" : "수정"}
-          </button>
+          <div className="pt-2">
+            <SmButton text="취소" onClick={()=>navigate('/admin/post')} bgColor="red" type="button" />
+          </div>
+          <div className="pt-2">
+            <SmButton text={mode==='create' ? "저장":"수정"} bgColor="green" type="submit" />
+          </div>
+
         </div>
       </form>
     </div>
