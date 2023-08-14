@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
       const nextNumber = rooms[room].members.length + 1;
       rooms[room].members.push({ userRoomIndex: nextNumber, member: member, socketId: socket.id});
       sendLogToClients(`${member.memberNickname}가 방${room}에 참가했습니다!\n사용자No: ${member.memberNo} 순번: ${nextNumber}`);
-      io.to(room).emit('updateWaitingRoom', {currMembers: rooms[room].members, userRoomIndex: nextNumber});
+      io.to(room).emit('updateWaitingRoom', { currMembers: rooms[room].members });
     } else {
       sendLogToClients(`방에 더 이상 참가할 수 없습니다: ${room}`);
     }
@@ -55,13 +55,13 @@ io.on("connection", (socket) => {
   socket.on('onGameStart', ({roomToken, url1, url2}) => {
     sendLogToClients(roomToken +" 방의 게임을 시작합니다!");
     const room = roomToken;
-    for(const member in rooms[room].members){
-      if(member.userRoomIndex == 1 || member.userRoomIndex == 2){
-        sendLogToClients(member.member.memberNickname +"에게 1번 url 전송");
-        io.to(member.socketId).emit('getTeamUrl', { url: url1 });
+    for(const player in rooms[room].members){
+      if(player.userRoomIndex == 1 || player.userRoomIndex == 2){
+        sendLogToClients(player.member.memberNickname +"에게 1번 url 전송");
+        io.to(player.socketId).emit('getTeamUrl', { url: url1 });
       } else {
-        sendLogToClients(member.member.memberNickname +"에게 2번 url 전송");
-        io.to(member.socketId).emit('getTeamUrl', { url: url2 });
+        sendLogToClients(player.member.memberNickname +"에게 2번 url 전송");
+        io.to(player.socketId).emit('getTeamUrl', { url: url2 });
       }
     }
   });
@@ -88,7 +88,8 @@ io.on("connection", (socket) => {
       for(const member in rooms[room].members){
         if(member.socketId === socket.id){
           rooms[room].members = rooms[room].members.filter(member => member !== socket.id);
-          console.log(`사용자가 방을 나갔습니다: ${room}`);
+          socket.leave(room);
+          io.to(room).emit('updateWaitingRoom', {currMembers: rooms[room].members});
           isFoundUser = true;
           if (rooms[room].members.length === 0) {
             delete rooms[room]; // 방에 더 이상 사용자가 없으면 방을 삭제

@@ -50,12 +50,9 @@ export const BattleRoom = () => {
   }, []);
 
   // 현재 방에 있는 참가자들 업데이트
-  socket.on('updateWaitingRoom', ({currMembers, userRoomIndex}) => {
+  socket.on('updateWaitingRoom', ({ currMembers }) => {
     console.log("참가자 정보가 갱신되었습니다!");
     setMembers([...currMembers]);
-    console.log("멤버들: ");
-    console.log(currMembers);
-    console.log("참가자의 방 번호: " + userRoomIndex);
   });
 
   socket.on('logMessage', (message) => {

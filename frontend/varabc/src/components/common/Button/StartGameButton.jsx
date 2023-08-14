@@ -5,7 +5,6 @@ import socket from "../../../modules/socketInstance";
 
 const StartGameButton = ({roomToken, members }) => {
   const navigate = useNavigate();
-  const userRoomIndex = JSON.parse(sessionStorage.getItem('userRoomIndex'));
   const [isDisabled, setIsDisabled] = useState(true);
 
   socket.on('logMessage', (message) => {
@@ -20,8 +19,9 @@ const StartGameButton = ({roomToken, members }) => {
 
   useEffect(() => {
     console.log("멤버 수가 변경되었습니다!: " + members.length);
-    if(members.length === 4 && userRoomIndex === 1)
-    setIsDisabled(false);
+    if(members.length === 4 && userRoomIndex === 1){
+      setIsDisabled(false);
+    }
   // eslint-disable-next-line
   }, [members.length])
 
