@@ -12,6 +12,11 @@ const StartGameButton = ({roomToken, members }) => {
     console.log('express log:', message);
   });
 
+  socket.on('getTeamUrl', ({ url }) => {
+    console.log("게임이 시작되려고 합니다!");
+    navigate(url);
+  });
+
   useEffect(() => {
     console.log("멤버 수가 변경되었습니다!: " + members.length);
     if(members.length === 4 && userRoomIndex === 1)

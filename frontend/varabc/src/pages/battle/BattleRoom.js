@@ -58,11 +58,6 @@ export const BattleRoom = () => {
     console.log("참가자의 방 번호: " + userRoomIndex);
   });
 
-  socket.on('getTeamUrl', ({ url }) => {
-    console.log("게임이 시작되려고 합니다!");
-    navigate(url);
-  });
-
   socket.on('logMessage', (message) => {
     // 로그 메시지를 받아서 화면에 표시
     console.log('express log:', message);
