@@ -38,7 +38,7 @@ const subURL = {
 
 const app = initializeApp(firebaseConfig);
 
-const Ide = ({problemNo}) => {
+const Ide = ({problemNo, memberNo}) => {
   const [code, setCode] = useState('');
   const [result, setResult] = useState('');
   const [isPlayerTurn, setIsPlayerTurn] = useState(null);
@@ -85,15 +85,29 @@ const Ide = ({problemNo}) => {
     setCode(newCode);
   };
 
+  const onCompileClick = (e)  => {
+    e.preventDefault();
+    axios.post("https://varabc.com:8080/validation/compilePython", {
+      "memberNo": memberNo,
+      "problemNo": problemNo,
+      "code": code,
+    }).then((res) => {
+      console.log(">>>>컴파일", res);
+      setResult(res.data);
+      console.log(result.output);
+      alert("코드 전송 성공");
+    }).catch(function (err){
+      alert("코드 전송 실패\n" + err);
+    });
+  };
+
   const onRunClick = (e) => {
     e.preventDefault();
     axios.post(baseURL + subURL[mode], {
       "problemNo": problemNo,
-      "memberNo": 123,
+      "memberNo": memberNo,
       "code": code,
     }).then((res) => {
-      console.log(res);
-      setResult(res.data);
       alert("코드 전송 성공");
     }).catch(function (err){
       alert("코드 전송 실패\n" + err);
@@ -150,10 +164,11 @@ const Ide = ({problemNo}) => {
             <div>실행 시간: {result.executionTime}</div>
             <div>사용 메모리: {result.memoryUsage}</div>
             <div>{result.result === 1 ? "성공" : "실패"}</div>
+            {isPractice ? (<div>output : {result.output}</div>): <div></div>}
           </Panel>
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={10} className="bg-primary">
-            <SmButton bgColor="basic" text="실행하기" onClick={onRunClick} />
+            <SmButton bgColor="basic" text="실행하기" onClick={onCompileClick} />
             <SmButton bgColor="green" text="제출하기" onClick={onRunClick} />
           </Panel>
         </PanelGroup>

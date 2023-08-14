@@ -24,7 +24,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
         setNicknameCheck(true); 
       }
     }).catch((err) => {
-      alert("현재 서버가 아파서 조금 이따가 시도해주세요!" + err);
+      alert("중복된 닉네임 입니다!");
     })
   };
 
