@@ -134,7 +134,7 @@ const Ide = ( { problemNo }) => {
   };
 
   socket.on('showGameResult', ({ gameResult }) => {
-    navigate(`battle/${roomToken}/result1`, {
+    navigate(`/battle/${roomToken}/result1`, {
       state: {
         gameResult
       },
