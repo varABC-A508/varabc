@@ -20,7 +20,7 @@ def compile_code():
     problem_no = data['problemNo']
     input_files = data['inputFiles']
     output_files = data['outputFiles']
-    time_limit = int(data['timeLimit'])
+    time_limit = float(data['timeLimit'])
     memory_limit = int(data['memoryLimit'])
 
     result = {'output':[],'problem_no': problem_no, 'result': 0, 'execution_time': 0.0, 'memory_usage': 0, 'exception_message': ''}
