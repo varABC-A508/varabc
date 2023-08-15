@@ -89,13 +89,15 @@ const Ide = ( { problemNo }) => {
   });
   
   const onCodeChange = (newCode) => {
-    if(!JSON.parse(sessionStorage.getItem('isPractice'))){
-      const db = getDatabase(app);
-      set(ref(db, `${roomToken}/${teamToken}/code`), {
-        code: newCode,
-      });
+    if (newCode !== null && newCode !== undefined) {
+      if (!JSON.parse(sessionStorage.getItem('isPractice'))) {
+        const db = getDatabase(app);
+        set(ref(db, `${roomToken}/${teamToken}/code`), {
+          code: newCode,
+        });
+      }
+      setCode(newCode);
     }
-    setCode(newCode);
   };
 
   const onCompileClick = (e)  => {
