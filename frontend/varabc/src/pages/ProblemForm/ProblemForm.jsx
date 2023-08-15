@@ -62,7 +62,7 @@ const ProblemForm = () => {
 
   // 모드 (작성, 수정)
   const [mode, setMode] = useState("create");
-  const [apiUrl, setApiUrl] = useState("https://varabc.com:8080/problem/admin");
+  const [apiUrl, setApiUrl] = useState("https://varabc.com:8080/problem");
 
   // 파일 관리
   // form의 각 input field에 대한 onChange 함수
