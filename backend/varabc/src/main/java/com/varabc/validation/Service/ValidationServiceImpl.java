@@ -4,6 +4,9 @@ package com.varabc.validation.Service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.model.ExposedPort;
 import com.varabc.battle.domain.dto.BattleMemberDto;
 import com.varabc.battle.domain.dto.FinalResultDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
@@ -61,7 +64,6 @@ public class ValidationServiceImpl implements ValidationService {
     private final MemberService memberService;
     private final AmazonS3 amazonS3;
 
-
     @Override
     public CompileResultDto sendRequestCompile(String serverUrl, ValidateDto validateDto) {
         HttpHeaders headers = new HttpHeaders();
@@ -78,6 +80,9 @@ public class ValidationServiceImpl implements ValidationService {
         // 채점 서버로부터 받은 응답 결과 반환
         return responseEntity.getBody();
     }
+
+
+
     @Override
     public ValidationResultDto sendRequestValidation(String serverUrl, ValidateDto validateDto) {
         //채점 서버로 해당 dto를 넘겨줌
