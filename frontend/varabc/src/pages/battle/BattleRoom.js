@@ -50,7 +50,7 @@ export const BattleRoom = () => {
   }, []);
 
   socket.on('getUserRoomIndex', ({ userRoomIndex }) => {
-    sessionStorage.setItem(userRoomIndex);
+    sessionStorage.setItem('userRoomIndex', userRoomIndex);
   });
 
   // 현재 방에 있는 참가자들 업데이트
