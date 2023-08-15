@@ -12,7 +12,7 @@ public class DockerConfig {
     @Bean
     public DockerClient dockerClient() {
         DefaultDockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
-                .withDockerHost("unix:///var/run/docker.sock") // default docker host
+                .withDockerHost("tcp://0.0.0.0:2375") // default docker host
                 .build();
 
         JerseyDockerCmdExecFactory execFactory = new JerseyDockerCmdExecFactory();
