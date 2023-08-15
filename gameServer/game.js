@@ -31,6 +31,8 @@ io.on("connection", (socket) => {
     rooms[room] = {
       creator: memberNo,
       members: [],
+      team1: "",
+      team2: ""
     };
     sendLogToClients(`방 토큰: ${room} 인 게임방이 생성되었습니다!`);
     sendLogToClients(`방장의 No: ${memberNo}`);
