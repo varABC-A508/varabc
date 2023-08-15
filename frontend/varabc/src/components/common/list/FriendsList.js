@@ -17,7 +17,7 @@ const FriendsList = ({ isMyFriends }) => {
       { id: 4, profile: '프로필4', teer: '티어4', name: '이름4' },
     ];
 
-setFriends(exampleFriends);
+    setFriends(exampleFriends);
 
 // // 백엔드 서버로부터 친구 목록을 가져오는 API 호출
 // axios.get('/api/friends')
@@ -38,7 +38,7 @@ setFriends(exampleFriends);
       { id: 6, profile: '프로필6', teer: '티어6', name: '이름6' },
     ];
 
-setFriends(exampleRequests);
+    setFriends(exampleRequests);
 
 // axios.get('/api/friends/request')
 //   .then(res => {
