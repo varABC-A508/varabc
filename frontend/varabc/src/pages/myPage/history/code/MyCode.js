@@ -6,6 +6,7 @@ import SubmissionList from "../../../../components/SubmissionList/SubmissionList
 import ProblemDetailedInfo from "./ProblemDetailedInfo";
 import CodeDetailIDE from "./CodeDetailIDE.js";
 
+import { editImagesInPost } from "../../../../utils/problemUtil";
 import axios from "axios";
 
 export const MyCode = ({ mode }) => {
@@ -50,6 +51,10 @@ export const MyCode = ({ mode }) => {
     testCaseOutputList: [],
   });
 
+  const [problemContent, setProblemContent] = useState("");
+  const [problemInputContent, setProblemInputContent] = useState("");
+  const [problemOutputContent, setProblemOutputContent] = useState("");
+
   useEffect(() => {
     async function getCode() {
       const userToken = localStorage.getItem("access-token");
@@ -81,8 +86,15 @@ export const MyCode = ({ mode }) => {
           `https://varabc.com:8080/problem/${response.data.submitDto.problemNo}`
         );
         console.log(problemResponse);
-        setProblemData(problemResponse.data);
+        
+        
+        
         if (response.status === 200 && problemResponse.status === 200) {
+          const [problemContent, problemInputContent, problemOutputContent ]= editImagesInPost(problemResponse.data.problemContent, problemResponse.data.problemInputContent,problemResponse.data.problemOutputContent, problemResponse.data.problemImageS3Url)
+          setProblemData(problemResponse.data);
+          setProblemContent(problemContent)
+          setProblemInputContent(problemInputContent)
+          setProblemOutputContent(problemOutputContent)
           setNoData(false);
         }
       } catch (e) {
@@ -129,7 +141,7 @@ export const MyCode = ({ mode }) => {
           navigation="no"
           mode={mode}
         />
-        <ProblemDetailedInfo problemData={problemData} />
+        <ProblemDetailedInfo problemData={problemData} problemContent={problemContent} problemInputContent={problemInputContent} problemOutputContent={problemOutputContent}/>
         <CodeDetailIDE
           code={practiceCodeData.submitDto.submitCode}
           language={practiceCodeData.submitDto.submitLanguage}
