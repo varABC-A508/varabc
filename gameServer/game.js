@@ -98,7 +98,7 @@ io.on("connection", (socket) => {
       winTeamNo = 1;
       loseTeamNo = 2;
       win = rooms[room].members.slice(0, 2);
-      lose = rooms[room].members(2);
+      lose = rooms[room].members.slice(2);
     } else if (team2 === teamToken) {
       winTeamNo = 2;
       loseTeamNo = 1;
