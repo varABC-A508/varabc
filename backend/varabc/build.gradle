@@ -45,7 +45,7 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	// Remove duplicated dependency
-//	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
 	// jwt
 	implementation "io.jsonwebtoken:jjwt:0.9.1"
@@ -56,10 +56,10 @@ dependencies {
 	implementation('com.github.docker-java:docker-java:3.2.5')
 	implementation('com.github.docker-java:docker-java-transport-jersey:3.2.5') // This is important
 
-	implementation group: 'org.glassfish.jersey.core', name: 'jersey-common', version: '2.30.1'
-	implementation group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.30.1'
-	implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.30.1' // Required for Jersey's DI
-	implementation group: 'org.glassfish.jersey.connectors', name: 'jersey-apache-connector', version: '2.30.1'
+	implementation group: 'org.glassfish.jersey.core', name: 'jersey-common', version: '2.34'
+	implementation group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.34'
+	implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.34' // Required for Jersey's DI
+	implementation group: 'org.glassfish.jersey.connectors', name: 'jersey-apache-connector', version: '2.34'
 
 	implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
 }
