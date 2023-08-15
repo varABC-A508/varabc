@@ -18,7 +18,7 @@ export const BattleResultPage2 = () => {
 
   const onButtonClick = () => {
     const teamToken = sessionStorage.getItem('team-token');
-    navigate(`/${roomToken}/${teamToken}/review`, {state: { gameResult }});
+    navigate(`/battle/${roomToken}/${teamToken}/review`, {state: { gameResult }});
   };
 
   return (
