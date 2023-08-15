@@ -31,4 +31,3 @@ export const URLToFile = async (url, idx, field) => {
 
   return [fileName, convertedFile];
 };
-
