@@ -63,8 +63,11 @@ public class MyPageServiceImpl implements MyPageService {
                     competitionResult.getCompetitionResultT2M1No());
             Member member4 = memberRepository.findByMemberNo(
                     competitionResult.getCompetitionResultT2M2No());
-            Problem problem = problemRepository.findProblemsByCompetitionResultNo(
-                    competitionResult.getCompetitionResultNo()).get(0);
+            List<Problem> problemlist = problemRepository.findProblemsByCompetitionResultNo(
+                    competitionResult.getCompetitionResultNo());
+            if(problemlist.isEmpty())
+                return battleListDetailDtoList;
+            Problem problem = problemlist.get(0);
             int team = 2;
             if (memberNo == member1.getMemberNo() || memberNo == member2.getMemberNo()) {
                 team = 1;
