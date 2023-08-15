@@ -45,7 +45,7 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	// Remove duplicated dependency
-//	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
 	// jwt
 	implementation "io.jsonwebtoken:jjwt:0.9.1"
