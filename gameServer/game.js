@@ -92,12 +92,14 @@ io.on("connection", (socket) => {
     let lose = [];
     let winTeamNo;
     let loseTeamNo;
-    if (rooms[room].team1 === teamToken) {
+    const team1 = rooms[room].team1;
+    const team2 = rooms[room].team1;
+    if (team1 === teamToken) {
       winTeamNo = 1;
       loseTeamNo = 2;
       win = rooms[room].members.slice(0, 2);
       lose = rooms[room].members(2);
-    } else if (rooms[room].team2 === teamToken) {
+    } else if (team2 === teamToken) {
       winTeamNo = 2;
       loseTeamNo = 1;
       win = rooms[room].members.slice(2);
