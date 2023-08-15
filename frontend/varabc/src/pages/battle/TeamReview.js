@@ -3,39 +3,29 @@ import profile1 from '../../img/test/profile1.png';
 import profile2 from '../../img/test/profile2.png';
 import Review from "../../Review/Review";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+// import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import socket from "../../modules/socketInstance";
-
-const team = {
-  teamNo: 1,
-  player1: {
-    nickname: "DP조아",
-    id: "alias1031",
-    url: profile2,
-    isEmpty: false,
-  },
-  player2: {
-    nickname: "잠자는커비",
-    id: "sleepingkurby",
-    url: profile1,
-    isEmpty: false,
-  }
-};
 
 export const TeamReview = () => {
 
-  const navigate = useNavigate();
-  const { roomToken, teamToken } = useParams();
-  const { state } = useLocation();
-  const { gameResult } = state;
+  // const navigate = useNavigate();
+  const { roomToken } = useParams();
+  // const { state } = useLocation();
+  // const { gameResult } = state;
   const userRoomIndex = sessionStorage.getItem(JSON.parse('userRoomIndex'));
   const [teamMate, setTeamMate] = useState({});
   let teamMateIndex;
   switch(userRoomIndex) {
     case 1: teamMateIndex = 2;
+    break;
     case 2: teamMateIndex = 1;
+    break;
     case 3: teamMateIndex = 4;
+    break;
     case 4: teamMateIndex = 3;
+    break;
+    default: break;
   }
 
   socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));

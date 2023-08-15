@@ -27,6 +27,7 @@ export const BattleResultPage1 = () => {
       setWinTeamSubmitList(res.data.winnerList);
       setLoseTeamSubmitList(res.data.loserList);
     }).catch();
+    // eslint-disable-next-line
   }, [])
 
   const onButtonClick = () => {
