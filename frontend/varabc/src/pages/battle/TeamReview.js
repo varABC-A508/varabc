@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import profile1 from '../../img/test/profile1.png';
-import profile2 from '../../img/test/profile2.png';
 import Review from "../../Review/Review";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 // import { useLocation, useNavigate, useParams } from "react-router-dom";
