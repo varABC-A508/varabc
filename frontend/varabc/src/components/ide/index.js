@@ -89,15 +89,13 @@ const Ide = ( { problemNo }) => {
   });
   
   const onCodeChange = (newCode) => {
-    if (newCode !== null && newCode !== undefined) {
-      if (!JSON.parse(sessionStorage.getItem('isPractice'))) {
-        const db = getDatabase(app);
-        set(ref(db, `${roomToken}/${teamToken}/code`), {
-          code: newCode,
-        });
-      }
-      setCode(newCode);
+    if (!JSON.parse(sessionStorage.getItem('isPractice'))) {
+      const db = getDatabase(app);
+      set(ref(db, `battles/${roomToken}/${teamToken}/code`), {
+        code: newCode,
+      });
     }
+    setCode(newCode);
   };
 
   const onCompileClick = (e)  => {
@@ -147,7 +145,7 @@ const Ide = ( { problemNo }) => {
   useEffect(() => {
     if(!isPlayerTurn && !JSON.parse(sessionStorage.getItem('isPractice'))) {
       const db = getDatabase(app);
-      const codeRef = ref(db, `${roomToken}/${teamToken}/code`);
+      const codeRef = ref(db, `battles/${roomToken}/${teamToken}/code`);
       onValue(codeRef, (snapshot) => {
         const data = snapshot.val();
         setCode(data.code);
