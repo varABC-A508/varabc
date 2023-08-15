@@ -32,8 +32,8 @@ const firebaseConfig = {
 
 const baseURL = 'https://varabc.com:8080/validation/sendvalidate';
 const subURL = {
-  "java" : "java",
-  "python": "py",
+  "Java" : "java",
+  "Python": "py",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -100,7 +100,8 @@ const Ide = ( { problemNo }) => {
 
   const onCompileClick = (e)  => {
     e.preventDefault();
-    axios.post("https://varabc.com:8080/validation/compilePython", {
+    // TODO: mode에 따라서 바뀌게 만들기
+    axios.post(`https://varabc.com:8080/validation/compile${mode}`, {
       "memberNo": memberNo,
       "problemNo": problemNo,
       "code": code,

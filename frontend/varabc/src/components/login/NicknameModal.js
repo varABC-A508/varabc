@@ -35,7 +35,6 @@ const NicknameModal = ({ isOpen, onClose }) => {
   };
 
   const handleModalSave = () => {
-    // TODO: 최종 빌드 시 localstrage 변경
     localStorage.setItem('nickname', nickname);
     const accessToken = localStorage.getItem("access-token");
     // accessToken과 nickname을 이용하여 백엔드에 요청을 보낼 수 있음

@@ -43,8 +43,6 @@ export const Home = () => {
 
       if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
         dispatch(setNickname(receivedNickname.trim()));
-
-        // TODO: 최종 빌드 시 localstrage 변경
         localStorage.setItem('nickname', receivedNickname.trim());
       } else {
         // 닉네임이 없으면 모달 열기
@@ -57,7 +55,6 @@ export const Home = () => {
   }, [receivedAccessToken]);
 
   useEffect(() => {
-    // TODO: 최종 빌드 시 localstrage 변경
     localStorage.setItem('nickname', nickname);
     navigate('/');
     // eslint-disable-next-line
