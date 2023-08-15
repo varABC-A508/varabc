@@ -1,19 +1,12 @@
 import Submission from "./Submission.jsx";
 
 
-const SubmissionList = () => {
-
-  const submissionResults = [
-    { idx: 0, nickname: 'dp조아', problemTitle: 'abc학교 점심시간', result: '맞았습니다', memory: '71248', time: '348', language:'Python', dateTime: '2023-07-24 14:13' },
-    { idx: 1, nickname: 'dp조아', problemTitle: 'abc학교 점심시간이 아주 길면 어떻게 될까? 그냥 다음 줄로 넘어가는 거겠죠', result: '틀렸습니다', memory: '71248', time: '348', language:'Python', dateTime: '2023-07-24 14:13' }, 
-    { idx: 2, nickname: 'dp조아', problemTitle: 'abc학교 점심시간', result: '맞았습니다', memory: '71248', time: '348', language:'Python', dateTime: '2023-07-24 14:13' }
-
-  ]
+const SubmissionList = ({submitList}) => {
 
   const headText = "p-3 text-white text-center font-bold"
 
-  const submissions = submissionResults.map((submissionResult) => {
-    return <Submission key={submissionResult.idx} result={submissionResult} />
+  const submissions = submitList.map((submissionResult, index) => {
+    return <Submission key={index} result={submissionResult} />
   })
 
 

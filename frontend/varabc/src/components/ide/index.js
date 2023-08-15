@@ -50,7 +50,7 @@ const Ide = ( { problemNo }) => {
   const mode = useSelector((state) => state.ide.mode);
   const fontSize = useSelector((state) => state.ide.fontSize);
 
-  const { roomToken, TeamNo } = useParams();
+  const { roomToken, teamToken } = useParams();
 
   const userToken = localStorage.getItem('access-token');
 
@@ -58,6 +58,7 @@ const Ide = ( { problemNo }) => {
 
   useEffect(() => {
     console.log("사용자 토큰: " + userToken);
+    sessionStorage.setItem('team-token', teamToken);
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
         "access-token": userToken
       }}).then((res) => {
@@ -90,7 +91,7 @@ const Ide = ( { problemNo }) => {
   const onCodeChange = (newCode) => {
     if(!JSON.parse(sessionStorage.getItem('isPractice'))){
       const db = getDatabase(app);
-      set(ref(db, `${roomToken}/${TeamNo}/code`), {
+      set(ref(db, `${roomToken}/${teamToken}/code`), {
         code: newCode,
       });
     }
@@ -105,33 +106,46 @@ const Ide = ( { problemNo }) => {
       "code": code,
     }).then((res) => {
       setResult(res.data);
-      alert("코드 전송 성공");
+      alert("실행 성공");
     }).catch(function (err){
-      alert("코드 전송 실패\n" + err);
+      alert("실행 실패\n" + err);
     });
   };
 
-  const onRunClick = (e) => {
+  const onSubmitClick = (e) => {
     e.preventDefault();
     axios.post(baseURL + subURL[mode], {
       "problemNo": problemNo,
       "memberNo": memberNo,
       "code": code,
     }).then((res) => {
+      alert("제출 성공");
       setResult(res.data);
       // TODO: 결과가 1일시 결과창 이동 넣기
-      if(result.result === 1) navigate('/');
-      alert("코드 전송 성공");
+      if(result.result === 1) {
+        socket.emit('sendGameResult', {
+          roomToken: roomToken,
+          teamToken: teamToken
+        });
+      }
     }).catch(function (err){
-      alert("코드 전송 실패\n" + err);
+      alert("제출 실패\n" + err);
     });
   };
+
+  socket.on('showGameResult', ({ gameResult }) => {
+    navigate(`battle/${roomToken}/result1`, {
+      state: {
+        gameResult
+      },
+    });
+  });
 
 
   useEffect(() => {
     if(!isPlayerTurn && !JSON.parse(sessionStorage.getItem('isPractice'))) {
       const db = getDatabase(app);
-      const codeRef = ref(db, `${roomToken}/${TeamNo}/code`);
+      const codeRef = ref(db, `${roomToken}/${teamToken}/code`);
       onValue(codeRef, (snapshot) => {
         const data = snapshot.val();
         setCode(data.code);
@@ -176,7 +190,6 @@ const Ide = ( { problemNo }) => {
             <div>실행 결과</div>
             <div>실행 시간: {result.executionTime}</div>
             <div>사용 메모리: {result.memoryUsage}</div>
-            {/* <div>{!result.output && result.result === 1 ? "성공" : "실패"}</div> */}
             { <div>{(!result.output) ? (result.result === 1 ? "성공" : "실패") : ("")}</div> }
             <br />
             { result.output ? result.output.map((outputMessage, index) => (<div key={index}>{`테스트 ${index + 1}:    ${outputMessage}`}</div>)) : ""}
@@ -184,7 +197,7 @@ const Ide = ( { problemNo }) => {
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={10} className="bg-primary">
             <SmButton bgColor="basic" text="실행하기" onClick={onCompileClick} />
-            <SmButton bgColor="green" text="제출하기" onClick={onRunClick} />
+            <SmButton bgColor="green" text="제출하기" onClick={onSubmitClick} />
           </Panel>
         </PanelGroup>
       </div>
