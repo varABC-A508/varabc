@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
       const nextNumber = rooms[room].members.length + 1;
       rooms[room].members.push({ userRoomIndex: nextNumber, member: member, socketId: socket.id});
       sendLogToClients(`${member.memberNickname}가 방${room}에 참가했습니다!\n사용자No: ${member.memberNo} 순번: ${nextNumber}`);
-      io.to(socket.id).emit('getUserRoomIndex', {userRoomIndex: userRoomIndex});
+      io.to(socket.id).emit('getUserRoomIndex', { userRoomIndex: nextNumber });
       io.to(room).emit('updateWaitingRoom', { currMembers: rooms[room].members });
     } else {
       sendLogToClients(`방에 더 이상 참가할 수 없습니다: ${room}`);
