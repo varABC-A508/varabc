@@ -39,9 +39,9 @@ const App = () => {
         <Route path="/battle" element={<Battle />}>
           <Route index element={<BattleMode />} />
           <Route path="join/:roomToken" element={<BattleRoom />} />
-          <Route path="/:roomToken/result1" element={<BattleResultPage1 />} />
-          <Route path="/:roomToken/result2" element={<BattleResultPage2 />} />
-          <Route path="/:roomToken/:teamToken/review" element={<TeamReview />} />
+          <Route path=":roomToken/result1" element={<BattleResultPage1 />} />
+          <Route path=":roomToken/result2" element={<BattleResultPage2 />} />
+          <Route path=":roomToken/:teamToken/review" element={<TeamReview />} />
           <Route path=":problemNo/game/:roomToken/:teamToken" element={<IdeContainer />} />
         </Route>
         <Route path="/problem" element={<Problems />}>
