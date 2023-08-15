@@ -17,6 +17,7 @@ export const Reviews = ({ memberNo }) => {
 
   useEffect(() => {
     fetchReviews();
+    // eslint-disable-next-line
   }, [memberNo]);
 
   return (
