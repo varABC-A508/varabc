@@ -45,10 +45,16 @@ const StartGameButton = ({roomToken, members }) => {
         console.log(roomToken);
         const url1 = res.data.url1;
         const url2 = res.data.url2;
+        const splitUrl1 = url1.split('/');
+        const splitUrl2 = url2.split('/');
+        const teamToken1 = splitUrl1[splitUrl1.length - 1];
+        const teamToken2 = splitUrl2[splitUrl1.length - 1];
         socket.emit('onGameStart', {
           roomToken: roomToken,
           url1: url1,
-          url2: url2
+          url2: url2,
+          teamToken1: teamToken1,
+          teamToken2: teamToken2
         });
       }).catch((err) => {
         alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
