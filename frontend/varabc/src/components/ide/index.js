@@ -123,6 +123,8 @@ const Ide = ( { problemNo }) => {
       alert("제출 성공");
       setResult(res.data);
       // TODO: 결과가 1일시 결과창 이동 넣기
+      console.log(res.data);
+      setResult(res.data);
       if(result.result === 1) {
         socket.emit('sendGameResult', {
           roomToken: roomToken,
