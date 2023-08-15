@@ -30,12 +30,12 @@ export const TeamResult = ({ team, teamNumber, isWin, submitList }) => {
           </tr>
           <tr>
             <td  className="flex justify-center h-[20px] pt-[10px] ">
-              {submitList ? submitList[submitList.length - 1].submitUsedMemory : ""}
+              {(submitList && submitList.length > 0) ? submitList[submitList.length - 1].submitUsedMemory : ""}
             </td>
           </tr>
           <tr>
             <td  className="flex justify-center h-[20px] pt-[10px]">
-              {submitList ? submitList[submitList.length - 1].submitUsedTime : ""}
+              {(submitList && submitList.length > 0) ? submitList[submitList.length - 1].submitUsedTime : ""}
             </td>
           </tr>
         </tbody>
