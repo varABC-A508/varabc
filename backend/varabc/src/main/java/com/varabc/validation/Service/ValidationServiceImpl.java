@@ -116,12 +116,12 @@ public class ValidationServiceImpl implements ValidationService {
     public TestCaseDto getPublicTestCaseDtoByProblemNo(long problemNo) {
         List<TestCase> testCases = validationRepository.findByProblemNoAndTestCasePublic(problemNo,true);
         List<String> inputFiles = testCases.stream()
-                                           .map(TestCase::getTestCaseInput)
-                                           .collect(Collectors.toList());
+                .map(TestCase::getTestCaseInput)
+                .collect(Collectors.toList());
 
         List<String> outputFiles = testCases.stream()
-                                            .map(TestCase::getTestCaseOutput)
-                                            .collect(Collectors.toList());
+                .map(TestCase::getTestCaseOutput)
+                .collect(Collectors.toList());
 
         return validationMapper.testCaseListToDto(inputFiles, outputFiles);
     }
@@ -288,8 +288,8 @@ public class ValidationServiceImpl implements ValidationService {
         List<MyPageSubmitDto> myPageSubmitDtoList = new ArrayList<>();
         List<Submit> submitList = submitRepository.findByMemberNoAndSubmitMode(memberNo, mode);
         Member member = memberRepository.findByMemberNo(memberNo);
-        String submitStatus = "틀렸습니다.";
         for (Submit submit : submitList) {
+            String submitStatus = "틀렸습니다.";
             if (submit.getSubmitStatus() == 1) {
 //                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
                 submitStatus = "맞았습니다.";
