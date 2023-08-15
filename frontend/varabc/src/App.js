@@ -2,15 +2,18 @@ import { Routes, Route } from "react-router-dom";
 
 import { Nav } from "./components/common/nav";
 
-import { Home } from './pages/home/Home';
-import { Tier } from './pages/Tier';
+import { Home } from "./pages/home/Home";
+import { Tier } from "./pages/Tier";
 
 import { Battle } from "./pages/battle/Battle";
 import { BattleMode } from "./pages/battle/BattleMode";
 import { BattleRoom } from "./pages/battle/BattleRoom";
 
 import { Friends } from "./pages/myPage/Friends";
+import { HistoryBase } from "./pages/myPage/history/HistoryBase";
 import { History } from "./pages/myPage/history/History";
+import { BattleDetail } from "./pages/myPage/history/battle/BattleDetail/BattleDetail";
+import { MyCode } from "./pages/myPage/history/code/MyCode";
 import { Profile } from "./pages/myPage/Profile";
 import { Reviews } from "./pages/myPage/Reviews";
 import { MyPage } from "./pages/myPage/myPage";
@@ -51,7 +54,23 @@ const App = () => {
         <Route path="/tier" element={<Tier />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route path="profile" element={<Profile />} />
-          <Route path="history" element={<History />} />
+          <Route path="history" element={<HistoryBase />}>
+            <Route index element={<History />} />
+            <Route path="battle" element={<History />} />
+            <Route path="practice" element={<History />} />
+            <Route
+              path="battle/detail/:competitionResultNo"
+              element={<BattleDetail />}
+            />
+            <Route
+              path="battle/code/:submitNo"
+              element={<MyCode mode="battle" />}
+            />
+            <Route
+              path="practice/code/:submitNo"
+              element={<MyCode mode="practice" />}
+            />
+          </Route>
           <Route path="reviews" element={<Reviews />} />
           <Route path="friends" element={<Friends />} />
         </Route>
