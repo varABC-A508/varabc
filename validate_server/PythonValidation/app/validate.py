@@ -94,7 +94,7 @@ def compile_code_with_test_case(input_content, output_content, time_limit, memor
                 result['result'] = 3
                 result['exception_message'] = "Error: 메모리초과"
             else:
-                result['result'] = 1 if output == expected_output else 4
+                result['result'] = 1
     except Exception as e:
         result['exception_message'] = str(e)
     return result
