@@ -133,7 +133,7 @@ public class ProblemController {
     }
 
 
-    @DeleteMapping("/{problemNo}")
+    @PatchMapping("/{problemNo}/delete")
     public ResponseEntity<?> deleteProblem(@PathVariable Long problemNo) {
         boolean rslt = problemService.deleteProblem(problemNo);
         if (rslt) {

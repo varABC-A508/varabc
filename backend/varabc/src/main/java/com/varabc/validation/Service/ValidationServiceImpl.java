@@ -254,7 +254,7 @@ public class ValidationServiceImpl implements ValidationService {
                     battleMemberDto.getCompetitionResultT2M2No());
         }
         for (Submit submit : submitList1) {
-            String email = memberService.getEmail(submit.getMemberNo());
+            String nickname = memberService.getMemberByMemberNo(submit.getMemberNo()).getMemberNickname();
             String submitStatus;
             if (submit.getSubmitStatus() == 1) {
 //                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
@@ -262,11 +262,11 @@ public class ValidationServiceImpl implements ValidationService {
             } else {
                 submitStatus = "틀렸습니다.";
             }
-            winnerList.add(validationMapper.EntityToDto(submit, email, submitStatus));
+            winnerList.add(validationMapper.EntityToDto(submit, nickname, submitStatus));
 
         }
         for (Submit submit : submitList2) {
-            String email = memberService.getEmail(submit.getMemberNo());
+            String nickname =  memberService.getMemberByMemberNo(submit.getMemberNo()).getMemberNickname();
             String submitStatus;
             if (submit.getSubmitStatus() == 1) {
 //                채점 현황. 1이 정답, 2가  시간초과, 3이 메모리 초과, 4가 오답.
@@ -274,12 +274,14 @@ public class ValidationServiceImpl implements ValidationService {
             } else {
                 submitStatus = "틀렸습니다.";
             }
-            loserList.add(validationMapper.EntityToDto(submit, email, submitStatus));
+            loserList.add(validationMapper.EntityToDto(submit, nickname, submitStatus));
 
         }
         finalResultListDto = validationMapper.dtoToDto(winnerList, loserList);
         return finalResultListDto;
     }
+
+
 
     @Override
     public List<MyPageSubmitDto> getSubmits(Long memberNo, int mode) {

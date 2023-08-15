@@ -130,15 +130,15 @@ public class ValidationMapper {
                 .build();
     }
 
-    public FinalResultDto EntityToDto(Submit submit, String email, String submitStatus) {
-            return FinalResultDto.builder()
-                    .memberEmail(email)
-                    .submitLanguage(submit.getSubmitLanguage())
-                    .submitStatus(submitStatus)
-                    .submitUsedMemory(submit.getSubmitUsedMemory())
-                    .submitTime(submit.getSubmitTime())
-                    .submitUsedTime(submit.getSubmitUsedTime())
-                    .build();
+    public FinalResultDto EntityToDto(Submit submit, String nickname, String submitStatus) {
+        return FinalResultDto.builder()
+                .nickname(nickname)
+                .submitLanguage(submit.getSubmitLanguage())
+                .submitStatus(submitStatus)
+                .submitUsedMemory(submit.getSubmitUsedMemory())
+                .submitTime(submit.getSubmitTime())
+                .submitUsedTime(submit.getSubmitUsedTime())
+                .build();
     }
 
     public FinalResultListDto dtoToDto(List<FinalResultDto> winnerList, List<FinalResultDto> loserList) {
