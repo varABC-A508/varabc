@@ -191,7 +191,7 @@ const Ide = ( { problemNo }) => {
     
     return (
       <div className="w-full h-screen flex flex-col">
-        <IdeNav />
+        <IdeNav token={`${roomToken}${teamToken}`}/>
         <PanelGroup direction='vertical' className="flex-grow">
           <Panel defaultSize={65}>
             <AceEditor
