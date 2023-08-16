@@ -12,6 +12,7 @@ import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.mypage.domain.dto.ReviewBattleDetailDto;
 import com.varabc.mypage.domain.dto.SubmitCodeDto;
 import com.varabc.mypage.mapper.MyPageMapper;
 import com.varabc.problem.domain.entity.Problem;
@@ -157,5 +158,34 @@ public class MyPageServiceImpl implements MyPageService {
         Submit submit = submitRepository.findBySubmitNo(submitNo);
         Problem problem = problemRepository.findByProblemNo(submit.getProblemNo());
         return myPageMapper.EntityToDto(submit, member, problem);
+    }
+
+    @Override
+    public ReviewBattleDetailDto getReviewBattleDetail(Long competitionResultNo, Long memberNo) {
+        CompetitionResult competitionResult= competitionResultRepository.findByCompetitionResultNo(competitionResultNo);
+        List<Problem> problemList = problemRepository.findProblemsByCompetitionResultNo(competitionResultNo);
+        if(problemList.size()==0){
+            return null;
+        }
+        Problem problem = problemList.get(0);
+        Member member1 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT1M1No());
+        Member member2 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT1M2No());
+        Member member3 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT2M1No());
+        Member member4 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT2M2No());
+        int team = 2;
+        if (memberNo == member1.getMemberNo() || memberNo == member2.getMemberNo()) {
+            team = 1;
+        }
+        boolean isWinner = false;
+        if (team == competitionResult.getCompetitionResultRecord()) {
+            isWinner = true;
+        }
+        ReviewBattleDetailDto reviewBattleDetailDto = myPageMapper.EntityToReviewBattleDetailDto(competitionResult,
+                problem, member1, member2, member3, member4, isWinner);
+        return reviewBattleDetailDto;
     }
 }
