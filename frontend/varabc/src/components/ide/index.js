@@ -126,7 +126,7 @@ const Ide = ( { problemNo }) => {
       } else {
         alert("문제 풀이 실패!");
       }
-    }).catch(function (err){
+    }).catch((err) => {
       alert("코드 전송 실패\n" + err);
     });
   }
@@ -134,6 +134,7 @@ const Ide = ( { problemNo }) => {
   const onBattleSubmit = (e) => {
     e.preventDefault();
     axios.post(`https://varabc.com:8080/battle/submit/${roomToken}/${memberNo}`, {
+      "battleCode": roomToken,
       "problemNo": problemNo,
       "member1": memberNo,
       "member2": memberNo,
