@@ -207,7 +207,7 @@ public class CodeExecutionController {
 
         compileResultDto.setResult(1);
         compileResultDto.setExecutionTime(maxElapsedTime / 1_000_000);
-        compileResultDto.setMemoryUsage((int) maxMemoryUsed.get());
+        compileResultDto.setMemoryUsage((int) (maxMemoryUsed.get()/1024));
         compileResultDto.setOutput(outputList);
         return new ResponseEntity<>(compileResultDto, HttpStatus.OK);
     }
@@ -371,7 +371,7 @@ public class CodeExecutionController {
 
         validationResultDto.setResult(1);
         validationResultDto.setExecutionTime(maxElapsedTime / 1_000_000);
-        validationResultDto.setMemoryUsage((int) maxMemoryUsed.get());
+        validationResultDto.setMemoryUsage((int) (maxMemoryUsed.get()/1024));
         return new ResponseEntity<>(validationResultDto, HttpStatus.OK);
     }
 }
