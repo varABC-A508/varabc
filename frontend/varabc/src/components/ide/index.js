@@ -4,6 +4,7 @@ import { getDatabase, ref, set, onValue } from "firebase/database";
 
 // style
 import './ide.css';
+import swal from 'sweetalert';
 
 // npm
 import {useState, useRef, useEffect} from "react";
@@ -66,7 +67,7 @@ const Ide = ( { problemNo }) => {
         setMemberNo(res.data.userInfo.memberNo);
         sessionStorage.setItem('memberNo', res.data.userInfo.memberNo);
       }).catch((err) => {
-        alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
+        swal ( "이런" ,  "서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!>8" + err ,  "error" );
         navigate("/");
       });
 
@@ -108,9 +109,9 @@ const Ide = ( { problemNo }) => {
       "code": code,
     }).then((res) => {
       setResult(res.data);
-      alert("코드 전송 성공");
+      swal ( "와" ,  "코드 전송 성공!>9",  "success" );
     }).catch((err) => {
-      alert("코드 전송 실패\n" + err);
+      swal ( "이런" ,  "코드 전송 실패!>10" + err ,  "error" );
     });
   };
 
@@ -123,13 +124,13 @@ const Ide = ( { problemNo }) => {
     }).then((res) => {
       setResult(res.data);
       if(parseInt(result.result) === 1){
-        alert("문제 풀이 성공!");
+        swal ( "와" ,  "문제 풀이 성공!>11",  "success" );
         navigate('/');
       } else {
-        alert("문제 풀이 실패!");
+        swal ( "이런" ,  "문제 풀이 실패!>12" ,  "error" );
       }
     }).catch((err) => {
-      alert("코드 전송 실패\n" + err);
+      swal ( "이런" ,  "코드 전송 실패!>13" + err ,  "error" );
     });
   }
 
@@ -148,16 +149,16 @@ const Ide = ( { problemNo }) => {
       console.log(res.data);
       setResult(res.data);
       if(parseInt(result.result) === 1) {
-        alert("문제 풀이 성공");
+        swal ( "와" ,  "문제 풀이 성공!>14",  "success" );
         socket.emit('sendGameResult', {
           roomToken: roomToken,
           teamToken: teamToken
         });
       } else {
-        alert("문제 풀이 실패");
+        swal ( "이런" ,  "문제 풀이 실패!>15",  "error" );
       }
     }).catch(function (err){
-      alert("코드 제출 실패\n" + err);
+      swal ( "이런" ,  "코드 제출 실패!>16" + err ,  "error" );
     });
   }
   

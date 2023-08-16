@@ -4,6 +4,7 @@ import BattleInfo from "./BattleInfo";
 import MoveRoundButton from "../../../../../components/common/Button/MoveRoundButton";
 import SubmissionList from "../../../../../components/SubmissionList/SubmissionList";
 import axios from "axios";
+import swal from 'sweetalert';
 
 export const BattleDetail = () => {
   const location = useLocation();
@@ -48,6 +49,7 @@ export const BattleDetail = () => {
   const { competitionResultNo } = useParams();
   const battleInfoData = {
     problem: {
+      problemSource: battle.problemSource,
       problemLevel: battle.problemLevel,
       problemTitle: battle.problemTitle,
       problemAlgorithmType: "000000000000",
@@ -55,21 +57,21 @@ export const BattleDetail = () => {
     team1: {
       user1: {
         userName: battle.nicknameT1M1,
-        userTier: "diamond", //battle.memberExpT1M1
+        userTier: battle.memberExpT1M1
       },
       user2: {
         userName: battle.nicknameT1M2,
-        userTier: "diamond", //battle.memberExpT1M2
+        userTier: battle.memberExpT1M2
       },
     },
     team2: {
       user1: {
         userName: battle.nicknameT2M1,
-        userTier: "diamond", //battle.memberExpT2M1
+        userTier: battle.memberExpT2M1
       },
       user2: {
         userName: battle.nicknameT2M2,
-        userTier: "diamond", //battle.memberExpT2M2
+        userTier: battle.memberExpT2M2
       },
     },
   };
@@ -78,7 +80,7 @@ export const BattleDetail = () => {
     async function getBattleDetail() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        alert("회원가입부터 해주세요!");
+        swal ( "이런" ,  "회원가입부터 해주세요!>21" ,  "error" );
         navigate("/");
         return;
       }
@@ -95,7 +97,7 @@ export const BattleDetail = () => {
         const memberNo = userResponse.data.userInfo.memberNo;
         const response = await axios.get(
           `https://varabc.com:8080/mypage/battleDetail/${competitionResultNo}/${memberNo}`
-          //`https://varabc.com:8080/mypage/battleDetail/33/32`
+          //`https://varabc.com:8080/mypage/battleDetail/${competitionResultNo}/36`
         );
         console.log(response);
         if (response.status === 200) {
@@ -142,6 +144,8 @@ export const BattleDetail = () => {
     );
   }
 
+  console.log(battleDetailData.myTeamSubmitList.length)
+  console.log(battleDetailData.opponentTeamSubmitList.length)
   return (
     <div className="w-9/12 flex flex-col items-center p-3 mx-auto">
       <BattleInfo battle={battleInfoData} />
@@ -165,7 +169,7 @@ export const BattleDetail = () => {
         </div>
       )}
 
-      {setBattleDetailData.opponentTeamSubmitList.length === 0 ? (
+      {battleDetailData.opponentTeamSubmitList.length === 0 ? (
         <OpponentTeamNodata />
       ) : (
         <div className="my-3 w-full">

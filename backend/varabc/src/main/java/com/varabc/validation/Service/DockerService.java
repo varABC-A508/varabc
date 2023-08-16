@@ -4,8 +4,10 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.core.DockerClientBuilder;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.net.ServerSocket;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DockerService {
-    private DockerClient dockerClient= DockerClientBuilder.getInstance("tcp://0.0.0.0:2376").build();
+    private DockerClient dockerClient= DockerClientBuilder.getInstance("tcp://172.17.0.1:2376").build();
 
     private int findAvailablePort(int startPort, int endPort) throws IOException {
         for (int port = startPort; port <= endPort; port++) {
@@ -31,9 +33,22 @@ public class DockerService {
     }
     public String startPythonEvaluationContainer() {
         System.out.println("start making python container");
-        CreateContainerResponse container = dockerClient.createContainerCmd("pythonvalidation")
-                .withCmd("isolatedPythonValidationRequestContainer", "-m", "http.server", "5005")  // 이 부분은 python으로 HTTP 서버를 시작하는 예제입니다. 실제 명령어는 원하는대로 수정해야 합니다.
-                .withExposedPorts(new ExposedPort(5005))
+        // 기존에 동일한 이름의 컨테이너가 존재하는지 확인
+        List<Container> existingContainers = dockerClient.listContainersCmd()
+                .withShowAll(true)
+                .withNameFilter(Arrays.asList("isolatedPythonValidationRequestContainer"))
+                .exec();
+
+        for (Container container : existingContainers) {
+            // 동일한 이름의 컨테이너가 존재하면 제거
+            dockerClient.removeContainerCmd(container.getId())
+                    .withForce(true)  // 강제로 컨테이너를 종료하고 제거
+                    .exec();
+        }
+        CreateContainerResponse container = dockerClient.createContainerCmd("bincan98/pythonvalidation:0.1.0")
+                .withName("isolatedPythonValidationRequestContainer")
+                .withPortBindings(PortBinding.parse("5006:5000"))
+                .withCmd("python","app.py")  // Python으로 HTTP 서버 시작
                 .exec();
         // 도커 컨테이너 시작
         System.out.println("creation success");

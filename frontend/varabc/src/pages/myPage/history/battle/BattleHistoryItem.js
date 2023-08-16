@@ -7,31 +7,30 @@ const gameResult = {
 
 const BattleHistoryItem = ({ battle, handleClick }) => {
   
-  // user tier 계산 후 넣기 필요 
-
   const teams = {
     team1: {
       user1:{
         userName: battle.nicknameT1M1, 
-        userTier: "diamond" //battle.memberExpT1M1
+        userTier: battle.memberExpT1M1
       }, 
       user2: {
         userName: battle.nicknameT1M2, 
-        userTier: "diamond"//battle.memberExpT1M2
+        userTier: battle.memberExpT1M2
   
       },
     }, 
     team2: {
       user1:{
         userName: battle.nicknameT2M1, 
-        userTier: "diamond"//battle.memberExpT2M1
+        userTier: battle.memberExpT2M1
       }, 
       user2: {
         userName: battle.nicknameT2M2, 
-        userTier: "diamond" //battle.memberExpT2M2
+        userTier: battle.memberExpT2M2
       },
     }
   }
+
 
 
   return (
@@ -39,10 +38,10 @@ const BattleHistoryItem = ({ battle, handleClick }) => {
       <BattleTeam team={teams.team1} />
       <div className="flex flex-col items-center justify-between w-[500px]">
         <div className="text-[16px] font-bold">
-          <span>{battle.problemSource} / </span>
-          <span>{battle.problemLevel}</span>
+          <span>{battle.problemSource || '-'} / </span>
+          <span>{battle.problemLevel || '-'}</span>
         </div>
-        <div className="text-[24px] font-bold">{`${battle.problemNo}. ${battle.problemTitle}`}</div>
+        <div className="text-[24px] font-bold">{`${battle.problemNo || '0'}. ${battle.problemTitle || '-'}`}</div>
         <button
           className={`mt-[5px] w-[100px] h-[28px] text-[16px] font-bold ${
             gameResult[(battle.isWinner ? 1: 0)]

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import socket from "../../../modules/socketInstance";
+import swal from 'sweetalert';
 
 const StartGameButton = ({roomToken, members }) => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const StartGameButton = ({roomToken, members }) => {
           teamToken2: teamToken2
         });
       }).catch((err) => {
-        alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
+        swal ( "이런" ,  "서버에 문제가 있습니다. 잠시후 다시 시도해주세요!>3" ,  "error" );
         navigate('/');
       })
     ;}

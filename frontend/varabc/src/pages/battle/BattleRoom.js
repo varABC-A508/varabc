@@ -29,7 +29,7 @@ export const BattleRoom = () => {
     sessionStorage.setItem('isPractice', JSON.stringify(false));
     const userToken = localStorage.getItem('access-token');
     if (!userToken) {
-      swal ( "이런" ,  "회원가입부터 해주세요!" ,  "error" )
+      swal ( "이런" ,  "회원가입부터 해주세요!>19" ,  "error" );
       navigate("/");
     }
     else{
@@ -43,7 +43,7 @@ export const BattleRoom = () => {
           member: res.data.userInfo
         });
       }).catch((err) => {
-        swal ( "이런" ,  "로그인부터 해주세요!" + err,  "error" )
+        swal ( "이런" ,  "서버에 문제가 있어요! 잠시후 다시 시도해 주세요.>20" + err,  "error" );
         navigate("/");
       });
     }
