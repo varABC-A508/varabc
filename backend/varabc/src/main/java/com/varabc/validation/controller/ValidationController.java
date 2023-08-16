@@ -111,6 +111,7 @@ public class ValidationController {
                 pythonServerUrl, validateDto);
         // 도커 컨테이너 종료
         dockerService.stopPythonEvaluationContainer(containerId);
+        System.out.println("stopped");
 
 
         System.out.println(validationResultDto);

@@ -60,7 +60,7 @@ public class DockerService {
         // 도커 컨테이너 종료
         System.out.println("stopped");
         dockerClient.stopContainerCmd(containerId).exec();
-        dockerClient.removeContainerCmd(containerId).exec();
+        dockerClient.removeContainerCmd(containerId).withForce(true).exec();
     }
     public void restartContainer(String containerName) {
         List<Container> containers = dockerClient.listContainersCmd().withShowAll(true).exec();
