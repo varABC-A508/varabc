@@ -47,4 +47,8 @@ public class ReviewTag {
         this.reviewTagCommunication = reviewTagCommunication;
         this.reviewTagCResign = reviewTagCResign;
     }
+
+    public void updateReviewTagResign(boolean b) {
+        this.reviewTagCResign = b;
+    }
 }

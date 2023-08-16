@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector} from 'react-redux';
 import { setNickname } from "../../redux/Reducer/userReducers";
+import SmButton from "../common/Button/SmButton";
 
 const NicknameModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -66,20 +67,10 @@ const NicknameModal = ({ isOpen, onClose }) => {
               type="text"
               value={newNickname}
               onChange={(e) => setNewNickname(e.target.value)}
-            />
-            <button
-              className="mt-4 px-4 py-2 bg-green text-black rounded z-60"
-              onClick={checkNickname}
-            >
-              중복 검사
-            </button>
+            /> 
+            <SmButton onClick={checkNickname} text={"중복 검사"} bgColor={"green"} />
             {nicknameCheck ? <p>사용 가능</p> : <p>사용 불가</p>}
-            <button
-              className="mt-4 px-4 py-2 bg-blue-500 text-black rounded z-60"
-              onClick={handleSave}
-            >
-              확인
-            </button>
+            <SmButton onClick={handleSave} text={"확인"} bgColor={"green"} />
           </div>
         </div>
       ) : null}

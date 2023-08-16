@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Review from "../../Review/Review";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 // import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -11,25 +11,30 @@ export const TeamReview = () => {
   const { roomToken } = useParams();
   // const { state } = useLocation();
   // const { gameResult } = state;
-  const userRoomIndex = sessionStorage.getItem(JSON.parse('userRoomIndex'));
+  const userRoomIndex = parseInt(sessionStorage.getItem('userRoomIndex'));
   const [teamMate, setTeamMate] = useState({});
   let teamMateIndex;
-  switch(userRoomIndex) {
-    case 1: teamMateIndex = 2;
-    break;
-    case 2: teamMateIndex = 1;
-    break;
-    case 3: teamMateIndex = 4;
-    break;
-    case 4: teamMateIndex = 3;
-    break;
-    default: break;
-  }
 
-  socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
+  useEffect(() => {
+    switch(userRoomIndex) {
+      case 1: teamMateIndex = 2;
+      break;
+      case 2: teamMateIndex = 1;
+      break;
+      case 3: teamMateIndex = 4;
+      break;
+      case 4: teamMateIndex = 3;
+      break;
+      default: break;
+    }
+    console.log("나의 페어 index: " + teamMateIndex);
+    socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
+  }, [])
   
   socket.on('sendTeamMateInfo', ({ teamMateInfo }) => {
     setTeamMate(teamMateInfo);
+    console.log("팀원의 정보");
+    console.log(teamMateInfo);
   });
 
   return (
@@ -43,16 +48,15 @@ export const TeamReview = () => {
           <div className="absolute flex items-center flex-col w-[760px] h-[500px] mt-[280px] mr-[300px]">
             <Review />
             <br />
-            <textarea className="rounded-[30px]" cols={100} rows={10}></textarea>
+            <textarea className="rounded-[30px] text-black p-[20px]" cols={100} rows={10}></textarea>
           </div>
           <div className="absolute flex flex-col mt-[80px] ml-[700px]">
             <div className="absolute flex flex-col">
               <div>
-                <img src={teamMate.member.memberImage} alt="playerProfile" className="w-[300px] h-[300px] rounded-[16px] border-2" />
+                <img src={ teamMate && teamMate.member ? teamMate.member.memberImage : "" } alt="playerProfile" className="w-[300px] h-[300px] rounded-[16px] border-2" />
               </div>
               <div className="ml-[50px] mb-[50px]">
-                <div className="text-white font-bold text-[40px]">{teamMate.member.memberNickname}</div>
-                <div className="text-white font-bold text-[24px]">#{teamMate.member.memberNo}</div>
+                <div className="text-white font-bold text-[36px]">{teamMate && teamMate.member ? teamMate.member.memberNickname : ""}</div>
               </div>
               <MoveRoundButton to={"/"} text={"회의 하기"} bgColor={"basic"} btnSize={"basic"} />
               <br />

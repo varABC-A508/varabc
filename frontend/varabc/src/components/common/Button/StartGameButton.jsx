@@ -12,8 +12,10 @@ const StartGameButton = ({roomToken, members }) => {
     console.log('express log:', message);
   });
 
-  socket.on('getTeamUrl', ({ url }) => {
+  socket.on('getTeamUrl', ({ url, teamNo, teamMateNo }) => {
     console.log("게임이 시작되려고 합니다!");
+    sessionStorage.setItem('teamNo', teamNo);
+    sessionStorage.setItem('teamMateNo', teamMateNo);
     navigate(url);
   });
 

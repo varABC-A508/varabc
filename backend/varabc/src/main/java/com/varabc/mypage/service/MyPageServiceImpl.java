@@ -12,12 +12,14 @@ import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.mypage.domain.dto.ReviewBattleDetailDto;
 import com.varabc.mypage.domain.dto.SubmitCodeDto;
 import com.varabc.mypage.mapper.MyPageMapper;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.repository.ProblemRepository;
 import com.varabc.validation.domain.entity.Submit;
 import com.varabc.validation.repository.SubmitRepository;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +56,7 @@ public class MyPageServiceImpl implements MyPageService {
         List<BattleListDetailDto> battleListDetailDtoList = new ArrayList<>();
         List<CompetitionResult> competitionResultList = competitionResultRepository.findByCompetitionResultT1M1NoOrCompetitionResultT1M2NoOrCompetitionResultT2M1NoOrCompetitionResultT2M2No(
                 memberNo, memberNo, memberNo, memberNo);
+
         for (CompetitionResult competitionResult : competitionResultList) {
             Member member1 = memberRepository.findByMemberNo(
                     competitionResult.getCompetitionResultT1M1No());
@@ -65,8 +68,9 @@ public class MyPageServiceImpl implements MyPageService {
                     competitionResult.getCompetitionResultT2M2No());
             List<Problem> problemlist = problemRepository.findProblemsByCompetitionResultNo(
                     competitionResult.getCompetitionResultNo());
+
             if(problemlist.isEmpty())
-                return battleListDetailDtoList;
+               continue;
             Problem problem = problemlist.get(0);
             int team = 2;
             if (memberNo == member1.getMemberNo() || memberNo == member2.getMemberNo()) {
@@ -152,10 +156,49 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public SubmitCodeDto getSubmit(Long submitNo, Long memberNo) {
-        Member member = memberRepository.findByMemberNo(memberNo);
+    public SubmitCodeDto getSubmit(Long submitNo) {
         Submit submit = submitRepository.findBySubmitNo(submitNo);
+        Member member = memberRepository.findByMemberNo(submit.getMemberNo());
         Problem problem = problemRepository.findByProblemNo(submit.getProblemNo());
         return myPageMapper.EntityToDto(submit, member, problem);
+    }
+
+    @Override
+    public ReviewBattleDetailDto getReviewBattleDetail(Long competitionResultNo, Long memberNo) {
+        CompetitionResult competitionResult= competitionResultRepository.findByCompetitionResultNo(competitionResultNo);
+        List<Problem> problemList = problemRepository.findProblemsByCompetitionResultNo(competitionResultNo);
+        if(problemList.size()==0){
+            return null;
+        }
+        Problem problem = problemList.get(0);
+        Member member1 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT1M1No());
+        Member member2 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT1M2No());
+        Member member3 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT2M1No());
+        Member member4 = memberRepository.findByMemberNo(
+                competitionResult.getCompetitionResultT2M2No());
+        int team = 2;
+        if (memberNo == member1.getMemberNo() || memberNo == member2.getMemberNo()) {
+            team = 1;
+        }
+        boolean isWinner = false;
+        if (team == competitionResult.getCompetitionResultRecord()) {
+            isWinner = true;
+        }
+        ReviewBattleDetailDto reviewBattleDetailDto = myPageMapper.EntityToReviewBattleDetailDto(competitionResult,
+                problem, member1, member2, member3, member4, isWinner);
+        return reviewBattleDetailDto;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteReview(long reviewNo) {
+        Review review = reviewRepository.findByReviewNo(reviewNo);
+        review.updateReviewResign(true);
+        ReviewTag reviewTag = reviewTagRepository.findByReviewNo(reviewNo);
+        reviewTag.updateReviewTagResign(true);
+        return true;
     }
 }

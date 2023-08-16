@@ -4,6 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.core.DockerClientBuilder;
 import java.io.IOException;
 import java.util.List;
 import java.net.ServerSocket;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DockerService {
-    private final DockerClient dockerClient;
+    private DockerClient dockerClient= DockerClientBuilder.getInstance("tcp://0.0.0.0:2376").build();
 
     private int findAvailablePort(int startPort, int endPort) throws IOException {
         for (int port = startPort; port <= endPort; port++) {
@@ -29,16 +30,20 @@ public class DockerService {
         throw new IOException("No available port found in range " + startPort + "-" + endPort);
     }
     public String startPythonEvaluationContainer() {
+        System.out.println("start making python container");
         CreateContainerResponse container = dockerClient.createContainerCmd("pythonvalidation")
                 .withCmd("isolatedPythonValidationRequestContainer", "-m", "http.server", "5005")  // 이 부분은 python으로 HTTP 서버를 시작하는 예제입니다. 실제 명령어는 원하는대로 수정해야 합니다.
                 .withExposedPorts(new ExposedPort(5005))
                 .exec();
         // 도커 컨테이너 시작
+        System.out.println("creation success");
+        System.out.println(container.getId());
         dockerClient.startContainerCmd(container.getId()).exec();
         return container.getId();
     }
     public void stopPythonEvaluationContainer(String containerId) {
         // 도커 컨테이너 종료
+        System.out.println("stopped");
         dockerClient.stopContainerCmd(containerId).exec();
         dockerClient.removeContainerCmd(containerId).exec();
     }
@@ -51,6 +56,15 @@ public class DockerService {
                     return;
                 }
             }
+        }
+    }
+
+    public String pingDocker() {
+        try {
+            dockerClient.pingCmd().exec();
+            return "Successfully connected to Docker!";
+        } catch (Exception e) {
+            return "Failed to connect to Docker: " + e.getMessage();
         }
     }
 }

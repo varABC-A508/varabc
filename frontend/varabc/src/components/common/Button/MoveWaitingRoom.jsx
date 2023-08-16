@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import socket from '../../../modules/socketInstance';
+import swal from 'sweetalert';
 
 const MoveWaitingRoomButton = () => {
 
@@ -16,11 +17,9 @@ const MoveWaitingRoomButton = () => {
     axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
       "access-token": userToken
     }}).then((res) => {
-      console.log("사용자 정보 가져오기:");
-      console.log(res.data);
       fetchRoomId(res.data.userInfo.memberNo);
     }).catch((err) => {
-      alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!");
+      swal ( "이런" ,  "로그인부터 해주세요!>1",  "error" )
       navigate("/");
     });
   };
@@ -35,7 +34,7 @@ const MoveWaitingRoomButton = () => {
       sessionStorage.setItem('userRoomIndex', JSON.stringify(1));
       navigate(res.data);
     }).catch((err) => {
-      alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!");
+      swal ( "이런" ,  "로그인부터 해주세요!>2",  "error" )
       navigate("/");
     });
   };

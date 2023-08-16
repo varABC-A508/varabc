@@ -70,6 +70,14 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
+    public boolean deleteMember(long memberNo) {
+        Member member = memberRepository.findByMemberNo(memberNo);
+        member.updateMemberResign(true);
+        return true;
+    }
+
+    @Override
+    @Transactional
     public void saveRefreshToken(long memberNo, String refreshToken) {
         Member member = memberRepository.findByMemberNo(memberNo);
         member.updateMemberToken(refreshToken);

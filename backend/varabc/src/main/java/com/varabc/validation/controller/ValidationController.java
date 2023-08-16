@@ -1,5 +1,7 @@
 package com.varabc.validation.controller;
 
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.core.DockerClientBuilder;
 import com.varabc.validation.Service.DockerService;
 import com.varabc.validation.Service.ValidationService;
 import com.varabc.validation.domain.dto.*;
@@ -9,6 +11,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,12 @@ public class ValidationController {
     private final ValidationService validationService;
     private final ValidationMapper validationMapper;
     private final DockerService dockerService;
+
+    @GetMapping("/ping")
+    public void pingDocker() {
+        System.out.println(dockerService.pingDocker());
+        return;
+    }
     @PostMapping("compilePython")
     public ResponseEntity<CompileResultDto> compilePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
         TestCaseDto testCaseDto= validationService.getPublicTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
@@ -46,7 +55,7 @@ public class ValidationController {
         return new ResponseEntity<CompileResultDto>(compileResultDto, status);
     }
     //파이썬 서버로 요청 보내기
-    @PostMapping("sendvalidatepy")
+    @PostMapping("sendvalidatePython")
     public ResponseEntity<ValidationResultDto> validatePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
         //DB에서 엔티티를 꺼내와서  ValidationResult ValidateDto의 값을 온전하게 세팅하여 전달함,
         //레포지토리에서 테스트케이스들을 가져오는 로직 수행
@@ -132,7 +141,7 @@ public class ValidationController {
     }
 
     //자바 서버로 요청 보내기
-    @PostMapping("sendvalidatejava")
+    @PostMapping("sendvalidateJava")
     public ResponseEntity<ValidationResultDto> validateJava(@RequestBody ValidateDataDto validateDataDto) throws Exception{
 
         // 자바 채점 서버로 요청 보내기
