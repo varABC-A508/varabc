@@ -47,7 +47,6 @@ const Ide = ( { problemNo }) => {
   const { roomToken, teamToken } = useParams();
 
   const userToken = localStorage.getItem('access-token');
-  const teamNo = JSON.parse(sessionStorage.getItem('teamNo'));
 
   const navigate = useNavigate();
 
@@ -108,7 +107,7 @@ const Ide = ( { problemNo }) => {
     }).then((res) => {
       setResult(res.data);
       alert("코드 전송 성공");
-    }).catch(function (err){
+    }).catch((err) => {
       alert("코드 전송 실패\n" + err);
     });
   };
@@ -138,7 +137,7 @@ const Ide = ( { problemNo }) => {
       "problemNo": problemNo,
       "member1": memberNo,
       "member2": memberNo,
-      "team": teamNo,
+      "team": parseInt(sessionStorage.getItem('teamNo')),
       "code": code,
       "language": mode.toLowerCase()
     }).then((res) => {

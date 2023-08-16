@@ -14,7 +14,7 @@ const StartGameButton = ({roomToken, members }) => {
 
   socket.on('getTeamUrl', ({ url, teamNo }) => {
     console.log("게임이 시작되려고 합니다!");
-    sessionStorage.setItem('teamNo', JSON.stringify(teamNo));
+    sessionStorage.setItem('teamNo', teamNo);
     navigate(url);
   });
 
