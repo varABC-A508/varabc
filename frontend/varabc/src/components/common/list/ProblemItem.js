@@ -18,12 +18,12 @@ const ProblemItem = ({problem, index, last, mode}) => {
     });
   };
   return (
-    <tr className="bg-primary text-white" onClick={onProblemClick}>
+    <tr className="bg-primary text-white text-[20px]" onClick={onProblemClick}>
       <td className={`${index === last ? 'rounded-bl-[10px]' : ''}`}>
         {problem.problemNo}
       </td>
       <td>{problem.problemLevel}</td>
-      <td>{problem.problemTitle}</td>
+      <td className="text-[24px] ">{problem.problemTitle}</td>
       <td>{problem.problemSubmitCount}</td>
       <td className={`${index === last ? 'rounded-br-[10px]' : ''}`}>
         {problem.problemCorrectCount}

@@ -32,17 +32,17 @@ const ProblemList = ({mode="user"}) => {
     return (
       <div className={`w-full ${mode==="user"? "bg-bg2 bg-cover":""} flex items-center justify-center m-0`}>
         <div className="flex flex-col items-center">
-          <table className="w-[1000px] h-[600px] table-auto divide-y divide-white mt-[20px]">
+          <table className="w-[1000px] h-[600px] divide-y divide-white mt-[20px]">
             <thead className="bg-primary text-white h-[50px]">
               <tr>
-                <th className="rounded-tl-[10px] w-[150px]">번호</th>
-                <th className="w-[150px]">난이도</th>
-                <th className="w-[450px]"> 제목</th>
-                <th className="w-[150px]"> 제출</th>
-                <th className="w-[150px] rounded-tr-[10px]">성공</th>
+                <th className="rounded-tl-[10px] w-[50px]">번호</th>
+                <th className="w-[100px]">난이도</th>
+                <th className="w-[600px] "> 제목</th>
+                <th className="w-[100px]"> 제출</th>
+                <th className="w-[100px] rounded-tr-[10px]">성공</th>
               </tr>
             </thead>
-            <tbody className="text-center divide-y divide-white">
+            <tbody className="text-center h-[10px] divide-y divide-white p-[5px]">
               {currentProblems.map((problem, index) => {
                 return (
                   <ProblemItem
