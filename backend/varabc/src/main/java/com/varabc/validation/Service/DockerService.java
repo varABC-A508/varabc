@@ -47,7 +47,7 @@ public class DockerService {
         CreateContainerResponse container = dockerClient.createContainerCmd("bincan98/pythonvalidation:0.1.0")
                 .withName("isolatedPythonValidationRequestContainer")
                 .withExposedPorts(new ExposedPort(5005))
-                .withCmd("python","-m", "http.server", "5005")  // Python으로 HTTP 서버 시작
+                .withCmd("python","app.py")  // Python으로 HTTP 서버 시작
                 .exec();
         // 도커 컨테이너 시작
         System.out.println("creation success");
