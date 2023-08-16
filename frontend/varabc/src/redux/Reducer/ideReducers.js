@@ -6,7 +6,7 @@ const initialState = {
   theme: 'monokai',
   isIdeShown: false,
   isPractice: false,
-  isPlayerTurn: JSON.parse(sessionStorage.getItem('isPlayerTurn')) || null;
+  isPlayerTurn: JSON.parse(sessionStorage.getItem('isPlayerTurn')) || null
 };
 
 const ideSlice = createSlice({
