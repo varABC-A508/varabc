@@ -1,5 +1,11 @@
 import * as DOMPurify from "dompurify";
 import algorithmTypes from "./problemForm/algorithmTypes";
+import copper from '../img/tier/copper.png'
+import iron from '../img/tier/iron.png'
+import bronze from '../img/tier/bronze.png'
+import silver from '../img/tier/silver.png'
+import gold from '../img/tier/gold.png'
+import diamond from '../img/tier/diamond.png'
 
 export const editImagesInPost = (
   mainContent,
@@ -61,3 +67,19 @@ export const algorithmTypeIntToString = (algorithmType) => {
 
   return algorithmString
 }
+
+export const calculateTier = (memberExp) => {
+  if (0 <= memberExp && memberExp < 20) {
+    return copper;
+  } else if (20 <= memberExp && memberExp < 50) {
+    return iron;
+  } else if (50 <= memberExp && memberExp < 200) {
+    return bronze;
+  } else if (200 <= memberExp && memberExp < 500) {
+    return silver;
+  } else if (500 <= memberExp && memberExp < 1500) {
+    return gold;
+  } else {
+    return diamond;
+  }
+};

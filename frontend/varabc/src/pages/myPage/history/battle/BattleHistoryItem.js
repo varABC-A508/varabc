@@ -34,15 +34,16 @@ const BattleHistoryItem = ({ battle, handleClick }) => {
   }
 
 
+
   return (
     <div className="p-[20px] w-full h-[125px] flex items-center justify-between text-white border-b-[2px] border-black cursor-pointer" onClick={handleClick}>
       <BattleTeam team={teams.team1} />
       <div className="flex flex-col items-center justify-between w-[500px]">
         <div className="text-[16px] font-bold">
-          <span>{battle.problemSource} / </span>
-          <span>{battle.problemLevel}</span>
+          <span>{battle.problemSource || '-'} / </span>
+          <span>{battle.problemLevel || '-'}</span>
         </div>
-        <div className="text-[24px] font-bold">{`${battle.problemNo}. ${battle.problemTitle}`}</div>
+        <div className="text-[24px] font-bold">{`${battle.problemNo || '0'}. ${battle.problemTitle || '-'}`}</div>
         <button
           className={`mt-[5px] w-[100px] h-[28px] text-[16px] font-bold ${
             gameResult[(battle.isWinner ? 1: 0)]

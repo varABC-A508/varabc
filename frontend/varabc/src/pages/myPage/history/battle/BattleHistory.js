@@ -29,27 +29,27 @@ const BattleHistory = () => {
   useEffect(() => {
 
     async function getBattleHistory() {
-      const userToken = localStorage.getItem("access-token");
-      if (!userToken) {
-        alert("회원가입부터 해주세요!");
-        navigate("/");
-        return;
-      }
+      // const userToken = localStorage.getItem("access-token");
+      // if (!userToken) {
+      //   alert("회원가입부터 해주세요!");
+      //   navigate("/");
+      //   return;
+      // }
       try {
-        const userResponse = await axios.get(
-          `https://varabc.com:8080/member/getUserInfo`,
-          {
-            headers: {
-              "access-token": userToken,
-            },
-          }
-        );
+        // const userResponse = await axios.get(
+        //   `https://varabc.com:8080/member/getUserInfo`,
+        //   {
+        //     headers: {
+        //       "access-token": userToken,
+        //     },
+        //   }
+        // );
 
-        const memberNo = userResponse.data.userInfo.memberNo;
+        // const memberNo = userResponse.data.userInfo.memberNo;
 
         const response = await axios.get(
-          `https://varabc.com:8080/mypage/battle/${memberNo}`
-          // `https://varabc.com:8080/mypage/battle/32`
+          // `https://varabc.com:8080/mypage/battle/${memberNo}`
+          `https://varabc.com:8080/mypage/battle/32`
         );
         console.log(response);
         
