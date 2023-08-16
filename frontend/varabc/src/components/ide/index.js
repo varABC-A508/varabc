@@ -47,6 +47,7 @@ const Ide = ( { problemNo }) => {
   const { roomToken, teamToken } = useParams();
 
   const userToken = localStorage.getItem('access-token');
+  const teamMateNo = sessionStorage.getItem('teamMateNo');
 
   const navigate = useNavigate();
 
@@ -136,13 +137,13 @@ const Ide = ( { problemNo }) => {
     axios.post(`https://varabc.com:8080/battle/submit/${roomToken}/${memberNo}`, {
       "battleCode": roomToken,
       "problemNo": problemNo,
-      "member1": memberNo,
-      "member2": memberNo,
+      "member1": parseInt(memberNo),
+      // TODO: 파트너 멤버 주기
+      "member2": parseInt(teamMateNo),
       "team": parseInt(sessionStorage.getItem('teamNo')),
       "code": code,
       "language": mode
     }).then((res) => {
-      setResult(res.data);
       console.log(res.data);
       setResult(res.data);
       if(parseInt(result.result) === 1) {
