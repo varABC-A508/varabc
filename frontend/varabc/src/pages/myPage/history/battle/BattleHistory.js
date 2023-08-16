@@ -6,7 +6,7 @@ import axios from "axios";
 
 const BattleHistory = () => {
   const navigate = useNavigate();
-  const [ noData, setNoData ] = useState(true);
+  const [noData, setNoData] = useState(true);
   const [battleHistory, setBattleHistory] = useState([
     {
       nicknameT1M1: "user1",
@@ -27,7 +27,6 @@ const BattleHistory = () => {
   ]);
 
   useEffect(() => {
-
     async function getBattleHistory() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
@@ -50,21 +49,20 @@ const BattleHistory = () => {
 
         const response = await axios.get(
           `https://varabc.com:8080/mypage/battle/${memberNo}`
-          // `https://varabc.com:8080/mypage/battle/32`
+          //`https://varabc.com:8080/mypage/battle/36`
         );
         console.log(response);
-        
+
         if (response.status === 200) {
           setBattleHistory(response.data);
           setNoData(false);
         }
-
       } catch (e) {
         console.error(e);
       }
     }
-  getBattleHistory();
-   // eslint-disable-next-line
+    getBattleHistory();
+    // eslint-disable-next-line
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,7 +87,7 @@ const BattleHistory = () => {
       <div className="flex justify-center text-white text-lg">
         아직 진행한 배틀이 없습니다!
       </div>
-    )
+    );
   }
 
   return (

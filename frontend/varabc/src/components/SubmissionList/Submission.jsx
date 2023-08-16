@@ -25,25 +25,25 @@ const Submission = ({
     >
       <td className={`${tableMode.width[0]} ${cellText}`}>
         {tableMode.columns[0] === "문제"
-          ? result.problemTitle
-          : result.nickname}
+          ? (result.problemTitle || '제목')
+          : (result.nickname || '닉네임')}
       </td>
       <td className={`${tableMode.width[1]} ${cellText} ${resultColor}`}>
         {typeof result.submitStatus === "number"
           ? submitStatusMap[result.submitStatus]
-          : result.submitStatus}
+          : (result.submitStatus || '틀렸습니다')}
       </td>
       <td className={`${tableMode.width[2]} ${cellText}`}>
-        {(result.submitUsedMemory / 1000000).toFixed(2)}MB
+        {((result.submitUsedMemory || 0) / 1000000).toFixed(2)}MB
       </td>
       <td className={`${tableMode.width[3]} ${cellText}`}>
-        {result.submitUsedTime.toFixed(2)}s
+        {(result.submitUsedTime || 0).toFixed(2)}s
       </td>
       <td className={`${tableMode.width[4]} ${cellText}`}>
-        {result.submitLanguage}
+        {(result.submitLanguage || '-')}
       </td>
       <td className={`${tableMode.width[5]} ${cellText}`}>
-        {result.submitTime.substring(0, 16)}
+        {(result.submitTime || '0000-00-00 00:00').substring(0, 16)}
       </td>
     </tr>
   );

@@ -60,8 +60,8 @@ const ProblemPost = () => {
 
   const handleDeleteClick = async (e) => {
     try {
-      const response = await axios.delete(
-        `https://varabc.com:8080/problem/${postId}`
+      const response = await axios.patch(
+        `https://varabc.com:8080/problem/${postId}/delete`
       );
       console.log(response.data);
       navigate(`/`);

@@ -1,14 +1,14 @@
-import badge from "../../../../img/tier/diamond.png";
+import { calculateTier } from "../../../../utils/problemUtil";
 
-const tierList = {
-  "diamond": badge,
-};
-
-const BattleTeamUser = ({user}) => {
+const BattleTeamUser = ({ user }) => {
   return (
     <div className="flex items-center font-bold text-[24px]">
-      <img src={tierList[user.userTier]} alt={user.userName + "프로필"} className="w-[45px] h-[45px]" />
-      <div>{user.userName}</div>
+      <img
+        src={calculateTier((user?.userTier || 0))[0]}
+        alt={`${user?.userName} 프로필`}
+        className="w-[45px] h-[45px]"
+      />
+      <div>{user.userName || "유저"}</div>
     </div>
   );
 };

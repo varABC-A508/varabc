@@ -27,7 +27,7 @@ const CodeDetailIDE = ({ language, code }) => {
         showPrintMargin={false}
         highlightActiveLine={false}
         highlightSelectedWord={false}
-        style={{ width: "100%", minHeight: "800px" }}
+        style={{ width: "100%", minHeight: "600px" }}
         setOptions={{
           readOnly: true,
           highlightSelectedWord: false,
