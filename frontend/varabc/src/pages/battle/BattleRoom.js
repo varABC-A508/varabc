@@ -49,6 +49,10 @@ export const BattleRoom = () => {
     // eslint-disable-next-line
   }, []);
 
+  socket.on('getUserRoomIndex', ({ userRoomIndex }) => {
+    sessionStorage.setItem('userRoomIndex', userRoomIndex);
+  });
+
   // 현재 방에 있는 참가자들 업데이트
   socket.on('updateWaitingRoom', ({ currMembers }) => {
     console.log("참가자 정보가 갱신되었습니다!");

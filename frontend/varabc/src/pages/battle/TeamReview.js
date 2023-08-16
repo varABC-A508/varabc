@@ -1,26 +1,37 @@
-import React from "react";
-import profile1 from '../../img/test/profile1.png';
-import profile2 from '../../img/test/profile2.png';
+import React, { useState } from "react";
 import Review from "../../Review/Review";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
-
-const team = {
-  teamNo: 1,
-  player1: {
-    nickname: "DP조아",
-    id: "alias1031",
-    url: profile2,
-    isEmpty: false,
-  },
-  player2: {
-    nickname: "잠자는커비",
-    id: "sleepingkurby",
-    url: profile1,
-    isEmpty: false,
-  }
-};
+// import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import socket from "../../modules/socketInstance";
 
 export const TeamReview = () => {
+
+  // const navigate = useNavigate();
+  const { roomToken } = useParams();
+  // const { state } = useLocation();
+  // const { gameResult } = state;
+  const userRoomIndex = sessionStorage.getItem(JSON.parse('userRoomIndex'));
+  const [teamMate, setTeamMate] = useState({});
+  let teamMateIndex;
+  switch(userRoomIndex) {
+    case 1: teamMateIndex = 2;
+    break;
+    case 2: teamMateIndex = 1;
+    break;
+    case 3: teamMateIndex = 4;
+    break;
+    case 4: teamMateIndex = 3;
+    break;
+    default: break;
+  }
+
+  socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
+  
+  socket.on('sendTeamMateInfo', ({ teamMateInfo }) => {
+    setTeamMate(teamMateInfo);
+  });
+
   return (
     <div className="flex justify-center relative">
       <div className="flex justify-center">
@@ -37,11 +48,11 @@ export const TeamReview = () => {
           <div className="absolute flex flex-col mt-[80px] ml-[700px]">
             <div className="absolute flex flex-col">
               <div>
-                <img src={team.player2.url} alt="playerProfile" className="w-[300px] h-[300px] rounded-[16px] border-2" />
+                <img src={teamMate.member.memberImage} alt="playerProfile" className="w-[300px] h-[300px] rounded-[16px] border-2" />
               </div>
               <div className="ml-[50px] mb-[50px]">
-                <div className="text-white font-bold text-[40px]">{team.player2.nickname}</div>
-                <div className="text-white font-bold text-[24px]">#{team.player2.id}</div>
+                <div className="text-white font-bold text-[40px]">{teamMate.member.memberNickname}</div>
+                <div className="text-white font-bold text-[24px]">#{teamMate.member.memberNo}</div>
               </div>
               <MoveRoundButton to={"/"} text={"회의 하기"} bgColor={"basic"} btnSize={"basic"} />
               <br />
