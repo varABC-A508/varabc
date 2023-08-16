@@ -31,7 +31,7 @@ public class DockerService {
     }
     public String startPythonEvaluationContainer() {
         System.out.println("start making python container");
-        CreateContainerResponse container = dockerClient.createContainerCmd("pythonvalidation")
+        CreateContainerResponse container = dockerClient.createContainerCmd("bincan98/pythonvalidation:0.1.0")
                 .withCmd("isolatedPythonValidationRequestContainer", "-m", "http.server", "5005")  // 이 부분은 python으로 HTTP 서버를 시작하는 예제입니다. 실제 명령어는 원하는대로 수정해야 합니다.
                 .withExposedPorts(new ExposedPort(5005))
                 .exec();
