@@ -19,7 +19,7 @@ public interface MyPageService {
 
     List<MyPageSubmitDto> getSubmitList(Long memberNo, Long problemNo);
 
-    SubmitCodeDto getSubmit(Long submitNo, Long memberNo);
+    SubmitCodeDto getSubmit(Long submitNo);
 
     ReviewBattleDetailDto getReviewBattleDetail(Long competitionResultNo, Long memberNo);
 

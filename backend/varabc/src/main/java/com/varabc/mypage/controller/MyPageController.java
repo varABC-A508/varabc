@@ -54,10 +54,9 @@ public class MyPageController {
         return new ResponseEntity<>(myPageSubmitList, status);
     }
 
-    @GetMapping("/submit/code/{memberNo}/{submitNo}")
-    public ResponseEntity<?> getSubmitCode(@PathVariable Long submitNo,
-            @PathVariable Long memberNo) {
-        SubmitCodeDto submitCodeDto = myPageService.getSubmit(submitNo, memberNo);
+    @GetMapping("/submit/code/{submitNo}")
+    public ResponseEntity<?> getSubmitCode(@PathVariable Long submitNo) {
+        SubmitCodeDto submitCodeDto = myPageService.getSubmit(submitNo);
         if (submitCodeDto == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
