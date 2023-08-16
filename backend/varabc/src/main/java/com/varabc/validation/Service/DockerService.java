@@ -4,6 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.core.DockerClientBuilder;
 import java.io.IOException;
 import java.util.Arrays;
@@ -47,6 +48,7 @@ public class DockerService {
         CreateContainerResponse container = dockerClient.createContainerCmd("bincan98/pythonvalidation:0.1.0")
                 .withName("isolatedPythonValidationRequestContainer")
                 .withExposedPorts(new ExposedPort(5005))
+                .withPortBindings(PortBinding.parse("5006:5000"))
                 .withCmd("python","app.py")  // Python으로 HTTP 서버 시작
                 .exec();
         // 도커 컨테이너 시작
