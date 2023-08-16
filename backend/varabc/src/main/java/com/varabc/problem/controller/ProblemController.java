@@ -91,7 +91,7 @@ public class ProblemController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> createProblem(@RequestBody GetProblemDto getProblemDto) {
+    public ResponseEntity<?> createProblem(@ModelAttribute GetProblemDto getProblemDto) {
         System.out.println(getProblemDto.toString());
         try {
             problemService.createProblem(getProblemDto);
