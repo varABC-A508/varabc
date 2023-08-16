@@ -16,6 +16,7 @@ const IdeNav = () => {
             <FontAwesomeIcon className='ml-4 text-white' icon={faBookOpen} />
             <FontAwesomeIcon className='ml-4 text-white' icon={faMicrophone} />
           </div>
+          <div>{JSON.parse(sessionStorage.getItem('isPlayerTurn')) ? "나의 턴" : "페어의 턴"}</div>
           <div className='w-70% bg-primary text-white p-1 flex flex-wrap justify-between'>
             {isPractice ? null : <Timer />}
             <IdeMode />
