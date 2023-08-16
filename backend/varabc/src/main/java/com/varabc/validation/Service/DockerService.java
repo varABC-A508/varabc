@@ -2,8 +2,8 @@ package com.varabc.validation.Service;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.core.DockerClientBuilder;
 import java.io.IOException;
@@ -81,5 +81,11 @@ public class DockerService {
         } catch (Exception e) {
             return "Failed to connect to Docker: " + e.getMessage();
         }
+    }
+
+    public String containerIpAddress(String containerId) {
+        InspectContainerResponse containerInfo = dockerClient.inspectContainerCmd(containerId).exec();
+        String containerIpAddress = containerInfo.getNetworkSettings().getIpAddress();
+        return containerIpAddress;
     }
 }
