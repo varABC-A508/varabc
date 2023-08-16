@@ -6,6 +6,7 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.core.DockerClientBuilder;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.net.ServerSocket;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,18 @@ public class DockerService {
     }
     public String startPythonEvaluationContainer() {
         System.out.println("start making python container");
+        // 기존에 동일한 이름의 컨테이너가 존재하는지 확인
+        List<Container> existingContainers = dockerClient.listContainersCmd()
+                .withShowAll(true)
+                .withNameFilter(Arrays.asList("isolatedPythonValidationRequestContainer"))
+                .exec();
+
+        for (Container container : existingContainers) {
+            // 동일한 이름의 컨테이너가 존재하면 제거
+            dockerClient.removeContainerCmd(container.getId())
+                    .withForce(true)  // 강제로 컨테이너를 종료하고 제거
+                    .exec();
+        }
         CreateContainerResponse container = dockerClient.createContainerCmd("bincan98/pythonvalidation:0.1.0")
                 .withName("isolatedPythonValidationRequestContainer")
                 .withExposedPorts(new ExposedPort(5005))
