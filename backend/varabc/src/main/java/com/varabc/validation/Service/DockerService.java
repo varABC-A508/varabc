@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DockerService {
-    private DockerClient dockerClient= DockerClientBuilder.getInstance("tcp://127.0.0.1:2375").build();
+    private DockerClient dockerClient= DockerClientBuilder.getInstance("tcp://0.0.0.0:2375").build();
 
     private int findAvailablePort(int startPort, int endPort) throws IOException {
         for (int port = startPort; port <= endPort; port++) {
