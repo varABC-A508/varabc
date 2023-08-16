@@ -36,7 +36,7 @@ const Timer = () => {
 
   return (
 	  <div>
-	    <h1 className='mt-1 mr-4'>{formatTime(seconds)}</h1>
+	    <h1 className='mt-1 mr-4 text-[24px]'>{formatTime(seconds)}</h1>
 	  </div>
   );
 };
