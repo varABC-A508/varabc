@@ -1,6 +1,7 @@
 package com.varabc.validation.controller;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.core.DockerClientBuilder;
 import com.varabc.validation.Service.DockerService;
 import com.varabc.validation.Service.ValidationService;
 import com.varabc.validation.domain.dto.*;
@@ -25,17 +26,12 @@ public class ValidationController {
     private final ValidationService validationService;
     private final ValidationMapper validationMapper;
     private final DockerService dockerService;
-    private final DockerClient dockerClient;
-    @GetMapping("/ping")
-    public String pingDocker() {
-        try {
-            dockerClient.pingCmd().exec();
-            return "Successfully connected to Docker!";
-        } catch (Exception e) {
-            return "Failed to connect to Docker: " + e.getMessage();
-        }
-    }
 
+    @GetMapping("/ping")
+    public void pingDocker() {
+        System.out.println(dockerService.pingDocker());
+        return;
+    }
     @PostMapping("compilePython")
     public ResponseEntity<CompileResultDto> compilePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
         TestCaseDto testCaseDto= validationService.getPublicTestCaseDtoByProblemNo(validateDataDto.getProblemNo());

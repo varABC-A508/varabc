@@ -4,6 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.core.DockerClientBuilder;
 import java.io.IOException;
 import java.util.List;
 import java.net.ServerSocket;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DockerService {
-    private final DockerClient dockerClient;
+    private DockerClient dockerClient= DockerClientBuilder.getInstance("tcp://127.0.0.1:2375").build();
 
     private int findAvailablePort(int startPort, int endPort) throws IOException {
         for (int port = startPort; port <= endPort; port++) {
@@ -55,6 +56,15 @@ public class DockerService {
                     return;
                 }
             }
+        }
+    }
+
+    public String pingDocker() {
+        try {
+            dockerClient.pingCmd().exec();
+            return "Successfully connected to Docker!";
+        } catch (Exception e) {
+            return "Failed to connect to Docker: " + e.getMessage();
         }
     }
 }
