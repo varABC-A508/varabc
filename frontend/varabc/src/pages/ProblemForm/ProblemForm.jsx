@@ -20,6 +20,7 @@ import {
 } from "../../utils/problemForm/imageUtil.jsx";
 import axios from "axios";
 import SmButton from "../../components/common/Button/SmButton";
+import swal from 'sweetalert';
 
 const ProblemForm = () => {
   const location = useLocation();
@@ -206,7 +207,7 @@ const ProblemForm = () => {
         (v) => typeof v === "string" && v.trim() === ""
       )
     ) {
-      alert("양식을 모두 채워주세요.");
+      swal ( "이런" ,  "양식을 모두 채워주세요!>25" ,  "error" );
       return;
     }
 

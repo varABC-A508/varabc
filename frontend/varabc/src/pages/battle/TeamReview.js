@@ -17,24 +17,33 @@ export const TeamReview = () => {
 
   useEffect(() => {
     switch(userRoomIndex) {
+       // eslint-disable-next-line
       case 1: teamMateIndex = 2;
       break;
+       // eslint-disable-next-line
       case 2: teamMateIndex = 1;
       break;
+       // eslint-disable-next-line
       case 3: teamMateIndex = 4;
       break;
+       // eslint-disable-next-line
       case 4: teamMateIndex = 3;
       break;
       default: break;
     }
+
+
+
     console.log("나의 페어 index: " + teamMateIndex);
     socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
+    // eslint-disable-next-line
   }, [])
   
   socket.on('sendTeamMateInfo', ({ teamMateInfo }) => {
     setTeamMate(teamMateInfo);
     console.log("팀원의 정보");
     console.log(teamMateInfo);
+    // eslint-disable-next-line
   });
 
   return (

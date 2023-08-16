@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SubmissionList from "../../../components/SubmissionList/SubmissionList";
 
 import axios from "axios";
+import swal from 'sweetalert';
 
 const PracticeHistory = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const PracticeHistory = () => {
     async function getPracticeHistory() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        alert("회원가입부터 해주세요!");
+        swal ( "이런" ,  "회원가입부터 해주세요!>24" ,  "error" );
         navigate("/");
         return;
       }
