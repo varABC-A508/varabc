@@ -3,7 +3,14 @@
 @tailwind utilities;
 
 # {
+    font-family: 'NanumSquareLight';
     font-family: 'NanumSquare';
+    font-family: 'NanumSquareBold';
+    font-family: 'NanumSquareExtraBold';
+    font-family: 'NanumSquareAcb';
+    font-family: 'NanumSquareAceb';
+    font-family: 'NanumSquareAcl';
+    font-family: 'NanumSquareAcr';
 }
 
 .App{
