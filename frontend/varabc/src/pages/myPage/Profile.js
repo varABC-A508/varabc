@@ -59,7 +59,7 @@ export const Profile = () => {
           },
         }
       );
-      const memberNo = response.userInfo.memberNo;
+      const memberNo = response.data.userInfo.memberNo;
 
       const deleteRes = await axios.patch(
         `https://varabc.com:8080/member/delete/${memberNo}`
@@ -92,7 +92,7 @@ export const Profile = () => {
         {user.memberNickname || "유저"}의 프로필
       </div>
       <div className="w-9/12 flex items-center justify-between pr-[20px]">
-        <ProfileImage size="x-large" imgLink={user.memberImage || profilepic} />
+        <ProfileImage size="x-large" imgLink={user.memberImage || profilepic} clickable={false} />
         <div className="bg-primary w-[620px] h-[360px] rounded-[15px] ms-4 p-[30px]">
           <div className="text-point">
             <div className="flex items-center">
