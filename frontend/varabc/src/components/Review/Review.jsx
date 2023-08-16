@@ -1,7 +1,6 @@
 // 리뷰 페이지 (임시)
 import {useDispatch, useSelector} from 'react-redux';
 import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Actions/reviewActions';
-import { useState } from "react";
 import ReviewTag from "./ReviewTag.jsx";
 
 export default function Review() {
@@ -13,6 +12,10 @@ export default function Review() {
     { index: 3, content: "소통을 잘해요" },
   ];
   const dispatch = useDispatch();
+  const readability = useSelector((state) => state.review.readability);
+  const naming = useSelector((state) => state.review.naming);
+  const speed = useSelector((state) => state.review.speed);
+  const communication = useSelector((state) => state.review.communication);
 
   const reviewTags = TAGS.map((tag) => {
     return (
@@ -20,7 +23,6 @@ export default function Review() {
         key={tag.index}
         index={tag.index}
         content={tag.content}
-        clicked={clicked[tag.index]}
         handleTagClick={() => handleTagClick(tag.index)}
       />
     );
@@ -29,20 +31,20 @@ export default function Review() {
   const handleTagClick = (index) => {
     switch (index) {
       case 0:
-        dispatch(
-          setReadability(!useSelector((state) => state.review.readability))
-        );
+        dispatch(setReadability(!readability));
         break;
       case 1:
-        dispatch(setNaming(!useSelector((state) => state.review.naming)));
+        dispatch(setNaming(!naming));
         break;
       case 2:
-        dispatch(setSpeed(!useSelector((state) => state.review.speed)));
+        dispatch(setSpeed(!speed));
         break;
       case 3:
         dispatch(
-          setCommunication(!useSelector((state) => state.review.communication))
+          setCommunication(!communication)
         );
+        break;
+      default:
         break;
     }
   };

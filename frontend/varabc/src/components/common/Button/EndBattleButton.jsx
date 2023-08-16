@@ -36,7 +36,7 @@ const EndBattleButton = ({ comment }) => {
     >
       <span>배틀 완료</span>
       <FontAwesomeIcon
-        className={`${backgroundColor} ${textColor} ${childHoverColor} flex ml-4`}
+        className={`bg-red text-white flex ml-4`}
         icon={faArrowRightFromBracket}
 				/>
     </button>
