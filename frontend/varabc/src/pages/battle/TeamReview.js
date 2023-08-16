@@ -27,6 +27,7 @@ export const TeamReview = () => {
       break;
       default: break;
     }
+    console.log("나의 페어 index: " + teamMateIndex);
     socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
   }, [])
   
@@ -47,7 +48,7 @@ export const TeamReview = () => {
           <div className="absolute flex items-center flex-col w-[760px] h-[500px] mt-[280px] mr-[300px]">
             <Review />
             <br />
-            <textarea className="rounded-[30px]" cols={100} rows={10}></textarea>
+            <textarea className="rounded-[30px] text-black" cols={100} rows={10}></textarea>
           </div>
           <div className="absolute flex flex-col mt-[80px] ml-[700px]">
             <div className="absolute flex flex-col">
