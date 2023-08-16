@@ -56,6 +56,7 @@ public class MyPageServiceImpl implements MyPageService {
         List<BattleListDetailDto> battleListDetailDtoList = new ArrayList<>();
         List<CompetitionResult> competitionResultList = competitionResultRepository.findByCompetitionResultT1M1NoOrCompetitionResultT1M2NoOrCompetitionResultT2M1NoOrCompetitionResultT2M2No(
                 memberNo, memberNo, memberNo, memberNo);
+
         for (CompetitionResult competitionResult : competitionResultList) {
             Member member1 = memberRepository.findByMemberNo(
                     competitionResult.getCompetitionResultT1M1No());
@@ -67,8 +68,9 @@ public class MyPageServiceImpl implements MyPageService {
                     competitionResult.getCompetitionResultT2M2No());
             List<Problem> problemlist = problemRepository.findProblemsByCompetitionResultNo(
                     competitionResult.getCompetitionResultNo());
+
             if(problemlist.isEmpty())
-                return battleListDetailDtoList;
+               continue;
             Problem problem = problemlist.get(0);
             int team = 2;
             if (memberNo == member1.getMemberNo() || memberNo == member2.getMemberNo()) {
