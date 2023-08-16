@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Review from "../../Review/Review";
+import Review from "../../components/Review/Review";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 // import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import socket from "../../modules/socketInstance";
+import EndBattleButton from "../../components/common/Button/EndBattleButton";
 
 export const TeamReview = () => {
 
-  // const navigate = useNavigate();
   const { roomToken } = useParams();
-  // const { state } = useLocation();
-  // const { gameResult } = state;
   const userRoomIndex = parseInt(sessionStorage.getItem('userRoomIndex'));
-  const [teamMate, setTeamMate] = useState({});
   let teamMateIndex;
+
+  const onCommentChange = (newComment) => {
+    setComment(newComment);
+  };
 
   useEffect(() => {
     switch(userRoomIndex) {
@@ -31,9 +32,6 @@ export const TeamReview = () => {
       break;
       default: break;
     }
-
-
-
     console.log("나의 페어 index: " + teamMateIndex);
     socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
     // eslint-disable-next-line
@@ -41,9 +39,6 @@ export const TeamReview = () => {
   
   socket.on('sendTeamMateInfo', ({ teamMateInfo }) => {
     setTeamMate(teamMateInfo);
-    console.log("팀원의 정보");
-    console.log(teamMateInfo);
-    // eslint-disable-next-line
   });
 
   return (
@@ -57,7 +52,7 @@ export const TeamReview = () => {
           <div className="absolute flex items-center flex-col w-[760px] h-[500px] mt-[280px] mr-[300px]">
             <Review />
             <br />
-            <textarea className="rounded-[30px] text-black p-[20px]" cols={100} rows={10}></textarea>
+            <textarea onChange={onCommentChange} value={comment} className="rounded-[30px] text-black p-[20px]" cols={100} rows={10}></textarea>
           </div>
           <div className="absolute flex flex-col mt-[80px] ml-[700px]">
             <div className="absolute flex flex-col">
@@ -69,7 +64,7 @@ export const TeamReview = () => {
               </div>
               <MoveRoundButton to={"/"} text={"회의 하기"} bgColor={"basic"} btnSize={"basic"} />
               <br />
-              <MoveRoundButton to={"/"} text={"완료"} bgColor={"red"} btnSize={"basic"} />
+              <EndBattleButton comment={comment} />
             </div>
           </div>
         </div>

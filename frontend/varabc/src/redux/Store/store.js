@@ -4,6 +4,7 @@ import problemFormReducer from '../Reducer/problemFormReducers';
 import problemPostReducer from '../Reducer/problemPostReducers';
 import adminReducer from '../Reducer/adminReducers';
 import userReducer from '../Reducer/userReducers';
+import reviewReducer from '../Reducer/reviewReducers';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     problemPost: problemPostReducer,
     admin: adminReducer,
     user: userReducer,
+    review: reviewReducer
   }
 });
 
