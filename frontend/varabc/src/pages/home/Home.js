@@ -7,7 +7,7 @@ import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 import IconDescription from "./IconDescription";
 import IconDescriptionReverse from "./IconDescriptionReverse";
 
-import ideImage from '../../img/ide.PNG';
+import AceEditor from "react-ace";
 import logo from '../../img/varABC_logo.png';
 import sub2 from '../../img/sub2.png';
 import sub3 from '../../img/sub3.png';
@@ -121,7 +121,6 @@ export const Home = () => {
               enableBasicAutocompletion={true}
               enableLiveAutocompletion={true}
               style={{
-                fontSize: `${fontSize}px`,
                 width: "600px",
                 height: "800px",
               }}
