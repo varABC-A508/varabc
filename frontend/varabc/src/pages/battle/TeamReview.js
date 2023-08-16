@@ -32,6 +32,8 @@ export const TeamReview = () => {
   
   socket.on('sendTeamMateInfo', ({ teamMateInfo }) => {
     setTeamMate(teamMateInfo);
+    console.log("팀원의 정보");
+    console.log(teamMateInfo);
   });
 
   return (
