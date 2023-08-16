@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Title from "./Title";
 import Content from "./Content";
-
+import swal from 'sweetalert';
 
 const Testcase = ({inputUrlList, outputUrlList}) => {
   const [inputTestcaseList, setInputTestcaseList] = useState([]);
@@ -16,7 +16,7 @@ const Testcase = ({inputUrlList, outputUrlList}) => {
             setInputTestcaseList((prevList) => [...prevList, res.data]);
           })
           .catch((error) => {
-            alert.error('Error fetching input data:', error);
+            swal ( "이런" ,  "input데이터 에러!>6" ,  "error" )
           });
       });
 
@@ -27,7 +27,7 @@ const Testcase = ({inputUrlList, outputUrlList}) => {
             setOutputTestcaseList((prevList) => [...prevList, res.data]);
           })
           .catch((error) => {
-            alert.error('Error fetching output data:', error);
+            swal ( "이런" ,  "output데이터 에러!>7" ,  "error" )
           });
       });
     }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector} from 'react-redux';
 import { setNickname } from "../../redux/Reducer/userReducers";
 import SmButton from "../common/Button/SmButton";
+import swal from 'sweetalert';
 
 const NicknameModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
         setNicknameCheck(true); 
       }
     }).catch((err) => {
-      alert("중복된 닉네임 입니다!");
+      swal ( "이런" ,  "중복된 닉네임입니다!>17",  "error" );
     })
   };
 
@@ -50,7 +51,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
         isOpen = false;
         onClose();
       }).catch((err) => {
-        alert("닉네임 DB 저장 에러" + err);
+        swal ( "이런" ,  "닉네임 DB 저장 에러!>18" + err,  "error" );
       });
     }
   };

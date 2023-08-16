@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from '@mui/material/Pagination';
 import ProblemItem from "./ProblemItem";
+import swal from 'sweetalert';
 
 const ProblemList = ({mode="user"}) => {
   const [problems, setProblems] = useState([]);
@@ -15,7 +16,7 @@ const ProblemList = ({mode="user"}) => {
         setProblems(res.data);
       })
       .catch(function (err) {
-        alert("문제 리스트 전송 실패\n" + err);
+        swal ( "이런" ,  "문제 리스트 전송 실패!>4" ,  "error" );
       });
   }, []);
 

@@ -4,6 +4,7 @@ import BattleInfo from "./BattleInfo";
 import MoveRoundButton from "../../../../../components/common/Button/MoveRoundButton";
 import SubmissionList from "../../../../../components/SubmissionList/SubmissionList";
 import axios from "axios";
+import swal from 'sweetalert';
 
 export const BattleDetail = () => {
   const location = useLocation();
@@ -79,7 +80,7 @@ export const BattleDetail = () => {
     async function getBattleDetail() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        alert("회원가입부터 해주세요!");
+        swal ( "이런" ,  "회원가입부터 해주세요!>21" ,  "error" );
         navigate("/");
         return;
       }
