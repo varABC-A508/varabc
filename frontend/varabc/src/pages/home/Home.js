@@ -111,7 +111,21 @@ export const Home = () => {
       </div>
       <div className="w-screen h-screen flex items-center justify-between pl-20 pr-20 bg-bg2 bg-cover">
         <div className="text-white">
-          <img src={ideImage} alt="변수명abc_ide" className="w-[512px] h-[421px]" />
+        <AceEditor
+              mode="python"
+              placeholder="짝과 함께하는\n2 VS 2 코딩배틀\n여기에 코드를 입력해보세요!"
+              theme="monokai"
+              fontSize={14}
+              editorProps={{ $blockScrolling: false }}
+              tabSize={2}
+              enableBasicAutocompletion={true}
+              enableLiveAutocompletion={true}
+              style={{
+                fontSize: `${fontSize}px`,
+                width: "600px",
+                height: "800px",
+              }}
+            />
         </div>
         <div className="flex flex-col w-[820px] justify-center">
           <div className="flex flex-col justify-center mb-10 h-[152px]">
