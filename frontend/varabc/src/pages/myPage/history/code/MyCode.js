@@ -65,19 +65,8 @@ export const MyCode = ({ mode }) => {
       }
 
       try {
-        const userResponse = await axios.get(
-          `https://varabc.com:8080/member/getUserInfo`,
-          {
-            headers: {
-              "access-token": userToken,
-            },
-          }
-        );
-
-        const memberNo = userResponse.data.userInfo.memberNo;
         const response = await axios.get(
-          `https://varabc.com:8080/mypage/submit/code/${memberNo}/${submitNo}`
-          //`https://varabc.com:8080/mypage/submit/code/29/${submitNo}`
+          `https://varabc.com:8080/mypage/submit/code/${submitNo}`
         );
         console.log(response);
         setPracticeCodeData(response.data);
@@ -86,15 +75,19 @@ export const MyCode = ({ mode }) => {
           `https://varabc.com:8080/problem/${response.data.submitDto.problemNo}`
         );
         console.log(problemResponse);
-        
-        
-        
+
         if (response.status === 200 && problemResponse.status === 200) {
-          const [problemContent, problemInputContent, problemOutputContent ]= editImagesInPost(problemResponse.data.problemContent, problemResponse.data.problemInputContent,problemResponse.data.problemOutputContent, problemResponse.data.problemImageS3Url)
+          const [problemContent, problemInputContent, problemOutputContent] =
+            editImagesInPost(
+              problemResponse.data.problemContent,
+              problemResponse.data.problemInputContent,
+              problemResponse.data.problemOutputContent,
+              problemResponse.data.problemImageS3Url
+            );
           setProblemData(problemResponse.data);
-          setProblemContent(problemContent)
-          setProblemInputContent(problemInputContent)
-          setProblemOutputContent(problemOutputContent)
+          setProblemContent(problemContent);
+          setProblemInputContent(problemInputContent);
+          setProblemOutputContent(problemOutputContent);
           setNoData(false);
         }
       } catch (e) {
@@ -108,6 +101,7 @@ export const MyCode = ({ mode }) => {
   const submissions = [
     {
       submitNo: practiceCodeData.submitDto.submitNo,
+      nickname: practiceCodeData.nickname,
       problemTitle: practiceCodeData.problemTitle,
       submitStatus: practiceCodeData.submitDto.submitStatus,
       submitUsedMemory: practiceCodeData.submitDto.submitUsedMemory,
@@ -141,10 +135,15 @@ export const MyCode = ({ mode }) => {
           navigation="no"
           mode={mode}
         />
-        <ProblemDetailedInfo problemData={problemData} problemContent={problemContent} problemInputContent={problemInputContent} problemOutputContent={problemOutputContent}/>
+        <ProblemDetailedInfo
+          problemData={problemData}
+          problemContent={problemContent}
+          problemInputContent={problemInputContent}
+          problemOutputContent={problemOutputContent}
+        />
         <CodeDetailIDE
-          code={practiceCodeData.submitDto.submitCode}
-          language={practiceCodeData.submitDto.submitLanguage}
+          code={(practiceCodeData.submitDto.submitCode || '')}
+          language={practiceCodeData.submitDto.submitLanguage?.toLowerCase()}
         />
       </div>
     </div>

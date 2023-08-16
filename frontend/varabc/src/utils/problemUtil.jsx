@@ -14,7 +14,7 @@ export const editImagesInPost = (
   imageLinks
 ) => {
   if (mainContent && inputContent && outputContent && imageLinks) {
-    const regex = /(<img src=")blob:[^"]*/g;
+    const regex = /(<img src=")[^"]*/g;
 
     const contents = [mainContent, inputContent, outputContent];
 
@@ -70,16 +70,16 @@ export const algorithmTypeIntToString = (algorithmType) => {
 
 export const calculateTier = (memberExp) => {
   if (0 <= memberExp && memberExp < 20) {
-    return copper;
+    return [copper, 'COPPER'];
   } else if (20 <= memberExp && memberExp < 50) {
-    return iron;
+    return [iron, 'IRON'];
   } else if (50 <= memberExp && memberExp < 200) {
-    return bronze;
+    return [bronze, 'BRONZE'];
   } else if (200 <= memberExp && memberExp < 500) {
-    return silver;
+    return [silver, 'SILVER'];
   } else if (500 <= memberExp && memberExp < 1500) {
-    return gold;
+    return [gold, 'GOLD'];
   } else {
-    return diamond;
+    return [diamond, 'DIAMOND'];
   }
 };

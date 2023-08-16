@@ -26,7 +26,7 @@ const ProblemDetailedInfo = ({ problemData, problemContent, problemInputContent,
   return (
     <ThemeProvider theme={theme}>
       <div className="mb-3 bg-primaryDark">
-        <Accordion sx={{borderRAdius:'6px'}}>
+        <Accordion sx={{borderRadius:'6px'}}>
           <AccordionSummary expandIcon="V" sx={{ bgcolor: "primary.main", color: 'white' }}>
             <Typography>문제 설명 보기</Typography>
           </AccordionSummary>
