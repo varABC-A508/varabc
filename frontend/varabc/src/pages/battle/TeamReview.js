@@ -12,6 +12,9 @@ export const TeamReview = () => {
   const userRoomIndex = parseInt(sessionStorage.getItem('userRoomIndex'));
   let teamMateIndex;
 
+  const [teamMate, setTeamMate] = useState({});
+  const [comment, setComment] = useState("");
+
   const onCommentChange = (newComment) => {
     setComment(newComment);
   };

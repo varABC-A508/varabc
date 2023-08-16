@@ -1,7 +1,6 @@
 // 리뷰 페이지 (임시)
 import {useDispatch, useSelector} from 'react-redux';
 import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Actions/reviewActions';
-import { useState } from "react";
 import ReviewTag from "./ReviewTag.jsx";
 
 export default function Review() {
@@ -20,7 +19,6 @@ export default function Review() {
         key={tag.index}
         index={tag.index}
         content={tag.content}
-        clicked={clicked[tag.index]}
         handleTagClick={() => handleTagClick(tag.index)}
       />
     );
