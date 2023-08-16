@@ -63,7 +63,7 @@ const Ide = ( { problemNo }) => {
         "access-token": userToken
       }}).then((res) => {
         setMemberNo(res.data.userInfo.memberNo);
-        sessionStorage.setItem('memberNo', memberNo);
+        sessionStorage.setItem('memberNo', res.data.userInfo.memberNo);
       }).catch((err) => {
         alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
         navigate("/");
