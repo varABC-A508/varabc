@@ -6,6 +6,7 @@ const Timer = () => {
   const TWO_MINUTES = 20;
   const [seconds, setSeconds] = useState(TWO_MINUTES);
   const [isAlertShown, setIsAlertShown] = useState(false);
+  const isPlayerTurn = useSelector((state) => state.ide.isPlayerTurn);
 
   useEffect(() => {
     if(!isAlertShown){
@@ -19,7 +20,6 @@ const Timer = () => {
         return () => clearInterval(intervalId);
       }
     } else {
-      const isPlayerTurn = useSelector((state) => state.ide.isPlayerTurn);
       socket.emit('onTimerEnd', { 
         isPlayerTurn: isPlayerTurn,
       });

@@ -9,6 +9,7 @@ import Timer from './Timer';
 import { useSelector } from "react-redux";
 
 const IdeNav = () => {
+  const isPractice = JSON.parse(sessionStorage.getItem('isPractice'));
   const isPlayerTurn = useSelector((state) => state.ide.isPlayerTurn);
     return (
         <div className='w-full bg-primary text-white p-1 flex flex-wrap justify-between'>
