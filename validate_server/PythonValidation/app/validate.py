@@ -51,7 +51,7 @@ def run_code_with_test_case(input_content, output_content, time_limit, memory_li
             print(output)
             print(expected_output)
             execution_time = end_time - start_time
-            result['execution_time'] = execution_time*1000
+            result['execution_time'] = int(execution_time*1000)
             result['memory_usage'] = int(memory_usage.value/1024)
             if memory_usage.value > memory_limit:
                 result['result'] = 3
@@ -88,7 +88,7 @@ def compile_code_with_test_case(input_content, output_content, time_limit, memor
             print(expected_output)
             result['output']=output
             execution_time = end_time - start_time
-            result['execution_time'] = execution_time*1000
+            result['execution_time'] = int(execution_time*1000)
             result['memory_usage'] = int(memory_usage.value/1024)
             if memory_usage.value > memory_limit:
                 result['result'] = 3
