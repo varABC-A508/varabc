@@ -29,6 +29,7 @@ public class MyPageMapper {
                 .reviewTagSpeed(reviewTag.isReviewTagSpeed())
                 .reviewTagReadability(reviewTag.isReviewTagReadability())
                 .reviewTagCommunication(reviewTag.isReviewTagCommunication())
+                .competitionResultNo(review.getCompetitionResultNo())
                 .build();
     }
 //

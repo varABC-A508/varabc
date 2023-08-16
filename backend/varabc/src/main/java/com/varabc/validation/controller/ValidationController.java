@@ -46,7 +46,7 @@ public class ValidationController {
         return new ResponseEntity<CompileResultDto>(compileResultDto, status);
     }
     //파이썬 서버로 요청 보내기
-    @PostMapping("sendvalidatepy")
+    @PostMapping("sendvalidatePython")
     public ResponseEntity<ValidationResultDto> validatePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
         //DB에서 엔티티를 꺼내와서  ValidationResult ValidateDto의 값을 온전하게 세팅하여 전달함,
         //레포지토리에서 테스트케이스들을 가져오는 로직 수행
@@ -132,7 +132,7 @@ public class ValidationController {
     }
 
     //자바 서버로 요청 보내기
-    @PostMapping("sendvalidatejava")
+    @PostMapping("sendvalidateJava")
     public ResponseEntity<ValidationResultDto> validateJava(@RequestBody ValidateDataDto validateDataDto) throws Exception{
 
         // 자바 채점 서버로 요청 보내기
