@@ -115,14 +115,14 @@ export const Home = () => {
               mode="python"
               value={`\n짝과 함께하는\n2 VS 2 코딩배틀\n여기에 코드를 입력해보세요!`}
               theme="monokai"
-              fontSize={16}
+              fontSize={18}
               editorProps={{ $blockScrolling: false }}
               tabSize={2}
               enableBasicAutocompletion={true}
               enableLiveAutocompletion={true}
               style={{
                 width: "600px",
-                height: "800px",
+                height: "700px",
               }}
             />
         </div>
