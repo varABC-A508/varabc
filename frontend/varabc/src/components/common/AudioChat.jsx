@@ -199,6 +199,8 @@ const AudioChat = ({ roomId }) => {
         pcRef.current.close();
       }
     };
+
+  // eslint-disable-next-line
   }, []);
 
   return (

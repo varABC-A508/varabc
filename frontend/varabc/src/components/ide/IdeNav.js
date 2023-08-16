@@ -1,6 +1,6 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCircleInfo, faBookOpen, faMicrophone} from "@fortawesome/free-solid-svg-icons";
+import {faCircleInfo, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 
 import IdeMode from './Select/IdeMode';
 import IdeFontSize from './Select/IdeFontSize';
