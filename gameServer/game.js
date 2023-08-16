@@ -61,12 +61,23 @@ io.on("connection", (socket) => {
     rooms[room].team1 = teamToken1;
     rooms[room].team2 = teamToken2;
     for(const player of rooms[room].members){
+      let teamMateNo;
       if(player.userRoomIndex == 1 || player.userRoomIndex == 2){
         sendLogToClients(player.member.memberNickname +"에게 1번 url 전송");
-        io.to(player.socketId).emit('getTeamUrl', { url: url1 });
+        if(player.userRoomIndex == 1){
+          teamMateNo = rooms[room].members[1].memberNo;
+        } else {
+          teamMateNo = rooms[room].members[0].memberNo;
+        }
+        io.to(player.socketId).emit('getTeamUrl', { url: url1, teamNo: 1, teamMateNo: teamMateNo });
       } else {
+        if(player.userRoomIndex == 3){
+          teamMateNo = rooms[room].members[3].memberNo;
+        } else {
+          teamMateNo = rooms[room].members[2].memberNo;
+        }
         sendLogToClients(player.member.memberNickname +"에게 2번 url 전송");
-        io.to(player.socketId).emit('getTeamUrl', { url: url2 });
+        io.to(player.socketId).emit('getTeamUrl', { url: url2, teamNo: 2, teamMateNo: teamMateNo });
       }
     }
   });
