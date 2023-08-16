@@ -8,6 +8,7 @@ import CodeDetailIDE from "./CodeDetailIDE.js";
 
 import { editImagesInPost } from "../../../../utils/problemUtil";
 import axios from "axios";
+import swal from 'sweetalert';
 
 export const MyCode = ({ mode }) => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ export const MyCode = ({ mode }) => {
     async function getCode() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        alert("회원가입부터 해주세요!");
+        swal ( "이런" ,  "회원가입부터 해주세요!>23" ,  "error" );
         navigate("/");
         return;
       }

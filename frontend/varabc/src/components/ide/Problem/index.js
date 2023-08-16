@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Testcase from "./Testcase";
 import { editImagesInPost } from "../../../utils/problemUtil";
+import swal from 'sweetalert';
 
 const Problem = ({ problemNo }) => {
   const [problem, setProblem] = useState({});
@@ -23,7 +24,7 @@ const Problem = ({ problemNo }) => {
 
       })
       .catch((err) => {
-        alert("문제 데이터 조회 실패:" + err);
+        swal ( "이런" ,  "문제 데이터 조회 실패!>5",  "error" );
       });
   }, [problemNo]);
 

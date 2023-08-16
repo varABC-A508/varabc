@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const ReviewCard = ({ review }) => {
   const colors = [
@@ -33,7 +33,7 @@ const ReviewCard = ({ review }) => {
 
   return (
     <div className={`w-[700px] h-[320px] p-4 rounded-lg ${randomColor}`}>
-      <FontAwesomeIcon className='text-gray-700 w-[25px] h-[25px] ml-[640px] mb-[5px]' icon={faXmark} />
+      {/* <FontAwesomeIcon className='text-gray-700 w-[25px] h-[25px] ml-[640px] mb-[5px]' icon={faXmark} /> */}
       <div className='font-bold text-[25px]'>
         <div className='flex'>
           {review.reviewTagReadability && <p className='ml-[10px]'># 가독성이 좋아요</p>}

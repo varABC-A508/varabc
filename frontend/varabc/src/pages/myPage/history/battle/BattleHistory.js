@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BattleHistoryItem from "./BattleHistoryItem";
 import Pagination from "@mui/material/Pagination";
 import axios from "axios";
+import swal from 'sweetalert';
 
 const BattleHistory = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const BattleHistory = () => {
     async function getBattleHistory() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        alert("회원가입부터 해주세요!");
+        swal ( "이런" ,  "회원가입부터 해주세요!>22" ,  "error" );
         navigate("/");
         return;
       }
