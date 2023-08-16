@@ -113,9 +113,9 @@ export const Home = () => {
         <div className="text-white">
         <AceEditor
               mode="python"
-              placeholder="짝과 함께하는\n2 VS 2 코딩배틀\n여기에 코드를 입력해보세요!"
+              value="\n짝과 함께하는\n2 VS 2 코딩배틀\n여기에 코드를 입력해보세요!"
               theme="monokai"
-              fontSize={14}
+              fontSize={16}
               editorProps={{ $blockScrolling: false }}
               tabSize={2}
               enableBasicAutocompletion={true}
