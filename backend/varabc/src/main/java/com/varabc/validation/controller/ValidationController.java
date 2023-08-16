@@ -104,7 +104,9 @@ public class ValidationController {
         // 도커 컨테이너 생성 및 실행
         String containerId = dockerService.startPythonEvaluationContainer();
 
-        String pythonServerUrl = "http://varabc.com:5005/";
+
+        String pythonServerUrl = "http://" + dockerService.containerIpAddress(containerId) + ":5005/";
+        System.out.println(pythonServerUrl);
         ValidationResultDto validationResultDto = validationService.sendRequestValidation(
                 pythonServerUrl, validateDto);
         // 도커 컨테이너 종료
