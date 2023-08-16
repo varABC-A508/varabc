@@ -156,9 +156,9 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public SubmitCodeDto getSubmit(Long submitNo, Long memberNo) {
-        Member member = memberRepository.findByMemberNo(memberNo);
+    public SubmitCodeDto getSubmit(Long submitNo) {
         Submit submit = submitRepository.findBySubmitNo(submitNo);
+        Member member = memberRepository.findByMemberNo(submit.getMemberNo());
         Problem problem = problemRepository.findByProblemNo(submit.getProblemNo());
         return myPageMapper.EntityToDto(submit, member, problem);
     }
