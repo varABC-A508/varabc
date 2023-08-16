@@ -47,7 +47,7 @@ const Ide = ( { problemNo }) => {
   const { roomToken, teamToken } = useParams();
 
   const userToken = localStorage.getItem('access-token');
-  const teamNo = sessionStorage.getItem(JSON.parse(teamNo));
+  const teamNo = JSON.parse(sessionStorage.getItem('teamNo'));
 
   const navigate = useNavigate();
 
