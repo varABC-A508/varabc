@@ -11,14 +11,13 @@ public class DockerConfig {
 
     @Bean
     public DockerClient dockerClient() {
-        DefaultDockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
-                .withDockerHost("tcp://127.0.0.1:2375") // default docker host
-                .build();
+//        DefaultDockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
+//                .withDockerHost("tcp://127.0.0.1:2375") // default docker host
+//                .build();
 
-        JerseyDockerCmdExecFactory execFactory = new JerseyDockerCmdExecFactory();
-
-        return DockerClientBuilder.getInstance(config)
-                .withDockerCmdExecFactory(execFactory)
+//        JerseyDockerCmdExecFactory execFactory = new JerseyDockerCmdExecFactory();
+        System.out.println("builder in");
+        return DockerClientBuilder.getInstance("tcp://127.0.0.1:2375")
                 .build();
     }
 }
