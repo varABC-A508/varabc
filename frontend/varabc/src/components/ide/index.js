@@ -194,7 +194,7 @@ const Ide = ( { problemNo }) => {
         <PanelGroup direction='vertical' className="flex-grow">
           <Panel defaultSize={65}>
             <AceEditor
-              mode={mode}
+              mode={mode.toLowerCase()}
               placeholder="코드를 작성해주세요!"
               theme={theme}
               value={code}

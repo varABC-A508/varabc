@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Review from "../../Review/Review";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 // import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -14,19 +14,21 @@ export const TeamReview = () => {
   const userRoomIndex = parseInt(sessionStorage.getItem('userRoomIndex'));
   const [teamMate, setTeamMate] = useState({});
   let teamMateIndex;
-  switch(userRoomIndex) {
-    case 1: teamMateIndex = 2;
-    break;
-    case 2: teamMateIndex = 1;
-    break;
-    case 3: teamMateIndex = 4;
-    break;
-    case 4: teamMateIndex = 3;
-    break;
-    default: break;
-  }
 
-  socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
+  useEffect(() => {
+    switch(userRoomIndex) {
+      case 1: teamMateIndex = 2;
+      break;
+      case 2: teamMateIndex = 1;
+      break;
+      case 3: teamMateIndex = 4;
+      break;
+      case 4: teamMateIndex = 3;
+      break;
+      default: break;
+    }
+    socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
+  }, [])
   
   socket.on('sendTeamMateInfo', ({ teamMateInfo }) => {
     setTeamMate(teamMateInfo);
