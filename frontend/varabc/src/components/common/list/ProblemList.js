@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from '@mui/material/Pagination';
 import ProblemItem from "./ProblemItem";
+import swal from 'sweetalert';
 
-const ProblemList = () => {
+const ProblemList = ({mode="user"}) => {
   const [problems, setProblems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const problemPerPage = 10;
@@ -15,7 +16,7 @@ const ProblemList = () => {
         setProblems(res.data);
       })
       .catch(function (err) {
-        alert("문제 리스트 전송 실패\n" + err);
+        swal ( "이런" ,  "문제 리스트 전송 실패!>4" ,  "error" );
       });
   }, []);
 
@@ -29,26 +30,39 @@ const ProblemList = () => {
   };
 
     return (
-      <div className="flex flex-col items-center">
-        <table className="w-[1000px] h-[600px] table-auto bg-white divide-y divide-white mt-[20px]">
-          <thead className="bg-primary text-white h-[50px]">
-            <tr>
-              <th className="rounded-tl-[10px] w-[150px]">번호</th>
-              <th className="w-[150px]">난이도</th>
-              <th className="w-[450px]"> 제목</th>
-              <th className="w-[150px]"> 제출</th>
-              <th className="w-[150px] rounded-tr-[10px]">성공</th>
-            </tr>
-          </thead>
-          <tbody className="text-center divide-y divide-white">
-            {currentProblems.map((problem, index) => {
-              return (
-                <ProblemItem key={index} problem={problem} index={index} last={currentProblems.length - 1} />
-              );
-            })}
-          </tbody>
-        </table>
-        <Pagination className="mt-[10px]" count={pageNumber} page={currentPage} onChange={onPageChange} />
+      <div className={`w-full ${mode==="user"? "bg-bg2 bg-cover":""} flex items-center justify-center m-0`}>
+        <div className="flex flex-col items-center">
+          <table className="w-[1000px] h-[600px] table-auto divide-y divide-white mt-[20px]">
+            <thead className="bg-primary text-white h-[50px]">
+              <tr>
+                <th className="rounded-tl-[10px] w-[150px]">번호</th>
+                <th className="w-[150px]">난이도</th>
+                <th className="w-[450px]"> 제목</th>
+                <th className="w-[150px]"> 제출</th>
+                <th className="w-[150px] rounded-tr-[10px]">성공</th>
+              </tr>
+            </thead>
+            <tbody className="text-center divide-y divide-white">
+              {currentProblems.map((problem, index) => {
+                return (
+                  <ProblemItem
+                    key={index}
+                    problem={problem}
+                    index={index}
+                    mode={mode}
+                    last={currentProblems.length - 1}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+          <Pagination
+            className="mt-[20px] bg-white"
+            count={pageNumber}
+            page={currentPage}
+            onChange={onPageChange}
+          />
+        </div>
       </div>
     );
 };

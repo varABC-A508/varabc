@@ -15,7 +15,7 @@ public class ValidateDto {
     private long memberNo;
     private long problemNo;
     private String code;
-    private int timeLimit;
+    private double timeLimit;
     private int memoryLimit;
     private List<FileData> inputFiles;
     private List<FileData> outputFiles;

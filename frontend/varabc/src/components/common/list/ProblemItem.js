@@ -1,13 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { setIsPractice } from '../../../redux/Reducer/ideReducers';
 
-const ProblemItem = ({problem, index, last}) => {
-  const dispatch = useDispatch();
+const ProblemItem = ({problem, index, last, mode}) => {
   let navigate = useNavigate();
   const onProblemClick = () => {
-    dispatch(setIsPractice(true));
-    navigate(`/problems/${problem.problemNo}`, {
+
+    if (mode==='admin') {
+
+      const postId = problem.problemNo;
+      console.log('admin', postId)
+      navigate(`/admin/post/${postId}`)
+      return;
+    }
+
+    sessionStorage.setItem('isPractice', JSON.stringify(true));
+    navigate(`/problem/${problem.problemNo}`, {
       state: problem.problemNo
     });
   };

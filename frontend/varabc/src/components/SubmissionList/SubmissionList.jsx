@@ -1,43 +1,99 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Submission from "./Submission.jsx";
+import Pagination from "@mui/material/Pagination";
+import { submissionExample } from "./submissionExample.jsx";
 
+const SubmissionList = ({
+  submissions = submissionExample,
+  navigation,
+  pagination = true,
+  mode = "practice",
+}) => {
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
 
-const SubmissionList = () => {
+  let tableMode;
+  if (mode === "practice") {
+    tableMode = {
+      width: ["col-span-4", "col-span-2", "col-span-1", "col-span-1", "col-span-1", "col-span-3"],
+      columns: ["문제", "결과", "메모리", "시간", "언어", "제출시간"],
+    };
+  } else if (mode === "battle") {
+    tableMode = {
+      width: ["col-span-2", "col-span-2", "col-span-2", "col-span-2", "col-span-2", "col-span-2"],
+      columns: ["닉네임", '결과', "메모리", "시간", "언어", "제출시간"]
+    }
+  }
 
-  const submissionResults = [
-    { idx: 0, nickname: 'dp조아', problemTitle: 'abc학교 점심시간', result: '맞았습니다', memory: '71248', time: '348', language:'Python', dateTime: '2023-07-24 14:13' },
-    { idx: 1, nickname: 'dp조아', problemTitle: 'abc학교 점심시간이 아주 길면 어떻게 될까? 그냥 다음 줄로 넘어가는 거겠죠', result: '틀렸습니다', memory: '71248', time: '348', language:'Python', dateTime: '2023-07-24 14:13' }, 
-    { idx: 2, nickname: 'dp조아', problemTitle: 'abc학교 점심시간', result: '맞았습니다', memory: '71248', time: '348', language:'Python', dateTime: '2023-07-24 14:13' }
+  let submissionPerPage;
+  if (pagination) {
+    submissionPerPage = 10;
+  } else {
+    submissionPerPage = submissions.length;
+  }
 
-  ]
+  const pageNumber = Math.ceil(submissions.length / submissionPerPage);
 
-  const headText = "p-3 text-white text-center font-bold"
+  // 현재 페이지에 해당하는 제출들을 가져오기
+  const currentPageLast = currentPage * submissionPerPage;
+  const currentPageFirst = currentPageLast - submissionPerPage;
+  const currentSubmissions = submissions.slice(
+    currentPageFirst,
+    currentPageLast
+  );
 
-  const submissions = submissionResults.map((submissionResult) => {
-    return <Submission key={submissionResult.idx} result={submissionResult} />
-  })
+  const onPageChange = (event, value) => {
+    setCurrentPage(value); // 페이지 번호 업데이트
+  };
 
+  const handleSubmissionClick = (idx) => {
+    if (navigation === 'practiceCode') {
+      navigate(`/mypage/history/practice/code/${idx}`) 
+    } else if (navigation === 'battleCode') {
+      navigate(`/mypage/history/battle/code/${idx}`)
+    }
+  }
+
+  const headText = "p-3 text-white text-center font-bold";
+
+  const submissionsAll = currentSubmissions.map((submissionResult) => {
+    return (
+      <Submission
+        key={submissionResult.submitNo}
+        result={submissionResult}
+        handleSubmissionClick={()=>{handleSubmissionClick(submissionResult.submitNo)}}
+        navigation={navigation}
+        tableMode={tableMode}
+      />
+    );
+  });
 
   return (
-    <table className="w-[1000px] m-3 p-3 table-fixed rounded-[10px] bg-[#3C4051] divide-y divide-black">
-      <thead>
-        <tr className="w-full grid grid-cols-12 rounded-t-[10px] bg-[#323543] ">
-          <th className={`col-span-4 ${headText}`}>문제</th>
-          <th className={`col-span-2 ${headText}`}>결과</th>
-          <th className={`${headText}`}>메모리</th>
-          <th className={`${headText}`}>시간</th>
-          <th className={`${headText}`}>언어</th>
-          <th className={`col-span-3 ${headText}`}>제출시간</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-black">
-        {submissions}
-      </tbody>
-
-
-    </table>
-  )
-
-}; 
-export default SubmissionList; 
-
-
+    <div className={`flex flex-col items-center mb-3`}>
+      <table className="w-full m-3 p-3 table-fixed rounded-[10px] bg-[#3C4051] divide-y divide-black">
+        <thead>
+          <tr className="w-full grid grid-cols-12 rounded-t-[10px] bg-primaryDark ">
+            <th className={`${tableMode.width[0]} ${headText}`}>{tableMode.columns[0]}</th>
+            <th className={`${tableMode.width[1]} ${headText}`}>{tableMode.columns[1]}</th>
+            <th className={`${tableMode.width[2]} ${headText}`}>{tableMode.columns[2]}</th>
+            <th className={`${tableMode.width[3]} ${headText}`}>{tableMode.columns[3]}</th>
+            <th className={`${tableMode.width[4]} ${headText}`}>{tableMode.columns[4]}</th>
+            <th className={`${tableMode.width[5]} ${headText}`}>{tableMode.columns[5]}</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-black">{submissionsAll}</tbody>
+      </table>
+      {pagination && (
+        <Pagination
+          className="mt-[20px] bg-white"
+          count={pageNumber}
+          page={currentPage}
+          onChange={onPageChange}
+        />
+      )}
+    </div>
+  );
+};
+export default SubmissionList;

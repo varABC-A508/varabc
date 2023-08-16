@@ -4,6 +4,7 @@ import com.varabc.problem.domain.dto.GetProblemDto;
 import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemListDto;
 import com.varabc.problem.domain.dto.PublicProblemDto;
+import com.varabc.problem.domain.dto.RandomProblemDto;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface ProblemService {
     PublicProblemDto getProblemPublic(Long problemNo);
 
     void updateProblemCounts(Long problemNo,int correct);
+
+    Long getRandomProblem(RandomProblemDto randomProblemDto);
 }

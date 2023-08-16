@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { React, useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 import IconDescription from "./IconDescription";
 import IconDescriptionReverse from "./IconDescriptionReverse";
@@ -13,7 +14,52 @@ import sub3 from '../../img/sub3.png';
 import sub4 from '../../img/sub4.png';
 import sub5 from '../../img/sub5.png';
 
+import NicknameModal from "../../components/login/NicknameModal";
+
+import {useDispatch, useSelector} from 'react-redux';
+import { setNickname } from "../../redux/Reducer/userReducers"; 
+
+
 export const Home = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const receivedAccessToken = queryParams.get('access-token');
+  const receivedRefreshToken = queryParams.get('refresh-token');
+  const receivedNickname = queryParams.get('memberNickname');
+  const navigate = useNavigate();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const nickname = useSelector((state) => state.user.nickname);
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (receivedAccessToken) {
+      localStorage.setItem('access-token', receivedAccessToken);
+      localStorage.setItem('refresh-token', receivedRefreshToken);
+
+      if (receivedNickname !== null && receivedNickname.trim() !== 'undefined' && receivedNickname.trim().length > 0) {
+        dispatch(setNickname(receivedNickname.trim()));
+        localStorage.setItem('nickname', receivedNickname.trim());
+      } else {
+        // 닉네임이 없으면 모달 열기
+        setModalOpen(true);
+      }
+    }else {
+      navigate('/');
+    }
+    // eslint-disable-next-line
+  }, [receivedAccessToken]);
+
+  useEffect(() => {
+    localStorage.setItem('nickname', nickname);
+    navigate('/');
+    // eslint-disable-next-line
+  }, [nickname]);
+
   return (
     <div>
       <div className="w-screen h-screen flex items-end p-20 bg-bg1 bg-cover">
@@ -51,7 +97,7 @@ export const Home = () => {
                 코드 배틀 하기 {<FontAwesomeIcon icon={faArrowRight} />}
               </Link>
               <Link
-                to="/problems"
+                to="/problem"
                 className="text-point font-bold text-3xl mr-10"
               >
                 문제 보러가기 {<FontAwesomeIcon icon={faArrowRight} />}
@@ -84,7 +130,7 @@ export const Home = () => {
           </div>
           <div className="flex justify-center">
             <MoveRoundButton to="/battle" text="코드 배틀 하기" bgColor="point" btnSize="big" />
-        </div>
+          </div>
         </div>
       </div>
       <div className="w-screen h-screen flex bg-bg2 bg-cover pl-20 pr-20">
@@ -99,6 +145,10 @@ export const Home = () => {
           </div>
         </div>
       </div>
+      <NicknameModal
+        isOpen={modalOpen}
+        onClose={handleClose}
+      />
     </div>
   );
-};
+}; 

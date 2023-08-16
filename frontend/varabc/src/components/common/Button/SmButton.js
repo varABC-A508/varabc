@@ -1,10 +1,10 @@
 const bgColors = {
-	red: "bg-red-400",
+	red: "bg-red",
 	green: "bg-emerald-400",
 	basic: "bg-white"
 };
 
-const SmButton = ({text, onClick, bgColor}) => {
+const SmButton = ({text, onClick, bgColor, type='button'}) => {
 	const backgroundColor = bgColors[bgColor];
 	let textColor, hoverColor;
 	switch(bgColor){
@@ -14,7 +14,7 @@ const SmButton = ({text, onClick, bgColor}) => {
 			break;
 		case "red":
 			textColor = "text-white";
-			hoverColor = "hover:bg-red-500";
+			hoverColor = "hover:bg-red";
 			break;
 		case "green":
 			textColor = "text-white";
@@ -23,7 +23,7 @@ const SmButton = ({text, onClick, bgColor}) => {
 		default:
 	}
   return (
-		<button onClick={onClick} className={`${backgroundColor} ${textColor} ${hoverColor} ml-1 mr-1 border text-xs p-1 font-bold rounded`}>{text}</button>
+		<button onClick={onClick} type={type} className={`${backgroundColor} ${textColor} ${hoverColor} ml-1 mr-1 border text-[16px] w-[100px] h-[40px] p-1 font-bold rounded`}>{text}</button>
 	);
 };
 

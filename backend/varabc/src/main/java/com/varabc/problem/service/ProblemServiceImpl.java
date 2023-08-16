@@ -6,6 +6,7 @@ import com.varabc.problem.domain.dto.ProblemDto;
 import com.varabc.problem.domain.dto.ProblemImageDto;
 import com.varabc.problem.domain.dto.ProblemListDto;
 import com.varabc.problem.domain.dto.PublicProblemDto;
+import com.varabc.problem.domain.dto.RandomProblemDto;
 import com.varabc.problem.domain.dto.TestCaseDto;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.domain.entity.ProblemImage;
@@ -20,6 +21,7 @@ import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -81,14 +83,28 @@ public class ProblemServiceImpl implements ProblemService {
 
 
     @Transactional
-    public void updateProblemCounts(Long  problemNo, int correct) {
+    public void updateProblemCounts(Long problemNo, int correct) {
         Problem problem = problemRepository.findById(problemNo).orElse(null);
-        if(problem==null){
+        if (problem == null) {
             System.out.println("업데잇 핧 문제 부재");
-        }else{
+        } else {
             problem.updateCounts(correct);
         }
     }
+
+    @Override
+    public Long getRandomProblem(RandomProblemDto randomProblemDto) {
+        List<Long> problemNoList = problemRepository.getList(randomProblemDto.getProblemSource(),
+                randomProblemDto.getProblemLevel());
+
+        if (problemNoList == null || problemNoList.isEmpty()) {
+            return null;
+        }
+
+        Random rand = new Random();
+        return problemNoList.get(rand.nextInt(problemNoList.size()));
+    }
+
 
     @Override
     public void createProblem(GetProblemDto getProblemDto)
@@ -138,11 +154,10 @@ public class ProblemServiceImpl implements ProblemService {
             // DTO의 값을 엔티티에 복사
             problem.updateProblem(problemMapper.dtoToProblemEntity(
                     getProblemDto));
-            System.out.println(problem.toString());
             ProblemRestriction problemRestrictionEntity = problemRestrictionRepository.findByProblemNo(
                     problemNo);
-            problemRestrictionEntity.updateRestriction(problemMapper.dtoToProblemRestrictionEntity(getProblemDto, problemNo));
-            System.out.println(problemRestrictionEntity.toString());
+            problemRestrictionEntity.updateRestriction(
+                    problemMapper.dtoToProblemRestrictionEntity(getProblemDto, problemNo));
 
         }
     }
@@ -200,19 +215,19 @@ public class ProblemServiceImpl implements ProblemService {
                     getProblemDto.getTestCaseOutputPublicList().get(i));
 
             TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl,
-                    outputUrl, false);
+                    outputUrl, true);
             TestCase testCase = problemMapper.dtoToTestCaseEntity(testCaseDto);
             testCaseRepository.save(testCase);
         }
         //비공개 테케
-        for (int i = 0; i < getProblemDto.getTestCaseInputPublicList().size();
+        for (int i = 0; i < getProblemDto.getTestCaseInputPrivateList().size();
                 i++) {
             String inputUrl = awsS3Controller.upload(
                     getProblemDto.getTestCaseInputPrivateList().get(i));
             String outputUrl = awsS3Controller.upload(
                     getProblemDto.getTestCaseOutputPrivateList().get(i));
             TestCaseDto testCaseDto = problemMapper.createTestCaseDto(problemNo, inputUrl,
-                    outputUrl, true);
+                    outputUrl, false);
             TestCase testCase = problemMapper.dtoToTestCaseEntity(testCaseDto);
             testCaseRepository.save(testCase);
         }
@@ -237,10 +252,12 @@ public class ProblemServiceImpl implements ProblemService {
         List<Problem> problemList = problemRepository.findAll();
         List<ProblemListDto> problemListDtoList = new ArrayList<>();
         for (Problem problem : problemList) {
-            if (!problem.isProblemResign()) {
-                ProblemListDto problemListDto = problemMapper.convertEntityToDto(problem);
-                problemListDtoList.add(problemListDto);
+            if (problem.isProblemResign()) {
+                continue;
             }
+            ProblemListDto problemListDto = problemMapper.convertEntityToDto(problem);
+            problemListDtoList.add(problemListDto);
+
         }
         return problemListDtoList;
     }

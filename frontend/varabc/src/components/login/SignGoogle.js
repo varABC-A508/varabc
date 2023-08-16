@@ -1,11 +1,12 @@
 import React from "react";
 
+import GoogleLogo from "../../img/google_logo.png"
+
 const SignGoogle = () => {
 
   // Google OAuth2 인증 요청을 보낼 URL 
 
-  const redirect_uri = "https://localhost:8080/member/google-login";
-  // const redirect_uri = "https://localhost:3000";
+  const redirect_uri = "https://varabc.com:8080/member/googleLogin";
   const clientId = "1050412541304-1oh88pq5loji98ahf8fi7vdd5l94s44s.apps.googleusercontent.com";
 
   //token
@@ -17,16 +18,15 @@ const SignGoogle = () => {
 
   function loginGoogle() {
     window.location.href = oAuth2URL;
-    console.log(oAuth2URL);
   }
 
   return (
     <div  className='flex flex-col items-center'>
       <img onClick={loginGoogle} className="w-20 h-20 rounded-lg border-4 border-coler-200"
-        src="images/google_logo.png"
+        src={ GoogleLogo }
         alt="구글 로그인"
       />
-       <p className='text-lg font-semibold'>Google</p>
+       <p className='text-lg text-black font-semibold'>Google</p>
     </div>
   )
 }

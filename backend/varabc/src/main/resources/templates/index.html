@@ -1,60 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>API Test Page</title>
+  <title>알고리즘 검색</title>
+  <!-- jQuery 추가 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<h2>Problem Form</h2>
-<form action="#" th:action="@{/problem/}" method="post" enctype="multipart/form-data">
-  <label for="problemTitle">Problem Title:</label><br>
-  <input type="text" id="problemTitle" name="problemTitle"><br>
-
-  <label for="problemContent">Problem Content:</label><br>
-  <textarea id="problemContent" name="problemContent"></textarea><br>
-
-  <label for="problemLevel">Problem Level:</label><br>
-  <input type="text" id="problemLevel" name="problemLevel"><br>
-
-  <label for="problemInputContent">Problem Input Content:</label><br>
-  <textarea id="problemInputContent" name="problemInputContent"></textarea><br>
-
-  <label for="problemOutputContent">Problem Output Content:</label><br>
-  <textarea id="problemOutputContent" name="problemOutputContent"></textarea><br>
-
-  <label for="problemLink">Problem Link:</label><br>
-  <input type="text" id="problemLink" name="problemLink"><br>
-
-  <label for="problemSource">Problem Source:</label><br>
-  <input type="text" id="problemSource" name="problemSource"><br>
-
-  <label for="problemAlgorithmType">Problem Algorithm Type:</label><br>
-  <input type="text" id="problemAlgorithmType" name="problemAlgorithmType"><br>
-
-  <label for="problemRestrictionTimePython">Problem Restriction Time Python:</label><br>
-  <input type="number" step="0.01" id="problemRestrictionTimePython" name="problemRestrictionTimePython"><br>
-
-  <label for="problemRestrictionTimeJava">Problem Restriction Time Java:</label><br>
-  <input type="number" step="0.01" id="problemRestrictionTimeJava" name="problemRestrictionTimeJava"><br>
-
-  <label for="problemRestrictionMemory">Problem Restriction Memory:</label><br>
-  <input type="number" id="problemRestrictionMemory" name="problemRestrictionMemory"><br>
-
-  <label for="problemImageList">Problem Images:</label><br>
-  <input type="file" id="problemImageList" name="problemImageList" multiple><br>
-
-  <label for="testCaseInputPublicList">Testcase Public Inputs:</label><br>
-  <input type="file" id="testCaseInputPublicList" name="testCaseInputPublicList" multiple><br>
-
-  <label for="testCaseOutputPublicList">Testcase Public Outputs:</label><br>
-  <input type="file" id="testCaseOutputPublicList" name="testCaseOutputPublicList" multiple><br>
-
-  <label for="testCaseInputPrivateList">Testcase Private Inputs:</label><br>
-  <input type="file" id="testCaseInputPrivateList" name="testCaseInputPrivateList" multiple><br>
-
-  <label for="testCaseOutputPrivateList">Testcase Private Outputs:</label><br>
-  <input type="file" id="testCaseOutputPrivateList" name="testCaseOutputPrivateList" multiple><br>
-
-  <input type="submit" value="Submit">
+<form id="searchForm">
+  <input type="text" name="keyword" placeholder="키워드 입력" />
+  <br />
+  <select name="searchType">
+    <option value="number">문제 번호</option>
+    <option value="title">문제 타이틀</option>
+  </select>
+  <br />
+  <input type="checkbox" name="algoType" value="1" /> Type 1
+  <input type="checkbox" name="algoType" value="2" /> Type 2
+  <input type="checkbox" name="algoType" value="3" /> Type 3
+  <input type="checkbox" name="algoType" value="4" /> Type 4
+  <br />
+  <button type="submit">검색</button>
 </form>
+
+<script>
+  $(document).ready(function() {
+    $('#searchForm').submit(function(e) {
+      e.preventDefault(); // 기본 form 제출 이벤트를 중지
+
+      let formData = {
+        keyword: $('input[name="keyword"]').val(),
+        searchType: $('select[name="searchType"]').val(),
+        algoType: $('input[name="algoType"]:checked').map(function() {
+          return parseInt($(this).val());
+        }).get()
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: '/problem/search',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+          // 성공적으로 데이터를 전송한 후의 처리 로직을 여기에 작성
+        },
+        error: function(error) {
+          // 에러 발생 시 처리 로직을 여기에 작성
+        }
+      });
+    });
+  });
+</script>
+
 </body>
 </html>

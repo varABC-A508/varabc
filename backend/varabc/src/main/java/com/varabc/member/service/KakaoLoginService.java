@@ -99,7 +99,6 @@ public class KakaoLoginService {
             System.out.println("\nSending 'GET' request to URL : " + RequestUrl);
             System.out.println("Response Code : " + responseCode);
 
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {

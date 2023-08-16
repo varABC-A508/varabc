@@ -1,19 +1,21 @@
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import Ide from ".";
 import Problem from "./Problem";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function IdeContainer() {
-  const {state} = useLocation();
+  const params = useParams();
+  const problemNo = params.problemNo;
+
   return (
     <PanelGroup direction="horizontal">
-        <Panel defaultSize={30} style={{overflowY:"auto"}}>
-            <Problem problemNo={state} />
-        </Panel>
-        <PanelResizeHandle className="cursor-col-resize" style={{ width: '4px', backgroundColor:'gray' }} />
-        <Panel defaultSize={70}>
-          <Ide className="w-full" problemNo={state} />
-        </Panel>
+      <Panel defaultSize={30} style={{ overflowY: "auto" }}>
+        <Problem problemNo={problemNo} />
+      </Panel>
+      <PanelResizeHandle className="cursor-col-resize" style={{ width: '4px', backgroundColor: 'gray' }} />
+      <Panel defaultSize={70}>
+        <Ide className="w-full" problemNo={problemNo} />
+      </Panel>
     </PanelGroup>
   );
 }

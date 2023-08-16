@@ -10,7 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class StartBattleDto {
 
-    private Long competitionResultNo;
+    private String roomCode;
 
     private int competitionTeam;
 
@@ -26,11 +26,11 @@ public class StartBattleDto {
 
 
     @Builder
-    public StartBattleDto(Long competitionResultNo, int competitionTeam, Long problemNo,
+    public StartBattleDto(String roomCode, int competitionTeam, Long problemNo,
             Long competitionResultT1M1No, Long competitionResultT1M2No,
             Long competitionResultT2M1No,
             Long competitionResultT2M2No) {
-        this.competitionResultNo = competitionResultNo;
+        this.roomCode = roomCode;
         this.competitionTeam = competitionTeam;
         this.problemNo = problemNo;
         this.competitionResultT1M1No = competitionResultT1M1No;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,13 +12,12 @@ const bgColors = {
 };
 
 const btnSizes = {
-  big: "w-[420px] text-2xl",
-  basic: "px-12 py-3 text-xl",
+  big: "w-[420px] h-[100px] text-[44px]",
+  basic: "w-[300px] h-[80px] text-xl",
+  small: "w-[100px] h-[28px] text-[16px]",
 };
 
-
-
-const MoveRoundButton = ({ to, text, bgColor, btnSize }) => {
+const MoveRoundButton = ({ to, text, bgColor, btnSize, isCreateRoom }) => {
   const navigate = useNavigate();
   const backgroundColor = bgColors[bgColor];
   const buttonSize = btnSizes[btnSize];
@@ -48,16 +46,13 @@ const MoveRoundButton = ({ to, text, bgColor, btnSize }) => {
   }
   childHoverColor = "group-" + hoverColor;
 
-
-
-  const handleClick = () => {
-    console.log('페이지 이동');
+  const onButtonClick = () => {
     navigate(to);
   };
 
   return (
 
-    <button onClick={handleClick} className={`${backgroundColor} ${textColor} ${hoverColor} group h-[100px] flex justify-center items-center text-[44px] font-bold rounded-full ${buttonSize}`}>
+    <button onClick={onButtonClick} className={`${backgroundColor} ${textColor} ${hoverColor} group flex justify-center items-center font-bold rounded-full ${buttonSize}`}>
       {text}
       <FontAwesomeIcon className={`${backgroundColor} ${textColor} ${childHoverColor} flex ml-4`} icon={faArrowRightFromBracket} />
     </button>

@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import LogoutItem from "./LogoutItem";
+import SidebarItem from "./sidebarItem";
 
 export const SideBar = () => {
+
   return (
-    <div className="flex flex-col mr-10">
-      <Link to="/mypage/profile">내 프로필</Link>
-      <Link to="/mypage/history">내 전적</Link>
-      <Link to="/mypage/reviews">내 리뷰</Link>
-      <Link to="/mypage/friends">내 친구</Link>
+    <div className="flex flex-col bg-primary min-w-[266px] pt-[60px] p-[20px]">
+      <SidebarItem to="profile" text="내 프로필" icon="user" />
+      <SidebarItem to="history" text="내 전적" icon="statistics" />
+      <SidebarItem to="reviews" text="내 리뷰" icon="review" />
+      <SidebarItem to="friends" text="내 친구" icon="friend" />
+      <LogoutItem />
     </div>
   );
 };

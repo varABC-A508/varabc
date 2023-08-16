@@ -19,17 +19,18 @@ public class NumberEncryptor {
         Cipher c = Cipher.getInstance(ALGO);
         c.init(Cipher.ENCRYPT_MODE, key);
         byte[] encVal = c.doFinal(numberStr.getBytes());
-        return Base64.getEncoder().encodeToString(encVal);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(encVal); // URL-safe encoding
     }
 
     public long decrypt(String encryptedData) throws Exception {
         Key key = generateKey();
         Cipher c = Cipher.getInstance(ALGO);
         c.init(Cipher.DECRYPT_MODE, key);
-        byte[] decodedValue = Base64.getDecoder().decode(encryptedData);
+        byte[] decodedValue = Base64.getUrlDecoder().decode(encryptedData); // URL-safe decoding
         byte[] decValue = c.doFinal(decodedValue);
         return Long.parseLong(new String(decValue));
     }
+
 
     private Key generateKey() throws Exception {
         return new SecretKeySpec(keyValue, ALGO);

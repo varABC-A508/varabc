@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ValidationRepository extends JpaRepository<TestCase, Long> {
     List<TestCase> findByProblemNo(long problemNo);
+    List<TestCase> findByProblemNoAndTestCasePublic(long problemNo, boolean isPublic);
 }
