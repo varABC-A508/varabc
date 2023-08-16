@@ -19,6 +19,7 @@ import com.varabc.problem.domain.entity.Problem;
 import com.varabc.problem.repository.ProblemRepository;
 import com.varabc.validation.domain.entity.Submit;
 import com.varabc.validation.repository.SubmitRepository;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -187,5 +188,15 @@ public class MyPageServiceImpl implements MyPageService {
         ReviewBattleDetailDto reviewBattleDetailDto = myPageMapper.EntityToReviewBattleDetailDto(competitionResult,
                 problem, member1, member2, member3, member4, isWinner);
         return reviewBattleDetailDto;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteReview(long reviewNo) {
+        Review review = reviewRepository.findByReviewNo(reviewNo);
+        review.updateReviewResign(true);
+        ReviewTag reviewTag = reviewTagRepository.findByReviewNo(reviewNo);
+        reviewTag.updateReviewTagResign(true);
+        return true;
     }
 }

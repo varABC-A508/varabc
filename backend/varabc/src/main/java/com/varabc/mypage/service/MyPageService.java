@@ -22,4 +22,6 @@ public interface MyPageService {
     SubmitCodeDto getSubmit(Long submitNo, Long memberNo);
 
     ReviewBattleDetailDto getReviewBattleDetail(Long competitionResultNo, Long memberNo);
+
+    boolean deleteReview(long reviewNo);
 }
