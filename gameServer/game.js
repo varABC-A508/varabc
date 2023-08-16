@@ -130,7 +130,7 @@ io.on("connection", (socket) => {
 
   socket.on('getTeamMateInfo', ({ roomToken, teamMateIndex }) => {
     const room = roomToken;
-    io.to(socket.id).emit('sendTeamMateInfo', { teamMateInfo: rooms[room].members[teamMateIndex] });
+    io.to(socket.id).emit('sendTeamMateInfo', { teamMateInfo: rooms[room].members[teamMateIndex - 1] });
   });
 
   socket.on('onGameEnd', ({ roomToken }) => {
