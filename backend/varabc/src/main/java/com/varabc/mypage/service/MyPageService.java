@@ -4,6 +4,7 @@ import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.mypage.domain.dto.ReviewBattleDetailDto;
 import com.varabc.mypage.domain.dto.SubmitCodeDto;
 import java.util.List;
 public interface MyPageService {
@@ -19,4 +20,6 @@ public interface MyPageService {
     List<MyPageSubmitDto> getSubmitList(Long memberNo, Long problemNo);
 
     SubmitCodeDto getSubmit(Long submitNo, Long memberNo);
+
+    ReviewBattleDetailDto getReviewBattleDetail(Long competitionResultNo, Long memberNo);
 }
