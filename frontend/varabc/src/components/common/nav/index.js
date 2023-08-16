@@ -27,6 +27,7 @@ export const Nav = () => {
     localStorage.removeItem('nickname');
     dispatch(setNickname(null));
     localStorage.clear();
+    sessionStorage.clear();
     window.location.reload();
   };
 
@@ -54,9 +55,9 @@ export const Nav = () => {
           <div>
             <button
               onClick={handleOpenModal}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="m-[5px] text-[25px]"
             >
-              Login
+              로그인
             </button>
             <Login isOpen={isModalOpen} onClose={handleCloseModal} />
           </div>
@@ -66,7 +67,7 @@ export const Nav = () => {
             <div className="text-2xl">
               <span className="font-bold">{nickname}</span>
               <span>님!</span>
-              <button onClick={logout}>로그아웃</button>
+              <button className="m-[5px]" onClick={logout}>로그아웃</button>
             </div>
           </div>
         )}
