@@ -72,7 +72,7 @@ const StartGameButton = ({roomToken, members }) => {
       <button
         onClick={onButtonClick}
         type="button"
-        className={`${isDisabled ? "bg-gray-700" : "bg-point"} text-white flex justify-center items-center rounded-lg font-bold w-[358px] h-[100px] text-[64px]`}
+        className={`${isDisabled ? "bg-red" : "bg-point"} text-white flex justify-center items-center rounded-lg font-bold w-[358px] h-[100px] text-[64px]`}
         disabled={isDisabled}
       >
         START!
