@@ -16,7 +16,7 @@ export const Login = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 p-20 rounded-lg">
       <div className="fixed inset-0 bg-black opacity-50 z-40"></div>
-      <div className="w-[500px] bg-white p-20 rounded shadow-lg z-50">
+      <div className="w-[500px] bg-[#94a3b8] p-20 rounded shadow-lg z-50">
         <div className="flex justify-end ">
           <FontAwesomeIcon onClick={onClose} className='text-gray-700 w-10 h-10' icon={faXmark} />
         </div>
