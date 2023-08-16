@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-# {
+* {
     font-family: 'NanumSquareLight';
     font-family: 'NanumSquare';
     font-family: 'NanumSquareBold';
