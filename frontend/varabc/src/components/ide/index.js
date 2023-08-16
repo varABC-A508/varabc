@@ -206,7 +206,8 @@ const Ide = ( { problemNo }) => {
             <div>실행 결과</div>
             <div>실행 시간: {result.executionTime}</div>
             <div>사용 메모리: {result.memoryUsage}</div>
-            { <div>{(!result.output) ? (result.result === 1 ? "성공" : "실패") : ("")}</div> }
+            { <div>{(result && !result.result) ? (result.result === 1 ? "성공" : "실패") : ("")}</div> }
+            { <div>{(result && !result.exceptionMessage) ? result.exceptionMessage : ""}</div> }
             <br />
             { result.output ? result.output.map((outputMessage, index) => (<div key={index}>{`테스트 ${index + 1}:    ${outputMessage}`}</div>)) : ""}
           </Panel>
