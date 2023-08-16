@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Login } from '../../../pages/myPage/login/Login';
-import {useDispatch, useSelector} from 'react-redux';
-import { setNickname } from "../../../redux/Reducer/userReducers";
+import { useDispatch, useSelector } from 'react-redux';
+import { setNickname } from '../../../redux/Reducer/userReducers';
 
 export const Nav = () => {
-
   const dispatch = useDispatch();
   const nickname = useSelector((state) => state.user.nickname);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+
+  const [activeTab, setActiveTab] = useState('');
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -19,7 +21,7 @@ export const Nav = () => {
   };
 
   useEffect(() => {
-    console.log("NAV의 닉네임: " + nickname);
+    console.log('NAV의 닉네임: ' + nickname);
   }, [nickname]);
 
   const logout = () => {
@@ -31,6 +33,16 @@ export const Nav = () => {
     window.location.reload();
   };
 
+  useEffect(() => {
+    if (location.pathname === '/battle') {
+      setActiveTab('battle');
+    } else if (location.pathname === '/problem') {
+      setActiveTab('problem');
+    } else if (location.pathname === '/tier') {
+      setActiveTab('tier');
+    }
+  }, [location.pathname]);
+
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
       <div className="w-20% pl-10">
@@ -40,18 +52,27 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="w-[480px] flex flex-row align-center justify-between">
-        <Link to="/battle" className="font-bold text-2xl">
+        <Link
+          to="/battle"
+          className={`font-bold text-2xl ${activeTab === 'battle' ? 'text-point' : ''}`}
+        >
           코드 배틀
         </Link>
-        <Link to="/problem" className="font-bold text-2xl">
+        <Link
+          to="/problem"
+          className={`font-bold text-2xl ${activeTab === 'problem' ? 'text-point' : ''}`}
+        >
           문제
         </Link>
-        <Link to="/tier" className="font-bold text-2xl">
+        <Link
+          to="/tier"
+          className={`font-bold text-2xl ${activeTab === 'tier' ? 'text-point' : ''}`}
+        >
           티어
         </Link>
       </div>
       <div className="w-20% pr-10">
-        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "" ) ? (
+        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "") ? (
           <div>
             <button
               onClick={handleOpenModal}
