@@ -23,6 +23,7 @@ public class ProblemMapper {
     public List<ProblemListDto> problemEntityListToDtoList(List<Problem> problemList){
         List<ProblemListDto> tempList=new ArrayList<>();
         for (int i=0;i<problemList.size();i++){
+            if( problemList.get(i).isProblemResign()) continue;
             ProblemListDto problemListDto=problemEntityToDto(problemList.get(i));
             tempList.add(problemListDto);
         }
