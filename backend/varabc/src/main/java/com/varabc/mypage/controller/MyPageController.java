@@ -81,10 +81,14 @@ public class MyPageController {
 
         BattleResultDetailDto battleResultDetailDto = myPageService.getBattleDetail(
                 competitionResultNo, memberNo);
+        if (battleResultDetailDto == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         if (battleResultDetailDto.getMyTeamSubmitList().isEmpty()
                 && battleResultDetailDto.getOpponentTeamSubmitList().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+
         return new ResponseEntity<>(battleResultDetailDto, HttpStatus.OK);
     }
 
@@ -115,6 +119,9 @@ public class MyPageController {
     @GetMapping("/{memberNo}")
     public ResponseEntity<?> getOtherMember(@PathVariable Long memberNo) {
         MemberDto memberDto = memberService.getMemberByMemberNo(memberNo);
+        if (memberDto == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
@@ -25,13 +25,13 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public Member saveGoogleMember(JsonNode userInfo) {
         Member member = memberRepository.findByMemberId(userInfo.get("id").asText());
-        if(member==null){
-            GoogleMemberDto googleMemberDto =memberMapper.googleJsonToDto(userInfo);
+        if (member == null) {
+            GoogleMemberDto googleMemberDto = memberMapper.googleJsonToDto(userInfo);
             member = memberMapper.googleMemberDtoToEntity(googleMemberDto);
             memberRepository.save(member);
             return member;
         }
-        updateMemberNameInNewTransaction(userInfo.get("name").asText(),member);
+        updateMemberNameInNewTransaction(userInfo.get("name").asText(), member);
         return member;
     }
 
@@ -41,13 +41,14 @@ public class MemberServiceImpl implements MemberService{
         System.out.println(userInfo.get("kakao_account").get("email"));
         Member member = memberRepository.findByMemberId(userInfo.get("id").asText());
 
-        if(member==null){
-            KakaoMemberDto kakaoMemberDto =memberMapper.kakaoJsonToDto(userInfo);
+        if (member == null) {
+            KakaoMemberDto kakaoMemberDto = memberMapper.kakaoJsonToDto(userInfo);
             member = memberMapper.kakaoMemberDtoToEntity(kakaoMemberDto);
             memberRepository.save(member);
             return member;
         }
-        updateMemberNameInNewTransaction(userInfo.path("kakao_account").path("profile").path("nickname").asText(),member);
+        updateMemberNameInNewTransaction(
+                userInfo.path("kakao_account").path("profile").path("nickname").asText(), member);
         return member;
     }
 
@@ -61,7 +62,10 @@ public class MemberServiceImpl implements MemberService{
     public List<MemberDto> getMember() {
         List<Member> list = memberRepository.findAll();
         List<MemberDto> memberDtoList = new ArrayList<>();
-        for(Member member :list){
+        for (Member member : list) {
+            if (member.isMemberResign()) {
+                continue;
+            }
             MemberDto memberDto = memberMapper.memberToDto(member);
             memberDtoList.add(memberDto);
         }
@@ -85,22 +89,24 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public MemberDto getMemberByMemberNo(long memberNo) {
-        Member member= memberRepository.findByMemberNo(memberNo);
-        MemberDto memberDto=memberMapper.memberToDto(member);
-        return memberDto;
+        Member member = memberRepository.findByMemberNo(memberNo);
+        if (member.isMemberResign()) {
+            return null;
+        }
+        return memberMapper.memberToDto(member);
     }
 
     @Override
     @Transactional
     public void updateMemberNickname(String memberNickname, long memberNo) {
-        Member member=memberRepository.findByMemberNo(memberNo);
+        Member member = memberRepository.findByMemberNo(memberNo);
         member.updateMemberNickname(memberNickname);
     }
 
     @Override
     public boolean findMemberNickname(String memberNickname) {
         Member member = memberRepository.findByMemberNickname(memberNickname);
-        if (member!=null){
+        if (member != null) {
             return true;
         }
         return false;

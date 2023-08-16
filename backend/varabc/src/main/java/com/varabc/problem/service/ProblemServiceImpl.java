@@ -252,10 +252,12 @@ public class ProblemServiceImpl implements ProblemService {
         List<Problem> problemList = problemRepository.findAll();
         List<ProblemListDto> problemListDtoList = new ArrayList<>();
         for (Problem problem : problemList) {
-            if (!problem.isProblemResign()) {
-                ProblemListDto problemListDto = problemMapper.convertEntityToDto(problem);
-                problemListDtoList.add(problemListDto);
+            if (problem.isProblemResign()) {
+                continue;
             }
+            ProblemListDto problemListDto = problemMapper.convertEntityToDto(problem);
+            problemListDtoList.add(problemListDto);
+
         }
         return problemListDtoList;
     }
