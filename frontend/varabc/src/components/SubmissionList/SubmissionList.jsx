@@ -6,7 +6,7 @@ import Pagination from "@mui/material/Pagination";
 import { submissionExample } from "./submissionExample.jsx";
 
 const SubmissionList = ({
-  submissions = submissionExample,
+  submitList,
   navigation,
   pagination = true,
   mode = "practice",

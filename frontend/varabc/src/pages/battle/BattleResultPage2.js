@@ -3,7 +3,7 @@ import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import SmButton from "../../components/common/Button/SmButton";
 import BattleImage from "../../img/battleimg.png";
-import SubmissionList from "../../components/SubmissionList/SubmissionList";
+import BattleSubmitList from "../../components/SubmissionList/BattleSubmitList";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -30,11 +30,11 @@ export const BattleResultPage2 = () => {
         <p className="absolute flex text-[50px] text-white m-5 text-center font-bold  mt-[380px] ml-[150px]">Win Team</p>
         {/* 제출 리스트에 값을 설정하는 부분이 필요해요 일단 위치만 지정함 */}
         <div className='absolute flex mt-[280px] ml-[310px]'>
-          <SubmissionList submitList={winTeamSubmitList} />
+          <BattleSubmitList submitList={winTeamSubmitList} />
         </div>
         <p className="absolute flex text-[50px] text-white m-5 text-center font-bold mt-[560px] ml-[150px]">Lose Team</p>
         <div className='absolute flex mt-[510px] ml-[310px]'>
-          <SubmissionList submitList={loseTeamSubmitList} />
+          <BattleSubmitList submitList={loseTeamSubmitList} />
         </div>
         <div className="absolute flex mt-[750px] ml-[1200px]">
           <SmButton
