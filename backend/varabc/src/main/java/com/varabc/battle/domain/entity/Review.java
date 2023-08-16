@@ -48,4 +48,8 @@ public class Review {
         this.reviewContent = reviewContent;
         this.reviewResign = reviewResign;
     }
+
+    public void updateReviewResign(boolean b) {
+        this.reviewResign= b;
+    }
 }

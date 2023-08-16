@@ -15,4 +15,6 @@ public interface MemberService {
     String getEmail(Long memberNo);
 
     List<MemberDto> getMember();
+
+    boolean deleteMember(long memberNo);
 }
