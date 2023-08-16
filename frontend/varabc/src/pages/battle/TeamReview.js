@@ -11,7 +11,7 @@ export const TeamReview = () => {
   const { roomToken } = useParams();
   // const { state } = useLocation();
   // const { gameResult } = state;
-  const userRoomIndex = sessionStorage.getItem(JSON.parse('userRoomIndex'));
+  const userRoomIndex = parseInt(sessionStorage.getItem('userRoomIndex'));
   const [teamMate, setTeamMate] = useState({});
   let teamMateIndex;
   switch(userRoomIndex) {
