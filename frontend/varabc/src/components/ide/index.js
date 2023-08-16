@@ -12,13 +12,14 @@ import axios from 'axios';
 import AceEditor from "react-ace";
 import 'ace-builds/src-noconflict/ext-language_tools';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import socket from "../../modules/socketInstance";
 
 // components
 import IdeNav from './IdeNav';
 import SmButton from '../common/Button/SmButton';
 import { useNavigate, useParams } from "react-router-dom";
+import { setIsPlayerTurn } from "../../redux/Reducer/ideReducers";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBK1bjRO-tmrOEzfiyZQy3vSck5wi3Qjg4",
@@ -36,7 +37,7 @@ const app = initializeApp(firebaseConfig);
 const Ide = ( { problemNo }) => {
   const [code, setCode] = useState('');
   const [result, setResult] = useState('');
-  const [isPlayerTurn, setIsPlayerTurn] = useState(null);
+  const isPlayerTurn = useSelector((state) => state.ide.isPlayerTurn);
   const [memberNo, setMemberNo] = useState();
 
   const editorRef = useRef(null);
@@ -51,6 +52,7 @@ const Ide = ( { problemNo }) => {
   const teamMateNo = sessionStorage.getItem('teamMateNo');
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     sessionStorage.setItem('team-token', teamToken);
@@ -84,11 +86,13 @@ const Ide = ( { problemNo }) => {
   }, [isPlayerTurn])
 
   socket.on('getPlayerTurn', ({ isPlayerTurn }) => {
-    setIsPlayerTurn(isPlayerTurn);
+    dispatch(setIsPlayerTurn(isPlayerTurn));
+    sessionStorage.setItem('isPlayerTurn', JSON.stringify(isPlayerTurn));
   });
 
   socket.on('togglePlayerTurn', ({ isPlayerTurn })=> {
-    setIsPlayerTurn(isPlayerTurn);
+    dispatch(setIsPlayerTurn(isPlayerTurn));
+    sessionStorage.setItem('isPlayerTurn', JSON.stringify(isPlayerTurn));
   });
   
   const onCodeChange = (newCode) => {

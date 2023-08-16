@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import socket from '../../../modules/socketInstance';
+import { useSelector } from 'react-redux';
 
 const Timer = () => {
   const TWO_MINUTES = 20;
@@ -18,7 +19,7 @@ const Timer = () => {
         return () => clearInterval(intervalId);
       }
     } else {
-      const isPlayerTurn = JSON.parse(sessionStorage.getItem('isPlayerTurn'));
+      const isPlayerTurn = useSelector((state) => state.ide.isPlayerTurn);
       socket.emit('onTimerEnd', { 
         isPlayerTurn: isPlayerTurn,
       });
