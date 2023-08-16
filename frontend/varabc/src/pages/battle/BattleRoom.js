@@ -7,6 +7,7 @@ import StartGameButton from "../../components/common/Button/StartGameButton";
 import SelectButton from "../../components/common/Button/SelectButton";
 import socket from "../../modules/socketInstance";
 import swal from 'sweetalert';
+import InviteLink from "../battle/InviteLink";
 
 export const BattleRoom = () => {
   const [members, setMembers] = useState([]);
@@ -15,6 +16,7 @@ export const BattleRoom = () => {
   const roomToken = params.roomToken;
   const [selectedSource, setSelectedSource] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
+  const [isCopyOpen, setIsCopyOpen] = useState(false);
 
   const handleSourceSelect = (event) => {
     setSelectedSource(event.target.value);
@@ -24,18 +26,27 @@ export const BattleRoom = () => {
     setSelectedDifficulty(event.target.value);
   };
 
+  const handleOpenCopy = () => {
+    setIsCopyOpen(true);
+  };
+
+  const handleCloseCopy = () => {
+    setIsCopyOpen(false);
+  };
 
   useEffect(() => {
     sessionStorage.setItem('isPractice', JSON.stringify(false));
     const userToken = localStorage.getItem('access-token');
     if (!userToken) {
-      swal ( "이런" ,  "회원가입부터 해주세요!>19" ,  "error" );
+      swal("이런", "회원가입부터 해주세요!>19", "error");
       navigate("/");
     }
-    else{
-      axios.get(`https://varabc.com:8080/member/getUserInfo`, {headers: {
-        "access-token": userToken
-      }}).then((res) => {
+    else {
+      axios.get(`https://varabc.com:8080/member/getUserInfo`, {
+        headers: {
+          "access-token": userToken
+        }
+      }).then((res) => {
         console.log("방 참가자 정보 가져오기: ");
         console.log(res.data.userInfo);
         socket.emit('joinWaitingRoom', {
@@ -43,7 +54,7 @@ export const BattleRoom = () => {
           member: res.data.userInfo
         });
       }).catch((err) => {
-        swal ( "이런" ,  "서버에 문제가 있어요! 잠시후 다시 시도해 주세요.>20" + err,  "error" );
+        swal("이런", "서버에 문제가 있어요! 잠시후 다시 시도해 주세요.>20" + err, "error");
         navigate("/");
       });
     }
@@ -78,11 +89,13 @@ export const BattleRoom = () => {
               onDifficultySelect={handleDifficultySelect}
             />
             <div className="flex w-[358px] justify-between items-end">
-              <MoveSquareButton
+              <MoveSquareButton onclick={handleOpenCopy}
                 text="초대 URL"
                 bgColor="basic"
                 btnSize="basic"
               />
+              <InviteLink isOpen={isCopyOpen}
+                onClose={handleCloseCopy} />
             </div>
             <div className="mt-4">
               <StartGameButton roomToken={roomToken} members={members} source={selectedSource} difficulty={selectedDifficulty} />
