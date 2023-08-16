@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setNickname } from "../../redux/Reducer/userReducers";
 import ProfileImage from "../../components/common/ProfileImage";
 import profilepic from "../../img/test/profile1.png";
 import { calculateTier } from "../../utils/problemUtil";
@@ -7,6 +9,7 @@ import axios from "axios";
 
 export const Profile = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [noData, setNoData] = useState(true);
   const [user, setUser] = useState({});
 
@@ -43,6 +46,14 @@ export const Profile = () => {
     // eslint-disable-next-line
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("nickname");
+    dispatch(setNickname(null));
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.reload();
+  };
+
   const deleteUser = async () => {
     try {
       const userToken = localStorage.getItem("access-token");
@@ -65,6 +76,10 @@ export const Profile = () => {
         `https://varabc.com:8080/member/delete/${memberNo}`
       );
       console.log(deleteRes);
+      if (deleteRes.status === 200) {
+        logout();
+        navigate("/");
+      }
     } catch (e) {
       console.error(e);
     }
@@ -92,7 +107,11 @@ export const Profile = () => {
         {user.memberNickname || "유저"}의 프로필
       </div>
       <div className="w-9/12 flex items-center justify-between pr-[20px]">
-        <ProfileImage size="x-large" imgLink={user.memberImage || profilepic} clickable={false} />
+        <ProfileImage
+          size="x-large"
+          imgLink={user.memberImage || profilepic}
+          clickable={false}
+        />
         <div className="bg-primary w-[620px] h-[360px] rounded-[15px] ms-4 p-[30px]">
           <div className="text-point">
             <div className="flex items-center">
