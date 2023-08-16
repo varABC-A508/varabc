@@ -159,6 +159,14 @@ const Ide = ( { problemNo }) => {
       alert("코드 제출 실패\n" + err);
     });
   }
+  
+  socket.on('showGameResult', ({ gameResult }) => {
+    navigate(`/battle/${roomToken}/result1`, {
+      state: {
+        gameResult
+      },
+    });
+  });
 
   useEffect(() => {
     if(!isPlayerTurn && !JSON.parse(sessionStorage.getItem('isPractice'))) {
