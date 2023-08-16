@@ -43,6 +43,9 @@ public class MyPageServiceImpl implements MyPageService {
         List<Review> reviewList = reviewRepository.findByReviewReceiveMemberNo(memberNo);
         System.out.println(reviewList);
         for (Review review : reviewList) {
+            if (review.isReviewResign()) {
+                continue;
+            }
             ReviewTag reviewTag = reviewTagRepository.findByReviewNo(review.getReviewNo());
             MyPageReviewDto myPageReviewDto = myPageMapper.EntityToDto(review, reviewTag);
             myPageReviewDtoList.add(myPageReviewDto);
@@ -58,6 +61,9 @@ public class MyPageServiceImpl implements MyPageService {
                 memberNo, memberNo, memberNo, memberNo);
 
         for (CompetitionResult competitionResult : competitionResultList) {
+            if (competitionResult.isCompetitionResultResign()) {
+                continue;
+            }
             Member member1 = memberRepository.findByMemberNo(
                     competitionResult.getCompetitionResultT1M1No());
             Member member2 = memberRepository.findByMemberNo(
@@ -69,8 +75,9 @@ public class MyPageServiceImpl implements MyPageService {
             List<Problem> problemlist = problemRepository.findProblemsByCompetitionResultNo(
                     competitionResult.getCompetitionResultNo());
 
-            if(problemlist.isEmpty())
-               continue;
+            if (problemlist.isEmpty()) {
+                continue;
+            }
             Problem problem = problemlist.get(0);
             int team = 2;
             if (memberNo == member1.getMemberNo() || memberNo == member2.getMemberNo()) {
@@ -94,6 +101,9 @@ public class MyPageServiceImpl implements MyPageService {
     ) {
         CompetitionResult competitionResult = competitionResultRepository.findByCompetitionResultNo(
                 competitionResultNo);
+        if (competitionResult.isCompetitionResultResign()) {
+            return null;
+        }
         int team = 2;
         if (memberNo.equals(competitionResult.getCompetitionResultT1M1No()) || memberNo.equals(
                 competitionResult.getCompetitionResultT2M1No())) {
@@ -130,9 +140,10 @@ public class MyPageServiceImpl implements MyPageService {
     public MyPageReviewDto getBattleReview(Long competitionResultNo, Long memberNo) {
         Review review = reviewRepository.findByReviewReceiveMemberNoAndCompetitionResultNo(memberNo,
                 competitionResultNo);
-        if (review == null) {
+        if (review == null || review.isReviewResign()) {
             return null;
         }
+
         ReviewTag reviewTag = reviewTagRepository.findByReviewNo(review.getReviewNo());
         return myPageMapper.EntityToDto(review, reviewTag);
     }
@@ -165,9 +176,14 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public ReviewBattleDetailDto getReviewBattleDetail(Long competitionResultNo, Long memberNo) {
-        CompetitionResult competitionResult= competitionResultRepository.findByCompetitionResultNo(competitionResultNo);
-        List<Problem> problemList = problemRepository.findProblemsByCompetitionResultNo(competitionResultNo);
-        if(problemList.size()==0){
+        CompetitionResult competitionResult = competitionResultRepository.findByCompetitionResultNo(
+                competitionResultNo);
+        List<Problem> problemList = problemRepository.findProblemsByCompetitionResultNo(
+                competitionResultNo);
+        if (problemList.size() == 0) {
+            return null;
+        }
+        if (competitionResult.isCompetitionResultResign()) {
             return null;
         }
         Problem problem = problemList.get(0);
@@ -187,7 +203,8 @@ public class MyPageServiceImpl implements MyPageService {
         if (team == competitionResult.getCompetitionResultRecord()) {
             isWinner = true;
         }
-        ReviewBattleDetailDto reviewBattleDetailDto = myPageMapper.EntityToReviewBattleDetailDto(competitionResult,
+        ReviewBattleDetailDto reviewBattleDetailDto = myPageMapper.EntityToReviewBattleDetailDto(
+                competitionResult,
                 problem, member1, member2, member3, member4, isWinner);
         return reviewBattleDetailDto;
     }

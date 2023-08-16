@@ -15,8 +15,9 @@ public interface ProblemRepository extends JpaRepository<Problem,Long> {
     @Query("UPDATE Problem p SET p.problemResign = true WHERE p.problemNo = ?1")
     void updateProblemResign(Long problemNo);
 
-    @Query("SELECT p.problemNo FROM Problem p WHERE p.problemSource = :source AND p.problemLevel LIKE :level%")
+    @Query("SELECT p.problemNo FROM Problem p WHERE p.problemSource = :source AND p.problemLevel LIKE :level% AND p.problemResign = false")
     List<Long> getList(@Param("source") String problemSource, @Param("level") String problemLevel);
+
 
     List<Problem> findByProblemTitleContainingAndProblemAlgorithmType(String keyword, String compareBit);
     List<Problem> findByProblemTitleContaining(String keyword);
