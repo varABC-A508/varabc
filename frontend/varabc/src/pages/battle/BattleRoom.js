@@ -6,6 +6,7 @@ import axios from "axios";
 import StartGameButton from "../../components/common/Button/StartGameButton";
 import SelectButton from "../../components/common/Button/SelectButton";
 import socket from "../../modules/socketInstance";
+import swal from 'sweetalert';
 
 export const BattleRoom = () => {
   const [members, setMembers] = useState([]);
@@ -28,7 +29,7 @@ export const BattleRoom = () => {
     sessionStorage.setItem('isPractice', JSON.stringify(false));
     const userToken = localStorage.getItem('access-token');
     if (!userToken) {
-      alert('회원가입부터 해주세요!');
+      swal ( "이런" ,  "회원가입부터 해주세요!" ,  "error" )
       navigate("/");
     }
     else{
@@ -42,7 +43,7 @@ export const BattleRoom = () => {
           member: res.data.userInfo
         });
       }).catch((err) => {
-        alert("서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!" + err);
+        swal ( "이런" ,  "로그인부터 해주세요!" + err,  "error" )
         navigate("/");
       });
     }
@@ -77,11 +78,6 @@ export const BattleRoom = () => {
               onDifficultySelect={handleDifficultySelect}
             />
             <div className="flex w-[358px] justify-between items-end">
-              <MoveSquareButton
-                text="친구 초대"
-                bgColor="basic"
-                btnSize="basic"
-              />
               <MoveSquareButton
                 text="초대 URL"
                 bgColor="basic"
