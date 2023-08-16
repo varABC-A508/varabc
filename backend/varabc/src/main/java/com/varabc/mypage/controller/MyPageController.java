@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,8 +55,9 @@ public class MyPageController {
     }
 
     @GetMapping("/submit/code/{memberNo}/{submitNo}")
-    public ResponseEntity<?> getSubmitCode(@PathVariable Long submitNo, @PathVariable Long memberNo) {
-        SubmitCodeDto submitCodeDto = myPageService.getSubmit(submitNo,memberNo);
+    public ResponseEntity<?> getSubmitCode(@PathVariable Long submitNo,
+            @PathVariable Long memberNo) {
+        SubmitCodeDto submitCodeDto = myPageService.getSubmit(submitNo, memberNo);
         if (submitCodeDto == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -75,29 +77,36 @@ public class MyPageController {
     }
 
     @GetMapping("/battleDetail/{competitionResultNo}/{memberNo}")
-    public ResponseEntity<?> getBattleDetail(@PathVariable Long competitionResultNo, @PathVariable Long memberNo) {
+    public ResponseEntity<?> getBattleDetail(@PathVariable Long competitionResultNo,
+            @PathVariable Long memberNo) {
 
-        BattleResultDetailDto battleResultDetailDto = myPageService.getBattleDetail(competitionResultNo,  memberNo);
-        if(battleResultDetailDto.getMyTeamSubmitList().isEmpty() && battleResultDetailDto.getOpponentTeamSubmitList().isEmpty()){
+        BattleResultDetailDto battleResultDetailDto = myPageService.getBattleDetail(
+                competitionResultNo, memberNo);
+        if (battleResultDetailDto.getMyTeamSubmitList().isEmpty()
+                && battleResultDetailDto.getOpponentTeamSubmitList().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(battleResultDetailDto, HttpStatus.OK);
     }
 
     @GetMapping("/review/battleDetail/{competitionResultNo}/{memberNo}")
-    public ResponseEntity<?> getReviewBattleDetail(@PathVariable Long competitionResultNo, @PathVariable Long memberNo) {
+    public ResponseEntity<?> getReviewBattleDetail(@PathVariable Long competitionResultNo,
+            @PathVariable Long memberNo) {
 
-        ReviewBattleDetailDto reviewBattleDetailDto = myPageService.getReviewBattleDetail(competitionResultNo,  memberNo);
-        if(reviewBattleDetailDto ==null){
+        ReviewBattleDetailDto reviewBattleDetailDto = myPageService.getReviewBattleDetail(
+                competitionResultNo, memberNo);
+        if (reviewBattleDetailDto == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(reviewBattleDetailDto, HttpStatus.OK);
     }
 
     @GetMapping("/battle/{competitionResultNo}/{memberNo}")
-    public ResponseEntity<?> getBattleReview(@PathVariable Long competitionResultNo,@PathVariable Long memberNo ){
-        MyPageReviewDto myPageReviewDto = myPageService.getBattleReview(competitionResultNo,memberNo);
-        if(myPageReviewDto==null){
+    public ResponseEntity<?> getBattleReview(@PathVariable Long competitionResultNo,
+            @PathVariable Long memberNo) {
+        MyPageReviewDto myPageReviewDto = myPageService.getBattleReview(competitionResultNo,
+                memberNo);
+        if (myPageReviewDto == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(myPageReviewDto, HttpStatus.OK);
@@ -105,19 +114,29 @@ public class MyPageController {
 
 
     @GetMapping("/{memberNo}")
-    public ResponseEntity<?> getOtherMember(@PathVariable Long memberNo){
+    public ResponseEntity<?> getOtherMember(@PathVariable Long memberNo) {
         MemberDto memberDto = memberService.getMemberByMemberNo(memberNo);
-       return new ResponseEntity<>(memberDto, HttpStatus.OK);
+        return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 
-    //리뷰 삭제 필요.
-
     @GetMapping("/{problemNo}/{memberNo}")
-    public ResponseEntity<?> getMySubmit(@PathVariable Long memberNo, @PathVariable Long problemNo){
-        List<MyPageSubmitDto> myPageSubmitDtoList = myPageService.getSubmitList(memberNo,problemNo);
-        if(myPageSubmitDtoList.isEmpty()){
+    public ResponseEntity<?> getMySubmit(@PathVariable Long memberNo,
+            @PathVariable Long problemNo) {
+        List<MyPageSubmitDto> myPageSubmitDtoList = myPageService.getSubmitList(memberNo,
+                problemNo);
+        if (myPageSubmitDtoList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(myPageSubmitDtoList, HttpStatus.OK);
     }
+
+    @PatchMapping("/delete/{reviewNo}")
+    public ResponseEntity<?> deleteReview(@PathVariable long reviewNo) {
+        boolean check = myPageService.deleteReview(reviewNo);
+        if (check) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
 }
