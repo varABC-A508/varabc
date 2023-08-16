@@ -52,11 +52,11 @@ export const TeamReview = () => {
           <div className="absolute flex flex-col mt-[80px] ml-[700px]">
             <div className="absolute flex flex-col">
               <div>
-                <img src={ teamMate ? teamMate.member.memberImage : ""} alt="playerProfile" className="w-[300px] h-[300px] rounded-[16px] border-2" />
+                <img src={ teamMate && teamMate.member ? teamMate.member.memberImage : "" } alt="playerProfile" className="w-[300px] h-[300px] rounded-[16px] border-2" />
               </div>
               <div className="ml-[50px] mb-[50px]">
-                <div className="text-white font-bold text-[40px]">{teamMate ? teamMate.member.memberNickname : ""}</div>
-                <div className="text-white font-bold text-[24px]">#{teamMate ? teamMate.member.memberNo : ""}</div>
+                <div className="text-white font-bold text-[40px]">{teamMate && teamMate.member ? teamMate.member.memberNickname : ""}</div>
+                <div className="text-white font-bold text-[24px]">#{teamMate && teamMate.member ? teamMate.member.memberNo : ""}</div>
               </div>
               <MoveRoundButton to={"/"} text={"회의 하기"} bgColor={"basic"} btnSize={"basic"} />
               <br />
