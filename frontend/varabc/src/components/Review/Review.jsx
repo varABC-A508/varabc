@@ -44,6 +44,8 @@ export default function Review() {
           setCommunication(!communication)
         );
         break;
+      default:
+        break;
     }
   };
 
