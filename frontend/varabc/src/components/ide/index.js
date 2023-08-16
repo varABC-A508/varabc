@@ -52,6 +52,7 @@ const Ide = ( { problemNo }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    sessionStorage.setItem('team-token', teamToken);
     if(!JSON.parse(sessionStorage.getItem('isPractice'))){
       const db = getDatabase(app);
       set(ref(db, `${roomToken}/${teamToken}/code`), {
