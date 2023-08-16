@@ -6,6 +6,7 @@ import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.mypage.domain.dto.ReviewBattleDetailDto;
 import com.varabc.mypage.domain.dto.SubmitCodeDto;
 import com.varabc.mypage.service.MyPageService;
 import com.varabc.validation.Service.ValidationService;
@@ -81,6 +82,16 @@ public class MyPageController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(battleResultDetailDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/review/battleDetail/{competitionResultNo}/{memberNo}")
+    public ResponseEntity<?> getReviewBattleDetail(@PathVariable Long competitionResultNo, @PathVariable Long memberNo) {
+
+        ReviewBattleDetailDto reviewBattleDetailDto = myPageService.getReviewBattleDetail(competitionResultNo,  memberNo);
+        if(reviewBattleDetailDto ==null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(reviewBattleDetailDto, HttpStatus.OK);
     }
 
     @GetMapping("/battle/{competitionResultNo}/{memberNo}")

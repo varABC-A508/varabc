@@ -24,4 +24,6 @@ public class BattleInfoDto {
         this.competitionResultT2M1No = competitionResultT2M1No;
         this.competitionResultT2M2No = competitionResultT2M2No;
     }
+
+
 }

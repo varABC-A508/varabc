@@ -46,6 +46,7 @@ const BattleHistory = () => {
         );
 
         const memberNo = userResponse.data.userInfo.memberNo;
+        console.log(memberNo)
 
         const response = await axios.get(
           `https://varabc.com:8080/mypage/battle/${memberNo}`

@@ -8,6 +8,7 @@ import com.varabc.mypage.domain.dto.BattleListDetailDto;
 import com.varabc.mypage.domain.dto.BattleResultDetailDto;
 import com.varabc.mypage.domain.dto.MyPageReviewDto;
 import com.varabc.mypage.domain.dto.MyPageSubmitDto;
+import com.varabc.mypage.domain.dto.ReviewBattleDetailDto;
 import com.varabc.mypage.domain.dto.SubmitCodeDto;
 import com.varabc.problem.domain.entity.Problem;
 import com.varabc.validation.domain.dto.SubmitDto;
@@ -130,4 +131,27 @@ public class MyPageMapper {
         return builder.build();
     }
 
+
+    public ReviewBattleDetailDto EntityToReviewBattleDetailDto(CompetitionResult competitionResult, Problem problem, Member member1, Member member2, Member member3, Member member4,
+            boolean isWinner) {
+        return  ReviewBattleDetailDto.builder()
+                .nicknameT1M1(member1.getMemberNickname())
+                .nicknameT1M2(member2.getMemberNickname())
+                .nicknameT2M1(member3.getMemberNickname())
+                .nicknameT2M2(member4.getMemberNickname())
+                .memberImageT1M1(member1.getMemberImage())
+                .memberImageT1M2(member2.getMemberImage())
+                .memberImageT2M1(member3.getMemberImage())
+                .memberImageT2M2(member4.getMemberImage())
+                .memberExpT1M1(member1.getMemberExp())
+                .memberExpT1M2(member2.getMemberExp())
+                .memberExpT2M1(member3.getMemberExp())
+                .memberExpT2M2(member4.getMemberExp())
+                .competitionResultNo(competitionResult.getCompetitionResultNo())
+                .problemTitle(problem.getProblemTitle())
+                .problemNo(problem.getProblemNo())
+                .problemAlgorithmType(problem.getProblemAlgorithmType())
+                .isWinner(isWinner)
+                .build();
+    }
 }
