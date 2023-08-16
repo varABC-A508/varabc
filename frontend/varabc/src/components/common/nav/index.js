@@ -55,7 +55,7 @@ export const Nav = () => {
           <div>
             <button
               onClick={handleOpenModal}
-              className="m-[5px] text-[25px]"
+              className="m-[5px] text-[25px] font-bold"
             >
               로그인
             </button>
@@ -63,11 +63,10 @@ export const Nav = () => {
           </div>
         ) : (
           <div>
-            <div className="text-xl">환영합니다</div>
             <div className="text-2xl">
               <span className="font-bold">{nickname}</span>
               <span>님!</span>
-              <button className="m-[5px]" onClick={logout}>로그아웃</button>
+              <button className="m-[15px] text-[25px] font-bold" onClick={logout}>로그아웃</button>
             </div>
           </div>
         )}
