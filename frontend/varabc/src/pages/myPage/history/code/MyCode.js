@@ -126,7 +126,7 @@ export const MyCode = ({ mode }) => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center mx-auto p-3">
+    <div className="w-full h-200vh flex flex-col items-center mx-auto p-3">
       <h1 className="mb-4 w-9/12 text-4xl text-white font-bold">내 코드</h1>
       <div className="w-9/12">
         <ProblemBasicInfo problemData={problemData} />
