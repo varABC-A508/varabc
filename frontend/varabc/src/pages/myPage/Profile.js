@@ -19,7 +19,7 @@ export const Profile = () => {
       try {
         const userToken = localStorage.getItem("access-token");
         if (!userToken) {
-          swal ( "이런" ,  "회원가입부터 해주세요!>26" ,  "error" );
+          swal ( "이런" ,  "로그인부터 해주세요!>26" ,  "error" );
           navigate("/");
           return;
         }
