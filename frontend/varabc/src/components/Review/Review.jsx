@@ -16,7 +16,6 @@ export default function Review() {
         key={tag.index}
         index={tag.index}
         content={tag.content}
-        handleTagClick={() => handleTagClick(tag.index)}
       />
     );
   });
