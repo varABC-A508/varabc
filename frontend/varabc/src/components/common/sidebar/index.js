@@ -8,7 +8,6 @@ export const SideBar = () => {
       <SidebarItem to="profile" text="내 프로필" icon="user" />
       <SidebarItem to="history" text="내 전적" icon="statistics" />
       <SidebarItem to="reviews" text="내 리뷰" icon="review" />
-      <SidebarItem to="friends" text="내 친구" icon="friend" />
       <LogoutItem />
     </div>
   );
