@@ -30,7 +30,7 @@ const ProblemList = ({mode="user"}) => {
   };
 
     return (
-      <div className={`w-full ${mode==="user"? "bg-bg2 bg-cover":""} flex items-center justify-center m-0`}>
+      <div className={`w-full ${mode==="user"? "bg-bg2 bg-cover":""} h-screen flex items-center justify-center m-0`}>
         <div className="flex flex-col items-center">
           <table className="w-[1000px] h-[600px] divide-y divide-white mt-[20px]">
             <thead className="bg-primary text-white h-[50px]">
