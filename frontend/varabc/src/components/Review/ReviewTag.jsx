@@ -5,14 +5,6 @@ import { useState } from 'react';
 export default function ReviewTag({ index, content }) {
 
   const dispatch = useDispatch();
-  // eslint-disable-next-line 
-  const readability = useSelector((state) => state.review.readability);
-  // eslint-disable-next-line 
-  const naming = useSelector((state) => state.review.naming);
-  // eslint-disable-next-line 
-  const speed = useSelector((state) => state.review.speed);
-  // eslint-disable-next-line 
-  const communication = useSelector((state) => state.review.communication);
 
   const [isClicked, setIsClicked] = useState(false);
 
