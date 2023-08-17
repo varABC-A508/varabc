@@ -1,8 +1,5 @@
 package com.varabc.validation.controller;
 
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.core.DockerClientBuilder;
-import com.varabc.validation.Service.DockerService;
 import com.varabc.validation.Service.ValidationService;
 import com.varabc.validation.domain.dto.*;
 import com.varabc.validation.domain.util.FileData;
@@ -25,13 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ValidationController {
     private final ValidationService validationService;
     private final ValidationMapper validationMapper;
-    private final DockerService dockerService;
-
-    @GetMapping("/ping")
-    public void pingDocker() {
-        System.out.println(dockerService.pingDocker());
-        return;
-    }
     @PostMapping("compilePython")
     public ResponseEntity<CompileResultDto> compilePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
         TestCaseDto testCaseDto= validationService.getPublicTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
@@ -77,43 +67,6 @@ public class ValidationController {
         String pythonServerUrl = "http://varabc.com:5000/";
         ValidationResultDto validationResultDto = validationService.sendRequestValidation(
                 pythonServerUrl, validateDto);
-        System.out.println(validationResultDto);
-        validationService.saveValidationResult(validationResultDto, validateDto,1,
-                1L,0);
-
-        return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
-    }
-    //파이썬 서버로 도커컨테이너로 요청 격리해 보내기
-    @PostMapping("sendValidatePyDocker")
-    public ResponseEntity<ValidationResultDto> validatePyDocker(@RequestBody ValidateDataDto validateDataDto) throws Exception{
-        //DB에서 엔티티를 꺼내와서  ValidationResult ValidateDto의 값을 온전하게 세팅하여 전달함,
-        //레포지토리에서 테스트케이스들을 가져오는 로직 수행
-
-
-        TestCaseDto testCaseDto= validationService.getTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
-        //레포지토리에서 문제에 대한 제약사항들을 가져오는 로직 수행
-        List<FileData> inputFiles= validationService.getUrlIntoText(testCaseDto.getInputFiles());
-        List<FileData> outputFiles= validationService.getUrlIntoText(testCaseDto.getOutputFiles());
-
-
-        ProblemRestrictionDto problemRestrictionDto =validationService.getProblemRestriction(validateDataDto.getProblemNo());
-        ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,1);
-        //파이썬 서버로 요청 보내기
-        System.out.println(problemRestrictionDto);
-        HttpStatus status=HttpStatus.OK;
-        // 도커 컨테이너 생성 및 실행
-        String containerId = dockerService.startPythonEvaluationContainer();
-
-
-        String pythonServerUrl = "http://" + dockerService.containerIpAddress(containerId) + ":5005/";
-        System.out.println(pythonServerUrl);
-        ValidationResultDto validationResultDto = validationService.sendRequestValidation(
-                pythonServerUrl, validateDto);
-        // 도커 컨테이너 종료
-        dockerService.stopPythonEvaluationContainer(containerId);
-        System.out.println("stopped");
-
-
         System.out.println(validationResultDto);
         validationService.saveValidationResult(validationResultDto, validateDto,1,
                 1L,0);
