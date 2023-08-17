@@ -12,10 +12,6 @@ const EndBattleButton = ({ comment }) => {
 	);
 	const onButtonClick = (e) => {
 		e.preventDefault();
-		console.log("read:" + readability);
-		console.log("naming:" + naming);
-		console.log("speed:" + speed);
-		console.log("communication:" + communication);
 		axios.post(`https://varabc.com:8080/battle/review/${roomToken}`, {
 			"reviewTagReadability" : readability,
 			"reviewTagNaming": naming,

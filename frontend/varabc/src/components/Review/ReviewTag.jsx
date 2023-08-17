@@ -17,21 +17,17 @@ export default function ReviewTag({ index, content }) {
     switch (parseInt(index)) {
       case 0:
         dispatch(toggleReadability());
-        console.log(readability);
         break;
       case 1:
         dispatch(toggleNaming());
-        console.log(naming);
         break;
       case 2:
         dispatch(toggleSpeed());
-        console.log(speed);
         break;
       case 3:
         dispatch(
           toggleCommunication()
         );
-        console.log(communication);
         break;
       default:
         break;
