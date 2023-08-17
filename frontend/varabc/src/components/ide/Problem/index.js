@@ -30,7 +30,7 @@ const Problem = ({ problemNo }) => {
 
 
   return (
-    <div className="p-4 text-white bg-primaryDark">
+    <div className="p-4 text-white bg-primaryDark h-screen">
       <div className="text-[24px] mb-1 font-bold whitespace-pre-wrap">
         {problemNo}. {problem.problemTitle}
       </div>
