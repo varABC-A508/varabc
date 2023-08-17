@@ -214,6 +214,7 @@ const Ide = ( { problemNo }) => {
                 fontSize: `${fontSize}px`,
                 width: "100%",
                 height: "100%",
+                fontFamily: "monospace",
               }}
             />
           </Panel>
