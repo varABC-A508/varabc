@@ -58,16 +58,20 @@ export const Reviews = () => {
   }, [memberNo]);
 
   return (
-    <div className="p-[20px] w-[1080px]">
+    <div className="p-[20px]">
       <h1 className="text-white mt-[10px] text-[36px] font-bold ">내 리뷰</h1>
-      <h3 className="text-white mt-[15px] text-[28px]">내 짝의 리뷰를 확인해보세요!</h3>
+      <h3 className="text-white mt-[15px] text-[28px]">
+        내 짝의 리뷰를 확인해보세요!
+      </h3>
       {reviews.length === 0 ? (
         <p>리뷰가 없습니다.</p>
       ) : (
-        <div className='flex flex-wrap justify-between'>
-          {reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
+        <div className='w-full flex justify-center'>
+          <div className="flex flex-wrap justify-between w-[1100px]">
+            {reviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </div>
         </div>
       )}
     </div>
