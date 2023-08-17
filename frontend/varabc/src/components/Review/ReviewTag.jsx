@@ -42,7 +42,7 @@ export default function ReviewTag({ index, content }) {
     <div
       key={index}
       className={`inline-flex justify-center items-center m-3 w-[254px] h-[64px] rounded-[30px] cursor-pointer ${isClicked ? "bg-point": "bg-white" }`}
-      onClick={handleTagClick}
+      onClick={() => handleTagClick(index)}
     >
       <span className="text-[#2E2E2E] text-2xl font-bold"># {content}</span>
     </div>
