@@ -21,14 +21,17 @@ export const BattleResultPage2 = () => {
     navigate(`/battle/${roomToken}/${teamToken}/review`, {state: { gameResult }});
   };
 
+  const movePage = () => {
+    window.history.back();
+  }
+
   return (
     <div className="flex justify-center relative">
       <div className='w-[1400px] h-[800px] bg-gray-700 m-8 rounded-[30px] shadow-lg z-50 '>
         <img src={BattleImage} alt='FreePickimage' className='absolute flex w-[400px] h-[400px] mt-[0px] pt-[0px] ml-[25px]' />
         <p className="absolute flex text-[100px] text-white m-10 text-center font-bold italic mt-[80px] ml-[550px]" >{isMyTeamWin ? 'You Win!!' : 'You Lose'}</p>
-        <FontAwesomeIcon className='absolute flex text-white text-[60px] mt-[400px] ml-[30px]' icon={faCircleArrowLeft} />
+        <FontAwesomeIcon onClick={movePage} className='absolute flex text-white text-[60px] mt-[400px] ml-[30px]' icon={faCircleArrowLeft} />
         <p className="absolute flex text-[50px] text-white m-5 text-center font-bold  mt-[380px] ml-[150px]">Win Team</p>
-        {/* 제출 리스트에 값을 설정하는 부분이 필요해요 일단 위치만 지정함 */}
         <div className='absolute flex mt-[280px] ml-[310px]'>
           <BattleSubmitList submitList={winTeamSubmitList} />
         </div>
