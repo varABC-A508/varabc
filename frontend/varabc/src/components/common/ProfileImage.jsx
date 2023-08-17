@@ -6,9 +6,6 @@ const ProfileImage = ({
 }) => {
 
   const handleClick = e => {
-    if (clickable) {
-      console.log('clicked')
-    }
   }
 
   const clickStyle = "cursor-pointer transition-[border-color] duration-300 hover:border-[#5BDFCA]"
