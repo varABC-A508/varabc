@@ -32,7 +32,7 @@ const ReviewCard = ({ review }) => {
   }, [review]);
 
   return (
-    <div className={`w-[700px] h-[320px] p-4 rounded-lg ${randomColor}`}>
+    <div className={`w-[500px] h-[320px] p-4 rounded-lg ${randomColor} flex flex-col`}>
       {/* <FontAwesomeIcon className='text-gray-700 w-[25px] h-[25px] ml-[640px] mb-[5px]' icon={faXmark} /> */}
       <div className='font-bold text-[25px]'>
         <div className='flex'>
@@ -44,7 +44,7 @@ const ReviewCard = ({ review }) => {
           {review.reviewTagCommunication && <p className={`${review.reviewTagNaming ? 'ml-[100px]' : 'ml-[10px]'}`}># 소통을 잘해요</p>}
         </div>
       </div>
-      <p className='mt-[5px] mb-[5px] text-[#1e3a8a] ml-[20px] '>{review.reviewContent}</p>
+      <div className='mt-[5px] mb-[5px] text-[#1e3a8a] ml-[20px] '>{review.reviewContent}</div>
       {/* <a className='mb-[5px] ml-[20px] '>자세히 보기</a> */}
       <div className='flex mt-[10px] mb-[10px] ml-[20px] '>
         <img src={sendMember?.memberImage} alt="playerProfile" className="w-[100px] h-[100px] rounded-[16px] border-2" />

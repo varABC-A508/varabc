@@ -64,7 +64,7 @@ export const Reviews = () => {
       {reviews.length === 0 ? (
         <p>리뷰가 없습니다.</p>
       ) : (
-        <div className='flex justify-around'>
+        <div className='flex flex-wrap justify-between'>
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
