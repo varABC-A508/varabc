@@ -127,7 +127,7 @@ const Ide = ( { problemNo }) => {
       "code": code
     }).then((res) => {
       setResult(res.data);
-      if(parseInt(result.result) === 1){
+      if(parseInt(res.result) === 1){
         swal ( "와" ,  "문제 풀이 성공!>11",  "success" );
         navigate('/');
       } else {
@@ -152,7 +152,7 @@ const Ide = ( { problemNo }) => {
     }).then((res) => {
       console.log(res.data);
       setResult(res.data);
-      if(parseInt(result.result) === 1) {
+      if(parseInt(res.result) === 1) {
         swal ( "와" ,  "문제 풀이 성공!>14",  "success" );
         socket.emit('sendGameResult', {
           roomToken: roomToken,

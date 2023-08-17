@@ -37,7 +37,7 @@ const Testcase = ({inputUrlList, outputUrlList}) => {
     <>
       {(inputUrlList === undefined || outputUrlList === undefined) ? "로딩 중" : inputTestcaseList.map((inputTestcase, index) => {
         return (
-          <div className="flex flex-wrap justify-around" key={index}>
+          <div className="flex flex-wrap justify-around text-white bg-primaryDark" key={index}>
             <div className="w-1/2">
               <Title text={'예제 입력 ' + (index + 1)}></Title>
               <Content content={inputTestcase}></Content>
