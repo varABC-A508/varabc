@@ -1,31 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-* {
-    font-family: 'NanumSquareLight';
-    font-family: 'NanumSquare';
-    font-family: 'NanumSquareBold';
-    font-family: 'NanumSquareExtraBold';
-    font-family: 'NanumSquareAcb';
-    font-family: 'NanumSquareAceb';
-    font-family: 'NanumSquareAcl';
-    font-family: 'NanumSquareAcr';
-}
-
 .App{
     width:100%;
     height:full;
 }
 
 body{
-    font-family: 'NanumSquareLight';
-    font-family: 'NanumSquare';
-    font-family: 'NanumSquareBold';
-    font-family: 'NanumSquareExtraBold';
-    font-family: 'NanumSquareAcb';
-    font-family: 'NanumSquareAceb';
-    font-family: 'NanumSquareAcl';
-    font-family: 'NanumSquareAcr';
     overflow-x:hidden;
 }

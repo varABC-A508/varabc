@@ -142,7 +142,7 @@ const Ide = ( { problemNo }) => {
     e.preventDefault();
     axios.post(`https://varabc.com:8080/battle/submit/${roomToken}/${memberNo}`, {
       "battleCode": roomToken,
-      "problemNo": problemNo,
+      "problemNo": parseInt(problemNo),
       "member1": parseInt(memberNo),
       // TODO: 파트너 멤버 주기
       "member2": parseInt(teamMateNo),
@@ -199,6 +199,7 @@ const Ide = ( { problemNo }) => {
         <PanelGroup direction='vertical' className="flex-grow">
           <Panel defaultSize={65}>
             <AceEditor
+              className="editor"
               mode={mode.toLowerCase()}
               placeholder="코드를 작성해주세요!"
               theme={theme}
@@ -214,7 +215,6 @@ const Ide = ( { problemNo }) => {
                 fontSize: `${fontSize}px`,
                 width: "100%",
                 height: "100%",
-                fontFamily: "monospace",
               }}
             />
           </Panel>
