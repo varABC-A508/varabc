@@ -16,7 +16,7 @@ const Problem = ({ problemNo }) => {
     axios
       .get("https://varabc.com:8080/problem/" + problemNo)
       .then((res) => {
-        const [problemContent, problemInputContent, problemOutputContent ]= editImagesInPost(res.data.problemContent, res.data.problemInputContent,res.data.problemOutputContent, res.data.problemImageS3Url)
+        const [problemContent, problemInputContent, problemOutputContent] = editImagesInPost(res.data.problemContent, res.data.problemInputContent, res.data.problemOutputContent, res.data.problemImageS3Url)
         setProblem(res.data);
         setProblemContent(problemContent)
         setProblemInputContent(problemInputContent)
@@ -24,13 +24,17 @@ const Problem = ({ problemNo }) => {
 
       })
       .catch((err) => {
-        swal ( "이런" ,  "문제 데이터 조회 실패!>5",  "error" );
+        swal("이런", "문제 데이터 조회 실패!>5", "error");
       });
   }, [problemNo]);
 
 
   return (
+<<<<<<< HEAD
     <div className="p-4 bg-primaryDark">
+=======
+    <div className="p-4 text-white bg-primaryDark">
+>>>>>>> bf17b38b94f17c826be4d802374ef9576493b067
       <div className="text-[24px] mb-1 font-bold whitespace-pre-wrap">
         {problemNo}. {problem.problemTitle}
       </div>
