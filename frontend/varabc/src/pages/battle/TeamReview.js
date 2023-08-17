@@ -55,7 +55,7 @@ export const TeamReview = () => {
           <div className="absolute flex items-center flex-col w-[760px] h-[500px] mt-[280px] mr-[300px]">
             <Review />
             <br />
-            <textarea onChange={onCommentChange} value={comment} className="rounded-[30px] text-black p-[20px]" cols={100} rows={10}></textarea>
+            <textarea onChange={onCommentChange} value={comment} className="rounded-[30px] text-black p-[20px]" cols={100} rows={5}></textarea>
           </div>
           <div className="absolute flex flex-col mt-[80px] ml-[700px]">
             <div className="absolute flex flex-col">
