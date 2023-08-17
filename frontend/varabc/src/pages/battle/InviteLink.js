@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const InviteLink = ({ isOpen, onClose }) => {
+  console.log('>>링크창 들어왔당');
 
   const [isCopied, setIsCopied] = useState(false);
   const linkRef = useRef(null);

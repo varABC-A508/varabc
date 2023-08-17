@@ -53,6 +53,7 @@ const App = () => {
         </Route>
         <Route path="/tier" element={<Tier />} />
         <Route path="/mypage" element={<MyPage />}>
+          <Route index element={<Profile />}/>
           <Route path="profile" element={<Profile />} />
           <Route path="history" element={<HistoryBase />}>
             <Route index element={<History />} />
