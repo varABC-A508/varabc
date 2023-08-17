@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from 'react-redux';
-import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Reducer/reviewReducers';
+import { toggleReadability, toggleNaming, toggleSpeed, toggleCommunication } from '../../redux/Reducer/reviewReducers';
 import { useState } from 'react';
 
 export default function ReviewTag({ index, content }) {
@@ -16,17 +16,17 @@ export default function ReviewTag({ index, content }) {
     setIsClicked((prev) => !prev);
     switch (parseInt(index)) {
       case 0:
-        dispatch(setReadability(!readability));
+        dispatch(toggleReadability());
         break;
       case 1:
-        dispatch(setNaming(!naming));
+        dispatch(toggleNaming());
         break;
       case 2:
-        dispatch(setSpeed(!speed));
+        dispatch(toggleSpeed());
         break;
       case 3:
         dispatch(
-          setCommunication(!communication)
+          toggleCommunication()
         );
         break;
       default:

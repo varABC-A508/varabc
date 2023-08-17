@@ -11,20 +11,20 @@ const reviewSlice = createSlice({
   name: 'review',
   initialState,
   reducers: {
-    setReadability(state, action) {
-      state.readability = action.payload;
+    toggleReadability(state) {
+      state.readability = !state.readability;
     },
-    setNaming(state, action){
-      state.naming = action.payload;
+    toggleNaming(state){
+      state.naming = !state.naming;
     },
-    setSpeed(state, action){
-      state.speed = action.payload;
+    toggleSpeed(state){
+      state.speed = !state.speed;
     },
-    setCommunication(state, action){
-      state.communication = action.payload;
+    toggleCommunication(state){
+      state.communication = !state.communication;
     },
   },
 });
 
-export const { setReadability, setNaming, setSpeed, setCommunication } = reviewSlice.actions;
+export const { toggleReadability, toggleNaming, toggleSpeed, toggleCommunication } = reviewSlice.actions;
 export default reviewSlice.reducer;
