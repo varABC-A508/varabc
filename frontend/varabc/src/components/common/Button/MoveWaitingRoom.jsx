@@ -46,7 +46,7 @@ const MoveWaitingRoomButton = () => {
   };
 
   return (
-    <button onClick={onButtonClick} className="group flex justify-center items-center font-bold bg-white text-primary w-[420px] h-[100px] text-[44px] rounded-full">
+    <button onClick={onButtonClick} className="absolute mt-[500px] group flex justify-center items-center font-bold bg-white text-primary w-[420px] h-[100px] text-[44px] rounded-full">
       방 만들기
       <FontAwesomeIcon className="text-primary flex ml-4" icon={faArrowRightFromBracket} />
     </button>

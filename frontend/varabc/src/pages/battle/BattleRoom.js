@@ -1,5 +1,4 @@
 import TeamWaiting from "./TeamWaiting";
-import MoveSquareButton from "../../components/common/Button/MoveSquareButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -27,7 +26,6 @@ export const BattleRoom = () => {
   };
 
   const handleOpenCopy = () => {
-    console.log('>링크 창 열');
     setIsCopyOpen(true);
   };
 
@@ -90,11 +88,7 @@ export const BattleRoom = () => {
               onDifficultySelect={handleDifficultySelect}
             />
             <div className="flex w-[358px] justify-between items-end">
-              <MoveSquareButton onclick={handleOpenCopy}
-                text="초대 URL"
-                bgColor="basic"
-                btnSize="basic"
-              />
+              <button onClick={handleOpenCopy} type="button" className="flex m-[10px] justify-center items-center rounded-lg font-bold bg-white w-[172px] h-[76px] text-[32px] text-primary hover:bg-gray-200"> 초대 URL </button>
               <InviteLink isOpen={isCopyOpen}
                 onClose={handleCloseCopy} />
             </div>
