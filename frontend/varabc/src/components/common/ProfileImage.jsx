@@ -14,7 +14,7 @@ const ProfileImage = ({
     "small": "w-[60px] h-[60px]", 
     "medium": "w-[120px] h-[120px]", 
     "large": "w-[180px] h-[180px]", 
-    "x-large": "w-[360px] h-[360px]"
+    "x-large": "w-min-[360px] h-min-[360px]"
   }
 
   return (
