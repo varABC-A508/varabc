@@ -94,7 +94,7 @@ export const Profile = () => {
 
   if (noData) {
     return (
-      <div className="w-full p-[40px]">
+      <div className="w-full h-screen p-[40px]">
         <div className="text-white text-lg mt-[20px] mb-[20px] flex justify-center">
           프로필 정보가 없습니다.
         </div>
