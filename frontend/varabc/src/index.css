@@ -3,7 +3,6 @@
 @tailwind utilities;
 .App{
     width:100%;
-    height:full;
 }
 
 body{
