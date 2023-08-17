@@ -16,7 +16,7 @@ const SelectButton = ({ selectedSource, selectedDifficulty, onSourceSelect, onDi
   ];
 
   return (
-    <div className="container mx-auto mt-8 text-white">
+    <div className="container mx-auto mt-8 text-white mb-[10px]">
       <div className="flex items-center justify-between">
         {/* 출처 선택 */}
         <div>
