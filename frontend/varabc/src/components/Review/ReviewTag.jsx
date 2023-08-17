@@ -6,10 +6,6 @@ import { useState } from 'react';
 export default function ReviewTag({ index, content }) {
 
   const dispatch = useDispatch();
-  const { readability, naming, speed, communication } = useSelector(
-    (state) => state.review
-  );
-
   const [isClicked, setIsClicked] = useState(false);
 
   const handleTagClick = (index) => {

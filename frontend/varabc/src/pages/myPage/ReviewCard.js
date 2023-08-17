@@ -32,24 +32,24 @@ const ReviewCard = ({ review }) => {
   }, [review]);
 
   return (
-    <div className={`w-[500px] h-[320px] p-4 rounded-lg ${randomColor} flex flex-col`}>
+    <div className={`w-[500px] h-[320px] p-[10px] rounded-lg ${randomColor} flex flex-col justify-between`}>
       {/* <FontAwesomeIcon className='text-gray-700 w-[25px] h-[25px] ml-[640px] mb-[5px]' icon={faXmark} /> */}
-      <div className='font-bold text-[25px]'>
-        <div className='flex'>
-          {review.reviewTagReadability && <p className='ml-[10px]'># 가독성이 좋아요</p>}
-          {review.reviewTagSpeed && <p className={`${review.reviewTagReadability ? 'ml-[100px]' : 'ml-[10px]'}`}># 작성 속도가 빨라요</p>}
+      <div className='font-bold text-[20px]'>
+        <div className={`flex ${(review.reviewTagReadability && review.reviewTagSpeed ? "justify-between" : "justify-start")}`}>
+          {review.reviewTagReadability && <div># 가독성이 좋아요</div>}
+          {review.reviewTagSpeed && <div># 작성 속도가 빨라요</div>}
         </div>
-        <div className='flex'>
-          {review.reviewTagNaming && <p className='ml-[10px]'># 변수명이 쉬워요</p>}
-          {review.reviewTagCommunication && <p className={`${review.reviewTagNaming ? 'ml-[100px]' : 'ml-[10px]'}`}># 소통을 잘해요</p>}
+        <div className={`flex ${(review.reviewTagNaming && review.reviewTagCommunication ? "justify-between" : "justify-start")}`}>
+          {review.reviewTagNaming && <div># 변수명이 쉬워요</div>}
+          {review.reviewTagCommunication && <div className={`${review.reviewTagNaming ? 'ml-[100px]' : ''}`}># 소통을 잘해요</div>}
         </div>
       </div>
-      <div className='mt-[5px] mb-[5px] text-[#1e3a8a] ml-[20px] '>{review.reviewContent}</div>
+      <div className='mt-[5px] mb-[5px] text-[#1e3a8a] text-[24px] '>{review.reviewContent}</div>
       {/* <a className='mb-[5px] ml-[20px] '>자세히 보기</a> */}
-      <div className='flex mt-[10px] mb-[10px] ml-[20px] '>
+      <div className='flex justify-end'>
         <img src={sendMember?.memberImage} alt="playerProfile" className="w-[100px] h-[100px] rounded-[16px] border-2" />
         <div className='flex items-end text-[20px] ml-[10px]'>
-          <p className="text-[#0c4a6e] font-bold text-[25px]">{sendMember?.memberNickname}</p>님
+          <div className="text-[#0c4a6e] font-bold text-[25px]">{sendMember?.memberNickname}</div>님
         </div>
       </div>
     </div>
