@@ -9,7 +9,7 @@ function IdeContainer() {
 
   return (
     <PanelGroup direction="horizontal">
-      <Panel className="h-screen" defaultSize={30} style={{ overflowY: "auto" }}>
+      <Panel className="h-screen bg-primaryDark" defaultSize={30} style={{ overflowY: "auto" }}>
         <Problem problemNo={problemNo} />
       </Panel>
       <PanelResizeHandle className="cursor-col-resize" style={{ width: '4px', backgroundColor: 'gray' }} />
