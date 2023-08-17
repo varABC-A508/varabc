@@ -32,7 +32,7 @@ const EndBattleButton = ({ comment }) => {
 		<button
 		type="button"
 		onClick={onButtonClick}
-		className="w-[300px] h-[80px] text-xl bg-red"
+		className="w-[300px] h-[80px] text-xl bg-red group flex justify-center items-center font-bold rounded-full"
     >
       <span>배틀 완료</span>
       <FontAwesomeIcon
