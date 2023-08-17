@@ -32,7 +32,7 @@ const ReviewCard = ({ review }) => {
   }, [review]);
 
   return (
-    <div className={`w-[500px] h-[320px] p-[20px] m-[20px] rounded-lg ${randomColor} flex flex-col justify-between`}>
+    <div className={`w-[500px] h-[320px] p-[30px] m-[20px] rounded-[20px] ${randomColor} flex flex-col justify-between`}>
       {/* <FontAwesomeIcon className='text-gray-700 w-[25px] h-[25px] ml-[640px] mb-[5px]' icon={faXmark} /> */}
       <div className='font-bold text-[20px]'>
         <div className={`flex ${(review.reviewTagReadability && review.reviewTagSpeed ? "justify-between" : "justify-start")}`}>
