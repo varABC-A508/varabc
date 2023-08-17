@@ -8,7 +8,7 @@ function IdeContainer() {
   const problemNo = params.problemNo;
 
   return (
-    <PanelGroup direction="horizontal">
+    <PanelGroup direction="horizontal h-screen">
       <Panel defaultSize={30} style={{ overflowY: "auto" }}>
         <Problem problemNo={problemNo} />
       </Panel>
