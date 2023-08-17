@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import {useDispatch, useSelector} from 'react-redux';
 import { toggleReadability, toggleNaming, toggleSpeed, toggleCommunication } from '../../redux/Reducer/reviewReducers';
 import { useState } from 'react';
