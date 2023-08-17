@@ -178,8 +178,8 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public ResultDto submitBattle(SubmitBattleDto submitBattleDto, Long competitionResultNo,
             Long memberNo) throws IOException {
-        String pythonServerUrl = "http://43.200.245.232:5000/";
-        String javaServerUrl = "http://43.200.245.232:8081/";
+        String pythonServerUrl = "http://varabc.com:5000/";
+        String javaServerUrl = "http://varabc.com:8081/";
         TestCaseDto testCaseDto = getTestCaseDtoByProblemNo(submitBattleDto.getProblemNo());
         //레포지토리에서 문제에 대한 제약사항들을 가져오는 로직 수행
         List<FileData> inputFiles = getUrlIntoText(testCaseDto.getInputFiles());
