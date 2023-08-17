@@ -26,7 +26,7 @@ const SelectButton = ({ selectedSource, selectedDifficulty, onSourceSelect, onDi
           </label>
           <select
             id="sourceSelect"
-            className="border p-2 text-black"
+            className="p-[10px] bg-gray-50 border border-gray-300 text-gray-900 text-[20px] rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={selectedSource}
             onChange={onSourceSelect}
           >
