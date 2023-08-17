@@ -7,10 +7,9 @@ import { useSelector } from 'react-redux';
 const EndBattleButton = ({ comment }) => {
 	const navigate = useNavigate();
 	const { roomToken } = useParams();
-	const readability = useSelector((state) => state.review.readability);
-	const naming = useSelector((state) => state.review.naming);
-	const speed = useSelector((state) => state.review.speed);
-	const communication = useSelector((state) => state.review.communication);
+	const { readability, naming, speed, communication } = useSelector(
+		(state) => state.review
+	);
 	const onButtonClick = (e) => {
 		e.preventDefault();
 		console.log("read:" + readability);
