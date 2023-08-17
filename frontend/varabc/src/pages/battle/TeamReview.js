@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Review from "../../components/Review/Review";
-import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
+// import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 // import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import socket from "../../modules/socketInstance";
@@ -65,7 +65,7 @@ export const TeamReview = () => {
               <div className="ml-[50px] mb-[50px]">
                 <div className="text-white font-bold text-[36px]">{teamMate && teamMate.member ? teamMate.member.memberNickname : ""}</div>
               </div>
-              <MoveRoundButton to={"/"} text={"회의 하기"} bgColor={"basic"} btnSize={"basic"} />
+              {/* <MoveRoundButton to={"/"} text={"회의 하기"} bgColor={"basic"} btnSize={"basic"} /> */}
               <br />
               <EndBattleButton comment={comment} />
             </div>
