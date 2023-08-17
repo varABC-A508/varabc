@@ -34,10 +34,10 @@ const Submission = ({
           : (result.submitStatus || '틀렸습니다')}
       </td>
       <td className={`${tableMode.width[2]} ${cellText}`}>
-        {((result.submitUsedMemory || 0) / 1000000).toFixed(2)}MB
+        {((result.submitUsedMemory || 0) / 1000).toFixed(0)}KB
       </td>
       <td className={`${tableMode.width[3]} ${cellText}`}>
-        {(result.submitUsedTime || 0).toFixed(2)}s
+        {((result.submitUsedTime || 0)*1000).toFixed(0)}ms
       </td>
       <td className={`${tableMode.width[4]} ${cellText}`}>
         {(result.submitLanguage || '-')}
