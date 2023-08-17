@@ -113,6 +113,7 @@ const Ide = ( { problemNo }) => {
       "code": code,
     }).then((res) => {
       setResult(res.data);
+      console.log(res.data)
       swal ( "와" ,  "코드 전송 성공!>9",  "success" );
     }).catch((err) => {
       swal ( "이런" ,  "코드 전송 실패!>10" + err ,  "error" );
@@ -150,7 +151,6 @@ const Ide = ( { problemNo }) => {
       "code": code,
       "language": mode.toLowerCase()
     }).then((res) => {
-      console.log(res.data);
       setResult(res.data);
       if(parseInt(res.data.result) === 1) {
         swal ( "와" ,  "문제 풀이 성공!>14",  "success" );
@@ -221,12 +221,12 @@ const Ide = ( { problemNo }) => {
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={25} className="bg-primary text-white">
             <div>실행 결과</div>
-            <div>실행 시간: {result.executionTime}</div>
-            <div>사용 메모리: {result.memoryUsage}</div>
+            <div>실행 시간: {result.executionTime}ms</div>
+            <div>사용 메모리: {result.memoryUsage}KB</div>
             { <div>{(result && !result.result) ? (result.result === 1 ? "성공" : "실패") : ("")}</div> }
             { <div>{(result && !result.exceptionMessage) ? result.exceptionMessage : ""}</div> }
             <br />
-            { result.output ? result.output.map((outputMessage, index) => (<div key={index}>{`테스트 ${index + 1}:    ${outputMessage}`}</div>)) : ""}
+            { result.output ? result.output.map((outputMessage, index) => {return (<div key={index} className="flex"><div className="me-2">{`테스트 ${index + 1}:`}</div> <pre>{`${outputMessage}`}</pre></div>)}) : ""}
           </Panel>
           <PanelResizeHandle className="cursor-row-resize bg-primaryDark" style={{ height: '4px', backgroundColor: 'gray' }} />
           <Panel defaultSize={10} className="bg-primary">
