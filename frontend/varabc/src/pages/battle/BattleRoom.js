@@ -27,6 +27,7 @@ export const BattleRoom = () => {
   };
 
   const handleOpenCopy = () => {
+    console.log('>링크 창 열');
     setIsCopyOpen(true);
   };
 
