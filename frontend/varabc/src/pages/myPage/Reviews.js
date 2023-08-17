@@ -59,8 +59,8 @@ export const Reviews = () => {
 
   return (
     <div className="ml-[30px]">
-      <h1 className="text-white bold mt-[10px] ">내 리뷰</h1>
-      <h3 className="text-white mt-[15px]">내 짝의 리뷰를 확인해보세요!</h3>
+      <h1 className="text-white mt-[10px] text-[36px] font-bold ">내 리뷰</h1>
+      <h3 className="text-white mt-[15px] text-[28px]">내 짝의 리뷰를 확인해보세요!</h3>
       {reviews.length === 0 ? (
         <p>리뷰가 없습니다.</p>
       ) : (
