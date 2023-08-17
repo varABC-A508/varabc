@@ -6,7 +6,7 @@ export const History = () => {
   const [tab, setTab] = useState(1);
 
   return (
-    <div className="w-full p-[60px]">
+    <div className="w-full p-[20px]">
       <div className="text-white text-[36px] font-bold mb-[20px]">내 전적</div>
       <div className="mb-[20px]">
         <button
