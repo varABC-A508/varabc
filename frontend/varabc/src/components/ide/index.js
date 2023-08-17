@@ -142,7 +142,7 @@ const Ide = ( { problemNo }) => {
     e.preventDefault();
     axios.post(`https://varabc.com:8080/battle/submit/${roomToken}/${memberNo}`, {
       "battleCode": roomToken,
-      "problemNo": problemNo,
+      "problemNo": parseInt(problemNo),
       "member1": parseInt(memberNo),
       // TODO: 파트너 멤버 주기
       "member2": parseInt(teamMateNo),
