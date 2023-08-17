@@ -211,9 +211,6 @@ const Ide = ( { problemNo }) => {
               tabSize={2}
               enableBasicAutocompletion={true}
               enableLiveAutocompletion={true}
-              setOptions={{
-                fontFamily:"Monospace",
-              }}
               style={{
                 fontSize: `${fontSize}px`,
                 width: "100%",
