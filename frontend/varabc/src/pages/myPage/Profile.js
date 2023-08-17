@@ -87,9 +87,17 @@ export const Profile = () => {
   };
 
   const onDeleteClick = (e) => {
-    if (window.confirm("정말 탈퇴하시겠습니까?")) {
-      deleteUser();
-    }
+    swal({
+      title: "정말 탈퇴하시겠습니까?", 
+      icon: 'warning', 
+      buttons: ['Cancel', 'Confirm'], 
+      dangerMode: true, 
+    }).then((confirmed) => {
+      if (confirmed) {
+        deleteUser();
+        swal('탈퇴 성공', '탈퇴되셨습니다.', 'sucess')
+      }
+    })
   };
 
   if (noData) {

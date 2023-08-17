@@ -127,9 +127,11 @@ export const Nav = () => {
           <div>
             <button
               onClick={handleOpenModal}
-              className="m-[5px] text-[25px] font-bold"
+              className="flex items-center justify-center m-[5px] p-0.5 text-[24px] font-bold bg-gradient-to-r from-cyan-500 to-point border-0 rounded-lg select-none whitespace-nowrap"
             >
-              로그인
+              <span className="bg-primaryDark hover:bg-gradient-to-r from-cyan-500 to-point px-4 py-1 rounded-lg  transition-all duration-500"> 
+                로그인
+              </span>
             </button>
             <Login isOpen={isModalOpen} onClose={handleCloseModal} />
           </div>
@@ -142,10 +144,12 @@ export const Nav = () => {
               <span className="font-bold">{nickname}</span>
               <span>님!</span>
               <button
-                className="m-[15px] text-[25px] font-bold"
+                className="m-[15px] text-[24px] font-bold flex items-center justify-center p-0.5 bg-gradient-to-r from-cyan-500 to-point border-0 rounded-lg select-none whitespace-nowrap"
                 onClick={logout}
               >
-                로그아웃
+                <span className="bg-primaryDark hover:bg-gradient-to-r from-cyan-500 to-point px-4 py-1 rounded-lg transition-all duration-500">
+                  로그아웃
+                </span>
               </button>
             </div>
           </div>

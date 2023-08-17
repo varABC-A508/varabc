@@ -21,7 +21,7 @@ const SignGoogle = () => {
   }
 
   return (
-    <div  className='flex flex-col items-center'>
+    <div  className='flex flex-col items-center cursor-pointer'>
       <img onClick={loginGoogle} className="w-20 h-20 rounded-lg border-4 border-coler-200"
         src={ GoogleLogo }
         alt="구글 로그인"

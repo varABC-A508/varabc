@@ -9,6 +9,7 @@ import com.varabc.battle.domain.dto.FinalResultDto;
 import com.varabc.battle.domain.dto.FinalResultListDto;
 import com.varabc.battle.domain.dto.ResultDto;
 import com.varabc.battle.domain.dto.SubmitBattleDto;
+import com.varabc.battle.domain.entity.CompetitionResult;
 import com.varabc.member.domain.entity.Member;
 import com.varabc.member.repository.MemberRepository;
 import com.varabc.member.service.MemberService;
@@ -35,6 +36,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -289,6 +292,7 @@ public class ValidationServiceImpl implements ValidationService {
     public List<MyPageSubmitDto> getSubmits(Long memberNo, int mode) {
         List<MyPageSubmitDto> myPageSubmitDtoList = new ArrayList<>();
         List<Submit> submitList = submitRepository.findByMemberNoAndSubmitMode(memberNo, mode);
+        Collections.sort(submitList, Comparator.comparingLong(Submit::getSubmitNo).reversed());
         Member member = memberRepository.findByMemberNo(memberNo);
         for (Submit submit : submitList) {
             String submitStatus = "틀렸습니다.";
