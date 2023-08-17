@@ -1,14 +1,15 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen, faMicrophone} from "@fortawesome/free-solid-svg-icons";
+import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 
 import IdeMode from './Select/IdeMode';
 import IdeFontSize from './Select/IdeFontSize';
 import IdeTheme from './Select/IdeTheme';
 import Timer from './Timer';
+import AudioChat from "../common/AudioChat";
 import { useSelector } from "react-redux";
 
-const IdeNav = () => {
+const IdeNav = ({token}) => {
   const isPractice = JSON.parse(sessionStorage.getItem('isPractice'));
   const isPlayerTurn = useSelector((state) => state.ide.isPlayerTurn);
   const openLink = () => {
@@ -19,7 +20,7 @@ const IdeNav = () => {
         <div className='w-full bg-primary text-white p-1 flex flex-wrap items-center justify-between'>
           <div className='mt-2'>
             <FontAwesomeIcon className='ml-4 text-white' icon={faBookOpen} onClick={openLink} />
-            <FontAwesomeIcon className='ml-4 text-white text-[25px]' icon={faMicrophone} />
+            <AudioChat roomId={token} />
           </div>
           <div className="text-[24px]">{ !isPractice && isPlayerTurn ? "나의 턴" : "페어의 턴"}</div>
           <div className='w-70% bg-primary text-white p-1 flex flex-wrap justify-between'>
