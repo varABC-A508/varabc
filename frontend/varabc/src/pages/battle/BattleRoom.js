@@ -88,7 +88,6 @@ export const BattleRoom = () => {
               onDifficultySelect={handleDifficultySelect}
             />
             <div className="flex w-[358px] justify-between items-end">
-              <button onClick={handleOpenCopy} type="button" className="flex m-[10px] justify-center items-center rounded-lg font-bold bg-white w-[172px] h-[76px] text-[32px] text-primary hover:bg-gray-200"> 초대 URL </button>
               <InviteLinkButton />
             </div>
             <div className="mt-4">
