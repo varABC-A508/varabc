@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Nav } from './components/common/nav';
 import { Home } from './pages/home/Home';
