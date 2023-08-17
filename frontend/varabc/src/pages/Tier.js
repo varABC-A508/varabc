@@ -10,8 +10,7 @@ export const Tier = () => {
     <div>
       <div className="w-full h-screen bg-bg2 bg-cover">
         <div className="flex flex-col items-center p-[20px]">
-          <h1 className="text-white font-bold text-5xl py-[20px]">변수명ABC 티어가이드</h1>
-          <div className="w-10/12 flex justify-center pt-[10px]">
+          <div className="w-10/12 flex justify-center pt-[20px]">
             <div className="w-3/12 flex flex-col items-center">
               <img src={copper} alt="copper" className="w-[200px] h-[200px] object-cover"/>
               <p className="text-white font-bold text-4xl">COPPER</p>
