@@ -130,7 +130,7 @@ const AudioChat = ({ roomId }) => {
 
   useEffect(() => {
     const webrtc = async () => {
-      socketRef.current = io.connect("https://localhost:4000");
+      socketRef.current = io.connect("https://varabc.com:3000");
 
       pcRef.current = new RTCPeerConnection({
         iceServers: [
@@ -208,10 +208,10 @@ const AudioChat = ({ roomId }) => {
       <audio ref={remoteAudioRef} autoPlay controls className="hidden"></audio>
       <button onClick={toggleMicrophone}>
         {micEnabled ? (
-          <FontAwesomeIcon className="ml-4 text-gray-700" icon={faMicrophone} />
+          <FontAwesomeIcon className="ml-4 text-white" icon={faMicrophone} />
         ) : (
           <FontAwesomeIcon
-            className="ml-4 text-gray-700"
+            className="ml-4 text-white"
             icon={faMicrophoneSlash}
           />
         )}
