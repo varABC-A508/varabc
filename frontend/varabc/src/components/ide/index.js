@@ -148,7 +148,7 @@ const Ide = ( { problemNo }) => {
       "member2": parseInt(teamMateNo),
       "team": parseInt(sessionStorage.getItem('teamNo')),
       "code": code,
-      "language": mode
+      "language": mode.toLowerCase()
     }).then((res) => {
       console.log(res.data);
       setResult(res.data);

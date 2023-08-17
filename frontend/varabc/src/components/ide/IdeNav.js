@@ -16,12 +16,12 @@ const IdeNav = () => {
     window.open('https://docs.oracle.com/en/java/javase/', '_blank');
   }
     return (
-        <div className='w-full bg-primary text-white p-1 flex flex-wrap justify-between'>
+        <div className='w-full bg-primary text-white p-1 flex flex-wrap items-center justify-between'>
           <div className='mt-2'>
             <FontAwesomeIcon className='ml-4 text-white' icon={faBookOpen} onClick={openLink} />
             <FontAwesomeIcon className='ml-4 text-white text-[25px]' icon={faMicrophone} />
           </div>
-          <div>{ isPlayerTurn ? "나의 턴" : "페어의 턴"}</div>
+          <div>{ !isPractice && isPlayerTurn ? "나의 턴" : "페어의 턴"}</div>
           <div className='w-70% bg-primary text-white p-1 flex flex-wrap justify-between'>
             {isPractice ? null : <Timer />}
             <IdeMode />

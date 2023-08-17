@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  mode: 'java',
+  mode: 'Java',
   fontSize: "16",
   theme: 'monokai',
   isIdeShown: false,
