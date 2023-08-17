@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Reducer/reviewReducers';
 import { useState } from 'react';
 
-export default function ReviewTag({ index, content, clicked, handleTagClick }) {
+export default function ReviewTag({ index, content }) {
 
   const dispatch = useDispatch();
   const readability = useSelector((state) => state.review.readability);
