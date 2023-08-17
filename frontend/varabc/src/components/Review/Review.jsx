@@ -1,6 +1,6 @@
 // 리뷰 페이지 (임시)
 import {useDispatch, useSelector} from 'react-redux';
-import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Reducer/ideReducers';
+import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Reducer/reviewReducers';
 import ReviewTag from "./ReviewTag.jsx";
 
 export default function Review() {
