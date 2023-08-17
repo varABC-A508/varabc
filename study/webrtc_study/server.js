@@ -12,7 +12,7 @@ const server = https.createServer(
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "https://localhost:3000", // 프론트엔드 도메인 설정
+    origin: "https://varabc.com", // 프론트엔드 도메인 설정
     credentials: true,
   },
 });
