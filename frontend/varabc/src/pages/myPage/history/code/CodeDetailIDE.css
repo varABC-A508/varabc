@@ -1,13 +1,14 @@
-/* ReadOnlyAceEditor.css */
 /* Hide the cursor and any interaction-related elements */
-.ace_editor {
+#mycode .ace_editor {
   cursor: default !important;
   /* pointer-events: none; */
   user-select: none;
 }
 
-.ace_cursor {
+#mycode .ace_cursor {
   display: none !important;
 }
 
-.ace_editor .ace_marker-layer .ace_bracket { display: none }
+#mycode .ace_editor .ace_marker-layer .ace_bracket {
+  display: none;
+}

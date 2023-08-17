@@ -6,6 +6,7 @@ import ProfileImage from "../../components/common/ProfileImage";
 import profilepic from "../../img/test/profile1.png";
 import { calculateTier } from "../../utils/problemUtil";
 import axios from "axios";
+import swal from 'sweetalert';
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export const Profile = () => {
       try {
         const userToken = localStorage.getItem("access-token");
         if (!userToken) {
-          alert("회원가입부터 해주세요!");
+          swal ( "이런" ,  "회원가입부터 해주세요!>26" ,  "error" );
           navigate("/");
           return;
         }
@@ -58,7 +59,7 @@ export const Profile = () => {
     try {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        alert("회원가입부터 해주세요!");
+        swal ( "이런" ,  "회원가입부터 해주세요!>27" ,  "error" );
         navigate("/");
         return;
       }

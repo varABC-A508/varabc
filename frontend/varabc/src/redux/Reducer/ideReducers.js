@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  mode: 'java',
+  mode: 'Java',
   fontSize: "16",
   theme: 'monokai',
   isIdeShown: false,
   isPractice: false,
+  isPlayerTurn: JSON.parse(sessionStorage.getItem('isPlayerTurn')) || null
 };
 
 const ideSlice = createSlice({
@@ -24,11 +25,11 @@ const ideSlice = createSlice({
     setIsIdeShown(state, action){
       state.isIdeShown = action.payload;
     },
-    setIsPractice(state, action){
-      state.isPractice = action.payload;
+    setIsPlayerTurn(state, action){
+      state.isPlayerTurn = action.payload;
     },
   },
 });
 
-export const {setMode, setTheme, setFontSize, setIsIdeShown, setIsPractice} = ideSlice.actions;
+export const {setMode, setTheme, setFontSize, setIsIdeShown, setIsPractice, setIsPlayerTurn} = ideSlice.actions;
 export default ideSlice.reducer;

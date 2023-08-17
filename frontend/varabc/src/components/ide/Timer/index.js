@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import socket from '../../../modules/socketInstance';
+import { useSelector } from 'react-redux';
 
 const Timer = () => {
   const TWO_MINUTES = 20;
   const [seconds, setSeconds] = useState(TWO_MINUTES);
   const [isAlertShown, setIsAlertShown] = useState(false);
+  const isPlayerTurn = useSelector((state) => state.ide.isPlayerTurn);
 
   useEffect(() => {
     if(!isAlertShown){
@@ -18,7 +20,6 @@ const Timer = () => {
         return () => clearInterval(intervalId);
       }
     } else {
-      const isPlayerTurn = JSON.parse(sessionStorage.getItem('isPlayerTurn'));
       socket.emit('onTimerEnd', { 
         isPlayerTurn: isPlayerTurn,
       });
@@ -36,7 +37,7 @@ const Timer = () => {
 
   return (
 	  <div>
-	    <h1 className='mt-1 mr-4'>{formatTime(seconds)}</h1>
+	    <h1 className='mt-1 mr-4 text-[24px]'>{formatTime(seconds)}</h1>
 	  </div>
   );
 };

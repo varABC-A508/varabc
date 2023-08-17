@@ -1,14 +1,21 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Login } from '../../../pages/myPage/login/Login';
-import {useDispatch, useSelector} from 'react-redux';
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Login } from "../../../pages/myPage/login/Login";
+import { useDispatch, useSelector } from "react-redux";
 import { setNickname } from "../../../redux/Reducer/userReducers";
+import ProfileImage from "../ProfileImage";
+import axios from "axios";
+import swal from "sweetalert";
 
 export const Nav = () => {
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const nickname = useSelector((state) => state.user.nickname);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState("");
+  const location = useLocation();
+
+  const [activeTab, setActiveTab] = useState("");
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -20,16 +27,63 @@ export const Nav = () => {
 
   useEffect(() => {
     console.log("NAV의 닉네임: " + nickname);
+    async function getUserInfo() {
+      if (nickname && nickname !== "undefined" && nickname !== "null") {
+        try {
+          const userToken = localStorage.getItem("access-token");
+          if (!userToken) {
+            swal("이런", "회원가입부터 해주세요!", "error");
+            navigate("/");
+            return;
+          }
+
+          const response = await axios.get(
+            `https://varabc.com:8080/member/getUserInfo`,
+            {
+              headers: {
+                "access-token": userToken,
+              },
+            }
+          );
+          console.log(response);
+
+          if (response.status === 200) {
+            setUserProfile(response.data.userInfo.memberImage);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    getUserInfo();
+    // eslint-disable-next-line
   }, [nickname]);
 
   const logout = () => {
     // TODO: 최종 빌드 시 localstrage 변경
-    localStorage.removeItem('nickname');
+    localStorage.removeItem("nickname");
     dispatch(setNickname(null));
     localStorage.clear();
     sessionStorage.clear();
     window.location.reload();
   };
+
+  const goToMypage = () => {
+    navigate("/mypage");
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/battle") {
+      setActiveTab("battle");
+    } else if (location.pathname === "/problem") {
+      setActiveTab("problem");
+    } else if (location.pathname === "/tier") {
+      setActiveTab("tier");
+    } else {
+      setActiveTab("");
+    }
+    
+  }, [location.pathname]);
 
   return (
     <div className="flex flex-wrap flex-row items-center justify-between w-full h-[80px] bg-primaryDark text-white">
@@ -40,18 +94,36 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="w-[480px] flex flex-row align-center justify-between">
-        <Link to="/battle" className="font-bold text-2xl">
+        <Link
+          to="/battle"
+          className={`font-bold text-2xl ${
+            activeTab === "battle" ? "text-point" : ""
+          }`}
+        >
           코드 배틀
         </Link>
-        <Link to="/problem" className="font-bold text-2xl">
+        <Link
+          to="/problem"
+          className={`font-bold text-2xl ${
+            activeTab === "problem" ? "text-point" : ""
+          }`}
+        >
           문제
         </Link>
-        <Link to="/tier" className="font-bold text-2xl">
+        <Link
+          to="/tier"
+          className={`font-bold text-2xl ${
+            activeTab === "tier" ? "text-point" : ""
+          }`}
+        >
           티어
         </Link>
       </div>
       <div className="w-20% pr-10">
-        {(nickname === "null") || (nickname === null) || (nickname === (undefined)) || (nickname === "" ) ? (
+        {nickname === "null" ||
+        nickname === null ||
+        nickname === undefined ||
+        nickname === "" ? (
           <div>
             <button
               onClick={handleOpenModal}
@@ -63,10 +135,18 @@ export const Nav = () => {
           </div>
         ) : (
           <div>
-            <div className="text-2xl">
+            <div className="text-2xl flex items-center">
+              <div className="me-2" onClick={goToMypage}>
+                <ProfileImage size="small" imgLink={userProfile} />
+              </div>
               <span className="font-bold">{nickname}</span>
               <span>님!</span>
-              <button className="m-[15px] text-[25px] font-bold" onClick={logout}>로그아웃</button>
+              <button
+                className="m-[15px] text-[25px] font-bold"
+                onClick={logout}
+              >
+                로그아웃
+              </button>
             </div>
           </div>
         )}

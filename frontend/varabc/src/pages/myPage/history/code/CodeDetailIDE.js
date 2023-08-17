@@ -14,7 +14,7 @@ const CodeDetailIDE = ({ language, code }) => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full" id="mycode">
       <AceEditor
         ref={editorRef}
         theme="dracula"

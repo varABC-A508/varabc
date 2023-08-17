@@ -7,7 +7,7 @@ import MoveRoundButton from "../../components/common/Button/MoveRoundButton";
 import IconDescription from "./IconDescription";
 import IconDescriptionReverse from "./IconDescriptionReverse";
 
-import ideImage from '../../img/ide.PNG';
+import AceEditor from "react-ace";
 import logo from '../../img/varABC_logo.png';
 import sub2 from '../../img/sub2.png';
 import sub3 from '../../img/sub3.png';
@@ -16,8 +16,8 @@ import sub5 from '../../img/sub5.png';
 
 import NicknameModal from "../../components/login/NicknameModal";
 
-import {useDispatch, useSelector} from 'react-redux';
-import { setNickname } from "../../redux/Reducer/userReducers"; 
+import { useDispatch, useSelector } from 'react-redux';
+import { setNickname } from "../../redux/Reducer/userReducers";
 
 
 export const Home = () => {
@@ -48,7 +48,7 @@ export const Home = () => {
         // 닉네임이 없으면 모달 열기
         setModalOpen(true);
       }
-    }else {
+    } else {
       navigate('/');
     }
     // eslint-disable-next-line
@@ -111,20 +111,33 @@ export const Home = () => {
       </div>
       <div className="w-screen h-screen flex items-center justify-between pl-20 pr-20 bg-bg2 bg-cover">
         <div className="text-white">
-          <img src={ideImage} alt="변수명abc_ide" className="w-[512px] h-[421px]" />
+          <AceEditor
+            mode="python"
+            value={`\n짝과 함께하는\n2 VS 2 코딩배틀\n여기에 코드를 입력해보세요!`}
+            theme="monokai"
+            fontSize={18}
+            editorProps={{ $blockScrolling: false }}
+            tabSize={2}
+            enableBasicAutocompletion={true}
+            enableLiveAutocompletion={true}
+            style={{
+              width: "600px",
+              height: "700px",
+            }}
+          />
         </div>
         <div className="flex flex-col w-[820px] justify-center">
           <div className="flex flex-col justify-center mb-10 h-[152px]">
-            <div className="text-[64px] text-white font-bold flex justify-center">짝과 함께하는</div>
-            <div className="text-[64px] text-white font-bold flex justify-center">
+            <div className="text-[60px] text-white font-bold flex justify-center">짝과 함께하는</div>
+            <div className="text-[60px] text-white font-bold flex justify-center">
               2 vs 2 코딩 배틀
             </div>
           </div>
-          <div className="mb-10">
-            <div className="text-white text-[32px]">
+          <div className="mb-10 ml-[100px]">
+            <div className="text-white text-[28px]">
               변수명 abc는 짝과 함께 알고리즘 문제를 풀어
             </div>
-            <div className="text-white text-[32px]">
+            <div className="text-white text-[28px]">
               협업을 위한 코드 가독성 향상을 연습하는 사이트입니다!
             </div>
           </div>
@@ -134,14 +147,32 @@ export const Home = () => {
         </div>
       </div>
       <div className="w-screen h-screen flex bg-bg2 bg-cover pl-20 pr-20">
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex items-center ">
           <div>
             <img src={sub2} alt="협업" className="w-[600px] h-[600px]" />
           </div>
-          <div className="flex flex-col justify-between p-10 bg-white rounded-[20px] w-[560px] h-[600px]">
-            <IconDescription url={sub3} alt="알고리즘" descTop="친구와 함께" descBottom="알고리즘 문제를 풀어요" />
-            <IconDescriptionReverse url={sub4} alt="협업" descTop="협업을 위해" descBottom="좀 더 좋은 코드를 작성해요" />
-            <IconDescription url={sub5} alt="리뷰" descTop="리뷰를 통해" descBottom="내 협업 스킬을 확인해요" />
+          <div className="flex flex-col justify-between text-[#f1f5f9] text-[25px] ml-[250px] ">
+            <div className="flex flex-row m-[5px] ml-[130px] mb-[50px]">
+              <IconDescription url={sub3} alt="알고리즘" />
+              <div className="flex flex-col m-[3px] mt-[55px]">
+                <p>친구와 함께</p>
+                <p>알고리즘 문제를 풀어요</p>
+              </div>
+            </div>
+            <div className="flex flex-row m-[5px] mb-[50px] ">
+              <IconDescriptionReverse url={sub4} alt="협업" />
+              <div className="flex flex-col m-[3px] mt-[55px]">
+                <p>협업을 위해</p>
+                <p>좀 더 좋은 코드를 작성해요</p>
+              </div>
+            </div>
+            <div className="flex flex-row m-[5px] ml-[130px]">
+              <IconDescription url={sub5} alt="리뷰" />
+              <div className="flex flex-col m-[3px] mt-[55px]">
+                <p>리뷰를 통해</p>
+                <p>내 협업 스킬을 확인해요</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

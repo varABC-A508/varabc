@@ -23,3 +23,8 @@ export const setIsPractice = (isPractice) => ({
     type: 'SET_IS_PRACTICE',
     payload: isPractice,
 });
+
+export const setIsPlayerTurn = (isPlayerTurn) => ({
+    type: 'SET_IS_PLAYER_TURN',
+    payload: isPlayerTurn,
+});
