@@ -58,7 +58,7 @@ export const Reviews = () => {
   }, [memberNo]);
 
   return (
-    <div className="p-[20px]">
+    <div className="p-[20px] w-full">
       <h1 className="text-white mt-[10px] text-[36px] font-bold ">내 리뷰</h1>
       <h3 className="text-white mt-[15px] text-[28px]">
         내 짝의 리뷰를 확인해보세요!
