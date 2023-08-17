@@ -21,6 +21,8 @@ import com.varabc.validation.domain.entity.Submit;
 import com.varabc.validation.repository.SubmitRepository;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,8 @@ public class MyPageServiceImpl implements MyPageService {
         List<BattleListDetailDto> battleListDetailDtoList = new ArrayList<>();
         List<CompetitionResult> competitionResultList = competitionResultRepository.findByCompetitionResultT1M1NoOrCompetitionResultT1M2NoOrCompetitionResultT2M1NoOrCompetitionResultT2M2No(
                 memberNo, memberNo, memberNo, memberNo);
+        //역정렬 로직
+        Collections.sort(competitionResultList, Comparator.comparingLong(CompetitionResult::getCompetitionResultNo).reversed());
 
         for (CompetitionResult competitionResult : competitionResultList) {
             if (competitionResult.isCompetitionResultResign()) {
