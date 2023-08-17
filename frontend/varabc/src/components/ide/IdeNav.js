@@ -21,7 +21,7 @@ const IdeNav = () => {
             <FontAwesomeIcon className='ml-4 text-white' icon={faBookOpen} onClick={openLink} />
             <FontAwesomeIcon className='ml-4 text-white text-[25px]' icon={faMicrophone} />
           </div>
-          <div>{ !isPractice && isPlayerTurn ? "나의 턴" : "페어의 턴"}</div>
+          <div className="text-[24px]">{ !isPractice && isPlayerTurn ? "나의 턴" : "페어의 턴"}</div>
           <div className='w-70% bg-primary text-white p-1 flex flex-wrap justify-between'>
             {isPractice ? null : <Timer />}
             <IdeMode />
