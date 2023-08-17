@@ -77,6 +77,7 @@ public class MemberServiceImpl implements MemberService {
     public boolean deleteMember(long memberNo) {
         Member member = memberRepository.findByMemberNo(memberNo);
         member.updateMemberResign(true);
+        member.updateMemberIdInvalid();
         return true;
     }
 

@@ -46,7 +46,7 @@ public class BattleController {
             String encryptedData = encryptor.encrypt(roomCode);
             String url = "/battle/join/" + encryptedData;
             return new ResponseEntity<>(url, status);
-            //위 리턴값에 /멤버no 붙여서 접근하면 됨.
+            //위 리턴값에 /멤버no 붙여서 접근하면 됨. // //
 
         } catch (Exception e) {
             e.printStackTrace();

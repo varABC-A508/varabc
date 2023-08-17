@@ -6,7 +6,7 @@ export const BattleMode = () => {
     <>
       <div className="w-screen h-screen bg-battle bg-cover pl-20 pr-20 items-center">
         <div className="w-full flex flex-col items-center relative">
-          <div className="absolute flex justify-center items-center w-[1000px] h-[300px] bg-[#64748b] rounded-full text-white text-[20px] mt-[100px]">
+          <div className="absolute flex justify-center items-center w-[1000px] h-[300px] bg-black opacity-70 text-white text-[20px] mt-[100px]">
             <p> * varABC 배틀 규칙 <br />
                       1. '방 만들기'를 눌러 방을 만들어 주세요. <br />
                       2. '초대 URL'을 눌러 초대 링크를 복사해 주세요. <br />

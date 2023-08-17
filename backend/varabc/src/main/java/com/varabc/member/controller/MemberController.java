@@ -42,9 +42,7 @@ public class MemberController {
         JsonNode userInfo = googleLoginService.getGoogleUserInfo(accessToken);
         Member member = memberService.saveGoogleMember(userInfo);
         RedirectView redirectView = new RedirectView("https://varabc.com/");
-        if (member.isMemberResign()) {
-            return redirectView;
-        }
+
         //추후수정 필요
         try {
             String accessTokenForJwt = jwtService.createAccessToken("memberNo",
@@ -74,9 +72,7 @@ public class MemberController {
         System.out.println(userInfo);
         Member member = memberService.saveKakaoMember(userInfo);
         RedirectView redirectView = new RedirectView("https://varabc.com/");
-        if (member.isMemberResign()) {
-            return redirectView;
-        }
+
         try {
             String accessTokenForJwt = jwtService.createAccessToken("memberNo",
                     member.getMemberNo());

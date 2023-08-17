@@ -69,7 +69,7 @@ const Ide = ( { problemNo }) => {
         setMemberNo(res.data.userInfo.memberNo);
         sessionStorage.setItem('memberNo', res.data.userInfo.memberNo);
       }).catch((err) => {
-        swal ( "이런" ,  "서버에 문제가 생겼습니다! 나중에 다시 시도해주세요!>8" + err ,  "error" );
+        swal ( "이런" ,  "로그인 후 사용해 주세요!>8" + err ,  "error" );
         navigate("/");
       });
 
@@ -195,7 +195,7 @@ const Ide = ( { problemNo }) => {
     
     return (
       <div className="w-full h-screen flex flex-col">
-        <IdeNav />
+        <IdeNav token={`${roomToken}${teamToken}`}/>
         <PanelGroup direction='vertical' className="flex-grow">
           <Panel defaultSize={65}>
             <AceEditor

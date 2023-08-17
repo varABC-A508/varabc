@@ -44,7 +44,7 @@ const BattleHistoryItem = ({ battle, handleClick }) => {
         <div className="text-[24px] font-bold">{`${battle.problemNo || '0'}. ${battle.problemTitle || '-'}`}</div>
         <button
           className={`mt-[5px] w-[100px] h-[28px] text-[16px] font-bold ${
-            gameResult[(battle.isWinner ? 1: 0)]
+            gameResult[(battle.winner ? 1: 0)]
           } text-primaryDark rounded-full`}
         >
           코드 보기

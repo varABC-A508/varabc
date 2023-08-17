@@ -106,7 +106,7 @@ public class MyPageServiceImpl implements MyPageService {
         }
         int team = 2;
         if (memberNo.equals(competitionResult.getCompetitionResultT1M1No()) || memberNo.equals(
-                competitionResult.getCompetitionResultT2M1No())) {
+                competitionResult.getCompetitionResultT1M2No())) {
             team = 1;
         }
         List<MyPageSubmitDto> submitList1 = new ArrayList<>();
