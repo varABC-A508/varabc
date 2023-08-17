@@ -103,7 +103,7 @@ export const Profile = () => {
   }
 
   return (
-    <div className="w-full p-[20px] flex flex-col items-center">
+    <div className="w-full h-screen p-[20px] flex flex-col items-center">
       <div className="w-9/12 text-white text-[36px] font-bold mt-[20px] mb-[20px] flex justify-start">
         {user.memberNickname || "유저"}의 프로필
       </div>
