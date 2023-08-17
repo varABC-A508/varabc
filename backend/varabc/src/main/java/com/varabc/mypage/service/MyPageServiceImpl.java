@@ -43,6 +43,8 @@ public class MyPageServiceImpl implements MyPageService {
     public List<MyPageReviewDto> getReviews(Long memberNo) {
         List<MyPageReviewDto> myPageReviewDtoList = new ArrayList<>();
         List<Review> reviewList = reviewRepository.findByReviewReceiveMemberNo(memberNo);
+        Collections.sort(reviewList, Comparator.comparingLong(Review::getReviewNo).reversed());
+
         System.out.println(reviewList);
         for (Review review : reviewList) {
             if (review.isReviewResign()) {
