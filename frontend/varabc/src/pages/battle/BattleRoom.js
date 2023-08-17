@@ -6,7 +6,7 @@ import StartGameButton from "../../components/common/Button/StartGameButton";
 import SelectButton from "../../components/common/Button/SelectButton";
 import socket from "../../modules/socketInstance";
 import swal from 'sweetalert';
-import InviteLink from "../battle/InviteLink";
+import InviteLinkButton from "../../components/common/Button/InviteLinkButton";
 
 export const BattleRoom = () => {
   const [members, setMembers] = useState([]);
@@ -89,8 +89,7 @@ export const BattleRoom = () => {
             />
             <div className="flex w-[358px] justify-between items-end">
               <button onClick={handleOpenCopy} type="button" className="flex m-[10px] justify-center items-center rounded-lg font-bold bg-white w-[172px] h-[76px] text-[32px] text-primary hover:bg-gray-200"> 초대 URL </button>
-              <InviteLink isOpen={isCopyOpen}
-                onClose={handleCloseCopy} />
+              <InviteLinkButton />
             </div>
             <div className="mt-4">
               <StartGameButton roomToken={roomToken} members={members} source={selectedSource} difficulty={selectedDifficulty} />
