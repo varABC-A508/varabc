@@ -30,11 +30,11 @@ const Problem = ({ problemNo }) => {
 
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-primaryDark">
       <div className="text-[24px] mb-1 font-bold whitespace-pre-wrap">
         {problemNo}. {problem.problemTitle}
       </div>
-      <div className="text-[16px] text-[#52525B] ms-3 mb-1 font-bold">{`${problem.problemSource} ${problem.problemLevel}`}</div>
+      <div className="text-[16px] text-white ms-3 mb-1 font-bold">{`${problem.problemSource} ${problem.problemLevel}`}</div>
       <Title text="문제 설명"></Title>
       <Content content={problemContent}></Content>
       <Title text="입력"></Title>

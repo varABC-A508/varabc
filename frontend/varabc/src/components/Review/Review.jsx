@@ -1,6 +1,6 @@
 // 리뷰 페이지 (임시)
 import {useDispatch, useSelector} from 'react-redux';
-import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Actions/reviewActions';
+import { setReadability, setNaming, setSpeed, setCommunication } from '../../redux/Reducer/ideReducers';
 import ReviewTag from "./ReviewTag.jsx";
 
 export default function Review() {
@@ -29,7 +29,7 @@ export default function Review() {
   });
 
   const handleTagClick = (index) => {
-    switch (index) {
+    switch (parseInt(index)) {
       case 0:
         dispatch(setReadability(!readability));
         break;
