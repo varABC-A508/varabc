@@ -16,9 +16,8 @@ const SelectButton = ({ selectedSource, selectedDifficulty, onSourceSelect, onDi
   ];
 
   return (
-    <div className="container mx-auto mt-8 p-4 text-white">
-      <h1 className="text-2xl font-bold mb-4">옵션 선택</h1>
-      <div className="grid grid-cols-2 gap-4">
+    <div className="container mx-auto mt-8 text-white">
+      <div className="flex items-center justify-between">
         {/* 출처 선택 */}
         <div>
           <label htmlFor="sourceSelect" className="block font-medium">
@@ -46,7 +45,7 @@ const SelectButton = ({ selectedSource, selectedDifficulty, onSourceSelect, onDi
           </label>
           <select
             id="difficultySelect"
-            className="border p-2 text-black"
+            className="p-[10px] bg-gray-50 border border-gray-300 text-gray-900 text-[20px] rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={selectedDifficulty}
             onChange={onDifficultySelect}
           >
