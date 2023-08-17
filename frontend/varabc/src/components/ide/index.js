@@ -112,10 +112,10 @@ const Ide = ({ problemNo }) => {
   };
 
   const submitStatusMap = {
-    1: "맞았습니다",
+    1: "컴파일 성공",
     2: "시간 초과",
     3: "메모리 초과",
-    4: "틀렸습니다",
+    4: "컴파일 실패",
   };
 
   const onCompileClick = (e) => {
