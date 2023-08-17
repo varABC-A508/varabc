@@ -67,7 +67,7 @@ const BattleHistory = () => {
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const battleHistoryPerPage = 3;
+  const battleHistoryPerPage = 4;
   const pageNumber = Math.ceil(battleHistory.length / battleHistoryPerPage);
   const currentPageLast = currentPage * battleHistoryPerPage;
   const currentPageFirst = currentPageLast - battleHistoryPerPage;

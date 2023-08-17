@@ -10,6 +10,8 @@ import { editImagesInPost } from "../../../../utils/problemUtil";
 import axios from "axios";
 import swal from 'sweetalert';
 
+import './code.css';
+
 export const MyCode = ({ mode }) => {
   const navigate = useNavigate();
   const { submitNo } = useParams();
@@ -114,7 +116,7 @@ export const MyCode = ({ mode }) => {
 
   if (noData) {
     return (
-      <div className="w-full flex flex-col items-center mx-auto p-3">
+      <div className="w-full h-200vh flex flex-col items-center mx-auto p-3">
         <h1 className="mb-4 w-9/12 text-4xl text-white font-bold">내 코드</h1>
         <div className="w-9/12 mb-4">
           <p className="flex justify-center text-white font-md">
@@ -126,7 +128,7 @@ export const MyCode = ({ mode }) => {
   }
 
   return (
-    <div className="w-full h-200vh flex flex-col items-center mx-auto p-3">
+    <div className="w-full flex flex-col items-center mx-auto p-3">
       <h1 className="mb-4 w-9/12 text-4xl text-white font-bold">내 코드</h1>
       <div className="w-9/12">
         <ProblemBasicInfo problemData={problemData} />
