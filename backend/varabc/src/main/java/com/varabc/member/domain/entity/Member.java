@@ -55,6 +55,8 @@ public class Member {
     }
     public void updateMemberToken(String memberToken) { this.memberToken=memberToken; }
 
+    public void updateMemberIdInvalid() { this.memberId="";}
+
     @Builder
     public Member(long memberNo, String memberNickname, String memberEmail, int memberExp,
             String memberImage, boolean memberAdmin, boolean memberResign, String memberName,
@@ -70,4 +72,6 @@ public class Member {
         this.memberToken = memberToken;
         this.memberId = memberId;
     }
+
+
 }

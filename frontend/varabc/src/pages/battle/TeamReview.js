@@ -15,8 +15,8 @@ export const TeamReview = () => {
   const [teamMate, setTeamMate] = useState({});
   const [comment, setComment] = useState("");
 
-  const onCommentChange = (newComment) => {
-    setComment(newComment);
+  const onCommentChange = (e) => {
+    setComment(e.target.value);
   };
 
   useEffect(() => {

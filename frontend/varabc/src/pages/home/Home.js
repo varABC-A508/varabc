@@ -134,10 +134,10 @@ export const Home = () => {
             </div>
           </div>
           <div className="mb-10 ml-[100px]">
-            <div className="text-white text-[28px]">
+            <div className="text-white text-[25px]">
               변수명 abc는 짝과 함께 알고리즘 문제를 풀어
             </div>
-            <div className="text-white text-[28px]">
+            <div className="text-white text-[25px]">
               협업을 위한 코드 가독성 향상을 연습하는 사이트입니다!
             </div>
           </div>
@@ -151,7 +151,7 @@ export const Home = () => {
           <div>
             <img src={sub2} alt="협업" className="w-[600px] h-[600px]" />
           </div>
-          <div className="flex flex-col justify-between text-[#f1f5f9] text-[25px] ml-[250px] ">
+          <div className="flex flex-col justify-between text-[#f1f5f9] text-[25px] ml-[200px] ">
             <div className="flex flex-row m-[5px] ml-[130px] mb-[50px]">
               <IconDescription url={sub3} alt="알고리즘" />
               <div className="flex flex-col m-[3px] mt-[55px]">
