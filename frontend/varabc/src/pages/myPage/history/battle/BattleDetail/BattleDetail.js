@@ -147,7 +147,7 @@ export const BattleDetail = () => {
   console.log(battleDetailData.myTeamSubmitList.length)
   console.log(battleDetailData.opponentTeamSubmitList.length)
   return (
-    <div className="w-9/12 flex flex-col items-center p-3 mx-auto">
+    <div className="w-9/12 h-screen flex flex-col items-center p-3 mx-auto">
       <BattleInfo battle={battleInfoData} />
       <MoveRoundButton
         to="/mypage/reviews"
