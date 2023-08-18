@@ -104,7 +104,7 @@ io.on("connection", (socket) => {
     let winTeamNo;
     let loseTeamNo;
     const team1 = rooms[room].team1;
-    const team2 = rooms[room].team1;
+    const team2 = rooms[room].team2;
     if (team1 === teamToken) {
       winTeamNo = 1;
       loseTeamNo = 2;
