@@ -258,6 +258,9 @@ public class ValidationServiceImpl implements ValidationService {
                     battleMemberDto.getCompetitionResultT2M1No(),
                     battleMemberDto.getCompetitionResultT2M2No());
         }
+        Collections.sort(submitList1, Comparator.comparingLong(Submit::getSubmitNo).reversed());
+        Collections.sort(submitList2, Comparator.comparingLong(Submit::getSubmitNo).reversed());
+
         for (Submit submit : submitList1) {
             String nickname = memberService.getMemberByMemberNo(submit.getMemberNo()).getMemberNickname();
             String submitStatus;
