@@ -5,7 +5,7 @@ const BattleSubmitItem = ({result}) => {
   
   return (
     <tr className="grid grid-cols-12">
-      <td className={`col-span-4 ${cellText}`}>{result.memberNickname}</td>
+      <td className={`col-span-2 ${cellText}`}>{result.nickname}</td>
       <td className={`col-span-2 ${cellText} ${resultColor}`}>
         {result.submitStatus}
       </td>

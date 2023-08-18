@@ -31,11 +31,9 @@ export const BattleResultPage2 = () => {
         <img src={BattleImage} alt='FreePickimage' className='absolute flex w-[400px] h-[400px] mt-[0px] pt-[0px] ml-[25px]' />
         <p className="absolute flex text-[100px] text-white m-10 text-center font-bold italic mt-[80px] ml-[550px]" >{isMyTeamWin ? 'You Win!!' : 'You Lose'}</p>
         <FontAwesomeIcon onClick={movePage} className='absolute flex text-white text-[60px] mt-[400px] ml-[30px]' icon={faCircleArrowLeft} />
-        <p className="absolute flex text-[50px] text-white m-5 text-center font-bold  mt-[380px] ml-[150px]">Win Team</p>
         <div className='absolute flex mt-[280px] ml-[310px]'>
           <BattleSubmitList submitList={winTeamSubmitList} />
         </div>
-        <p className="absolute flex text-[50px] text-white m-5 text-center font-bold mt-[560px] ml-[150px]">Lose Team</p>
         <div className='absolute flex mt-[510px] ml-[310px]'>
           <BattleSubmitList submitList={loseTeamSubmitList} />
         </div>
