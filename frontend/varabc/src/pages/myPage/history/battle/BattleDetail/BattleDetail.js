@@ -80,7 +80,7 @@ export const BattleDetail = () => {
     async function getBattleDetail() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        swal ( "이런" ,  "회원가입부터 해주세요!>21" ,  "error" );
+        swal ( "이런" ,  "회원가입부터 해주세요!" ,  "error" );
         navigate("/");
         return;
       }
@@ -99,7 +99,7 @@ export const BattleDetail = () => {
           `https://varabc.com:8080/mypage/battleDetail/${competitionResultNo}/${memberNo}`
           //`https://varabc.com:8080/mypage/battleDetail/${competitionResultNo}/36`
         );
-        console.log(response);
+        // console.log(response);
         if (response.status === 200) {
           setBattleDetailData(response.data);
           setNoData(false);

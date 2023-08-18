@@ -24,7 +24,7 @@ const Problem = ({ problemNo }) => {
 
       })
       .catch((err) => {
-        swal("이런", "문제 데이터 조회 실패!>5", "error");
+        swal("이런", "문제 데이터 조회 실패!", "error");
       });
   }, [problemNo]);
 

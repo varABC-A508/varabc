@@ -25,7 +25,7 @@ const PracticeHistory = () => {
     async function getPracticeHistory() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        swal ( "이런" ,  "회원가입부터 해주세요!>24" ,  "error" );
+        swal ( "이런" ,  "회원가입부터 해주세요!" ,  "error" );
         navigate("/");
         return;
       }
@@ -46,7 +46,7 @@ const PracticeHistory = () => {
           //`https://varabc.com:8080/mypage/submit/29/1`
           `https://varabc.com:8080/mypage/submit/${memberNo}/1`
         );
-        console.log(response);
+        // console.log(response);
 
         if (response.status === 200) {
           const data = response.data;

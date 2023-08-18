@@ -26,7 +26,6 @@ export const Nav = () => {
   };
 
   useEffect(() => {
-    console.log("NAV의 닉네임: " + nickname);
     async function getUserInfo() {
       if (nickname && nickname !== "undefined" && nickname !== "null") {
         try {

@@ -62,7 +62,7 @@ export const MyCode = ({ mode }) => {
     async function getCode() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        swal ( "이런" ,  "회원가입부터 해주세요!>23" ,  "error" );
+        swal ( "이런" ,  "회원가입부터 해주세요!" ,  "error" );
         navigate("/");
         return;
       }
@@ -71,13 +71,13 @@ export const MyCode = ({ mode }) => {
         const response = await axios.get(
           `https://varabc.com:8080/mypage/submit/code/${submitNo}`
         );
-        console.log(response);
+        // console.log(response);
         setPracticeCodeData(response.data);
 
         const problemResponse = await axios.get(
           `https://varabc.com:8080/problem/${response.data.submitDto.problemNo}`
         );
-        console.log(problemResponse);
+        // console.log(problemResponse);
 
         if (response.status === 200 && problemResponse.status === 200) {
           const [problemContent, problemInputContent, problemOutputContent] =

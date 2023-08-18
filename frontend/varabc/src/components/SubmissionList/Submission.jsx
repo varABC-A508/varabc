@@ -37,7 +37,7 @@ const Submission = ({
         {((result.submitUsedMemory || 0) / 1000).toFixed(0)}KB
       </td>
       <td className={`${tableMode.width[3]} ${cellText}`}>
-        {((result.submitUsedTime || 0)*1000).toFixed(0)}ms
+        {((result.submitUsedTime || 0)).toFixed(0)}ms
       </td>
       <td className={`${tableMode.width[4]} ${cellText}`}>
         {(result.submitLanguage || '-')}

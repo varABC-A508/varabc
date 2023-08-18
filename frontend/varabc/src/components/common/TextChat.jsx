@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
+import swal from "sweetalert";
 
 const TextChat = ({ roomId }) => {
   const socketRef = useRef();
@@ -36,8 +37,8 @@ const TextChat = ({ roomId }) => {
     socketRef.current = io.connect("https://localhost:4000");
 
     socketRef.current.on("room_full", () => {
-      console.log("Socket event callback: room full");
-      alert("The room is full, please try another one");
+      // console.log("Socket event callback: room full");
+      swal("이런", "방이 이미 모두 찼어요! 다른 방을 찾아주세요", "error");
     });
 
     socketRef.current.on("chat_message", (data) => {

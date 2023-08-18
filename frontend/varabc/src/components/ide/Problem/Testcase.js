@@ -16,7 +16,7 @@ const Testcase = ({inputUrlList, outputUrlList}) => {
             setInputTestcaseList((prevList) => [...prevList, res.data]);
           })
           .catch((error) => {
-            swal ( "이런" ,  "input데이터 에러!>6" ,  "error" )
+            swal ( "이런" ,  "input데이터 에러!" ,  "error" )
           });
       });
 
@@ -27,7 +27,7 @@ const Testcase = ({inputUrlList, outputUrlList}) => {
             setOutputTestcaseList((prevList) => [...prevList, res.data]);
           })
           .catch((error) => {
-            swal ( "이런" ,  "output데이터 에러!>7" ,  "error" )
+            swal ( "이런" ,  "output데이터 에러!" ,  "error" )
           });
       });
     }

@@ -8,7 +8,7 @@ const FileUpload = ({files, uploadedFiles, handleChange, name, type, mode}) => {
 
  
   const uploadedFileList = uploadedFiles.map((file, idx) => {
-    console.log(file)
+    // console.log(file)
     return <li key={`${file[0]}_${idx}`}>{`- ${file[0]}`}</li>
   })
 

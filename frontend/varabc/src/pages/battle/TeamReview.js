@@ -35,7 +35,7 @@ export const TeamReview = () => {
       break;
       default: break;
     }
-    console.log("나의 페어 index: " + teamMateIndex);
+    // console.log("나의 페어 index: " + teamMateIndex);
     socket.emit('getTeamMateInfo', ({ roomToken, teamMateIndex }));
     // eslint-disable-next-line
   }, [])

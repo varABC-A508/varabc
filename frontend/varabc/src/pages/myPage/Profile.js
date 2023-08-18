@@ -19,7 +19,7 @@ export const Profile = () => {
       try {
         const userToken = localStorage.getItem("access-token");
         if (!userToken) {
-          swal ( "이런" ,  "로그인부터 해주세요!>26" ,  "error" );
+          swal ( "이런" ,  "로그인부터 해주세요!" ,  "error" );
           navigate("/");
           return;
         }
@@ -32,7 +32,7 @@ export const Profile = () => {
             },
           }
         );
-        console.log(response);
+        // console.log(response);
 
         if (response.status === 200) {
           setUser(response.data.userInfo);
@@ -59,7 +59,7 @@ export const Profile = () => {
     try {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        swal ( "이런" ,  "회원가입부터 해주세요!>27" ,  "error" );
+        swal ( "이런" ,  "회원가입부터 해주세요!" ,  "error" );
         navigate("/");
         return;
       }
@@ -76,7 +76,7 @@ export const Profile = () => {
       const deleteRes = await axios.patch(
         `https://varabc.com:8080/member/delete/${memberNo}`
       );
-      console.log(deleteRes);
+      // console.log(deleteRes);
       if (deleteRes.status === 200) {
         logout();
         navigate("/");
