@@ -128,10 +128,10 @@ const Ide = ({ problemNo }) => {
       })
       .then((res) => {
         setResult(res.data);
-        swal("와", "코드 전송 성공!>9", "success");
+        swal("코드 전송 성공!", "코드 전송에 성공했습니다! :)", "success");
       })
       .catch((err) => {
-        swal("이런", "코드 전송 실패!>10" + err, "error");
+        swal("코드 전송 실패!", "코드 전송에 실패했습니다! :(" + err, "error");
       });
   };
 
@@ -147,10 +147,10 @@ const Ide = ({ problemNo }) => {
         console.log(res)
         setResult(res.data);
         if (parseInt(res.data.result) === 1) {
-          swal("와", "문제 풀이 성공!>11", "success");
+          swal("와", "문제 풀이 성공!", "success");
           navigate("/");
         } else {
-          swal("이런", "문제 풀이 실패!>12", "error");
+          swal("이런", "문제 풀이 실패!", "error");
         }
       })
       .catch((err) => {
@@ -174,17 +174,17 @@ const Ide = ({ problemNo }) => {
       .then((res) => {
         setResult(res.data);
         if (parseInt(res.data.result) === 1) {
-          swal("와", "문제 풀이 성공!>14", "success");
+          swal("와", "문제 풀이 성공!", "success");
           socket.emit("sendGameResult", {
             roomToken: roomToken,
             teamToken: teamToken,
           });
         } else {
-          swal("이런", "문제 풀이 실패!>15", "error");
+          swal("이런", "문제 풀이 실패!", "error");
         }
       })
       .catch(function (err) {
-        swal("이런", "코드 제출 실패!>16" + err, "error");
+        swal("이런", "코드 제출 실패!" + err, "error");
       });
   };
 

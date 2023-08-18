@@ -14,10 +14,10 @@ import { MyCode } from './pages/myPage/history/code/MyCode';
 import { Profile } from './pages/myPage/Profile';
 import { Reviews } from './pages/myPage/Reviews';
 import { MyPage } from './pages/myPage/myPage';
-import ProblemForm from './pages/ProblemForm/ProblemForm';
-import ProblemPost from './pages/ProblemPost/ProblemPost';
-import AdminPage from './pages/ProblemPost/AdminPage';
-import AdminProblemList from './pages/ProblemPost/AdminProblemList';
+// import ProblemForm from './pages/ProblemForm/ProblemForm';
+// import ProblemPost from './pages/ProblemPost/ProblemPost';
+// import AdminPage from './pages/ProblemPost/AdminPage';
+// import AdminProblemList from './pages/ProblemPost/AdminProblemList';
 import { Problems } from './pages/problem/Problems';
 import ProblemDetail from './pages/problem/ProblemDetail';
 import ProblemList from './components/common/list/ProblemList';
@@ -68,13 +68,13 @@ const App = () => {
           <Route path="reviews" element={<Reviews />} />
           <Route path="friends" element={<Friends />} />
         </Route>
-        <Route path="/admin" element={<AdminPage />}>
+        {/* <Route path="/admin" element={<AdminPage />}>
           <Route index element={<AdminProblemList />} />
           <Route path="post" element={<AdminProblemList />} />
           <Route path="post/:postId" element={<ProblemPost />} />
           <Route path="post/:postId/edit" element={<ProblemForm />} />
           <Route path="create" element={<ProblemForm />} />
-        </Route>
+        </Route> */}
       </Routes>
     </div>
   );
