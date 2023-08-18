@@ -14,6 +14,8 @@ export const TeamResult = ({ team, teamNumber, isWin, submitList }) => {
           </tr>
           <tr >
             <td className="flex flex-row ml-[10px] justify-center mt-[3px]">
+              <div>{team[0].member.nickname}</div>
+              <div>{team[1].member.nickname}</div>
               {/* <img src={ team[0] && team[0].member ? team[0].member.memberImage : ""} alt="playerProfile" className="w-[120px] h-[120px] rounded-[16px] border-2 mr-5" />
               <img src={ team[1] && team[1].member ? team[1].member.memberImage : ""} alt="playerProfile" className="w-[120px] h-[120px] rounded-[16px] border-2" /> */}
               {/* <img src={ team[0].member.memberImage } alt="playerProfile" className="w-[120px] h-[120px] rounded-[16px] border-2 mr-5" />
