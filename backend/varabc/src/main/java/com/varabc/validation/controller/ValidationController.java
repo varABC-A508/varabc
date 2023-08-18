@@ -1,14 +1,19 @@
 package com.varabc.validation.controller;
 
+import com.varabc.problem.service.ProblemService;
 import com.varabc.validation.Service.ValidationService;
-import com.varabc.validation.domain.dto.*;
+import com.varabc.validation.domain.dto.CompileResultDto;
+import com.varabc.validation.domain.dto.ProblemRestrictionDto;
+import com.varabc.validation.domain.dto.TestCaseDto;
+import com.varabc.validation.domain.dto.ValidateDataDto;
+import com.varabc.validation.domain.dto.ValidateDto;
+import com.varabc.validation.domain.dto.ValidationResultDto;
 import com.varabc.validation.domain.util.FileData;
 import com.varabc.validation.mapper.ValidationMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ValidationController {
     private final ValidationService validationService;
     private final ValidationMapper validationMapper;
+    private final ProblemService problemService;
     @PostMapping("compilePython")
     public ResponseEntity<CompileResultDto> compilePy(@RequestBody ValidateDataDto validateDataDto) throws Exception{
         TestCaseDto testCaseDto= validationService.getPublicTestCaseDtoByProblemNo(validateDataDto.getProblemNo());
@@ -70,7 +76,11 @@ public class ValidationController {
         System.out.println(validationResultDto);
         validationService.saveValidationResult(validationResultDto, validateDto,1,
                 1L,0);
-
+        if(validationResultDto.getResult()==1)
+            problemService.updateProblemCounts(validationResultDto.getProblemNo(), 1);
+        else{
+            problemService.updateProblemCounts(validationResultDto.getProblemNo(), 2);
+        }
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
 
@@ -108,6 +118,7 @@ public class ValidationController {
         ProblemRestrictionDto problemRestrictionDto =validationService.getProblemRestriction(validateDataDto.getProblemNo());
         ValidateDto validateDto= validationMapper.mapToValidateDto(validateDataDto,problemRestrictionDto,inputFiles,outputFiles,2);
         //파이썬 서버로 요청 보내기
+
         System.out.println(problemRestrictionDto);
 
         HttpStatus status=HttpStatus.OK;
@@ -119,6 +130,11 @@ public class ValidationController {
         validationService.saveValidationResult(validationResultDto, validateDto,1,
                 1L,0);
 
+        if(validationResultDto.getResult()==1)
+            problemService.updateProblemCounts(validationResultDto.getProblemNo(), 1);
+        else{
+            problemService.updateProblemCounts(validationResultDto.getProblemNo(), 2);
+        }
         return new ResponseEntity<ValidationResultDto>(validationResultDto, status);
     }
 
