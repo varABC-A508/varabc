@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
+import swal from "sweetalert";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -59,17 +60,16 @@ const AudioChat = ({ roomId }) => {
         }
         pcRef.current.addTrack(track, stream);
       });
-      console.log("addtrack");
 
       pcRef.current.onicecandidate = (e) => {
         console.log(e);
         if (e.candidate) {
-          console.log("e.candidate true?");
+          // console.log("e.candidate true?");
           if (!socketRef.current) {
-            console.log("no socket ref");
+            // console.log("no socket ref");
             return;
           }
-          console.log("recv candidate");
+          // console.log("recv candidate");
           socketRef.current.emit("webrtc_ice_candidate", {
             roomId,
             label: e.candidate.sdpMLineIndex,
@@ -77,10 +77,10 @@ const AudioChat = ({ roomId }) => {
             sdpMid: e.candidate.sdpMid,
           });
         }
-        console.log("no candidate");
+        // console.log("no candidate");
       };
 
-      console.log("added onicecandidate");
+      // console.log("added onicecandidate");
 
       pcRef.current.ontrack = (e) => {
         if (remoteAudioRef.current) {
@@ -88,14 +88,14 @@ const AudioChat = ({ roomId }) => {
         }
       };
 
-      console.log("ontrack");
+      // console.log("ontrack");
     } catch (e) {
       console.log(e);
     }
   };
 
   const createOffer = async () => {
-    console.log("create offer");
+    // console.log("create offer");
     if (!(pcRef.current && socketRef.current)) {
       return;
     }
@@ -103,7 +103,7 @@ const AudioChat = ({ roomId }) => {
     try {
       const sdp = await pcRef.current.createOffer();
       pcRef.current.setLocalDescription(sdp);
-      console.log("sent the offer");
+      // console.log("sent the offer");
       socketRef.current.emit("webrtc_offer", sdp, roomId);
     } catch (e) {
       console.error(e);
@@ -111,7 +111,7 @@ const AudioChat = ({ roomId }) => {
   };
 
   const createAnswer = async (sdp) => {
-    console.log("createAnswer");
+    // console.log("createAnswer");
     if (!(pcRef.current && socketRef.current)) {
       return;
     }
@@ -121,7 +121,7 @@ const AudioChat = ({ roomId }) => {
       const answerSdp = await pcRef.current.createAnswer();
       pcRef.current.setLocalDescription(answerSdp);
 
-      console.log("sent the answer");
+      // console.log("sent the answer");
       socketRef.current.emit("webrtc_answer", answerSdp, roomId);
     } catch (e) {
       console.error(e);
@@ -143,8 +143,8 @@ const AudioChat = ({ roomId }) => {
       });
 
       socketRef.current.on("room_full", () => {
-        console.log("Socket event callback: full_room");
-        alert("The room is full, please try another one");
+        // console.log("Socket event callback: full_room");
+        swal("이런", "방이 이미 모두 찼어요! 다른 방을 찾아주세요", "error");
       });
 
       socketRef.current.on("all_users", (allUsers) => {
@@ -154,12 +154,12 @@ const AudioChat = ({ roomId }) => {
       });
 
       socketRef.current.on("webrtc_offer", (sdp) => {
-        console.log("recv Offer");
+        // console.log("recv Offer");
         createAnswer(sdp);
       });
 
       socketRef.current.on("webrtc_answer", (sdp) => {
-        console.log("recv Answer");
+        // console.log("recv Answer");
         if (!pcRef.current) {
           return;
         }

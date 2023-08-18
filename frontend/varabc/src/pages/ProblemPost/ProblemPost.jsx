@@ -63,7 +63,7 @@ const ProblemPost = () => {
       const response = await axios.patch(
         `https://varabc.com:8080/problem/${postId}/delete`
       );
-      console.log(response.data);
+      // console.log(response.data);
       navigate(`/`);
     } catch (error) {
       console.error(error);
@@ -83,7 +83,7 @@ const ProblemPost = () => {
         const response = await axios.get(
           `https://varabc.com:8080/problem/${postId}/admin`
         );
-        console.log(response);
+        // console.log(response);
 
         const data = response.data;
 

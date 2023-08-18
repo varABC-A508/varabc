@@ -14,7 +14,6 @@ const StartGameButton = ({roomToken, members }) => {
   });
 
   socket.on('getTeamUrl', ({ url, teamNo, teamMateNo }) => {
-    console.log("게임이 시작되려고 합니다!");
     sessionStorage.setItem('teamNo', teamNo);
     sessionStorage.setItem('teamMateNo', teamMateNo);
     navigate(url);
@@ -29,10 +28,6 @@ const StartGameButton = ({roomToken, members }) => {
   }, [members.length])
 
   const splitTeam = () => {
-    console.log("멤버1:" + members[0].member.memberNo);
-    console.log("멤버2:" + members[1].member.memberNo);
-    console.log("멤버3:" + members[2].member.memberNo);
-    console.log("멤버4:" + members[3].member.memberNo);
     axios.post(
       `https://varabc.com:8080/battle/start/${roomToken}`,
       {
@@ -43,9 +38,6 @@ const StartGameButton = ({roomToken, members }) => {
         "competitionResultT2M1No": members[2].member.memberNo,
         "competitionResultT2M2No": members[3].member.memberNo
       }).then((res) => {
-        console.log(res.data);
-        console.log("시작할 방의 룸 토큰: ");
-        console.log(roomToken);
         const url1 = res.data.url1;
         const url2 = res.data.url2;
         const splitUrl1 = url1.split('/');
@@ -60,7 +52,7 @@ const StartGameButton = ({roomToken, members }) => {
           teamToken2: teamToken2
         });
       }).catch((err) => {
-        swal ( "이런" ,  "서버에 문제가 있습니다. 잠시후 다시 시도해주세요!>3" ,  "error" );
+        swal ( "이런" ,  "서버에 문제가 있습니다. 잠시후 다시 시도해주세요!" ,  "error" );
         navigate('/');
       })
     ;}

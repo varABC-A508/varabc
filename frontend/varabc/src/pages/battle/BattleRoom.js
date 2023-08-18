@@ -15,7 +15,7 @@ export const BattleRoom = () => {
   const roomToken = params.roomToken;
   const [selectedSource, setSelectedSource] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
-  const [isCopyOpen, setIsCopyOpen] = useState(false);
+  // const [isCopyOpen, setIsCopyOpen] = useState(false);
 
   const handleSourceSelect = (event) => {
     setSelectedSource(event.target.value);
@@ -25,19 +25,19 @@ export const BattleRoom = () => {
     setSelectedDifficulty(event.target.value);
   };
 
-  const handleOpenCopy = () => {
-    setIsCopyOpen(true);
-  };
+  // const handleOpenCopy = () => {
+    // setIsCopyOpen(true);
+  // };
 
-  const handleCloseCopy = () => {
-    setIsCopyOpen(false);
-  };
+  // const handleCloseCopy = () => {
+    // setIsCopyOpen(false);
+  // };
 
   useEffect(() => {
     sessionStorage.setItem('isPractice', JSON.stringify(false));
     const userToken = localStorage.getItem('access-token');
     if (!userToken) {
-      swal("이런", "회원가입부터 해주세요!>19", "error");
+      swal("이런", "회원가입부터 해주세요!", "error");
       navigate("/");
     }
     else {
@@ -46,14 +46,14 @@ export const BattleRoom = () => {
           "access-token": userToken
         }
       }).then((res) => {
-        console.log("방 참가자 정보 가져오기: ");
-        console.log(res.data.userInfo);
+        // console.log("방 참가자 정보 가져오기: ");
+        // console.log(res.data.userInfo);
         socket.emit('joinWaitingRoom', {
           roomToken: roomToken,
           member: res.data.userInfo
         });
       }).catch((err) => {
-        swal("이런", "서버에 문제가 있어요! 잠시후 다시 시도해 주세요.>20" + err, "error");
+        swal("이런", "서버에 문제가 있어요! 잠시후 다시 시도해 주세요." + err, "error");
         navigate("/");
       });
     }
@@ -66,7 +66,7 @@ export const BattleRoom = () => {
 
   // 현재 방에 있는 참가자들 업데이트
   socket.on('updateWaitingRoom', ({ currMembers }) => {
-    console.log("참가자 정보가 갱신되었습니다!");
+    // console.log("참가자 정보가 갱신되었습니다!");
     setMembers([...currMembers]);
   });
 

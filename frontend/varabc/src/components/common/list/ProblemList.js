@@ -16,7 +16,7 @@ const ProblemList = ({mode="user"}) => {
         setProblems(res.data);
       })
       .catch(function (err) {
-        swal ( "이런" ,  "문제 리스트 전송 실패!>4" ,  "error" );
+        swal ( "이런" ,  "문제 리스트 전송 실패!"+err ,  "error" );
       });
   }, []);
 

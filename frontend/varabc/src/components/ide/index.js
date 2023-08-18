@@ -75,7 +75,7 @@ const Ide = ({ problemNo }) => {
         sessionStorage.setItem("memberNo", res.data.userInfo.memberNo);
       })
       .catch((err) => {
-        swal("이런", "로그인 후 사용해 주세요!>8" + err, "error");
+        swal("이런", "로그인 후 사용해 주세요!" + err, "error");
         navigate("/");
       });
 
@@ -144,7 +144,7 @@ const Ide = ({ problemNo }) => {
         code: code,
       })
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         setResult(res.data);
         if (parseInt(res.data.result) === 1) {
           swal("와", "문제 풀이 성공!", "success");

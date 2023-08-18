@@ -26,7 +26,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
         setNicknameCheck(true); 
       }
     }).catch((err) => {
-      swal ( "이런" ,  "중복된 닉네임입니다!>17",  "error" );
+      swal ( "이런" ,  "중복된 닉네임입니다!",  "error" );
     })
   };
 
@@ -51,7 +51,7 @@ const NicknameModal = ({ isOpen, onClose }) => {
         isOpen = false;
         onClose();
       }).catch((err) => {
-        swal ( "이런" ,  "닉네임 DB 저장 에러!>18" + err,  "error" );
+        swal ( "이런" ,  "닉네임 DB 저장 에러!" + err,  "error" );
       });
     }
   };

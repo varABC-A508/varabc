@@ -31,7 +31,7 @@ const BattleHistory = () => {
     async function getBattleHistory() {
       const userToken = localStorage.getItem("access-token");
       if (!userToken) {
-        swal ( "이런" ,  "회원가입부터 해주세요!>22" ,  "error" );
+        swal ( "이런" ,  "회원가입부터 해주세요!" ,  "error" );
         navigate("/");
         return;
       }
@@ -46,13 +46,13 @@ const BattleHistory = () => {
         );
 
         const memberNo = userResponse.data.userInfo.memberNo;
-        console.log(memberNo)
+        // console.log(memberNo)
 
         const response = await axios.get(
           `https://varabc.com:8080/mypage/battle/${memberNo}`
           //`https://varabc.com:8080/mypage/battle/36`
         );
-        console.log(response);
+        // console.log(response);
 
         if (response.status === 200) {
           setBattleHistory(response.data);

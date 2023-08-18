@@ -7,7 +7,6 @@ const ProblemItem = ({problem, index, last, mode}) => {
     if (mode==='admin') {
 
       const postId = problem.problemNo;
-      console.log('admin', postId)
       navigate(`/admin/post/${postId}`)
       return;
     }

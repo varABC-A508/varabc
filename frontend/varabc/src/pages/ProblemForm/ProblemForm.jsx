@@ -207,7 +207,7 @@ const ProblemForm = () => {
         (v) => typeof v === "string" && v.trim() === ""
       )
     ) {
-      swal ( "이런" ,  "양식을 모두 채워주세요!>25" ,  "error" );
+      swal ( "이런" ,  "양식을 모두 채워주세요!" ,  "error" );
       return;
     }
 
@@ -239,7 +239,7 @@ const ProblemForm = () => {
       for (const filename in uploadedFiles) {
         if (uploadedFiles[filename].length !== 0) {
           for (let i = 0; i < uploadedFiles[filename].length; i++) {
-            console.log(`${filename}`, uploadedFiles[filename][i][1])
+            // console.log(`${filename}`, uploadedFiles[filename][i][1])
             formData.append(`${filename}`, uploadedFiles[filename][i][1]);
           }
         }
@@ -250,7 +250,7 @@ const ProblemForm = () => {
     for (const filename in files) {
       if (files[filename].length !== 0) {
         for (let i = 0; i < files[filename].length; i++) {
-          console.log(files[filename][i])
+          // console.log(files[filename][i])
           formData.append(`${filename}`, files[filename][i]);
         }
       }
@@ -302,7 +302,7 @@ const ProblemForm = () => {
         },
       });
 
-      console.log("Response from server:", response.data);
+      // console.log("Response from server:", response.data);
 
       if (mode === "edit") {
         navigate(`/admin/post/${postId}`);

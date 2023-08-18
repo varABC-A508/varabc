@@ -8,7 +8,6 @@ const FriendsList = ({ isMyFriends }) => {
   const [friends, setFriends] = useState([]);
 
   const myFriend = () => {
-    console.log('친구 목록');
     // 예시 데이터로 임의의 친구 목록 생성
     const exampleFriends = [
       { id: 1, profile: '프로필1', teer: '티어1', name: '이름1' },
@@ -31,7 +30,6 @@ const FriendsList = ({ isMyFriends }) => {
   };
 
   const myRequest = () => {
-    console.log('친구 요청 목록');
     // 예시 데이터로 임의의 친구 요청 목록 생성
     const exampleRequests = [
       { id: 5, profile: '프로필5', teer: '티어5', name: '이름5' },

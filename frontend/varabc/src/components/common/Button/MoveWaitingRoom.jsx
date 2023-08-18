@@ -19,7 +19,7 @@ const MoveWaitingRoomButton = () => {
     }}).then((res) => {
       fetchRoomId(res.data.userInfo.memberNo);
     }).catch((err) => {
-      swal ( "이런" ,  "로그인부터 해주세요!>1",  "error" );
+      swal ( "이런" ,  "로그인부터 해주세요!",  "error" );
       navigate("/");
     });
   };
@@ -34,7 +34,7 @@ const MoveWaitingRoomButton = () => {
       sessionStorage.setItem('userRoomIndex', JSON.stringify(1));
       navigate(res.data);
     }).catch((err) => {
-      swal ( "이런" ,  "서버에 문제가 있어요. 잠시후 다시 시도해 주세요!>2",  "error" );
+      swal ( "이런" ,  "서버에 문제가 있어요. 잠시후 다시 시도해 주세요!",  "error" );
       navigate("/");
     });
   };

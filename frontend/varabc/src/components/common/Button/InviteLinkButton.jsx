@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
+import swal from "sweetalert";
 
 const InviteLinkButton = () => {
 
@@ -25,7 +26,7 @@ const InviteLinkButton = () => {
         setOpen(true);
       })
       .catch((error) => {
-        alert('클립보드 복사 실패:', error);
+        swal("이런", "클립 보드 복사 실패"+error, "error");
       });
   };
 
